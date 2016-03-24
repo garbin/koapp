@@ -1,4 +1,4 @@
-import {INCREASE, DECREASE} from '../constants'
+import {INCREASE, DECREASE, CHANGEAMOUNT} from '../constants'
 import {api} from '../lib/fetch'
 import json from 'fetch-plus-json'
 export default function update(state = 0, action) {

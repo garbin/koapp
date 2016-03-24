@@ -1,2 +1,2 @@
 
-export {default as counter} from './counter';
+export {default as counter, change_amount} from './counter';

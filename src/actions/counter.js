@@ -1,4 +1,4 @@
-import {INCREASE, DECREASE, FETCH} from '../constants';
+import {INCREASE, DECREASE, FETCH, CHANGEAMOUNT} from '../constants';
 export function increase () {
   return {
     type: INCREASE,
