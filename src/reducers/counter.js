@@ -6,7 +6,8 @@ export default function update(state = 0, action) {
   } else if (action.type == DECREASE) {
     return state - action.amount;
   } else if(action.type == 'FETCH'){
-    console.log(api.read('/apps'))
+    var apps = api.read('/apps');
+    console.log(apps);
     return state;
   } else {
     return state;

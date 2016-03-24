@@ -1,6 +1,7 @@
 var webpack = require('webpack')
 var path = require('path')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
+var rucksack = require('rucksack-css')
 var env = process.env.NODE_ENV || 'development';
 
 module.exports = {
@@ -39,12 +40,17 @@ module.exports = {
       { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader?name=svg/[name].[ext]" },
       { test: /\.(less|css)$/, // Only .less files
-        loader:  ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader') }
+        loader:  ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!less-loader') }
     ],
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
+  postcss: [
+    rucksack({
+      autoprefixer: true
+    })
+  ],
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', './js/vendor.js'),
     new ExtractTextPlugin("css/[name].css"),
