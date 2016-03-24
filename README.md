@@ -1,4 +1,4 @@
-# koapiend
+# koapient
 Koapi frontend stack based on React and Redux
 
 ## Start dev server
