@@ -30,6 +30,7 @@
     "css-loader": "^0.23.1",
     "fetch-plus": "^3.8.1",
     "jquery": "^2.2.2",
+    "lodash": "^4.6.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-redux": "^4.4.1",

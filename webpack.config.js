@@ -25,18 +25,11 @@ module.exports = {
   },
   module: {
     loaders: [
-      {
-        test: /\.html$/,
-        loader: 'file?name=[name].[ext]'
-      },
-      {
-        test: /\.(js|jsx)$/,
+      { test: /\.html$/,
+        loader: 'file?name=[name].[ext]' },
+      { test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loaders: [
-          'react-hot',
-          'babel'
-        ]
-      },
+        loaders: [ 'react-hot', 'babel' ] },
       { test: /\.(png|jpg|gif)$/,
         loader: 'file-loader?name=img/[name].[ext]' },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -45,10 +38,8 @@ module.exports = {
         loader: "file-loader?name=fonts/[name].[ext]" },
       { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader?name=svg/[name].[ext]" },
-      {
-        test: /\.(less|css)$/, // Only .less files
-        loader:  ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader') // Run both loaders
-      }
+      { test: /\.(less|css)$/, // Only .less files
+        loader:  ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader') }
     ],
   },
   resolve: {
