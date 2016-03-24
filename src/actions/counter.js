@@ -1,4 +1,4 @@
-import {INCREASE, DECREASE} from '../constants';
+import {INCREASE, DECREASE, FETCH} from '../constants';
 export function increase () {
   return {
     type: INCREASE,
@@ -14,6 +14,6 @@ export function decrease () {
 
 export function remote() {
   return {
-    type: 'FETCH'
+    type: FETCH
   }
 }
