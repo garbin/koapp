@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router, Route} from 'react-router'
-import App from './components/app'
+import App from './apps/counter'
 
 export default function (history) {
   return (

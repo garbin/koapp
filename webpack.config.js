@@ -12,7 +12,6 @@ module.exports = {
       './config/default',
       './config/' + env,
       './app',
-      './styles/app.less'
     ],
     vendor: [
       'expose?jQuery!expose?$!jquery', 'lodash',
@@ -42,7 +41,10 @@ module.exports = {
       { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader?name=svg/[name].[ext]" },
       { test: /\.(less|css)$/, // Only .less files
-        loader:  ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader!less-loader') }
+        loader: ExtractTextPlugin.extract('style-loader',
+                                          'css-loader',
+                                          'less-loader',
+                                          'postcss-loader') }
     ],
   },
   resolve: {
