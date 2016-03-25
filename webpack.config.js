@@ -25,6 +25,11 @@ module.exports = {
     path: path.join(__dirname, './build'),
     filename: 'js/app.js',
   },
+  node: {
+    net: 'empty',
+    tls: 'empty',
+    dns: 'empty'
+  },
   module: {
     loaders: [
       { test: /\.html$/,

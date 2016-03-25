@@ -9,7 +9,8 @@ import './style.less';
 
 class CounterApp extends React.Component {
   render(){
-    return <div><Counter {...this.props} /></div>
+    var {children, ...other} = this.props;
+    return <div><Counter {...other} />{children}</div>
   }
 }
 
