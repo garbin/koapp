@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from '../../lib/helper';
 import * as actions from '../../actions';
-import * as components from '../../components';
+import Signup from '../../components/signup';
 import {reduxForm as connectForm} from 'redux-form';
 
 class SignupApp extends React.Component {
   render(){
-    return <div><components.Signup {...this.props} /></div>
+    return <div><Signup {...this.props} /></div>
   }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from '../../lib/helper';
 import * as actions from '../../actions';
-import * as components from '../../components';
+import Counter from '../../components/counter';
 import {reduxForm as connectForm} from 'redux-form';
 
 import './style.less';
@@ -9,7 +9,7 @@ import './style.less';
 class CounterApp extends React.Component {
   render(){
     var {children, ...other} = this.props;
-    return <div><components.Signup {...other} />{children}</div>
+    return <div><Counter {...other} />{children}</div>
   }
 }
 
