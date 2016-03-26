@@ -4,7 +4,11 @@ import _ from 'lodash';
 
 export function connect(mapState, actions) {
   var mapActions = (dispatch)=>{
-    return {actions: bindActionCreators(actions, dispatch)}
+    if (actions) {
+      return {actions: bindActionCreators(actions, dispatch)}
+    } else {
+      return {actions};
+    }
   }
   return redux_connect(mapState, mapActions);
 }
