@@ -30,7 +30,7 @@
     "fetch-plus": "^3.8.1",
     "fetch-plus-bearerauth": "^3.5.0",
     "fetch-plus-json": "^3.6.0",
-    "joi": "^8.0.5",
+    "joi": "^6.10.1",
     "joi-validation-strategy": "^0.3.3",
     "jquery": "^2.2.2",
     "lodash": "^4.6.1",
