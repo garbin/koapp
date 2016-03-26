@@ -1,3 +1,3 @@
 export default {
-  api: 'http://haha'
+  haha: 'haha'
 }

@@ -5,7 +5,7 @@ export default class extends React.Component {
     var {counter, fields:{amount}, handleSubmit, actions, dispatch} = this.props;
     return (<div>
               Counter:{counter}
-              <input type="text" {...amount} />
+              <br />
               <button onClick={actions.increase}>+</button>
               <button onClick={actions.decrease}>-</button>
               <button onClick={actions.remote}>r</button>

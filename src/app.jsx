@@ -21,4 +21,4 @@ ReactDOM.render((
   <Provider store={store}>
     {routes(history)}
   </Provider>
-), document.getElementById('main'));
+), document.getElementById('koapient'));
