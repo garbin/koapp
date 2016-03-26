@@ -43,7 +43,9 @@
     "redux": "^3.3.1",
     "redux-effects": "^0.4.3",
     "redux-effects-credentials": "^0.1.12",
-    "redux-form": "^4.2.2"
+    "redux-form": "^4.2.2",
+    "redux-promise": "^0.5.3",
+    "redux-thunk": "^2.0.1"
   },
   "devDependencies": {
     "babel": "^6.5.2",

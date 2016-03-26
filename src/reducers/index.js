@@ -1,3 +1,3 @@
 
-export {default as counter, change_amount} from './counter';
-export {default as signup} from './form';
+export {counter} from './counter';
+export {signup} from './signup';

@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 var {PropTypes} = React;
 
-export default class Form extends React.Component {
+export default class SignupForm extends React.Component {
   validatorTypes = {
     username: Joi.string().alphanum().min(3).max(30).required().label('Username'),
     password: Joi.string().regex(/[a-zA-Z0-9]{3,30}/).label('Password')
@@ -22,7 +22,7 @@ export default class Form extends React.Component {
   getValidatorData(){
     var data = {};
     _.keys(this.props.fields).map(field=>{
-      try { data[field] = this.props.signup[field].value; } catch (e) {}
+      try { data[field] = this.props.form[field].value; } catch (e) {}
     });
 
     return data;
@@ -37,7 +37,7 @@ export default class Form extends React.Component {
     });
   }
   render() {
-    const {signup, fields: {username, password}, handleSubmit} = this.props;
+    const {form, fields: {username, password}, handleSubmit} = this.props;
     return (
       <form onSubmit={handleSubmit(this.submit.bind(this))}>
         <div>
@@ -54,4 +54,4 @@ export default class Form extends React.Component {
   }
 }
 
-export default validation(strategy)(Form);
+export default validation(strategy)(SignupForm);
