@@ -5,7 +5,7 @@ Koapi frontend stack based on React and Redux
 
 - [x] [React](http://facebook.github.io/react)
 - [x] [Redux](http://redux.js.org)
-- [x] [react-router](https://rackt.github.io/react-router)
+- [x] [react-router](https://github.com/reactjs/react-router)
 - [x] [react-router-redux](https://github.com/reactjs/react-router-redux)
 - [x] [redux-form](https://github.com/erikras/redux-form)
 - [x] [redux-thunk](https://github.com/gaearon/redux-thunk)
