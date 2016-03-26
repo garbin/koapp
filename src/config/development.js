@@ -1,1 +1,3 @@
-window.config = Object.assign({}, window.config);
+export default {
+  api: 'http://haha'
+}
