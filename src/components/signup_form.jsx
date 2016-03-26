@@ -38,6 +38,7 @@ export default class SignupForm extends React.Component {
   }
   render() {
     const {form, fields: {username, password}, handleSubmit} = this.props;
+    console.log(form);
     return (
       <form onSubmit={handleSubmit(this.submit.bind(this))}>
         <div>

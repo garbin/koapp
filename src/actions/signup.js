@@ -3,10 +3,9 @@ import {api} from '../lib/fetch'
 
 export function submit (data) {
   return dispatch => {
-    api.read('/apps').then(
-      apps => dispatch(submit_done(apps)),
-      err  => dispatch(submit_error(err))
-    );
+    setTimeout(function(){
+      dispatch(submit_done(data))
+    }, 1000);
   }
 }
 
