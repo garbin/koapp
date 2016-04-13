@@ -47,10 +47,10 @@ module.exports = {
         loader: "file-loader?name=fonts/[name].[ext]" },
       { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader?name=svg/[name].[ext]" },
-      { test: /\.(less|css)$/, // Only .less files
+      { test: /\.(scss|css)$/, // Only .less files
         loader: ExtractTextPlugin.extract('style-loader',
                                           'css-loader',
-                                          'less-loader',
+                                          'sass-loader',
                                           'postcss-loader') }
     ],
   },

@@ -11,9 +11,3 @@ export function decrease () {
     amount: 1,
   }
 }
-
-export function remote() {
-  return {
-    type: FETCH
-  }
-}

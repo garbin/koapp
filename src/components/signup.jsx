@@ -3,10 +3,13 @@ import validation from 'react-validation-mixin';
 import strategy from 'joi-validation-strategy';
 import Joi from 'joi';
 import _ from 'lodash';
+import {connect} from '../lib/helper';
+import * as signup_actions from '../actions/signup';
+import {reduxForm} from 'redux-form';
 
 var {PropTypes} = React;
 
-export default class SignupForm extends React.Component {
+export class SignupForm extends React.Component {
   validatorTypes = {
     username: Joi.string().alphanum().min(3).max(30).required().label('Username'),
     password: Joi.string().regex(/[a-zA-Z0-9]{3,30}/).label('Password')
@@ -55,4 +58,7 @@ export default class SignupForm extends React.Component {
   }
 }
 
-export default validation(strategy)(SignupForm);
+export default reduxForm({ // <----- THIS IS THE IMPORTANT PART!
+  form: 'signup',                           // a unique name for this form
+  fields: ['username', 'password'] // all the fields in your form
+})(connect(state=>({form: state.form.signup}), signup_actions)(validation(strategy)(SignupForm)));
