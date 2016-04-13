@@ -9,8 +9,6 @@ module.exports = {
   entry: {
     _html: './index.html',
     app: [
-      './config/' + env,
-      './config/default',
       './app',
     ],
     vendor: [
