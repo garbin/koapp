@@ -8,7 +8,7 @@ export default class extends React.Component {
               React Redux Rocks! {index}
               <br />
               <a href="/counter">Counter</a>&nbsp;|&nbsp;
-              <a href="/signup">Signup</a>
+              <a href="/form">Form</a>
             </div>)
   }
 };

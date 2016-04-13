@@ -41,11 +41,10 @@ export class SignupForm extends React.Component {
   }
   render() {
     const {form, fields: {username, password}, handleSubmit} = this.props;
-    console.log(form);
     return (
       <form onSubmit={handleSubmit(this.submit.bind(this))}>
         <div>
-          <label>User Name{this.props.isValid('username')?'valid':'invalid'}</label>
+          <label>User Name&nbsp;{this.props.isValid('username')?'':<span style={{color:'red'}}>Invalid</span>}</label>
           <input type="text" placeholder="UserName" {...username}/>
         </div>
         <div>
