@@ -15,5 +15,23 @@ export default class Form extends React.Component {
     handleValidation: PropTypes.func,
     getValidationMessages: PropTypes.func,
     clearValidations: PropTypes.func,
+    fields: PropTypes.object
+  }
+  getValidatorData(){
+    var data = {};
+    _.keys(this.props.fields).map(field=>{
+      try { data[field] = this.props.form[field].value; } catch (e) {}
+    });
+
+    return data;
+  }
+  submit(data){
+    this.props.validate(err => {
+      if (err) {
+        console.error(err, this.props.errors);
+      } else {
+        this.props.actions.submit(data);
+      }
+    });
   }
 }

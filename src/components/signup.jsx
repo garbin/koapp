@@ -15,30 +15,14 @@ export class SignupForm extends Form {
     username: Joi.string().alphanum().min(3).max(30).required().label('Username'),
     password: Joi.string().regex(/[a-zA-Z0-9]{3,30}/).label('Password')
   }
-  getValidatorData(){
-    var data = {};
-    _.keys(this.props.fields).map(field=>{
-      try { data[field] = this.props.form[field].value; } catch (e) {}
-    });
-
-    return data;
-  }
-  submit(data){
-    this.props.validate(err => {
-      if (err) {
-        console.error(err);
-      } else {
-        this.props.actions.submit(data);
-      }
-    });
-  }
   render() {
     const {form, fields: {username, password}, handleSubmit} = this.props;
     return (
       <form onSubmit={handleSubmit(this.submit.bind(this))}>
         <div>
-          <label>User Name&nbsp;{this.props.isValid('username')?'':<span style={{color:'red'}}>Invalid</span>}</label>
+          <label>User Name</label>
           <input type="text" placeholder="UserName" {...username}/>
+          {this.props.isValid('username')?'':<span style={{color:'red'}}>Invalid {this.props.getValidationMessages('username')}</span>}
         </div>
         <div>
           <label>Password</label>
