@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register --compilers es:babel-register --recursive",
-    "test:watch": "npm test -- --watch",
+    "test": "NODE_ENV=test make test",
+    "test:coverage": "NODE_ENV=test make test-cover",
     "start": "webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0",
-    "build": "export NODE_ENV=production && rm -rf ./build && webpack --progress --colors"
+    "build": "export NODE_ENV=production && rm -rf ./build && webpack --progress --colors",
+    "update": "export NODE_ENV=production && webpack --progress --colors",
+    "serve:coverage": "make coverage-server"
   },
   "repository": {
     "type": "git",
@@ -60,6 +62,8 @@
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
+    "http-server": "^0.9.0",
+    "istanbul": "^1.0.0-alpha",
     "mocha": "^2.4.5",
     "postcss-loader": "^0.8.2",
     "react-addons-test-utils": "^15.0.1",

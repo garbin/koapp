@@ -1,0 +1,10 @@
+instrumentation:
+  root: src
+  extensions:
+    - .es6
+    - .es
+    - .jsx
+reporting:
+  print: summary
+  reports:
+    - html
