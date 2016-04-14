@@ -3,9 +3,11 @@ import {api} from '../lib/fetch'
 
 export function submit (data) {
   return dispatch => {
-    setTimeout(function(){
-      dispatch(submit_done(data))
-    }, 1000);
+    return new Promise((resolve, reject)=>{
+      setTimeout(function(){
+        resolve(dispatch(submit_done(data)));
+      }, 1000);
+    });
   }
 }
 
