@@ -6,21 +6,14 @@ import _ from 'lodash';
 import {connect} from '../lib/helper';
 import * as signup_actions from '../actions/signup';
 import {reduxForm} from 'redux-form';
+import Form from './form';
 
 var {PropTypes} = React;
 
-export class SignupForm extends React.Component {
+export class SignupForm extends Form {
   validatorTypes = {
     username: Joi.string().alphanum().min(3).max(30).required().label('Username'),
     password: Joi.string().regex(/[a-zA-Z0-9]{3,30}/).label('Password')
-  }
-  static propTypes = {
-    errors: PropTypes.object,
-    validate: PropTypes.func,
-    isValid: PropTypes.func,
-    handleValidation: PropTypes.func,
-    getValidationMessages: PropTypes.func,
-    clearValidations: PropTypes.func,
   }
   getValidatorData(){
     var data = {};
