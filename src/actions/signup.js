@@ -6,7 +6,7 @@ export function submit (data) {
     return new Promise((resolve, reject)=>{
       setTimeout(function(){
         resolve(dispatch(submit_done(data)));
-      }, 1000);
+      }, 300);
     });
   }
 }
