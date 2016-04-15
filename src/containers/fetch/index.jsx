@@ -9,7 +9,7 @@ export class Fetch extends React.Component {
   }
   render(){
     var {fetch:{data, loaded, error}, actions} = this.props;
-    return <Loader loaded={loaded}>{error ? error : JSON.stringify(data)}</Loader>;
+    return <Loader loaded={loaded}><pre>{error ? error : JSON.stringify(data, null, '  ')}</pre></Loader>;
   }
 }
 
