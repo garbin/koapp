@@ -1,5 +1,5 @@
-# koapient
-Koapi frontend stack based on React and Redux
+# Koapp
+A web app framework baed on Redux & React
 
 ## Contains
 
