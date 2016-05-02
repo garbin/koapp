@@ -37,6 +37,7 @@
     "joi-validation-strategy": "^0.3.3",
     "jquery": "^2.2.2",
     "lodash": "^4.6.1",
+    "node-sass": "^3.6.0",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-loader": "^2.4.0",
@@ -49,7 +50,8 @@
     "redux-effects-credentials": "^0.1.12",
     "redux-form": "^4.2.2",
     "redux-promise": "^0.5.3",
-    "redux-thunk": "^2.0.1"
+    "redux-thunk": "^2.0.1",
+    "style-loader": "^0.13.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.4",
