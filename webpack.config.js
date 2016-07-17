@@ -3,11 +3,13 @@ var path = require('path')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var rucksack = require('rucksack-css')
 var env = process.env.NODE_ENV || 'development';
+var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'));
 
 module.exports = {
   context: path.join(__dirname, './src'),
   entry: {
-    _html: './index.html',
+    // _html: './index.html',
     app: [
       './app',
     ],
@@ -24,6 +26,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, './build'),
     filename: 'js/app.js',
+    publicPath: env == 'production' ? '/' : 'http://ubuntu:5001/'
   },
   node: {
     net: 'empty',
@@ -63,7 +66,9 @@ module.exports = {
     (env == 'production' ? new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }) : function(){}),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(env) }
-    })
+    }),
+    (env == 'production' ? webpackIsomorphicToolsPlugin.development() : webpackIsomorphicToolsPlugin ),
+
   ],
   devServer: {
     contentBase: './build',

@@ -2,7 +2,7 @@ import {FETCH, FETCHED, UNFETCHED} from '../constants';
 import {api} from '../lib/fetch'
 export function fetch() {
   return dispatch => {
-    return api.read("apps")
+    return api.read('/posts')
               .then(
                 apps => dispatch(fetched(apps)),
                 err  => dispatch(unfetched(err))

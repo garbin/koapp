@@ -1,3 +1,3 @@
 export default {
-  api: 'http://api.apps.tunnel.mobi'
+  api: 'http://ubuntu:5002'
 }
