@@ -76,7 +76,7 @@ module.exports = {
   devServer: {
     contentBase: './static',
     hot: true,
-    port: config.webpack_port,
+    port: config.port + 1,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 100

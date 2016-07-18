@@ -25,7 +25,7 @@ app.bodyparser();
 app.compress();
 if (process.env.NODE_ENV == 'development') {
   app.use(convert(require('koa-proxy')({
-    host:'http://localhost:' + config.webpack_port,
+    host:'http://localhost:' + (config.port + 1),
     match: /^\/static\//
   })));
 } else {
