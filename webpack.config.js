@@ -48,7 +48,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
-    packageAlias: 'browser'
+    alias:{
+      joi: 'joi-browser'
+    }
+    // packageAlias: 'browser'
   },
   node: {
     tls: 'empty',

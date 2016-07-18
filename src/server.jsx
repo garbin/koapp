@@ -17,6 +17,8 @@ import config from '../config'
 import convert from 'koa-convert'
 import serve from 'koa-static-server'
 
+global.window = {};
+
 const app = new Koapi();
 
 app.bodyparser();

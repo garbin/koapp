@@ -2,7 +2,6 @@ var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
 webpackIsomorphicTools = new WebpackIsomorphicTools(require('./webpack-isomorphic-tools'));
 var development = false;
 var root = './build';
-global.window = {};
 if (process.env.NODE_ENV == 'development') {
   development = true;
   root = './src';
