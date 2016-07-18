@@ -8,6 +8,7 @@ var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./w
 var config = require('./config');
 
 module.exports = {
+  devtool: (env != 'development' ? 'source-map' : 'cheap-module-eval-source-map'),
   context: path.join(__dirname, './src'),
   entry: {
     app: [
