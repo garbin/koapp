@@ -1,6 +1,17 @@
 var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('./webpack-isomorphic-tools'))
-.development(true)
-.server('./src', function() {
-  require('./src/server');
+webpackIsomorphicTools = new WebpackIsomorphicTools(require('./webpack-isomorphic-tools'));
+var development = false;
+var root = './build';
+global.window = {};
+if (process.env.NODE_ENV == 'development') {
+  development = true;
+  root = './src';
+  require('babel-register');
+}
+
+webpackIsomorphicTools.development(development).server(root, function () {
+  require('babel-polyfill');
+  require(root + '/server');
 });
+
+module.exports = webpackIsomorphicTools;

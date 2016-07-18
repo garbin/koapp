@@ -5,11 +5,11 @@ var rucksack = require('rucksack-css')
 var env = process.env.NODE_ENV || 'development';
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'));
+var config = require('./config');
 
 module.exports = {
   context: path.join(__dirname, './src'),
   entry: {
-    // _html: './index.html',
     app: [
       './app',
     ],
@@ -24,9 +24,9 @@ module.exports = {
     ],
   },
   output: {
-    path: path.join(__dirname, './build'),
+    path: path.join(__dirname, './static'),
     filename: 'js/app.js',
-    publicPath: env == 'production' ? '/' : 'http://ubuntu:5001/'
+    publicPath: '/static/'
   },
   node: {
     net: 'empty',
@@ -61,7 +61,7 @@ module.exports = {
     })
   ],
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendor', './js/vendor.js'),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.js'),
     new ExtractTextPlugin("css/[name].css"),
     (env == 'production' ? new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }) : function(){}),
     new webpack.DefinePlugin({
@@ -73,6 +73,7 @@ module.exports = {
   devServer: {
     contentBase: './build',
     hot: true,
+    port: config.webpack_port,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 100

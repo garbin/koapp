@@ -1,4 +1,3 @@
-import {FETCH} from '../constants'
 import { handleActions } from 'redux-actions'
 
 export const fetch = handleActions({

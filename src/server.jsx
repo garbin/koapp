@@ -11,16 +11,27 @@ import {Provider} from 'react-redux';
 import configure from './store';
 import * as reducers from './reducers'
 import routes from './containers';
-import HTML from './lib/html';
-
-global.window = {};
-
+import HTML from './lib/html'
+import webpackIsomorphicTools from '../server'
+import config from '../config'
+import convert from 'koa-convert'
+import serve from 'koa-static-server'
 
 const app = new Koapi();
 
 app.bodyparser();
 app.compress();
-app.serve({ root: __dirname + '/../build' });
+if (process.env.NODE_ENV == 'development') {
+  app.use(require('koa-proxy')({
+    host:'http://localhost:' + config.webpack_port,
+    match: /^\/static\//
+  }));
+} else {
+  app.use(convert(serve({
+    rootDir: __dirname + '/../static',
+    rootPath: '/static'
+  })));
+}
 
 app.use(async (ctx, next) => {
   if (process.env.NODE_ENV == 'development') {
@@ -58,6 +69,6 @@ app.use(async (ctx, next) => {
   });
 });
 
-const server = app.listen(5000);
+const server = app.listen(config.port);
 
 export default server;
