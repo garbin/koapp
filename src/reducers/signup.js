@@ -1,9 +1,8 @@
-import {SUBMIT, SUBMIT_DONE, SUBMIT_ERROR} from '../constants'
 import {api} from '../lib/fetch'
-export function signup(state = {username:'', password:''}, action) {
-  if (action.type == SUBMIT_DONE) {
+import {handleActions} from 'redux-actions'
+export const signup = handleActions({
+  SUBMIT_FULFILLED: (state, action) => {
     alert(JSON.stringify(action.payload));
-    state = action.payload;
+    return action.payload;
   }
-  return state;
-}
+}, {username:'', password:''});

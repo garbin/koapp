@@ -1,26 +1,9 @@
-import {SUBMIT, SUBMIT_DONE} from '../constants'
 import {api} from '../lib/fetch'
+import { createAction } from 'redux-actions'
 
-export function submit (data) {
-  return dispatch => {
-    return new Promise((resolve, reject)=>{
-      setTimeout(function(){
-        resolve(dispatch(submit_done(data)));
-      }, 300);
-    });
-  }
-}
 
-export function submit_done (data) {
-  return {
-    type: SUBMIT_DONE,
-    payload: data
-  };
-}
-
-export function submit_error (err) {
-  return {
-    type: SUBMIT_ERROR,
-    payload: err
-  };
-}
+export const submit = createAction('SUBMIT', payload => new Promise((resolve, reject) => {
+  setTimeout(function(){
+    resolve(payload);
+  }, 300);
+}));

@@ -1,24 +1,4 @@
-import {FETCH, FETCHED, UNFETCHED} from '../constants';
 import {api} from '../lib/fetch'
-export function fetch() {
-  return dispatch => {
-    return api.read('/posts')
-              .then(
-                apps => dispatch(fetched(apps)),
-                err  => dispatch(unfetched(err))
-              );
-  }
-}
-export function fetched (data) {
-  return {
-    type: FETCHED,
-    payload: data,
-  }
-}
+import { createAction } from 'redux-actions'
 
-export function unfetched (err) {
-  return {
-    type: UNFETCHED,
-    payload: err
-  }
-}
+export const fetch = createAction('FETCH', payload => api.get('/posts'));

@@ -1,13 +1,10 @@
-import {INCREASE, DECREASE} from '../constants'
+import { handleActions } from 'redux-actions'
 
-export function counter(state = 0, action) {
-  switch (action.type) {
-    case INCREASE:
-      return state + action.amount;
-      break;
-    case DECREASE:
-      return state - action.amount;
-      break;
+export const counter = handleActions({
+  INCREASE: (state, action) => {
+    return state + action.payload;
+  },
+  DECREASE: (state, action) => {
+    return state - action.payload;
   }
-  return state;
-}
+}, 0);

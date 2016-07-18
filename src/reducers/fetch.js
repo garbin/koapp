@@ -1,21 +1,19 @@
-import {FETCH, FETCHED, UNFETCHED} from '../constants'
-export function fetch(state = {data:null, loaded:false, error:null}, action) {
-  switch (action.type) {
-    case FETCHED:
-      return {
-        data: action.payload,
-        loaded:true,
-        error:null
-      }
-      break;
-    case UNFETCHED:
-      return {
-        error: action.payload,
-        loaded:true,
-        data:null
-      }
-      break;
-  }
+import {FETCH} from '../constants'
+import { handleActions } from 'redux-actions'
 
-  return state;
-}
+export const fetch = handleActions({
+  FETCH_FULFILLED: (state, action) => {
+    return {
+      data: action.payload.data,
+      loaded:true,
+      error:null
+    }
+  },
+  FETCH_REJECTED: (state, action) => {
+    return {
+      error: action.payload.data,
+      loaded:true,
+      data:null
+    }
+  }
+}, {data:null, loaded:false, error:null});

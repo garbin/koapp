@@ -1,15 +1,19 @@
-import {fetch, createClient} from 'fetch-plus'
-import json from 'fetch-plus-json'
-import config from '../config';
+import config from '../config'
+import axios from 'axios'
 
-var bearer = token => request => {
-	request.options.headers["Authorization"] = "Bearer " + token();
-};
+const api = axios.create({
+  baseURL: config.api,
+  timeout: 1000,
+  headers: {'X-Custom-Header': 'foobar'}
+});
 
-const api = createClient(config.api)
-api.addMiddleware(json());
-api.addMiddleware(bearer(function(){
-  return localStorage.access_token;
-}));
+api.interceptors.request.use(function (config) {
+	// Do something before request is sent
+	config.headers["Authorization"] = "Bearer " + localStorage.access_token;
+ 	return config;
+}, function (error) {
+	// Do something with request error
+	return Promise.reject(error);
+});
 
-export {fetch, api};
+export {axios, api};
