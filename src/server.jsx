@@ -22,10 +22,10 @@ const app = new Koapi();
 app.bodyparser();
 app.compress();
 if (process.env.NODE_ENV == 'development') {
-  app.use(require('koa-proxy')({
+  app.use(convert(require('koa-proxy')({
     host:'http://localhost:' + config.webpack_port,
     match: /^\/static\//
-  }));
+  })));
 } else {
   app.use(convert(serve({
     rootDir: __dirname + '/../static',

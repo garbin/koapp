@@ -12,3 +12,12 @@ export function connect(mapState, actions) {
   }
   return redux_connect(mapState, mapActions);
 }
+
+export function convert_joi_error(joi_errors) {
+  let errors = {};
+  _(joi_errors).forEach(error => {
+    errors[error.path] = error.message;
+  });
+
+  return errors;
+}

@@ -3,30 +3,57 @@ import validation from 'react-validation-mixin';
 import strategy from 'joi-validation-strategy';
 import Joi from 'joi';
 import _ from 'lodash';
-import {connect} from '../lib/helper';
+import {connect, convert_joi_error} from '../lib/helper';
 import * as signup_actions from '../actions/signup';
-import {reduxForm} from 'redux-form';
-import Form from './form';
+import {reduxForm, Field, SubmissionError} from 'redux-form';
 
 var {PropTypes} = React;
 
-export class SignupForm extends Form {
-  validatorTypes = {
-    username: Joi.string().alphanum().min(3).max(30).required().label('Username'),
-    password: Joi.string().regex(/[a-zA-Z0-9]{3,30}/).label('Password')
+const fields = Joi.object().keys({
+  username: Joi.string().min(3).max(30).required().label('Username'),
+  password: Joi.string().regex(/[a-zA-Z0-9]{3,30}/).required().label('Password')
+});
+
+const validate = values => {
+  const errors = {}
+
+  console.log(Joi.validate(values, fields));
+  return errors
+}
+
+const renderField = props => (
+  <div>
+    <label>{props.placeholder}</label>
+    <div>
+      <input {...props.input}/>
+      {props.touched && props.error && <span>{props.error}</span>}
+    </div>
+  </div>
+)
+
+export class SignupForm extends React.Component {
+  submit(values){
+    return new Promise((resolve, reject)=>{
+      let result = Joi.validate(values, fields);
+      if (result.error) {
+        console.log(convert_joi_error(result.error.details));
+        return reject(new SubmissionError(convert_joi_error(result.error.details)));
+      }
+      console.log(values);
+      resolve(values);
+    })
   }
   render() {
-    const {form, fields: {username, password}, handleSubmit} = this.props;
+    const {form, handleSubmit} = this.props;
     return (
-      <form onSubmit={handleSubmit(this.submit.bind(this))}>
+      <form onSubmit={handleSubmit(this.submit)}>
         <div>
           <label>User Name</label>
-          <input type="text" placeholder="UserName" {...username}/>
-          {this.props.isValid('username')?'':<span style={{color:'red'}}>Invalid {this.props.getValidationMessages('username')}</span>}
+          <Field name="username" type="text" component={renderField} placeholder="Username"/>
         </div>
         <div>
           <label>Password</label>
-          <input type="password" placeholder="Password" {...password}/>
+          <Field name="password" type="password" component={renderField} placeholder="Password"/>
         </div>
         <button type="submit">Submit</button>
       </form>
@@ -37,4 +64,4 @@ export class SignupForm extends Form {
 export default reduxForm({ // <----- THIS IS THE IMPORTANT PART!
   form: 'signup',                           // a unique name for this form
   fields: ['username', 'password'] // all the fields in your form
-})(connect(state=>({form: state.form.signup}), signup_actions)(validation(strategy)(SignupForm)));
+})(connect(state=>({form: state.form.signup}), signup_actions)(SignupForm));

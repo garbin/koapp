@@ -18,8 +18,7 @@ module.exports = {
       'react', 'react-dom',
       'react-router', 'redux',
       'react-redux', 'react-router-redux',
-      'redux-form', 'fetch-plus', 'redux-thunk',
-      'react-validation-mixin', 'joi-validation-strategy',
+      'redux-form', 'redux-thunk',
       'bootstrap/dist/css/bootstrap.css', 'bootstrap/dist/js/bootstrap.min.js',
     ],
   },
@@ -28,18 +27,13 @@ module.exports = {
     filename: 'js/app.js',
     publicPath: '/static/'
   },
-  node: {
-    net: 'empty',
-    tls: 'empty',
-    dns: 'empty'
-  },
   module: {
     loaders: [
       { test: /\.html$/,
         loader: 'file?name=[name].[ext]' },
       { test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loaders: [ 'react-hot', 'babel' ] },
+        loaders: [ 'babel' ] },
       { test: /\.(png|jpg|gif)$/,
         loader: 'file-loader?name=img/[name].[ext]' },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -53,7 +47,13 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    packageAlias: 'browser'
+  },
+  node: {
+    tls: 'empty',
+    net: 'empty',
+    dns: 'empty'
   },
   postcss: [
     rucksack({
@@ -71,7 +71,7 @@ module.exports = {
 
   ],
   devServer: {
-    contentBase: './build',
+    contentBase: './static',
     hot: true,
     port: config.webpack_port,
     watchOptions: {
