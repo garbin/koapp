@@ -53,11 +53,6 @@ module.exports = {
     }
     // packageAlias: 'browser'
   },
-  node: {
-    tls: 'empty',
-    net: 'empty',
-    dns: 'empty'
-  },
   postcss: [
     rucksack({
       autoprefixer: true
