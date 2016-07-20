@@ -14,6 +14,7 @@
     "build:client": "rm -rf ./static && webpack --progress --colors",
     "build:server": "rm -rf ./build && babel --copy-files --presets es2015,stage-0,react -d build/ src/",
     "update": "export NODE_ENV=production && webpack --progress --colors",
+    "error.log": "tail -f ./data/logs/error.log | bunyan",
     "serve:coverage": "make coverage-server"
   },
   "repository": {
