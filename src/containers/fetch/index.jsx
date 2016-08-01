@@ -8,7 +8,7 @@ export class Fetch extends React.Component {
     this.props.actions.fetch();
   }
   render(){
-    var {fetch:{data, loaded, error}, actions} = this.props;
+    var {fetch:{data, loading, loaded, error}, actions} = this.props;
     return <Loader loaded={loaded}><pre>{error ? error : JSON.stringify(data, null, '  ')}</pre></Loader>;
   }
 }

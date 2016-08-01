@@ -21,3 +21,12 @@ export function convert_joi_error(joi_errors) {
 
   return errors;
 }
+
+export function async_state(payload = null, result = undefined, loading = false) {
+  return {
+    loading,
+    loaded: result !== undefined ? true : false,
+    data: result ? payload : null,
+    error: result ? null : payload
+  }
+}
