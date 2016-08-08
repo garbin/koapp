@@ -16,11 +16,19 @@ import config from '../config'
 import convert from 'koa-convert'
 import mount from 'koa-mount'
 import serve from 'koa-static'
+import logger from 'koapi/lib/logger'
+
 
 export default function server(webpackIsomorphicTools) {
   global.window = {};
   global.React = React;
   const app = new Koapi();
+
+  logger.add(logger.transports.File, {
+    name: 'koapi',
+    json: false,
+    filename: __dirname + '/../data/logs/koapp.log'
+  });
 
   app.bodyparser();
   app.compress();
