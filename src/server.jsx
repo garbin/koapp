@@ -1,5 +1,4 @@
-import koa from 'koa'
-import Koapi, { Router } from 'koapi'
+import Koapi, { Router, Koa } from 'koapi'
 import React from 'react';
 import { combineReducers } from 'redux'
 import ReactDOM from 'react-dom/server';
@@ -31,7 +30,7 @@ export default function server(webpackIsomorphicTools) {
       match: /^\/static\//
     })));
   } else {
-    let static_server = new koa();
+    let static_server = new Koa();
     static_server.use(serve(__dirname + '/../static'));
     app.use(mount('/static', static_server));
   }
