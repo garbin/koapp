@@ -12,7 +12,7 @@ module.exports = {
   context: path.join(__dirname, './src'),
   entry: {
     app: [
-      './app',
+      './client',
     ],
     vendor: [
       'expose?jQuery!expose?$!jquery', 'lodash',
