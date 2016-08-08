@@ -7,8 +7,6 @@ var production = process.env.NODE_ENV == 'production';
 var _       = require('lodash');
 var program = require('commander');
 var shelljs = require('shelljs');
-console.log('Using environment: ' + process.env.NODE_ENV);
-
 
 function done() {
   process.exit();
@@ -21,7 +19,15 @@ function error(e) {
 
 program.command('server')
        .description('run server')
-       .action(function (object, options) { require('./server'); });
+       .action(function (object, options) {
+         var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
+         var tools_config = require('./webpack-isomorphic-tools');
+         var webpackIsomorphicTools = new WebpackIsomorphicTools(tools_config);
+         var root = production ? './build' : './src'
+         webpackIsomorphicTools.development(!production).server(root, function () {
+           require(root + '/server').default(webpackIsomorphicTools);
+         });
+       });
 
 program.command('build [object]')
        .description('Build client/server/both (default both)')
@@ -46,10 +52,13 @@ program.command('test [type]')
          var env = options.env || 'test';
          switch (type) {
            case 'coverage':
-             shelljs.exec(`export NODE_ENV=${env} && make test-cover`);
+             shelljs.exec(`export NODE_ENV=${env} && nyc ava`);
+             break;
+           case 'report':
+             shelljs.exec('nyc report --reporter=lcov');
              break;
            default:
-             shelljs.exec(`export NODE_ENV=${env} && make test`);
+             shelljs.exec(`export NODE_ENV=${env} && ava`);
          }
          done();
        });
