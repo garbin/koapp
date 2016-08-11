@@ -1,3 +1,3 @@
 export default {
-  api: 'http://ubuntu:5002'
+  api: 'http://ubuntu:5000'
 }

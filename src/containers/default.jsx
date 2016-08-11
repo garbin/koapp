@@ -10,6 +10,7 @@ export default class extends React.Component {
               <br />
               <Link to="/counter">Counter</Link>&nbsp;|&nbsp;
               <Link to="/async">Async</Link>&nbsp;|&nbsp;
+              <Link to="/auth">Auth</Link>&nbsp;|&nbsp;
               <Link to="/form">Form</Link>
             </div>)
   }

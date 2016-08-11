@@ -8,7 +8,7 @@ import {reducer as formReducer} from 'redux-form';
 import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import {Provider} from 'react-redux';
-import configure from './store';
+import configure, {renderAuthApp} from './store';
 import * as reducers from './reducers'
 import routes from './containers';
 import HTML from './components/html'
@@ -17,6 +17,7 @@ import convert from 'koa-convert'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import logger from 'koapi/lib/logger'
+import {authStateReducer} from 'redux-auth'
 
 
 export default function server(webpackIsomorphicTools) {
@@ -53,6 +54,7 @@ export default function server(webpackIsomorphicTools) {
       const store = configure(combineReducers({
         ...reducers,
         routing: routerReducer,
+        auth: authStateReducer,
         form: formReducer
       }));
 
@@ -78,6 +80,9 @@ export default function server(webpackIsomorphicTools) {
             <RouterContext {...renderProps} />
           </Provider>
         );
+        component = await renderAuthApp({store, isServer:true, provider:component, cookies:{
+          access_token: ctx.cookies.get('access_token')
+        }, currentLocation: ctx.request.url});
         ctx.body = `
         <!doctype html>
         ${ReactDOM.renderToStaticMarkup(
