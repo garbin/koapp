@@ -18,6 +18,7 @@ import mount from 'koa-mount'
 import serve from 'koa-static'
 import logger from 'koapi/lib/logger'
 import {authStateReducer} from 'redux-auth'
+import {AuthGlobals} from 'redux-auth/bootstrap-theme'
 
 
 export default function server(webpackIsomorphicTools) {
@@ -77,7 +78,10 @@ export default function server(webpackIsomorphicTools) {
       } else if (renderProps) {
         let component = (
           <Provider store={store} key="provider">
+            <div>
+              <AuthGlobals />
             <RouterContext {...renderProps} />
+            </div>
           </Provider>
         );
         component = await renderAuthApp({store, isServer:true, provider:component, cookies:{

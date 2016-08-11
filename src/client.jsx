@@ -9,6 +9,7 @@ import * as reducers from './reducers'
 import routes from './containers';
 import configure, {renderAuthApp} from './store';
 import {authStateReducer} from 'redux-auth'
+import {AuthGlobals} from 'redux-auth/bootstrap-theme'
 
 var store = configure(combineReducers({
   ...reducers,
@@ -22,7 +23,10 @@ const history = syncHistoryWithStore(browserHistory, store)
 renderAuthApp({store}).then(p => {
   ReactDOM.render((
     <Provider store={store}>
-      {routes(history)}
+      <div>
+        <AuthGlobals />
+        {routes(history)}
+      </div>
     </Provider>
   ), document.getElementById('koapp'));
 })
