@@ -1,7 +1,11 @@
+let api = 'http://ubuntu:5000';
+
 export default {
-  api: 'http://ubuntu:5000',
+  api,
   auth: {
-    apiUrl:'http://ubuntu:5000',
+    apiUrl:api,
+    signOutPath: '/oauth/token',
+    tokenValidationPath: '/oauth/token',
     authProviderPaths:{
       github: '/auth/github',
       oauth2: '/auth/oauth2'
