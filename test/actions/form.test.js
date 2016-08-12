@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
-import * as actions from '../../src/actions/signup'
+import * as actions from '../../src/actions/form'
 import {test, expect} from 'koapi/lib/test'
 
 const middlewares = [ thunk ]

@@ -3,7 +3,8 @@ export default {
   auth: {
     apiUrl:'http://ubuntu:5000',
     authProviderPaths:{
-      github: '/auth/github'
+      github: '/auth/github',
+      oauth2: '/auth/oauth2'
     }
   }
 }
