@@ -16,11 +16,7 @@ export function renderAuthApp({cookies, isServer, currentLocation, store, provid
   // configure redux-auth BEFORE rendering the page
   return store.dispatch(auth_configure(
     // use the FULL PATH to your API
-    { apiUrl:config.api,
-      tokenValidationPath: '/auth/validate_token',
-      authProviderPaths:{
-        github: '/auth/github'
-    }},
+    config.auth,
     {isServer, cookies, currentLocation, clientOnly:true}
   )).then(({redirectPath, blank} = {}) => {
     if (blank) {
