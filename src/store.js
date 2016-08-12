@@ -21,7 +21,7 @@ export function renderAuthApp({cookies, isServer, currentLocation, store, provid
       authProviderPaths:{
         github: '/auth/github'
     }},
-    {isServer, cookies, currentLocation}
+    {isServer, cookies, currentLocation, clientOnly:true}
   )).then(({redirectPath, blank} = {}) => {
     if (blank) {
       // if `blank` is true, this is an OAuth redirect and should not

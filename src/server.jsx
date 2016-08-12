@@ -85,7 +85,9 @@ export default function server(webpackIsomorphicTools) {
           </Provider>
         );
         component = await renderAuthApp({store, isServer:true, provider:component, cookies:{
-          access_token: ctx.cookies.get('access_token')
+          authHeaders: ctx.cookies.get('authHeaders'),
+          currentConfigName: ctx.cookies.get('currentConfigName'),
+          defaultConfigKey: ctx.cookies.get('defaultConfigKey')
         }, currentLocation: ctx.request.url});
         ctx.body = `
         <!doctype html>
