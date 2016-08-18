@@ -25,6 +25,10 @@ program.command('server')
          var webpackIsomorphicTools = new WebpackIsomorphicTools(tools_config);
          var root = production ? './build' : './src'
          webpackIsomorphicTools.development(!production).server(root, function () {
+           global.window = {};
+           global.localStorage = {};
+           global.__SERVER__ = true;
+           global.__CLIENT__ = false;
            require(root + '/server').default(webpackIsomorphicTools);
          });
        });
@@ -72,7 +76,7 @@ program.command('watch [object]')
              shelljs.exec(`webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0`);
              break;
            case 'server':
-             shelljs.exec(`nodemon --watch src/server.jsx -L -e js,es,jsx koapp.js -- server`);
+             shelljs.exec(`nodemon -L -e js,es,jsx koapp.js -- server`);
              break;
            default:
              shelljs.exec(`concurrently \"npm run watch client\" \"npm run watch server\" \"json-server db.json --port 5002\"`);

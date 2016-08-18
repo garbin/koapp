@@ -1,16 +1,19 @@
 import React from 'react'
-import Loader from 'react-loader'
-import {connect} from '../lib/helper';
+import {connect, action_props} from '../lib/helper';
 import * as async_actions from '../actions/async';
+import {asyncConnect} from 'redux-connect'
+import Loader from 'react-loader-advanced'
 
 export class Async extends React.Component {
-  componentWillMount(){
-    this.props.actions.fetch();
-  }
   render(){
-    var {async:{data, loading, loaded, error}, actions} = this.props;
-    return <Loader loaded={loaded}><pre>{error ? error : JSON.stringify(data, null, '  ')}</pre></Loader>;
+    let {async:{loaded, data, error, loading}} = this.props;
+    return <Loader show={loading} message="loading...">
+            <pre>{error ? error : JSON.stringify(data, null, '  ')}</pre>
+            <button onClick={this.props.actions.fetch}>refresh</button>
+           </Loader>;
   }
 }
 
-export default connect( state => ( {async: state.async} ), async_actions)(Async);
+export default asyncConnect([{
+  promise: ({store:{dispatch}}) => dispatch(async_actions.fetch())
+}], state => ({async: state.async}), action_props(async_actions))(Async);

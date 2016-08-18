@@ -36,8 +36,10 @@ export default class Html extends Component {
           )}
         </head>
         <body>
-          <div id="koapp" dangerouslySetInnerHTML={{__html: content}}/>
-          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} charSet="UTF-8"/>
+          <div id="koapp">
+            <div dangerouslySetInnerHTML={{__html: content}} />
+          </div>
+          <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__ =${serialize(store.getState())};`}} charSet="UTF-8"/>
           <script src={assets.javascript.vendor} charSet="UTF-8"/>
           <script src={assets.javascript.app} charSet="UTF-8"/>
         </body>

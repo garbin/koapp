@@ -1,4 +1,4 @@
-import {api} from '../lib/fetch'
+import {api} from '../lib/helper'
 import {handleActions} from 'redux-actions'
 export const form = handleActions({
   SUBMIT_FULFILLED: (state, action) => {

@@ -1,32 +1,26 @@
 import Koapi, { Router, Koa } from 'koapi'
 import React from 'react';
-import { combineReducers } from 'redux'
 import ReactDOM from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
-import {reducer as formReducer} from 'redux-form';
-import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
+import { syncHistoryWithStore } from 'react-router-redux';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import {Provider} from 'react-redux';
-import configure, {renderAuthApp} from './store';
-import * as reducers from './reducers'
 import routes from './containers';
 import HTML from './components/html'
 import config from '../config'
 import convert from 'koa-convert'
 import mount from 'koa-mount'
 import serve from 'koa-static'
-import logger from 'koapi/lib/logger'
-import {authStateReducer} from 'redux-auth'
+import logger, {winston} from 'koapi/lib/logger'
 import {AuthGlobals} from 'redux-auth/bootstrap-theme'
+import { ReduxAsyncConnect, loadOnServer } from 'redux-connect'
+import {create as createStore, renderAuthApp} from './store'
 
 
 export default function server(webpackIsomorphicTools) {
-  global.window = {};
-  global.React = React;
   const app = new Koapi();
 
-  logger.add(logger.transports.File, {
+  logger.add(winston.transports.File, {
     name: 'koapi',
     json: false,
     filename: __dirname + '/../data/logs/koapp.log'
@@ -51,14 +45,8 @@ export default function server(webpackIsomorphicTools) {
     }
 
     try {
+      let store = createStore();
       const memoryHistory = createHistory(ctx.request.url);
-      const store = configure(combineReducers({
-        ...reducers,
-        routing: routerReducer,
-        auth: authStateReducer,
-        form: formReducer
-      }));
-
       const history = syncHistoryWithStore(memoryHistory, store);
       try {
         var { redirectLocation, renderProps } = await new Promise((resolve, reject)=>{
@@ -76,15 +64,16 @@ export default function server(webpackIsomorphicTools) {
       if (redirectLocation) {
         ctx.redirect(redirectLocation.pathname + redirectLocation.search);
       } else if (renderProps) {
+        await loadOnServer({ ...renderProps, store });
         let component = (
           <Provider store={store} key="provider">
             <div>
               <AuthGlobals />
-            <RouterContext {...renderProps} />
+              <ReduxAsyncConnect {...renderProps} />
             </div>
           </Provider>
         );
-        component = await renderAuthApp({store, isServer:true, provider:component, cookies:{
+        component = await renderAuthApp({store, isServer:__SERVER__, provider:component, cookies:{
           authHeaders: ctx.cookies.get('authHeaders'),
           currentConfigName: ctx.cookies.get('currentConfigName'),
           defaultConfigKey: ctx.cookies.get('defaultConfigKey')

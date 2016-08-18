@@ -1,4 +1,7 @@
 var webpack = require('webpack')
+// var Dashboard = require('webpack-dashboard');
+// var DashboardPlugin = require('webpack-dashboard/plugin');
+// var dashboard = new Dashboard();
 var path = require('path')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var rucksack = require('rucksack-css')
@@ -60,11 +63,14 @@ module.exports = {
     })
   ],
   plugins: [
+    // new DashboardPlugin(dashboard.setData),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.js'),
     new ExtractTextPlugin("css/[name].css"),
     (env == 'production' ? new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }) : function(){}),
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify(env) }
+      'process.env': { NODE_ENV: JSON.stringify(env) },
+      __SERVER__: false,
+      __CLIENT__: true
     }),
     (env == 'production' ? webpackIsomorphicToolsPlugin.development() : webpackIsomorphicToolsPlugin ),
 
