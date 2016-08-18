@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node --harmony koapp.js server",
-    "build": "node --harmony koapp.js build",
-    "test": "node --harmony koapp.js test",
-    "watch": "node --harmony koapp.js watch"
+    "start": "node --harmony run.js server",
+    "build": "node --harmony run.js build",
+    "test": "node --harmony run.js test",
+    "watch": "node --harmony run.js watch"
   },
   "repository": {
     "type": "git",

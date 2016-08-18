@@ -76,10 +76,10 @@ program.command('watch [object]')
              shelljs.exec(`webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0`);
              break;
            case 'server':
-             shelljs.exec(`nodemon -L -e js,es,jsx koapp.js -- server`);
+             shelljs.exec(`nodemon -L -e js,es,jsx run.js -- server`);
              break;
            default:
-             shelljs.exec(`concurrently \"npm run watch client\" \"npm run watch server\" \"json-server db.json --port 5002\"`);
+             shelljs.exec(`concurrently \"npm run watch client\" \"npm run watch server\"`);
          }
        });
 
