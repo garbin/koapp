@@ -11,6 +11,7 @@ export default class extends React.Component {
               <Link to="/counter">Counter</Link>&nbsp;|&nbsp;
               <Link to="/async">Async</Link>&nbsp;|&nbsp;
               <Link to="/auth">Auth</Link>&nbsp;|&nbsp;
+              <Link to="/admin">Admin</Link>&nbsp;|&nbsp;
               <Link to="/form">Form</Link>
             </div>)
   }

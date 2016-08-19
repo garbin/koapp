@@ -14,7 +14,7 @@ import serve from 'koa-static'
 import logger, {winston} from 'koapi/lib/logger'
 import {AuthGlobals} from 'redux-auth/bootstrap-theme'
 import { ReduxAsyncConnect, loadOnServer } from 'redux-connect'
-import {create as createStore, renderAuthApp} from './store'
+import createStore, { renderAuthApp } from './store'
 
 
 export default function server(webpackIsomorphicTools) {
@@ -45,8 +45,8 @@ export default function server(webpackIsomorphicTools) {
     }
 
     try {
-      let store = createStore();
       const memoryHistory = createHistory(ctx.request.url);
+      let store = createStore(memoryHistory);
       const history = syncHistoryWithStore(memoryHistory, store);
       try {
         var { redirectLocation, renderProps } = await new Promise((resolve, reject)=>{
@@ -73,11 +73,13 @@ export default function server(webpackIsomorphicTools) {
             </div>
           </Provider>
         );
-        component = await renderAuthApp({store, isServer:__SERVER__, provider:component, cookies:{
-          authHeaders: ctx.cookies.get('authHeaders'),
-          currentConfigName: ctx.cookies.get('currentConfigName'),
-          defaultConfigKey: ctx.cookies.get('defaultConfigKey')
-        }, currentLocation: ctx.request.url});
+        component = await renderAuthApp({
+          store,
+          isServer:__SERVER__,
+          provider:component,
+          cookies:ctx.req.headers.cookie,
+          currentLocation: ctx.request.url
+        });
         ctx.body = `
         <!doctype html>
         ${ReactDOM.renderToStaticMarkup(
