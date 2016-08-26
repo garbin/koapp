@@ -5,7 +5,7 @@ import Auth from './auth';
 import Default from './default';
 import * as Admin from './admin'
 import React from 'react';
-import { Router, Route} from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 import { ReduxAsyncConnect } from 'redux-connect'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { routerActions } from 'react-router-redux'
@@ -22,7 +22,10 @@ export default function (history) {
   return (
     <Router render={props => <ReduxAsyncConnect {...props}/>} history={history}>
       <Route component={Authenticated}>
-        <Route path="/admin" component={Admin.Dashboard} />
+        <Route path="/admin" component={Admin.Frame}>
+          <IndexRoute component={Admin.Dashboard} />
+          <Route path="list" component={Admin.List} />
+        </Route>
       </Route>
       <Route path="/counter" component={Counter} />
       <Route path="/async" component={Async} />

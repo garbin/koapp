@@ -7,7 +7,8 @@
     "start": "node --harmony run.js server",
     "build": "node --harmony run.js build",
     "test": "node --harmony run.js test",
-    "watch": "node --harmony run.js watch"
+    "watch": "node --harmony run.js watch",
+    "dashboard": "WEBPACK_DASHBOARD=true webpack-dashboard -- npm run watch client"
   },
   "repository": {
     "type": "git",
@@ -55,11 +56,13 @@
   "homepage": "https://github.com/koapi/koapiend#readme",
   "dependencies": {
     "admin-lte": "^2.3.6",
+    "antd": "^1.9.1",
     "axios": "^0.13.1",
     "bootstrap": "^3.3.6",
     "bootswatch": "^3.3.7",
     "commander": "^2.9.0",
     "concurrently": "^2.2.0",
+    "font-awesome": "^4.6.3",
     "immutable": "^3.8.1",
     "joi": "^9.0.1",
     "joi-browser": "^9.0.0",
@@ -74,9 +77,11 @@
     "moment": "^2.14.1",
     "node-sass": "^3.6.0",
     "react": "^15.2.1",
+    "react-body-classname": "^1.0.1",
     "react-cookie": "^0.4.7",
     "react-dom": "^15.2.1",
     "react-helmet": "^3.1.0",
+    "react-image-holder": "^2.0.1",
     "react-loader": "^2.4.0",
     "react-loader-advanced": "^1.4.1",
     "react-redux": "^4.4.5",
@@ -127,7 +132,7 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.15",
-    "webpack-dashboard": "0.0.1",
+    "webpack-dashboard": "^0.1.2",
     "webpack-dev-server": "^1.14.1"
   }
 }

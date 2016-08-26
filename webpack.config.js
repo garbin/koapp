@@ -1,7 +1,5 @@
 var webpack = require('webpack')
-// var Dashboard = require('webpack-dashboard');
-// var DashboardPlugin = require('webpack-dashboard/plugin');
-// var dashboard = new Dashboard();
+var DashboardPlugin = require('webpack-dashboard/plugin');
 var path = require('path')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var rucksack = require('rucksack-css')
@@ -23,7 +21,9 @@ module.exports = {
       'react-router', 'redux',
       'react-redux', 'react-router-redux',
       'redux-form', 'redux-thunk',
+      'font-awesome/css/font-awesome.min.css',
       'bootstrap/dist/css/bootstrap.css', 'bootstrap/dist/js/bootstrap.min.js',
+      'antd/dist/antd.css',
     ],
   },
   output: {
@@ -63,7 +63,7 @@ module.exports = {
     })
   ],
   plugins: [
-    // new DashboardPlugin(dashboard.setData),
+    process.env.WEBPACK_DASHBOARD ? new DashboardPlugin() : function(){},
     new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.js'),
     new ExtractTextPlugin("css/[name].css"),
     (env == 'production' ? new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }) : function(){}),
