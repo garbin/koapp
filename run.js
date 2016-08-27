@@ -21,7 +21,7 @@ program.command('server')
        .description('run server')
        .action(function (object, options) {
          var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-         var tools_config = require('./webpack-isomorphic-tools');
+         var tools_config = require('./config/webpack/isomorphic-tools');
          var webpackIsomorphicTools = new WebpackIsomorphicTools(tools_config);
          var root = production ? './build' : './src'
          webpackIsomorphicTools.development(!production).server(root, function () {
@@ -38,7 +38,7 @@ program.command('build [object]')
        .action(function (object, options) {
          switch (object) {
            case 'client':
-             shelljs.exec('rm -rf ./static && webpack --progress --colors');
+             shelljs.exec('rm -rf ./static && webpack --progress --colors --config ./config/webpack');
              break;
            case 'server':
              shelljs.exec('rm -rf ./build && babel --copy-files --presets es2015,stage-0,react -d build/ src/');
@@ -73,7 +73,7 @@ program.command('watch [object]')
        .action(function (object, options) {
          switch (object) {
            case 'client':
-             shelljs.exec(`webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0`);
+             shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0`);
              break;
            case 'server':
              shelljs.exec(`nodemon -L -e js,es,jsx run.js -- server`);

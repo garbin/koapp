@@ -1,8 +1,6 @@
 import middlewares from './middlewares';
 import {compose, createStore, applyMiddleware, combineReducers} from 'redux';
 import {configure as auth_configure} from 'redux-auth'
-import * as reducers from './reducers'
-import config from './config'
 import { syncHistoryWithStore, routerReducer, routerMiddleware } from 'react-router-redux'
 import {browserHistory} from 'react-router'
 import {authStateReducer} from 'redux-auth'
@@ -10,8 +8,10 @@ import {reducer as formReducer} from 'redux-form'
 import { reducer as reduxAsyncConnect } from 'redux-connect'
 import _ from 'lodash'
 import Immutable from "immutable"
+import * as reducers from './reducers'
+import config from './config'
 
-export default function configure(reducers, initial, history) {
+export function configure(reducers, initial, history) {
   if (initial.auth) {
     initial.auth = Immutable.fromJS(initial.auth);
   }

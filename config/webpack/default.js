@@ -3,14 +3,11 @@ var DashboardPlugin = require('webpack-dashboard/plugin');
 var path = require('path')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var rucksack = require('rucksack-css')
-var env = process.env.NODE_ENV || 'development';
-var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
-var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools'));
-var config = require('./config');
+var config = require('../../config');
 
 module.exports = {
-  devtool: (env != 'development' ? 'source-map' : 'cheap-module-eval-source-map'),
-  context: path.join(__dirname, './src'),
+  devtool: 'source-map',
+  context: path.join(__dirname, '../../src'),
   entry: {
     app: [
       './client',
@@ -22,12 +19,11 @@ module.exports = {
       'react-redux', 'react-router-redux',
       'redux-form', 'redux-thunk',
       'font-awesome/css/font-awesome.min.css',
-      'bootstrap/dist/css/bootstrap.css', 'bootstrap/dist/js/bootstrap.min.js',
-      'antd/dist/antd.css',
+      'bootstrap/dist/css/bootstrap.css', 'bootstrap/dist/js/bootstrap.min.js'
     ],
   },
   output: {
-    path: path.join(__dirname, './static'),
+    path: path.join(__dirname, '../../storage/public'),
     filename: 'js/app.js',
     publicPath: '/static/'
   },
@@ -46,8 +42,12 @@ module.exports = {
         loader: "file-loader?name=fonts/[name].[ext]" },
       { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader?name=svg/[name].[ext]" },
-      { test: /\.(scss|css)$/, // Only .less files
-        loader: ExtractTextPlugin.extract('style-loader', 'css!sass!postcss') }
+      { test: /\.less$/,
+        loader: ExtractTextPlugin.extract('style', 'css!postcss!less') },
+      { test: /\.(scss|sass)$/,
+        loader: ExtractTextPlugin.extract('style', 'css!postcss!sass') },
+      { test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style', 'css!postcss') }
     ],
   },
   resolve: {
@@ -55,7 +55,6 @@ module.exports = {
     alias:{
       joi: 'joi-browser'
     }
-    // packageAlias: 'browser'
   },
   postcss: [
     rucksack({
@@ -66,17 +65,14 @@ module.exports = {
     process.env.WEBPACK_DASHBOARD ? new DashboardPlugin() : function(){},
     new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.js'),
     new ExtractTextPlugin("css/[name].css"),
-    (env == 'production' ? new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }) : function(){}),
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify(env) },
+      'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
       __SERVER__: false,
       __CLIENT__: true
     }),
-    (env == 'production' ? webpackIsomorphicToolsPlugin.development() : webpackIsomorphicToolsPlugin ),
-
   ],
   devServer: {
-    contentBase: './static',
+    contentBase: './public',
     hot: true,
     port: config.port + 1,
     watchOptions: {

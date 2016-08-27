@@ -1,9 +1,9 @@
 # Logs
-logs
 *.log
 npm-debug.log*
 build
 static
+public
 .nyc_output/
 
 # Runtime data

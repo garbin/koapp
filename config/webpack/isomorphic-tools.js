@@ -11,8 +11,8 @@ module.exports = {
   // Sending SIGTERM to other processes..
   //
   // debug: true,
-  webpack_assets_file_path: '../webpack-assets.json',
-  webpack_stats_file_path: '../webpack-stats.json',
+  webpack_assets_file_path: '../storage/tmp/webpack-assets.json',
+  webpack_stats_file_path: '../storage/tmp/webpack-stats.json',
   assets: {
     images: {
       extensions: [

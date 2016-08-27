@@ -5,15 +5,15 @@ import { match, RouterContext } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import {Provider} from 'react-redux';
-import routes from './containers';
-import HTML from './components/html'
-import config from '../config'
 import convert from 'koa-convert'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import logger, {winston} from 'koapi/lib/logger'
 import {AuthGlobals} from 'redux-auth/bootstrap-theme'
 import { ReduxAsyncConnect, loadOnServer } from 'redux-connect'
+import routes from './containers/routes';
+import HTML from './components/html'
+import config from '../config'
 import createStore, { renderAuthApp } from './store'
 
 
@@ -23,7 +23,7 @@ export default function server(webpackIsomorphicTools) {
   logger.add(winston.transports.File, {
     name: 'koapi',
     json: false,
-    filename: __dirname + '/../data/logs/koapp.log'
+    filename: __dirname + '/../storage/logs/koapp.log'
   });
 
   app.bodyparser();
@@ -35,7 +35,7 @@ export default function server(webpackIsomorphicTools) {
     })));
   } else {
     let static_server = new Koa();
-    static_server.use(serve(__dirname + '/../static'));
+    static_server.use(serve(__dirname + '/../storage/public'));
     app.use(mount('/static', static_server));
   }
 
