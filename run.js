@@ -36,15 +36,16 @@ program.command('server')
 program.command('build [object]')
        .description('Build client/server/both (default both)')
        .action(function (object, options) {
+         var args = _.slice(options.parent.args, 0, -1).join(' ');
          switch (object) {
            case 'client':
-             shelljs.exec('rm -rf ./static && webpack --progress --colors --config ./config/webpack');
+             shelljs.exec('rm -rf ./static && webpack --progress --colors --config ./config/webpack ' + args);
              break;
            case 'server':
-             shelljs.exec('rm -rf ./build && babel --copy-files --presets es2015,stage-0,react -d build/ src/');
+             shelljs.exec('rm -rf ./build && babel --copy-files --presets es2015,stage-0,react -d build/ src/ ' + args);
              break;
            default:
-             shelljs.exec(`concurrently \"npm run build client\" \"npm run build server\"`);
+             shelljs.exec(`concurrently \"npm run build client\" \"npm run build server\" ${args}`);
          }
          done();
        });
@@ -53,16 +54,17 @@ program.command('test [type]')
        .description('run tests')
        .option('-e, --env [type]', 'env for tests')
        .action(function (type, options) {
+         var args = _.slice(options.parent.args, 0, -1).join(' ');
          var env = options.env || 'test';
          switch (type) {
            case 'coverage':
-             shelljs.exec(`export NODE_ENV=${env} && nyc ava`);
+             shelljs.exec(`export NODE_ENV=${env} && nyc ava ${args}`);
              break;
            case 'report':
-             shelljs.exec('nyc report --reporter=lcov');
+             shelljs.exec('nyc report --reporter=lcov ' + args);
              break;
            default:
-             shelljs.exec(`export NODE_ENV=${env} && ava`);
+             shelljs.exec(`export NODE_ENV=${env} && ava ${args}`);
          }
          done();
        });
@@ -71,15 +73,16 @@ program.command('watch [object]')
        .description('watch mode')
        .option('-p, --port [type]', 'port for listen')
        .action(function (object, options) {
+         var args = _.slice(options.parent.args, 0, -1).join(' ');
          switch (object) {
            case 'client':
-             shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0`);
+             shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0 ${args}`);
              break;
            case 'server':
-             shelljs.exec(`nodemon -L -e js,es,jsx run.js -- server`);
+             shelljs.exec(`nodemon -L -e js,es,jsx run.js -- server ${args}`);
              break;
            default:
-             shelljs.exec(`concurrently \"npm run watch client\" \"npm run watch server\"`);
+             shelljs.exec(`concurrently \"npm run watch client\" \"npm run watch server\" ${args}`);
          }
        });
 
