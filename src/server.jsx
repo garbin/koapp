@@ -9,12 +9,12 @@ import convert from 'koa-convert'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import logger, {winston} from 'koapi/lib/logger'
-import {AuthGlobals} from 'redux-auth/bootstrap-theme'
 import { ReduxAsyncConnect, loadOnServer } from 'redux-connect'
 import routes from './containers/routes';
 import HTML from './components/html'
 import config from '../config'
-import createStore, { renderAuthApp } from './store'
+import createStore from './store'
+import { authOnServer } from 'redux-oauth2'
 
 
 export default function server(webpackIsomorphicTools) {
@@ -64,22 +64,15 @@ export default function server(webpackIsomorphicTools) {
       if (redirectLocation) {
         ctx.redirect(redirectLocation.pathname + redirectLocation.search);
       } else if (renderProps) {
-        await loadOnServer({ ...renderProps, store });
+        try {
+          await loadOnServer({ ...renderProps, store });
+          await authOnServer(ctx.req.headers.cookie, store);
+        } catch (e) { }
         let component = (
           <Provider store={store} key="provider">
-            <div>
-              <AuthGlobals />
-              <ReduxAsyncConnect {...renderProps} />
-            </div>
+            <ReduxAsyncConnect {...renderProps} />
           </Provider>
         );
-        component = await renderAuthApp({
-          store,
-          isServer:__SERVER__,
-          provider:component,
-          cookies:ctx.req.headers.cookie,
-          currentLocation: ctx.request.url
-        });
         ctx.body = `
         <!doctype html>
         ${ReactDOM.renderToStaticMarkup(

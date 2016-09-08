@@ -1,4 +1,3 @@
-import 'bootswatch/cosmo/bootstrap.css'
 // import './style/style.less'
 // import './style/style.scss'
 

@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom/server';
-import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
 
 export default class Html extends Component {
@@ -39,7 +38,7 @@ export default class Html extends Component {
           <div id="koapp">
             <div dangerouslySetInnerHTML={{__html: content}} />
           </div>
-          <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__ =${serialize(store.getState())};`}} charSet="UTF-8"/>
+          <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__ =${JSON.stringify(store.getState())};`}} charSet="UTF-8"/>
           <script src={assets.javascript.vendor} charSet="UTF-8"/>
           <script src={assets.javascript.app} charSet="UTF-8"/>
         </body>

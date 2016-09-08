@@ -1,19 +1,30 @@
 import React from 'react';
-import { Well } from 'react-bootstrap'
-import { OAuthSignInButton, SignOutButton } from "redux-auth/bootstrap-theme"
+import {connect} from 'react-redux'
+import { OAuthSignin, OAuthSignout, actions } from 'redux-oauth2'
 
-export default class FormApp extends React.Component {
+class OAuthButton extends React.Component {
   render(){
+    return <button {...this.props} />
+  }
+}
+
+export class AuthApp extends React.Component {
+  render(){
+    let {oauth} = this.props;
+    let Signin  = OAuthSignin(OAuthButton);
+    let Signout  = OAuthSignout(OAuthButton);
     return (
-      <Well>
-        <OAuthSignInButton provider="github">
-          Github
-        </OAuthSignInButton>
-        <OAuthSignInButton provider="oauth2">
-          OAuth2
-        </OAuthSignInButton>
-        <SignOutButton provider="github" />
-      </Well>
+      <div>
+        <Signin provider="github" onCancel={e => console.log('canceled')} onSuccess={console.log}>
+          Signin
+        </Signin>
+        <Signout>
+          Signout
+        </Signout>
+        <div>{JSON.stringify(oauth.user)}</div>
+      </div>
     )
   }
 }
+
+export default connect(state => ({oauth:state.oauth}))(AuthApp);
