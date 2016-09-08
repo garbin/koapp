@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute } from 'react-router'
 import { ReduxAsyncConnect } from 'redux-connect'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
-import { OAuth2Component } from 'redux-oauth2'
+import { OAuthComponent } from 'redux-oauth2'
 import * as App from './app'
 
 const UserIsAuthenticated = UserAuthWrapper({
@@ -16,7 +16,7 @@ const Authenticated = UserIsAuthenticated(props => props.children);
 export default function (history) {
   return (
     <Router render={props => <ReduxAsyncConnect {...props}/>} history={history}>
-      <Route path="/" component={OAuth2Component(App.Root)}>
+      <Route path="/" component={OAuthComponent(App.Root)}>
         <IndexRoute component={App.Index} />
         <Route path="counter" component={App.Counter} />
         <Route path="async" component={App.Async} />
