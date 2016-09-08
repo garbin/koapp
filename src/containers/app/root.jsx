@@ -6,11 +6,10 @@ export default class Root extends React.Component {
     return (
       <div>
         <ul>
-        <li><Link to="/counter">Counter</Link></li>
-        <li><Link to="/async">Async</Link></li>
-        <li><Link to="/auth">Auth</Link></li>
-        <li><Link to="/form">Form</Link></li>
-        <li><Link to="/admin">Admin</Link></li>
+          <li><Link to="/counter">Counter</Link></li>
+          <li><Link to="/async">Async</Link></li>
+          <li><Link to="/auth">Auth</Link></li>
+          <li><Link to="/admin">Admin</Link></li>
         </ul>
         <div>{this.props.children}</div>
       </div>

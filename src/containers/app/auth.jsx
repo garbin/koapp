@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import { OAuthSignin, OAuthSignout, actions } from 'redux-oauth2'
+import { OAuthSignin, OAuthSignout, actions } from 'react-redux-oauth2'
 
 class OAuthButton extends React.Component {
   render(){

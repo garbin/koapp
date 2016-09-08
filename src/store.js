@@ -7,7 +7,7 @@ import { reducer as reduxAsyncConnect } from 'redux-connect'
 import _ from 'lodash'
 import * as reducers from './reducers'
 import config from './config'
-import configure_oauth2, { reducer as oauthReducer } from 'redux-oauth2'
+import configure_oauth2, { reducer as oauthReducer } from 'react-redux-oauth2'
 
 export function configure(reducers, initial, history) {
   // middlewares.push(routerMiddleware(history));

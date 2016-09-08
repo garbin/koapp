@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Route, IndexRoute } from 'react-router'
 import { ReduxAsyncConnect } from 'redux-connect'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
-import { OAuthComponent } from 'redux-oauth2'
+import { OAuthComponent } from 'react-redux-oauth2'
 import * as App from './app'
 
 const UserIsAuthenticated = UserAuthWrapper({
@@ -21,7 +21,6 @@ export default function (history) {
         <Route path="counter" component={App.Counter} />
         <Route path="async" component={App.Async} />
         <Route path="auth" component={App.Auth} />
-        <Route path="form" component={App.Form} />
       </Route>
     </Router>
   )

@@ -14,7 +14,7 @@ import routes from './containers/routes';
 import HTML from './components/html'
 import config from '../config'
 import createStore from './store'
-import { authOnServer } from 'redux-oauth2'
+import { authOnServer } from 'react-redux-oauth2'
 
 
 export default function server(webpackIsomorphicTools) {
