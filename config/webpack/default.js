@@ -48,6 +48,9 @@ module.exports = {
         loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss-loader' },
     ],
   },
+  sassLoader: {
+    data: '@import "' + path.resolve(__dirname, '../theme.scss') + '";'
+  },
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias:{

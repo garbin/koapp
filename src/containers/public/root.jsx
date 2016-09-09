@@ -6,7 +6,7 @@ export default class Root extends React.Component {
   render(){
     return (
       <div>
-        <AppBar fixed flat>
+        <AppBar flat>
           <strong>Koa</strong>pp
         </AppBar>
         <ul>

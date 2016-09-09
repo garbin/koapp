@@ -101,6 +101,7 @@
     "redux-thunk": "^2.0.1",
     "shelljs": "^0.7.4",
     "style-loader": "^0.13.1",
+    "toolbox-loader": "0.0.3",
     "universal-webpack": "^0.1.39",
     "webpack-isomorphic-tools": "^2.5.8"
   },
