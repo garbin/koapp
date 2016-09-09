@@ -1,10 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router'
+import { AppBar } from 'react-toolbox/lib/app_bar'
 
 export default class Root extends React.Component {
   render(){
     return (
       <div>
+        <AppBar fixed flat>
+          <strong>Koa</strong>pp
+        </AppBar>
         <ul>
           <li><Link to="/counter">Counter</Link></li>
           <li><Link to="/async">Async</Link></li>

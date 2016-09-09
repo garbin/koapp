@@ -42,11 +42,14 @@ module.exports = {
       { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader?name=svg/[name].[ext]" },
       { test: /\.less$/,
-        loader: ExtractTextPlugin.extract('style', 'css!postcss!less') },
+        loader: ExtractTextPlugin.extract('style',
+          'css?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss!less') },
       { test: /\.(scss|sass)$/,
-        loader: ExtractTextPlugin.extract('style', 'css!postcss!sass') },
+        loader: ExtractTextPlugin.extract('style',
+          'css?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss!sass') },
       { test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css!postcss') }
+        loader: ExtractTextPlugin.extract('style',
+          'css?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss') },
     ],
   },
   resolve: {

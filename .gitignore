@@ -3,9 +3,10 @@
 npm-debug.log*
 build
 static
-public
 .nyc_output/
-
+storage/public
+storage/tmp
+storage/logs
 # Runtime data
 pids
 *.pid

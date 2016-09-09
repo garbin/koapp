@@ -16,7 +16,7 @@ export class AuthApp extends React.Component {
     return (
       <div>
         <Signin provider="github" onCancel={e => console.log('canceled')} onSuccess={console.log}>
-          Signin
+          {oauth.authenticating ? 'Signin...' : 'Signin'}
         </Signin>
         <Signout>
           Signout
