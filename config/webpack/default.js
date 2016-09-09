@@ -1,7 +1,6 @@
 var webpack = require('webpack')
 var DashboardPlugin = require('webpack-dashboard/plugin');
 var path = require('path')
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var rucksack = require('rucksack-css')
 var config = require('../../config');
 
@@ -42,14 +41,11 @@ module.exports = {
       { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "file-loader?name=svg/[name].[ext]" },
       { test: /\.less$/,
-        loader: ExtractTextPlugin.extract('style',
-          'css?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss!less') },
+        loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss-loader!less-loader' },
       { test: /\.(scss|sass)$/,
-        loader: ExtractTextPlugin.extract('style',
-          'css?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss!sass') },
+        loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss-loader!sass-loader' },
       { test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style',
-          'css?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss') },
+        loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss-loader' },
     ],
   },
   resolve: {
@@ -66,7 +62,6 @@ module.exports = {
   plugins: [
     process.env.WEBPACK_DASHBOARD ? new DashboardPlugin() : function(){},
     new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.js'),
-    new ExtractTextPlugin("css/[name].css"),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
       __SERVER__: false,

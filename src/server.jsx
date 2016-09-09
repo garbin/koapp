@@ -18,8 +18,8 @@ import { authOnServer } from 'react-redux-oauth2'
 
 
 export default function server(webpackIsomorphicTools) {
+  webpackIsomorphicTools.refresh();
   const app = new Koapi();
-
   logger.add(winston.transports.File, {
     name: 'koapi',
     json: false,
