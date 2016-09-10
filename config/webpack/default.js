@@ -18,6 +18,7 @@ module.exports = {
       'react-redux', 'react-router-redux',
       'redux-form', 'redux-thunk',
       'font-awesome/css/font-awesome.min.css',
+      'material-design-icons/iconfont/material-icons.css'
     ],
   },
   output: {
@@ -45,7 +46,7 @@ module.exports = {
       { test: /\.(scss|sass)$/,
         loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss-loader!sass-loader' },
       { test: /\.css$/,
-        loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss-loader' },
+        loader: 'style-loader!css-loader!postcss-loader' },
     ],
   },
   sassLoader: {

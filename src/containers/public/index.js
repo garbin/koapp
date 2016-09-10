@@ -1,4 +1,4 @@
-import './themes/style.scss'
+import 'material-design-icons/iconfont/material-icons.css'
 
 export Root from './root'
 export Index from './default'
