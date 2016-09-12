@@ -1,0 +1,25 @@
+.navbar {
+  margin-bottom:2rem;
+}
+.footer {
+  text-align: left;
+  padding: 4rem 0;
+  // margin-top: 4rem;
+  font-size:85%;
+  background-color: #f7f7f7;
+  &.text-muted {
+    color: #818a91!important;
+  }
+  .footer_links {
+    li {
+      a {
+        color:#55595c;
+      }
+      margin-right: 2rem;
+      display: inline-block;
+    }
+    list-style-type: disc;
+    padding-left: 0;
+    margin-bottom: 1rem;
+  }
+}

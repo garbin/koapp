@@ -13,12 +13,12 @@ module.exports = {
     ],
     vendor: [
       'expose?jQuery!expose?$!jquery', 'lodash',
+      'metismenu', 'metismenu/dist/metisMenu.min.css',
       'react', 'react-dom',
       'react-router', 'redux',
       'react-redux', 'react-router-redux',
       'redux-form', 'redux-thunk',
       'font-awesome/css/font-awesome.min.css',
-      'material-design-icons/iconfont/material-icons.css'
     ],
   },
   output: {
@@ -49,9 +49,9 @@ module.exports = {
         loader: 'style-loader!css-loader!postcss-loader' },
     ],
   },
-  sassLoader: {
-    data: '@import "' + path.resolve(__dirname, '../theme.scss') + '";'
-  },
+  // sassLoader: {
+  //   data: '@import "' + path.resolve(__dirname, '../theme.scss') + '";'
+  // },
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias:{

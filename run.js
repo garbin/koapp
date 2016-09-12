@@ -76,7 +76,7 @@ program.command('watch [object]')
              shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0`);
              break;
            case 'server':
-             shelljs.exec(`nodemon -L -e js,es,jsx run.js -- server`);
+             shelljs.exec(`nodemon --watch src/server.jsx -L -e js,es,jsx run.js -- server`);
              break;
            default:
              shelljs.exec(`concurrently \"npm run watch client\" \"npm run watch server\"`);

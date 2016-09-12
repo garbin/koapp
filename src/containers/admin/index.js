@@ -1,5 +1,4 @@
-import './style.scss'
+import './themes/orange/app.css'
 
-export Dashboard from './dashboard'
-export Frame from './frame'
-export List from './list'
+export Root from './root'
+export Index from './default'

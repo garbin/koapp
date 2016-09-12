@@ -1,68 +1,77 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { AppBar } from 'react-toolbox/lib/app_bar'
-import styles from './themes/style.scss'
-import { Tabs, Tab, FontIcon, Layout, NavDrawer, Checkbox, Panel, Sidebar, IconButton } from 'react-toolbox'
+import { connect } from 'react-redux'
+import { Navbar, ButtonDropdown, Button,
+         DropdownMenu, DropdownItem,
+         DropdownToggle, NavbarBrand,
+         Nav, NavItem, NavLink } from 'reactstrap'
+import { OAuthSignin, OAuthSignout, actions } from 'react-redux-oauth2'
+import styles from './themes/default.scss'
 
-
-export default class Root extends React.Component {
+export class Root extends React.Component {
+  static contextTypes = { router: React.PropTypes.object };
   render(){
-    let drawerActive = false;
-    let drawerPinned = false;
-    let sidebarPinned = false;
-    let toggleDrawerActive = e => {};
-    let toggleSidebar = e => {};
-    let toggleDrawerPinned = e => {};
+    let { oauth } = this.props;
+    let navs = [
+      { label: 'Counter', href: '/counter' },
+      { label: 'Async', href: '/async' },
+      { label: 'Admin', href: '/admin' }
+    ];
+    let SignoutLink = OAuthSignout(Button);
     return (
-      <Layout>
-        <NavDrawer active={drawerActive}
-          pinned={drawerPinned} permanentAt='xxxl'
-          onOverlayClick={ toggleDrawerActive }>
-          <p>
-            Navigation, account switcher, etc. go here.
-          </p>
-        </NavDrawer>
-        <Panel>
-          <AppBar flat leftIcon={<FontIcon>star</FontIcon>} theme={{appBar:styles.appBar}}>
-            <IconButton icon='menu' inverse={ true } onClick={ toggleDrawerActive }/>
-          </AppBar>
-          <div style={{ flex: 1, overflowY: 'auto', padding: '1.8rem' }}>
-            <h1>Main Content</h1>
-            <p>Main content goes here.</p>
-            <Checkbox label='Pin drawer' checked={drawerPinned} onChange={toggleDrawerPinned} />
-            <Checkbox label='Show sidebar' checked={sidebarPinned} onChange={toggleSidebar} />
+      <div>
+        <Navbar dark full color="inverse" className={styles.navbar}>
+          <div className="container">
+            <NavbarBrand style={{marginRight:"30px"}} href="/">Koapp</NavbarBrand>
+            <Nav navbar>
+              {navs.map((item, k) => (
+                <NavItem key={k}>
+                  <NavLink active={this.context.router.isActive(item.href)}
+                           tag={Link} to={item.href}>
+                           {item.label}
+                  </NavLink>
+                </NavItem>
+              ))}
+            </Nav>
+            <Nav navbar className="pull-xs-right">
+              {oauth.user ? [
+                <NavItem key="profile">
+                  <NavLink tag={Link} to="/auth">
+                    {oauth.user.username}
+                  </NavLink>
+                </NavItem>,
+                <NavItem key="signout">
+                  <NavLink tag={SignoutLink} color="link">
+                    Signout
+                  </NavLink>
+                </NavItem>
+              ] : (
+                <NavItem>
+                  <NavLink tag={Link} to="/auth">
+                    Signin
+                  </NavLink>
+                </NavItem>
+              )}
+            </Nav>
           </div>
-        </Panel>
-        <Sidebar pinned={ sidebarPinned } width={ 5 }>
-          <div><IconButton icon='close' onClick={ toggleSidebar }/></div>
-          <div style={{ flex: 1 }}>
-            <p>Supplemental content goes here.</p>
+        </Navbar>
+        <div className="container">
+          <div className="jumbotron">
+          {this.props.children}
           </div>
-        </Sidebar>
-      </Layout>
+        </div>
+        <footer className={styles.footer}>
+          <div className="container">
+            <ul className={styles.footer_links}>
+              <li><a href="https://github.com/koapi/koapp">GitHub</a></li>
+              <li><a href="https://twitter.com/garbinh">Twitter</a></li>
+            </ul>
+            <p>Designed and built with all the love in the world by <a href="https://twitter.com/garbinh" target="_blank">@garbinh</a></p>
+          </div>
+        </footer>
+      </div>
     );
   }
 }
 
-
-      // <div>
-      //   <AppBar flat theme={{appBar:styles.appBar}}>
-      //     <strong>Koa</strong>pp
-      //   </AppBar>
-      //   <div>
-      //     <Tabs index={1}>
-      //       <Tab label='Primary'><small>Primary content</small></Tab>
-      //       <Tab label='Secondary'><small>Secondary content</small></Tab>
-      //       <Tab label='Third' disabled><small>Disabled content</small></Tab>
-      //       <Tab label='Fourth' hidden><small>Fourth content hidden</small></Tab>
-      //       <Tab label='Fifth'><small>Fifth content</small></Tab>
-      //     </Tabs>
-      //   </div>
-      //   <ul>
-      //     <li><Link to="/counter">Counter</Link></li>
-      //     <li><Link to="/async">Async</Link></li>
-      //     <li><Link to="/auth">Auth</Link></li>
-      //     <li><Link to="/admin">Admin</Link></li>
-      //   </ul>
-      //   <div>{this.props.children}</div>
-      // </div>
+export default connect(state => ({oauth:state.oauth}))(Root);

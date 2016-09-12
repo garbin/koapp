@@ -1,4 +1,4 @@
-import 'material-design-icons/iconfont/material-icons.css'
+import 'bootstrap/dist/css/bootstrap.css'
 
 export Root from './root'
 export Index from './default'
