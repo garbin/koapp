@@ -3,6 +3,9 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 import BodyClassname from 'react-body-classname'
+import Dropdown from 'react-aria-menubutton'
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
+import { OAuthSignout } from 'react-redux-oauth2'
 
 class Sidemenu extends React.Component {
   static defaultProps = {menu:[]}
@@ -67,12 +70,22 @@ class Sidemenu extends React.Component {
   }
 }
 
-export class Root extends React.Component {
+export default class Root extends React.Component {
   render(){
     if (__SERVER__) {
       BodyClassname.rewind();
     }
 
+    let {authData} = this.props;
+
+    // let menu = [
+    //   { icon: 'dashboard', label: '控制台', to: '/admin' },
+    //   { icon: 'table', label: '菜单', content: [
+    //         { icon: 'table', label: '列表', to: '/admin/table' },
+    //         { icon: 'pencil-square-o', label: '表单', to: '/admin/form' }
+    //     ]
+    //   }
+    // ];
     let menu = [
       {key:"dashboard", label:'控制台', icon: 'fa fa-dashboard', href: '/admin'},
       {key:"resource", label:'菜单', href:"/admin/table", icon: 'fa fa-file', children:[
@@ -84,6 +97,7 @@ export class Root extends React.Component {
         {key:"resource_form1", label:'表单', icon: 'fa fa-pencil-square-o', href: '/admin/form'},
       ]},
     ];
+    let SignoutLink  = OAuthSignout(props => <a {...props} />);
     return (
       <BodyClassname className="loaded">
         <div className="main-wrapper">
@@ -103,71 +117,26 @@ export class Root extends React.Component {
                             </div>
                         </form>
                     </div>
-                    <div className="header-block header-block-buttons">
-                        <a href="https://github.com/modularcode/modular-admin-html" className="btn btn-oval btn-sm rounded-s header-btn"> <i className="fa fa-github-alt"></i> View on GitHub </a>
-                        <a href="https://github.com/modularcode/modular-admin-html/releases/download/v1.0.1/modular-admin-html-1.0.1.zip" className="btn btn-oval btn-sm rounded-s header-btn"> <i className="fa fa-cloud-download"></i> Download .zip </a>
-                    </div>
                     <div className="header-block header-block-nav">
                         <ul className="nav-profile">
-                            <li className="notifications new">
-                                <a href="" data-toggle="dropdown"> <i className="fa fa-bell-o"></i> <sup>
-    			      <span className="counter">8</span>
-    			    </sup> </a>
-                                <div className="dropdown-menu notifications-dropdown-menu">
-                                    <ul className="notifications-container">
-                                        <li>
-                                            <a href="" className="notification-item">
-                                                <div className="img-col">
-                                                    <div className="img"></div>
-                                                </div>
-                                                <div className="body-col">
-                                                    <p> <span className="accent">Zack Alien</span> pushed new commit: <span className="accent">Fix page load performance issue</span>. </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="" className="notification-item">
-                                                <div className="img-col">
-                                                    <div className="img"></div>
-                                                </div>
-                                                <div className="body-col">
-                                                    <p> <span className="accent">Amaya Hatsumi</span> started new task: <span className="accent">Dashboard UI design.</span>. </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="" className="notification-item">
-                                                <div className="img-col">
-                                                    <div className="img"></div>
-                                                </div>
-                                                <div className="body-col">
-                                                    <p> <span className="accent">Andy Nouman</span> deployed new version of <span className="accent">NodeJS REST Api V3</span> </p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <footer>
-                                        <ul>
-                                            <li> <a href="">
-    			            View All
-    			          </a> </li>
-                                        </ul>
-                                    </footer>
-                                </div>
-                            </li>
-                            <li className="profile dropdown">
-                                <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <div className="img"></div> <span className="name">
-    			      John Doe
-    			    </span> </a>
-                                <div className="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <a className="dropdown-item" href="#"> <i className="fa fa-user icon"></i> Profile </a>
-                                    <a className="dropdown-item" href="#"> <i className="fa fa-bell icon"></i> Notifications </a>
-                                    <a className="dropdown-item" href="#"> <i className="fa fa-gear icon"></i> Settings </a>
-                                    <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item" href="login.html"> <i className="fa fa-power-off icon"></i> Logout </a>
-                                </div>
-                            </li>
+                            <Dropdown.Wrapper tag="li" className="profile dropdown open" onSelection={function(){}}>
+                              <Dropdown.Button tag="a" className='nav-link dropdown-toggle' href="javascript:;">
+                                <div className="img"></div>
+                                <span className="name">
+                                  {authData.username}
+                                </span>
+                              </Dropdown.Button>
+                              <Dropdown.Menu className='dropdown-menu profile-dropdown-menu'>
+                                <a className="dropdown-item" href="#"> <i className="fa fa-user icon"></i> Profile </a>
+                                <a className="dropdown-item" href="#"> <i className="fa fa-bell icon"></i> Notifications </a>
+                                <a className="dropdown-item" href="#"> <i className="fa fa-gear icon"></i> Settings </a>
+                                <div className="dropdown-divider"></div>
+                                <SignoutLink className="dropdown-item" href="javascript:;">
+                                  <i className="fa fa-power-off icon"></i>
+                                  Signout
+                                </SignoutLink>
+                              </Dropdown.Menu>
+                            </Dropdown.Wrapper>
                         </ul>
                     </div>
                 </header>
@@ -175,7 +144,9 @@ export class Root extends React.Component {
                     <div className="sidebar-container">
                         <div className="sidebar-header">
                             <div className="brand">
-                                <div className="logo"> <span className="l l1"></span> <span className="l l2"></span> <span className="l l3"></span> <span className="l l4"></span> <span className="l l5"></span> </div> Modular Admin </div>
+                                <div className="logo"></div>
+                                Ko<strong>app</strong>
+                              </div>
                         </div>
                         <Sidemenu menu={menu} />
                     </div>
@@ -184,16 +155,11 @@ export class Root extends React.Component {
                 <article className="content dashboard-page">
                     <section className="section">
                     </section>
-                    <section className="section">
-                    </section>
-                    <section className="section map-tasks">
-                    </section>
                 </article>
-                <footer className="footer">
-                    <div className="footer-block author">
+                <footer className="footer" style={{width:'100%'}}>
+                    <div className="footer-block author text-xs-right">
                         <ul>
-                            <li> created by <a href="https://github.com/modularcode">ModularCode</a> </li>
-                            <li> <a href="https://github.com/modularcode/modular-admin-html#get-in-touch">get in touch</a> </li>
+                            <li> created by <a href="https://github.com/garbinh">Garbin Huang</a> </li>
                         </ul>
                     </div>
                 </footer>
@@ -204,4 +170,52 @@ export class Root extends React.Component {
   }
 }
 
-export default connect(state => ({oauth:state.oauth}))(Root);
+                            // <Dropdown.Wrapper tag="li" className="notifications new open" onSelection={function(){}}>
+                            //   <Dropdown.Button tag="a" href="#">
+                            //     <i className="fa fa-bell-o"></i>
+                            //     <sup>
+                            //       <span className="counter">8</span>
+                            //     </sup>
+                            //   </Dropdown.Button>
+                            //   <Dropdown.Menu className='dropdown-menu notifications-dropdown-menu'>
+                            //     <ul className="notifications-container">
+                            //       <li>
+                            //         <a href="" className="notification-item">
+                            //           <div className="img-col">
+                            //             <div className="img"></div>
+                            //           </div>
+                            //           <div className="body-col">
+                            //             <p> <span className="accent">Zack Alien</span> pushed new commit: <span className="accent">Fix page load performance issue</span>. </p>
+                            //           </div>
+                            //         </a>
+                            //       </li>
+                            //       <li>
+                            //         <a href="" className="notification-item">
+                            //           <div className="img-col">
+                            //             <div className="img"></div>
+                            //           </div>
+                            //           <div className="body-col">
+                            //             <p> <span className="accent">Amaya Hatsumi</span> started new task: <span className="accent">Dashboard UI design.</span>. </p>
+                            //           </div>
+                            //         </a>
+                            //       </li>
+                            //       <li>
+                            //         <a href="" className="notification-item">
+                            //           <div className="img-col">
+                            //             <div className="img"></div>
+                            //           </div>
+                            //           <div className="body-col">
+                            //             <p> <span className="accent">Andy Nouman</span> deployed new version of <span className="accent">NodeJS REST Api V3</span> </p>
+                            //           </div>
+                            //         </a>
+                            //       </li>
+                            //     </ul>
+                            //     <footer>
+                            //       <ul>
+                            //         <li> <a href="">
+                            //           View All
+                            //         </a> </li>
+                            //       </ul>
+                            //     </footer>
+                            //   </Dropdown.Menu>
+                            // </Dropdown.Wrapper>

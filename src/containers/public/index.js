@@ -1,5 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.css'
-
 export Root from './root'
 export Index from './default'
 export Async from './async'

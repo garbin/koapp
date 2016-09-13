@@ -8,6 +8,7 @@ import _ from 'lodash'
 import * as reducers from './reducers'
 import config from './config'
 import configure_oauth2, { reducer as oauthReducer } from 'react-redux-oauth2'
+import { nprogress } from 'redux-nprogress'
 
 export function configure(reducers, initial, history) {
   // middlewares.push(routerMiddleware(history));
@@ -25,6 +26,7 @@ export default function (history) {
   return configure(combineReducers({
     ...reducers,
     ...oauthReducer,
+    nprogress,
     reduxAsyncConnect,
     routing: routerReducer,
     form: formReducer

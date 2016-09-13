@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import { OAuthSignin, OAuthSignout, actions } from 'react-redux-oauth2'
+import { loadable } from '../../components/hoc'
 
 class OAuthButton extends React.Component {
   render(){
@@ -11,12 +12,15 @@ class OAuthButton extends React.Component {
 export class AuthApp extends React.Component {
   render(){
     let {oauth} = this.props;
-    let Signin  = OAuthSignin(OAuthButton);
+    let Signin  = OAuthSignin(loadable(OAuthButton));
     let Signout  = OAuthSignout(OAuthButton);
     return (
       <div>
-        <Signin provider="github" onCancel={e => console.log('canceled')} onSuccess={console.log}>
-          {oauth.authenticating ? 'Signin...' : 'Signin'}
+        <Signin loading={oauth.authenticating}
+                provider="github"
+                onCancel={e => console.log('canceled')}
+                onSuccess={console.log}>
+          Github
         </Signin>
         <Signout>
           Signout

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom/server';
 import Helmet from 'react-helmet';
+import _ from 'lodash'
 
 export default class Html extends Component {
   static propTypes = {
@@ -13,7 +14,6 @@ export default class Html extends Component {
     const {assets, component, store} = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
     const head = Helmet.rewind();
-
     return (
       <html lang="en-us">
         <head>
@@ -35,8 +35,7 @@ export default class Html extends Component {
           {/* can smoothen the initial style flash (flicker) on page load in development mode. */}
           {/* ideally one could also include here the style for the current page (Home.scss, About.scss, etc) */}
           { Object.keys(assets.styles).length === 0 ?
-            <style dangerouslySetInnerHTML={{__html:Object.keys(assets.assets).sort().map(
-                (asset) => assets.assets[asset]._style).join('')}} />
+            <style dangerouslySetInnerHTML={{__html:_.values(assets.assets).map(asset => asset._style).reverse().join(' ')}} />
             : null }
         </head>
         <body>

@@ -19,6 +19,7 @@ module.exports = {
       'react-redux', 'react-router-redux',
       'redux-form', 'redux-thunk',
       'font-awesome/css/font-awesome.min.css',
+      'bootstrap/dist/css/bootstrap.css'
     ],
   },
   output: {
