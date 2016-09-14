@@ -1,7 +1,9 @@
-var webpack = require('webpack')
+var webpack = require('webpack');
 var DashboardPlugin = require('webpack-dashboard/plugin');
-var path = require('path')
-var rucksack = require('rucksack-css')
+var path = require('path');
+var rucksack = require('rucksack-css');
+var cssnext  = require('postcss-cssnext');
+var nested  = require('postcss-nested');
 var config = require('../../config');
 
 module.exports = {
@@ -14,12 +16,9 @@ module.exports = {
     vendor: [
       'expose?jQuery!expose?$!jquery', 'lodash',
       'metismenu', 'metismenu/dist/metisMenu.min.css',
-      'react', 'react-dom',
-      'react-router', 'redux',
-      'react-redux', 'react-router-redux',
-      'redux-form', 'redux-thunk',
-      'font-awesome/css/font-awesome.min.css',
-      'bootstrap/dist/css/bootstrap.css'
+      'react', 'react-dom', 'react-router', 'redux',
+      'react-redux', 'react-router-redux', 'redux-form', 'redux-thunk',
+      'font-awesome/css/font-awesome.min.css', 'bootstrap/dist/css/bootstrap.css'
     ],
   },
   output: {
@@ -60,6 +59,8 @@ module.exports = {
     }
   },
   postcss: [
+    cssnext,
+    nested,
     rucksack({
       autoprefixer: true
     })

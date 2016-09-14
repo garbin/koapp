@@ -37,28 +37,28 @@ class Sidemenu extends React.Component {
       <nav className="menu">
         <ul className="nav metismenu" id="sidebar-menu">
           {menu.map(item => {
-            let active = classnames({active:this.context.router.isActive(item.href)});
+            let active = this.context.router.isActive(item.href);
               return item.children ? (
-                <li key={item.key} className={active}>
+                <li key={item.key} className={classnames({active, open:active})}>
                   <a href="javascript:;">
                     <i className={item.icon}></i>
                     {item.label}
                     <i className="fa arrow"></i>
                   </a>
-                  <ul className={classnames({collapse:!this.context.router.isActive(item.href)})}>
-                    {item.children.map(sub => (
-                      <li key={sub.key} className={active}>
+                  <ul className={classnames({collapse:true, in:this.context.router.isActive(item.href)})}>
+                    {item.children.map(sub => {
+                      return <li key={sub.key} className={classnames({active:this.context.router.isActive(sub.href)})}>
                         <Link to={sub.href}>
                           <i className={sub.icon}></i>
                           &nbsp;&nbsp;
                           {sub.label}
                         </Link>
                       </li>
-                    ))}
+                    })}
                   </ul>
                 </li>
               ):(
-                <li key={item.key} className={active}>
+                <li key={item.key} className={classnames({active:this.context.router.isActive(item.href, true)})}>
                   <Link to={item.href}><i className={item.icon}></i>{item.label}</Link>
                 </li>
               );
@@ -88,8 +88,8 @@ export default class Root extends React.Component {
     // ];
     let menu = [
       {key:"dashboard", label:'控制台', icon: 'fa fa-dashboard', href: '/admin'},
-      {key:"resource", label:'菜单', href:"/admin/table", icon: 'fa fa-file', children:[
-        {key:"resource_table", label:'列表', icon: 'fa fa-table', href: '/admin/table'},
+      {key:"resource", label:'菜单', href:"/admin/list", icon: 'fa fa-file', children:[
+        {key:"resource_table", label:'列表', icon: 'fa fa-table', href: '/admin/list'},
         {key:"resource_form", label:'表单', icon: 'fa fa-pencil-square-o', href: '/admin/form'},
       ]},
       {key:"resource1", label:'菜单', href:"/admin/table", icon: 'fa fa-file', children:[
@@ -101,7 +101,7 @@ export default class Root extends React.Component {
     return (
       <BodyClassname className="loaded">
         <div className="main-wrapper">
-            <div className="app" id="app">
+            <div className="app header-fixed sidebar-fixed" id="app">
                 <header className="header">
                     <div className="header-block header-block-collapse hidden-lg-up">
                       <button className="collapse-btn" id="sidebar-collapse-btn">
@@ -126,36 +126,33 @@ export default class Root extends React.Component {
                                   {authData.username}
                                 </span>
                               </Dropdown.Button>
-                              <Dropdown.Menu className='dropdown-menu profile-dropdown-menu'>
-                                <a className="dropdown-item" href="#"> <i className="fa fa-user icon"></i> Profile </a>
-                                <a className="dropdown-item" href="#"> <i className="fa fa-bell icon"></i> Notifications </a>
-                                <a className="dropdown-item" href="#"> <i className="fa fa-gear icon"></i> Settings </a>
-                                <div className="dropdown-divider"></div>
-                                <SignoutLink className="dropdown-item" href="javascript:;">
-                                  <i className="fa fa-power-off icon"></i>
-                                  Signout
-                                </SignoutLink>
-                              </Dropdown.Menu>
+                                <Dropdown.Menu className='dropdown-menu profile-dropdown-menu'>
+                                  <a className="dropdown-item" href="#"> <i className="fa fa-user icon"></i> Profile </a>
+                                  <a className="dropdown-item" href="#"> <i className="fa fa-bell icon"></i> Notifications </a>
+                                  <a className="dropdown-item" href="#"> <i className="fa fa-gear icon"></i> Settings </a>
+                                  <div className="dropdown-divider"></div>
+                                  <SignoutLink className="dropdown-item" href="javascript:;">
+                                    <i className="fa fa-power-off icon"></i>
+                                    Signout
+                                  </SignoutLink>
+                                </Dropdown.Menu>
                             </Dropdown.Wrapper>
                         </ul>
                     </div>
                 </header>
-                <aside className="sidebar">
+                  <aside className="sidebar">
                     <div className="sidebar-container">
-                        <div className="sidebar-header">
-                            <div className="brand">
-                                <div className="logo"></div>
-                                Ko<strong>app</strong>
-                              </div>
-                        </div>
-                        <Sidemenu menu={menu} />
+                      <div className="sidebar-header">
+                        <div className="brand">
+                          <div className="logo"></div>
+                          Ko<strong>app</strong>
+                      </div>
                     </div>
+                    <Sidemenu menu={menu} />
+                  </div>
                 </aside>
                 <div className="sidebar-overlay" id="sidebar-overlay"></div>
-                <article className="content dashboard-page">
-                    <section className="section">
-                    </section>
-                </article>
+                {this.props.children}
                 <footer className="footer" style={{width:'100%'}}>
                     <div className="footer-block author text-xs-right">
                         <ul>

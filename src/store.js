@@ -5,9 +5,10 @@ import {browserHistory} from 'react-router'
 import {reducer as formReducer} from 'redux-form'
 import { reducer as reduxAsyncConnect } from 'redux-connect'
 import _ from 'lodash'
-import * as reducers from './reducers'
+import { reducer } from './reduxers'
 import config from './config'
 import configure_oauth2, { reducer as oauthReducer } from 'react-redux-oauth2'
+import {reducer as notifications} from 'react-notification-system-redux'
 import { nprogress } from 'redux-nprogress'
 
 export function configure(reducers, initial, history) {
@@ -24,9 +25,10 @@ export default function (history) {
   configure_oauth2(config.oauth);
 
   return configure(combineReducers({
-    ...reducers,
+    ...reducer,
     ...oauthReducer,
     nprogress,
+    notifications,
     reduxAsyncConnect,
     routing: routerReducer,
     form: formReducer

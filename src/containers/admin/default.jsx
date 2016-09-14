@@ -10,4 +10,4 @@ export class Dashboard extends React.Component {
   }
 }
 
-export default connect(state => ({user:state.auth.get('user')}))(Dashboard);
+export default connect(state => ({oauth:state.oauth}))(Dashboard);

@@ -2,7 +2,7 @@ import React from 'react';
 import Counter from '../../components/counter'
 import config from '../../config'
 import {connect} from '../../lib/helper';
-import * as counter_actions from '../../actions/counter';
+import { actions } from '../../reduxers';
 
 class CounterApp extends React.Component {
   render(){
@@ -10,4 +10,4 @@ class CounterApp extends React.Component {
   }
 }
 
-export default connect( state => ( {counter: state.counter} ), counter_actions)(CounterApp);
+export default connect( state => ( {counter: state.counter} ), actions.counter)(CounterApp);

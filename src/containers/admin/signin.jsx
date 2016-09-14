@@ -1,12 +1,14 @@
 import React from 'react'
 import { OAuthSignin, actions } from 'react-redux-oauth2'
-import { Button } from 'reactstrap'
+import { Label, Input, Button } from 'reactstrap'
 import { loadable } from '../../components/hoc'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 import { beginTask, endTask } from 'redux-nprogress'
+import { Pulse } from 'better-react-spinkit'
 import _ from 'lodash'
+import notify from 'react-notification-system-redux'
 
 const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
   <div className={classnames('form-group', {'has-error': !_.isEmpty(error)})}>
@@ -25,13 +27,20 @@ export default reduxForm({form:'signin'})(connect(state => ({oauth:state.oauth})
   submit(values){
     return this.props.dispatch({
       type:"SIGNIN",
-      nprogress:true,
       payload: new Promise((resolve, reject)=>{
         this.props.dispatch(actions.get_token(values, (e, token)=>{
           if (e) {
             let err = new SubmissionError({username:'用户不存在', password:'或者密码不正确'});
             reject(err);
+            this.props.dispatch(notify.error({
+              title: '登录失败',
+              message: '请检查您的用户名和密码',
+            }));
           } else {
+            this.props.dispatch(notify.success({
+              title: 'test',
+              message: 'message',
+            }));
             this.context.router.replace('/admin');
             resolve();
           }
@@ -74,10 +83,13 @@ export default reduxForm({form:'signin'})(connect(state => ({oauth:state.oauth})
                            label="Password"
                            placeholder="Your password"
                            required />
-                    <div className="form-group"> <label htmlFor="remember">
-                      <input className="checkbox" type="checkbox" />
-                      <span>Remember me</span>
-                    </label> <a href="reset.html" className="forgot-btn pull-right">Forgot password?</a> </div>
+                    <div className="form-group">
+                      <label >
+                        <Input className="checkbox" type="checkbox" />
+                        <span>Remember me</span>
+                      </label>
+                      <a href="reset.html" className="forgot-btn pull-right">Forgot password?</a>
+                    </div>
                     <div className="form-group">
                       <div className="row">
                         <div className="col-sm-8">
