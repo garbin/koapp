@@ -4,6 +4,7 @@ var path = require('path');
 var rucksack = require('rucksack-css');
 var cssnext  = require('postcss-cssnext');
 var nested  = require('postcss-nested');
+var autoprefixer = require('autoprefixer');
 var config = require('../../config');
 
 module.exports = {
@@ -59,11 +60,9 @@ module.exports = {
     }
   },
   postcss: [
+    autoprefixer(),
     cssnext,
     nested,
-    rucksack({
-      autoprefixer: true
-    })
   ],
   plugins: [
     process.env.WEBPACK_DASHBOARD ? new DashboardPlugin() : function(){},

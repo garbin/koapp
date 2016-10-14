@@ -3,3 +3,16 @@
     display:inline-block;
   }
 }
+
+.metismenu {
+  .collapse {
+    overflow-y: hidden;
+    max-height: 0px;
+    transition: all .5s ease;
+  }
+  .open {
+    .collapse {
+      max-height: 500px;
+    }
+  }
+}

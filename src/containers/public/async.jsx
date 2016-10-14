@@ -2,7 +2,6 @@ import React from 'react'
 import {connect, action_props} from '../../lib/helper';
 import actions from '../../reduxers'
 import {asyncConnect} from 'redux-connect'
-import Loader from 'react-loader-advanced'
 
 export class Async extends React.Component {
   render(){

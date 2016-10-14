@@ -6,6 +6,8 @@ import BodyClassname from 'react-body-classname'
 import Dropdown from 'react-aria-menubutton'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import { OAuthSignout } from 'react-redux-oauth2'
+import Metismenu from 'react-metismenu'
+import RouterLink from 'react-metismenu-router-link'
 
 class Sidemenu extends React.Component {
   static defaultProps = {menu:[]}
@@ -78,25 +80,27 @@ export default class Root extends React.Component {
 
     let {authData} = this.props;
 
-    // let menu = [
-    //   { icon: 'dashboard', label: '控制台', to: '/admin' },
-    //   { icon: 'table', label: '菜单', content: [
-    //         { icon: 'table', label: '列表', to: '/admin/table' },
-    //         { icon: 'pencil-square-o', label: '表单', to: '/admin/form' }
-    //     ]
-    //   }
-    // ];
     let menu = [
-      {key:"dashboard", label:'控制台', icon: 'fa fa-dashboard', href: '/admin'},
-      {key:"resource", label:'菜单', href:"/admin/list", icon: 'fa fa-file', children:[
-        {key:"resource_table", label:'列表', icon: 'fa fa-table', href: '/admin/list'},
-        {key:"resource_form", label:'表单', icon: 'fa fa-pencil-square-o', href: '/admin/form'},
+      {label:'控制台', icon: 'fa fa-dashboard', to: '/admin'},
+      { label:'菜单', icon: 'fa fa-file', content:[
+        { label:'列表',  to: '/admin/list' },
+        { label:'表单', to: '/admin/form' },
       ]},
-      {key:"resource1", label:'菜单', href:"/admin/table", icon: 'fa fa-file', children:[
-        {key:"resource_table1", label:'列表', icon: 'fa fa-table', href: '/admin/table'},
-        {key:"resource_form1", label:'表单', icon: 'fa fa-pencil-square-o', href: '/admin/form'},
+      {label:'test', icon: 'fa fa-file', content:[
+        {label:'Test', icon: 'fa fa-table', to: '/admin/test'},
       ]},
     ];
+    // let menu = [
+    //   {key:"dashboard", label:'控制台', icon: 'fa fa-dashboard', href: '/admin'},
+    //   {key:"resource", label:'菜单', href:"/admin/list", icon: 'fa fa-file', children:[
+    //     {key:"resource_table", label:'列表', icon: 'fa fa-table', href: '/admin/list'},
+    //     {key:"resource_form", label:'表单', icon: 'fa fa-pencil-square-o', href: '/admin/form'},
+    //   ]},
+    //   {key:"resource1", label:'菜单', href:"/admin/table", icon: 'fa fa-file', children:[
+    //     {key:"resource_table1", label:'列表', icon: 'fa fa-table', href: '/admin/table'},
+    //     {key:"resource_form1", label:'表单', icon: 'fa fa-pencil-square-o', href: '/admin/form'},
+    //   ]},
+    // ];
     let SignoutLink  = OAuthSignout(props => <a {...props} />);
     return (
       <BodyClassname className="loaded">
@@ -148,7 +152,19 @@ export default class Root extends React.Component {
                           Ko<strong>app</strong>
                       </div>
                     </div>
-                    <Sidemenu menu={menu} />
+                    <Metismenu content={menu}
+                               noBuiltInClassNames={true}
+                               className="menu"
+                               classNameContainer="nav metismenu"
+                               classNameSubmenuContainer="collapse"
+                               classNameContainerVisible="in"
+                               classNameItemHasActiveChild="active"
+                               classNameItemHasVisibleChild="open"
+                               classNameItemActive="active"
+                               iconNamePrefix=" "
+                               LinkComponent={RouterLink}
+                               iconNameStateHidden="fa arrow"
+                               iconNameStateVisible="fa arrow" />
                   </div>
                 </aside>
                 <div className="sidebar-overlay" id="sidebar-overlay"></div>

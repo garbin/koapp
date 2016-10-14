@@ -29,6 +29,7 @@ export default function (history) {
         <Route path="/admin/signin" component={Admin.Signin} />
         <Route path="/admin" component={UserIsAuthenticated(OAuthComponent(Admin.Root))}>
           <IndexRoute component={Admin.Index} />
+          <Route path="test" component={Admin.Test} />
           <Route path="list" component={Admin.List} />
           <Route path="form" component={Admin.Form} />
         </Route>
