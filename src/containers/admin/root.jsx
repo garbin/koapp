@@ -83,8 +83,8 @@ export default class Root extends React.Component {
     let menu = [
       {label:'控制台', icon: 'fa fa-dashboard', to: '/admin'},
       { label:'菜单', icon: 'fa fa-file', content:[
-        { label:'列表',  to: '/admin/list' },
-        { label:'表单', to: '/admin/form' },
+        { label:'列表', icon: 'fa fa-file', to: '/admin/list' },
+        { label:'表单', icon: 'fa fa-file',to: '/admin/form' },
       ]},
       {label:'test', icon: 'fa fa-file', content:[
         {label:'Test', icon: 'fa fa-table', to: '/admin/test'},

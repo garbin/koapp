@@ -6,13 +6,12 @@
 
 .metismenu {
   .collapse {
-    overflow-y: hidden;
     max-height: 0px;
-    transition: all .5s ease;
-  }
-  .open {
-    .collapse {
-      max-height: 500px;
+    height:0;
+    transition: max-height .35s ease;
+    display:block;
+    &.in {
+      max-height:150px;
     }
   }
 }
