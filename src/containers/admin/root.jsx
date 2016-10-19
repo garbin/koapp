@@ -9,68 +9,16 @@ import { OAuthSignout } from 'react-redux-oauth2'
 import Metismenu from 'react-metismenu'
 import RouterLink from 'react-metismenu-router-link'
 
-class Sidemenu extends React.Component {
-  static defaultProps = {menu:[]}
-  static contextTypes = {
-    router: React.PropTypes.object
-  }
-  componentDidMount(){
-    if (__CLIENT__) {
-      $(function () {
-        $('#sidebar-menu').metisMenu({
-          activeClass: 'open'
-        });
-        $('#sidebar-collapse-btn').on('click', function(event){
-          event.preventDefault();
-
-          $("#app").toggleClass("sidebar-open");
-        });
-
-        $("#sidebar-overlay").on('click', function() {
-          $("#app").removeClass("sidebar-open");
-        });
-      });
-    }
-  }
-  render(){
-    let {menu} = this.props;
-
-    return (
-      <nav className="menu">
-        <ul className="nav metismenu" id="sidebar-menu">
-          {menu.map(item => {
-            let active = this.context.router.isActive(item.href);
-              return item.children ? (
-                <li key={item.key} className={classnames({active, open:active})}>
-                  <a href="javascript:;">
-                    <i className={item.icon}></i>
-                    {item.label}
-                    <i className="fa arrow"></i>
-                  </a>
-                  <ul className={classnames({collapse:true, in:this.context.router.isActive(item.href)})}>
-                    {item.children.map(sub => {
-                      return <li key={sub.key} className={classnames({active:this.context.router.isActive(sub.href)})}>
-                        <Link to={sub.href}>
-                          <i className={sub.icon}></i>
-                          &nbsp;&nbsp;
-                          {sub.label}
-                        </Link>
-                      </li>
-                    })}
-                  </ul>
-                </li>
-              ):(
-                <li key={item.key} className={classnames({active:this.context.router.isActive(item.href, true)})}>
-                  <Link to={item.href}><i className={item.icon}></i>{item.label}</Link>
-                </li>
-              );
-            }
-          )}
-        </ul>
-      </nav>
-    );
-  }
-}
+const menu = [
+  {label:'控制台', icon: 'fa fa-dashboard', to: '/admin'},
+  { label:'菜单', icon: 'fa fa-file', content:[
+    { label:'列表', icon: 'fa fa-file', to: '/admin/list' },
+    { label:'表单', icon: 'fa fa-file',to: '/admin/form' },
+  ]},
+  {label:'test', icon: 'fa fa-file', content:[
+    {label:'Test', icon: 'fa fa-table', to: '/admin/test'},
+  ]},
+];
 
 export default class Root extends React.Component {
   render(){
@@ -80,16 +28,6 @@ export default class Root extends React.Component {
 
     let {authData} = this.props;
 
-    let menu = [
-      {label:'控制台', icon: 'fa fa-dashboard', to: '/admin'},
-      { label:'菜单', icon: 'fa fa-file', content:[
-        { label:'列表', icon: 'fa fa-file', to: '/admin/list' },
-        { label:'表单', icon: 'fa fa-file',to: '/admin/form' },
-      ]},
-      {label:'test', icon: 'fa fa-file', content:[
-        {label:'Test', icon: 'fa fa-table', to: '/admin/test'},
-      ]},
-    ];
     // let menu = [
     //   {key:"dashboard", label:'控制台', icon: 'fa fa-dashboard', href: '/admin'},
     //   {key:"resource", label:'菜单', href:"/admin/list", icon: 'fa fa-file', children:[
@@ -156,7 +94,6 @@ export default class Root extends React.Component {
                                noBuiltInClassNames={true}
                                className="menu"
                                classNameContainer="nav metismenu"
-                               classNameSubmenuContainer="collapse"
                                classNameContainerVisible="in"
                                classNameItemHasActiveChild="active"
                                classNameItemHasVisibleChild="open"

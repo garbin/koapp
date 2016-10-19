@@ -5,9 +5,10 @@ var rucksack = require('rucksack-css');
 var cssnext  = require('postcss-cssnext');
 var nested  = require('postcss-nested');
 var autoprefixer = require('autoprefixer');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var config = require('../../config');
 
-module.exports = {
+var compiler = {
   devtool: 'source-map',
   context: path.join(__dirname, '../../src'),
   entry: {
@@ -25,7 +26,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '../../storage/public'),
     filename: 'js/app.js',
-    publicPath: '/static/'
+    publicPath: '/'
   },
   module: {
     loaders: [
@@ -60,7 +61,6 @@ module.exports = {
     }
   },
   postcss: [
-    autoprefixer(),
     cssnext,
     nested,
   ],
@@ -72,14 +72,28 @@ module.exports = {
       __SERVER__: false,
       __CLIENT__: true
     }),
+    new HtmlWebpackPlugin({
+      title: 'Koapp',
+      template: './index.ejs',
+      filename: './index.html'
+    }),
   ],
   devServer: {
-    contentBase: './public',
+    // contentBase: './public',
+    // publicPath: '/',
     hot: true,
-    port: config.port + 1,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 100
-    }
+    port: config.dev_server_port || config.port + 1
+    // watchOptions: {
+    //   aggregateTimeout: 300,
+    //   poll: 100
+    // }
   }
 }
+
+if (config.ssr) {
+  var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+  var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic-tools'));
+  compiler.plugins.push(process.env.NODE_ENV!='production' ? webpackIsomorphicToolsPlugin.development() : webpackIsomorphicToolsPlugin);
+}
+
+module.exports = compiler;
