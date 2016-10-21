@@ -10,10 +10,10 @@ var config = require('../../config');
 
 var compiler = {
   devtool: 'source-map',
-  context: path.join(__dirname, '../../src'),
+  context: path.join(__dirname, '../../src/client'),
   entry: {
     app: [
-      './client',
+      './index.js',
     ],
     vendor: [
       'expose?jQuery!expose?$!jquery', 'lodash',
@@ -82,7 +82,7 @@ var compiler = {
     // contentBase: './public',
     // publicPath: '/',
     hot: true,
-    port: config.dev_server_port || config.port + 1
+    port: config.client_dev_port || config.port + 1
     // watchOptions: {
     //   aggregateTimeout: 300,
     //   poll: 100

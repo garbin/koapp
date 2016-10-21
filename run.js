@@ -3,10 +3,16 @@
 require('babel-polyfill');
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var production = process.env.NODE_ENV == 'production';
-    !production && require('babel-register');
 var _       = require('lodash');
 var program = require('commander');
 var shelljs = require('shelljs');
+
+function drequire(module) {
+  return require((production ? './build/' : './src/') + module);
+}
+
+!production && require('babel-register');
+var commands = drequire('server/commands').default;
 
 function done() {
   process.exit();
@@ -17,34 +23,71 @@ function error(e) {
   done();
 }
 
-program.command('server')
-       .description('run server')
-       .action(function (object, options) {
-         var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-         var tools_config = require('./config/webpack/isomorphic-tools');
-         var webpackIsomorphicTools = new WebpackIsomorphicTools(tools_config);
-         var root = production ? './build' : './src'
-         webpackIsomorphicTools.development(!production).server(root, function () {
-           global.window = {};
-           global.localStorage = {};
-           global.__SERVER__ = true;
-           global.__CLIENT__ = false;
-           require(root + '/server').default(webpackIsomorphicTools);
-         });
-       });
-
-program.command('build [object]')
-       .description('Build client/server/both (default both)')
-       .action(function (object, options) {
-         switch (object) {
-           case 'client':
-             shelljs.exec('rm -rf ./static && webpack --progress --colors --config ./config/webpack');
+program.command('start [what]')
+       .description('start server/service')
+       .action(function (what) {
+         switch (what) {
+           case 'service':
+             shelljs.exec(`npm run command service`);
              break;
            case 'server':
-             shelljs.exec('rm -rf ./build && babel --copy-files --presets es2015,stage-0,react -d build/ src/ ');
+           default:
+             shelljs.exec(`npm run command server`);
+         }
+       });
+ program.command('watch [what]')
+ .description('watch mode')
+ .option('-p, --port [type]', 'port for listen')
+ .action(function (what, options) {
+   switch (what) {
+     case 'client':
+     shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0`);
+     break;
+     case 'server':
+     shelljs.exec(`nodemon --watch src/server -L -e js,es,jsx run.js -- server`);
+     break;
+     case 'service':
+     shelljs.exec(`nodemon --watch src/server -L -e js,es,jsx run.js -- service`);
+     break;
+     default:
+     shelljs.exec(`concurrently \"npm run watch client\" \"npm run watch server\"`);
+   }
+ });
+
+program.command('build [object]')
+       .description('Build code/doc (default code)')
+       .action(function (object, options) {
+         var args = _.slice(options.parent.args, 0, -1).join(' ');
+         switch (object) {
+           case 'client':
+             shelljs.exec('rm -rf ./storage/public/* && webpack --progress --colors --config ./config/webpack');
+           break;
+           case 'docs':
+             shelljs.exec(`npm run build schemas && apidoc --debug -i ./src -o ./docs -f \".*\\.es$\" -f \".*\\.js$\" ${args}`)
+             break;
+           case 'schemas':
+             var routers = require('./src/server/routers');
+             routers = routers.default.concat(routers.nested || []);
+             var fs = require('fs-extra');
+             _.forEach(routers, function (router) {
+               if (_.isFunction(router.schema)) {
+                 console.log(router.options.name);
+                 var schema = router.schema();
+                 if (schema) {
+                   _.forIn(schema, function (v, method) {
+                     var basepath = './schemas/' + router.options.title + '/' + method + '/';
+                     fs.outputJsonSync(basepath + 'request.schema.json', v.schema.request);
+                     fs.outputJsonSync(basepath + 'response.schema.json', v.schema.response);
+                     fs.outputJsonSync(basepath + 'request.example.json', v.example.request);
+                     fs.outputJsonSync(basepath + 'response.example.json', v.example.response);
+                     console.log('write %s successful', router.options.title);
+                   })
+                 }
+               };
+             });
              break;
            default:
-             shelljs.exec(`concurrently \"npm run build client\" \"npm run build server\"`);
+             shelljs.exec(`babel -d build/ src/ ${args}`)
          }
          done();
        });
@@ -59,29 +102,47 @@ program.command('test [type]')
          var coverage = options.coverage ? 'nyc' : '';
          switch (type) {
            case 'report':
-             shelljs.exec('nyc report --reporter=lcov ' + args);
+             shelljs.exec(`nyc report --reporter=lcov ${args}`);
              break;
            default:
-             shelljs.exec(`export NODE_ENV=${env} && ${coverage} ava ${args}`);
+             shelljs.exec(`export NODE_ENV=${env} && knex migrate:rollback && knex migrate:latest && knex seed:run && ${coverage} ava ${args}`);
          }
          done();
        });
 
-program.command('watch [object]')
-       .description('watch mode')
-       .option('-p, --port [type]', 'port for listen')
-       .action(function (object, options) {
-         switch (object) {
-           case 'client':
-             shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0`);
+program.command('migrate [action]')
+       .description('db migration')
+       .action(function (action, options) {
+         var args = _.slice(options.parent.args, 0, -1).join(' ');
+         switch (action) {
+           case 'setup':
+             shelljs.exec(`knex migrate:latest && knex seed:run ${args}`);
              break;
-           case 'server':
-             shelljs.exec(`nodemon --watch src/server.jsx -L -e js,es,jsx run.js -- server`);
+           case 'rollback':
+             shelljs.exec(`knex migrate:rollback ${args}`);
+             break;
+           case 'reset':
+             shelljs.exec(`knex migrate:rollback && knex migrate:latest && knex seed:run ${args}`);
              break;
            default:
-             shelljs.exec(`concurrently \"npm run watch client\" \"npm run watch server\"`);
+             shelljs.exec(`knex migrate:latest ${args}`);
          }
+         done();
        });
+
+commands.forEach(function (cmd) {
+  var subcommand = program.command(cmd.command);
+  if (cmd.description) subcommand.description(cmd.description);
+  cmd.options && _.forIn(cmd.options, function (desc, option) {
+    subcommand = subcommand.option(option, desc);
+  });
+  if (cmd.action) subcommand.action(function(){
+    var result = cmd.action.apply(cmd.action, Array.prototype.slice.call(arguments));
+    if (result instanceof Promise) {
+      result.then(cmd.done || function(){Promise.resolve()}).then(done).catch(error);
+    }
+  });
+});
 
 if (!process.argv.slice(2).length) {
   program.outputHelp();

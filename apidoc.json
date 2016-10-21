@@ -1,0 +1,15 @@
+{
+  "name": "Koapi Boilerplate",
+  "version": "0.1.0",
+  "description": "apiDoc basic example",
+  "title": "Custom apiDoc browser title",
+  "url" : "https://api.koapi.com/v1",
+  "header":{
+    "title":"Header",
+    "filename":"./docs/header.md"
+  },
+  "footer":{
+    "title":"Footer",
+    "filename":"./docs/footer.md"
+  }
+}

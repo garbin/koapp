@@ -1,4 +1,4 @@
-import * as actions from '../../src/actions/counter'
+import { actions } from '../../src/client/reduxers/counter'
 import {test, expect} from 'koapi/lib/test'
 
 test('actions should create an action to increas', t => {

@@ -1,1 +1,13 @@
-module.exports = { dev_server_port: 5100, ssr: false };
+module.exports = {
+  port: 5000,
+  database : {
+    client: 'pg',
+    connection: {
+      host     : 'localhost',
+      user     : 'postgres',
+      password : '123456',
+      database : 'koapi_boilerplate',
+      charset  : 'utf8'
+    },
+  },
+};
