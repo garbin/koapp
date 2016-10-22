@@ -69,6 +69,7 @@
     "eslint-plugin-import": "^2.0.1",
     "font-awesome": "^4.6.3",
     "glob": "^7.1.1",
+    "html-webpack-plugin": "^2.24.0",
     "immutability-helper": "^2.0.0",
     "immutable": "^3.8.1",
     "inline-style-prefixer": "^2.0.1",

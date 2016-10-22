@@ -33,7 +33,7 @@ export class Root extends React.Component {
                 </NavItem>
               ))}
             </Nav>
-            <Nav navbar className="pull-xs-right">
+            <Nav navbar className="float-xs-right">
               {oauth.user ? [
                 <NavItem key="profile">
                   <NavLink tag={Link} to="/auth">
