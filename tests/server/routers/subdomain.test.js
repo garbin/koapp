@@ -1,4 +1,4 @@
-import {server} from '../init';
+import {server} from '../../__lib__/init';
 import {test, request, expect} from 'koapi/lib/test'
 
 test('GET http://api.koapi.com/', t =>

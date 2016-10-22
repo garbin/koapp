@@ -31,11 +31,11 @@
   },
   "ava": {
     "files": [
-      "test/**/*.test.{js,es}",
-      "!test/__lib__/**/*"
+      "tests/**/*.test.{js,es}",
+      "!tests/__lib__/**/*.{js,es}"
     ],
     "source": [
-      "**/*.{js,jsx,es}",
+      "**/*.test.{js,jsx,es}",
       "!build/**/*"
     ],
     "require": [
