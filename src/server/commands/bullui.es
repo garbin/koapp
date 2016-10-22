@@ -9,7 +9,7 @@ export default {
     '-p, --port [mode]': 'Port'
   },
   action: (options) => {
-    let matador = require('bull-ui/app')({
+    let ui = require('toureiro')({
       redis: {
         host: config.redis.host,
         port: config.redis.port,
@@ -17,7 +17,7 @@ export default {
       }
     });
 
-    matador.listen(options.port || 5000, function(){
+    ui.listen(options.port || 5000, function(){
       console.log('Bull-UI started listening on port', this.address().port);
     });
   }

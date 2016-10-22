@@ -1,6 +1,5 @@
 // import server from '../'
-import config from '../../../config'
-import log from 'koapi/lib/logger'
+import config from '../../../config';
 
 export default {
   command: 'server',
@@ -8,10 +7,10 @@ export default {
   options: {
     '-w, --watch': 'Watch',
   },
-  action: (options) => {
+  action: () => {
     require('../').default.listen(
       config.port,
-      e => console.log(`server is running on port ${config.port}`)
-    )
-  }
+      () => console.log(`server is running on port ${config.port}`)
+    );
+  },
 };
