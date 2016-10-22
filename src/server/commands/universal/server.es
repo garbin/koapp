@@ -14,8 +14,8 @@ export default function server(webpackIsomorphicTools) {
 
   const app = new Koapi();
 
-  app.bodyparser();
-  app.compress();
+  // app.bodyparser();
+  // app.compress();
 
   if (config.universal.server) {
     app.use(mount(config.universal.server, require('../../').default.koa));
