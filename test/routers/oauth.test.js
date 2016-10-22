@@ -10,7 +10,7 @@ test('POST /oauth/token', t =>
                    "client_secret":"123",
                    "grant_type":"password",
                    "username":"test",
-                   "password":"123",
+                   "password":"test",
                    "scope":"all"
                  })
                  .then(res => {

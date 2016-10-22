@@ -72,6 +72,7 @@ program.command('build [object]')
              shelljs.exec(`npm run build schemas && apidoc --debug -i ./src -o ./docs -f \".*\\.es$\" -f \".*\\.js$\" ${args}`)
              break;
            case 'schemas':
+             require('./src/server');
              var routers = require('./src/server/routers');
              routers = routers.default.concat(routers.nested || []);
              var fs = require('fs-extra');
