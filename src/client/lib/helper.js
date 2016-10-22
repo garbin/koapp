@@ -13,12 +13,13 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-	// Do something before request is sent
-	config.headers["Authorization"] = "Bearer " + localStorage.access_token;
- 	return config;
+  var { access_token } = localStorage || {};
+  // Do something before request is sent
+  config.headers["Authorization"] = "Bearer " + access_token;
+  return config;
 }, function (error) {
-	// Do something with request error
-	return Promise.reject(error);
+  // Do something with request error
+  return Promise.reject(error);
 });
 
 export function connect(mapState, actions) {

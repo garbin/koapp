@@ -40,7 +40,7 @@ export default function (webpackIsomorphicTools) {
         try {
           await loadOnServer({ ...renderProps, store });
           await authOnServer(ctx.req.headers.cookie, store);
-        } catch (e) { console.log(e) }
+        } catch (e) { }
         let component = (
           <Provider store={store} key="provider">
             <ReduxAsyncConnect {...renderProps} />

@@ -13,10 +13,7 @@ export default {
       webpackIsomorphicTools.server(
         path.resolve(__dirname + '/../../../client'),
         function () {
-          global.window = {};
-          global.localStorage = {};
           global.__SERVER__ = true;
-          global.__CLIENT__ = false;
           require('./server').default(webpackIsomorphicTools);
       });
     } else {
