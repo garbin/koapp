@@ -93,6 +93,7 @@ program.command('build [object]')
                };
              });
              break;
+           case 'server':
            default:
              shelljs.exec(`babel -d build/ src/ ${args}`)
          }

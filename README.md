@@ -1,5 +1,5 @@
 # Koapp
-A web app framework baed on Redux & React
+A univeral web app framework baed on Koa & React & Redux
 
 ## Contains
 
@@ -16,12 +16,101 @@ A web app framework baed on Redux & React
 - [x] [Autoprefixer](https://github.com/postcss/autoprefixer)
 - [x] [PostCSS](https://github.com/postcss/postcss)
 - [x] [Rucksack](http://simplaio.github.io/rucksack/docs)
+- [x] [Koapi](https://github.com/koapi/koapi)
+- [x] [Knex](http://knexjs.org/)
+- [x] [Bookshelf](http://bookshelfjs.org/)
+- [x] [Babel](https://babeljs.io/)
+- [x] [Apidoc](http://apidocjs.com/)
+- [x] [Nodemon](http://nodemon.io/)
+- [x] [Istanbul](https://github.com/gotwarlost/istanbul)
+- [x] [Avajs](https://ava.li)
+- [x] [Shouldjs](http://shouldjs.github.io/)
 
-## Start dev server
+## For deployment
+### start server
 ```bash
-npm start -- --port 4005
+npm start server
 ```
-build
+
+### start service
+```bash
+npm start service
+```
+
+### start universal server
+```bash
+npm start universal
+```
+
+## For development
+### Watch file-changes and auto restart server(Dev-mode)
+```bash
+npm run watch server
+```
+### Watch file-changes and auto restart services(Dev-mode)
+```bash
+npm run watch service
+```
+### watch client
+```bash
+npm run watch client
+```
+### watch universal
+```bash
+npm run watch universal
+```
+
+## For build
+### build server side code
 ```bash
 npm run build
+# or
+npm run build server
+```
+### build client side code
+```bash
+npm run build client
+```
+### build docs
+```bash
+npm run build docs
+```
+### build schemas
+```bash
+npm run build schemas
+```
+
+## Test
+
+```bash
+# For unit testing
+npm test
+
+# For code coverage testing
+npm run test -- --coverage
+```
+
+## maintenance
+### database
+```bash
+# migrate latest
+npm run migrate
+
+# Rollback db changes
+npm run migrate rollback
+```
+
+```bash
+# migrate & seed
+npm run migrate setup
+```
+
+```bash
+# rollback & migrate & seed
+npm run migrate reset
+```
+
+### server command
+```bash
+npm run command ${command name in server/commands}
 ```
