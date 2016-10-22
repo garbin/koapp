@@ -7,6 +7,7 @@ var nested  = require('postcss-nested');
 var autoprefixer = require('autoprefixer');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var config = require('../../config');
+var asset_dir = 'static/';
 
 var compiler = {
   devtool: 'source-map',
@@ -25,7 +26,7 @@ var compiler = {
   },
   output: {
     path: path.join(__dirname, '../../storage/public'),
-    filename: 'js/app.js',
+    filename: asset_dir + 'js/app.js',
     publicPath: '/'
   },
   module: {
@@ -36,13 +37,13 @@ var compiler = {
         exclude: /node_modules/,
         loaders: [ 'babel' ] },
       { test: /\.(png|jpg|gif)$/,
-        loader: 'file-loader?name=img/[name].[ext]' },
+        loader: 'file-loader?name=' + asset_dir + 'img/[name].[ext]' },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: "url-loader?limit=100000&minetype=application/font-woff" },
       { test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader?name=fonts/[name].[ext]" },
+        loader: "file-loader?name=" + asset_dir + "fonts/[name].[ext]" },
       { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader?name=svg/[name].[ext]" },
+        loader: "file-loader?name=" + asset_dir + "svg/[name].[ext]" },
       { test: /\.less$/,
         loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]-[local]___[hash:base64:5]!postcss-loader!less-loader' },
       { test: /\.(scss|sass)$/,
@@ -66,7 +67,7 @@ var compiler = {
   ],
   plugins: [
     process.env.WEBPACK_DASHBOARD ? new DashboardPlugin() : function(){},
-    new webpack.optimize.CommonsChunkPlugin('vendor', 'js/vendor.js'),
+    new webpack.optimize.CommonsChunkPlugin('vendor', asset_dir + 'js/vendor.js'),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
       __SERVER__: false,
@@ -79,18 +80,12 @@ var compiler = {
     }),
   ],
   devServer: {
-    // contentBase: './public',
-    // publicPath: '/',
     hot: true,
     port: config.client_dev_port || config.port + 1
-    // watchOptions: {
-    //   aggregateTimeout: 300,
-    //   poll: 100
-    // }
   }
 }
 
-if (config.ssr) {
+if (config.universal.ssr) {
   var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
   var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic-tools'));
   compiler.plugins.push(process.env.NODE_ENV!='production' ? webpackIsomorphicToolsPlugin.development() : webpackIsomorphicToolsPlugin);

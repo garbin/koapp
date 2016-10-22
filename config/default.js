@@ -1,5 +1,9 @@
 var path = require('path');
 module.exports = {
+  universal: {
+    ssr: true,
+    server: '/api',
+  },
   port: 3000,
   debug: true,
   cors: {
@@ -10,7 +14,7 @@ module.exports = {
     github: {
       clientID: 'f2ee0541fecc7c773d5d',
       clientSecret: '60e200b22d68c93ebb953cab34e73bd61dca86ed',
-      callbackURL: "http://localhost:5000/auth/github/callback",
+      callbackURL: "http://localhost:5000/api/auth/github/callback",
       redirect_back: 'http://localhost:5100',
     },
     oauth2: {

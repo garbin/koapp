@@ -1,4 +1,4 @@
-import app from '../src/server/server'
+import app from '../src/server'
 import log from 'koapi/lib/logger'
 import nock from 'nock'
 

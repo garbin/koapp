@@ -30,6 +30,9 @@ program.command('start [what]')
            case 'service':
              shelljs.exec(`npm run command service`);
              break;
+           case 'universal':
+             shelljs.exec(`npm run command universal`);
+             break;
            case 'server':
            default:
              shelljs.exec(`npm run command server`);
@@ -44,10 +47,13 @@ program.command('start [what]')
      shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --hot --inline --progress --colors --host 0.0.0.0`);
      break;
      case 'server':
-     shelljs.exec(`nodemon --watch src/server -L -e js,es,jsx run.js -- server`);
+     shelljs.exec(`nodemon --harmony --watch src/server -L -e js,es,jsx run.js -- server`);
+     break;
+     case 'universal':
+     shelljs.exec(`nodemon --harmony --watch src/server -L -e js,es,jsx run.js -- universal`);
      break;
      case 'service':
-     shelljs.exec(`nodemon --watch src/server -L -e js,es,jsx run.js -- service`);
+     shelljs.exec(`nodemon --harmony --watch src/server -L -e js,es,jsx run.js -- service`);
      break;
      default:
      shelljs.exec(`concurrently \"npm run watch client\" \"npm run watch server\"`);

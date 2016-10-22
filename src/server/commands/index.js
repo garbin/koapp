@@ -2,10 +2,12 @@
 // import bullui from './bullui'
 import service from './service'
 import server from './server'
+import universal from './universal'
 
 export default [
-  service, // You should not remove this line if you want to use queue & schedule
+  service,
   server,
+  universal
   // example,
   // bullui
 ]

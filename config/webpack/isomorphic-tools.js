@@ -3,8 +3,8 @@ var plugin = require('webpack-isomorphic-tools/plugin');
 // see this link for more info on what all of this means
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 module.exports = {
-  webpack_assets_file_path: '../storage/tmp/webpack-assets.json',
-  webpack_stats_file_path: '../storage/tmp/webpack-stats.json',
+  webpack_assets_file_path: '../../storage/tmp/webpack-assets.json',
+  webpack_stats_file_path: '../../storage/tmp/webpack-stats.json',
   assets: {
     images: {
       extensions: ['gif', 'jpg', 'png', 'ico'],
