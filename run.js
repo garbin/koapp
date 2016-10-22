@@ -69,7 +69,7 @@ program.command('build [object]')
              shelljs.exec('rm -rf ./storage/public/* && webpack --progress --colors --config ./config/webpack');
            break;
            case 'docs':
-             shelljs.exec(`npm run build schemas && apidoc --debug -i ./src -o ./docs -f \".*\\.es$\" -f \".*\\.js$\" ${args}`)
+             shelljs.exec(`npm run build schemas && apidoc --debug -i ./src -o ./docs -f \".*\\.es$ \" -f \".*\\.js$\" ${args}`)
              break;
            case 'schemas':
              require('./src/server');
@@ -95,7 +95,7 @@ program.command('build [object]')
              break;
            case 'server':
            default:
-             shelljs.exec(`babel -d build/ src/ ${args}`)
+             shelljs.exec(`babel -D -d build/ src/`)
          }
          done();
        });

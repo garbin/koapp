@@ -12,11 +12,10 @@ import {reducer as notifications} from 'react-notification-system-redux'
 import { nprogress } from 'redux-nprogress'
 
 export function configure(reducers, initial, history) {
-  // middlewares.push(routerMiddleware(history));
   const store = createStore(reducers, initial,
     compose(
     applyMiddleware.apply(this, middlewares),
-    (window && window.devToolsExtension) ? window.devToolsExtension() : f => f
+    (!__SERVER__ && window.devToolsExtension) ? window.devToolsExtension() : f => f
   ));
 
   return store;
@@ -32,5 +31,5 @@ export default function (history) {
     reduxAsyncConnect,
     routing: routerReducer,
     form: formReducer
-  }), __CLIENT__ ? window.__INITIAL_STATE__ : {}, history);
+  }), !__SERVER__ ? window.__INITIAL_STATE__ : {}, history);
 }

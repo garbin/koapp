@@ -1,18 +1,13 @@
 module.exports = {
-  port: 4002,
-  database: {
-    client: 'postgresql',
+  port: 5002,
+  database : {
+    client: 'pg',
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      host     : 'localhost',
+      user     : 'postgres',
+      password : '123456',
+      database : 'koapi_boilerplate',
+      charset  : 'utf8'
     },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
+  },
 };

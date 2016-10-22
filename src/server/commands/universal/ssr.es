@@ -20,6 +20,7 @@ export default function (webpackIsomorphicTools) {
       const memoryHistory = createHistory(ctx.request.url);
       let store = createStore(memoryHistory);
       const history = syncHistoryWithStore(memoryHistory, store);
+
       try {
         var { redirectLocation, renderProps } = await new Promise((resolve, reject)=>{
           match({ history, routes: routes(history).props.children, location: ctx.request.url }, (error, redirectLocation, renderProps) => {
@@ -31,6 +32,7 @@ export default function (webpackIsomorphicTools) {
           });
         });
       } catch (e) {
+        console.log(e);
         await next();
         // return ctx.throw(e, 404);
       }
@@ -55,6 +57,7 @@ export default function (webpackIsomorphicTools) {
         return;
       }
     } catch (e) {
+      console.log(e);
       return await next();
     }
     return await next();
