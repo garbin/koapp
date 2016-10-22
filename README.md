@@ -24,7 +24,7 @@ A univeral web app framework baed on Koa & React & Redux
 - [x] [Nodemon](http://nodemon.io/)
 - [x] [Istanbul](https://github.com/gotwarlost/istanbul)
 - [x] [Avajs](https://ava.li)
-- [x] [Shouldjs](http://shouldjs.github.io/)
+- [x] [chaijs](http://chaijs.com)
 
 ## For deployment
 ### start server
