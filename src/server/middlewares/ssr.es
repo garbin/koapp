@@ -6,9 +6,9 @@ import ReactDOM from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import createHistory from 'react-router/lib/createMemoryHistory';
-import routes from '../../../client/containers/routes';
-import HTML from '../../../client/components/html'
-import createStore from '../../../client/store'
+import routes from '../../client/containers/routes';
+import HTML from '../../client/components/html'
+import createStore from '../../client/store'
 
 export default function (webpackIsomorphicTools) {
   return async (ctx, next) => {

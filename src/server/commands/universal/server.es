@@ -23,7 +23,7 @@ export default function server(webpackIsomorphicTools) {
 
   if (config.universal.ssr) {
     if (process.env.NODE_ENV == 'development')webpackIsomorphicTools.refresh();
-    app.use(require('./ssr').default(webpackIsomorphicTools));
+    app.use(require('../../middlewares/ssr').default(webpackIsomorphicTools));
   }
 
   if (process.env.NODE_ENV == 'development') {
