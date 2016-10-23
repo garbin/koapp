@@ -1,5 +1,5 @@
 module.exports = {
-  port: 5002,
+  port: 5000,
   database : {
     client: 'pg',
     connection: {

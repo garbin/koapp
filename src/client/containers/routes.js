@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
 import { ReduxAsyncConnect } from 'redux-connect'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
-import { OAuthComponent, authOnServer } from 'react-redux-oauth2'
+import { OAuthComponent, storeInitialize } from 'react-redux-oauth2'
 import { NProgress } from 'redux-nprogress'
 import * as Public from './public'
 import * as Admin from './admin'
@@ -15,11 +15,18 @@ const UserIsAuthenticated = UserAuthWrapper({
   wrapperDisplayName: 'UserIsAuthenticated' // a nice name for this auth check
 })
 
-function init_store_user(store) {
+function store_initialize(store) {
   return function (n, r, cb) {
-    let { oauth: { user } } = store.getState();
-    if (!user) {
-      authOnServer(document.cookie, store).then(data => cb()).catch(cb);
+    if (!__SERVER__) {
+      let { oauth: { user } } = store.getState();
+      if (!user) {
+        storeInitialize(document.cookie, store).then(data => cb()).catch(e => {
+          console.error(e);
+          cb();
+        });
+      } else {
+        cb();
+      }
     } else {
       cb();
     }
@@ -30,7 +37,7 @@ export default function (history, store) {
   let ReduxNotifications = connect(state => ({notifications:state.notifications}))(Notifications);
   return (
     <Router render={props => <ReduxAsyncConnect {...props}/>} history={history}>
-      <Route component={props => <div><NProgress /><ReduxNotifications />{props.children}</div>} onEnter={init_store_user(store)}>
+      <Route component={props => <div><NProgress /><ReduxNotifications />{props.children}</div>} onEnter={store_initialize(store)}>
         <Route path="/" component={OAuthComponent(Public.Root)}>
           <IndexRoute component={Public.Index} />
           <Route path="counter" component={Public.Counter} />

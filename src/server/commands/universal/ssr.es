@@ -1,5 +1,5 @@
-import { authOnServer } from 'react-redux-oauth2'
-import {Provider} from 'react-redux';
+import { storeInitialize } from 'react-redux-oauth2'
+import { Provider } from 'react-redux';
 import { ReduxAsyncConnect, loadOnServer } from 'redux-connect'
 import React from 'react';
 import ReactDOM from 'react-dom/server';
@@ -20,10 +20,13 @@ export default function (webpackIsomorphicTools) {
       const memoryHistory = createHistory(ctx.request.url);
       let store = createStore(memoryHistory);
       const history = syncHistoryWithStore(memoryHistory, store);
+      try {
+        await storeInitialize(ctx.req.headers.cookie || '', store);
+      } catch (e) {}
 
       try {
         var { redirectLocation, renderProps } = await new Promise((resolve, reject)=>{
-          match({ history, routes: routes(history).props.children, location: ctx.request.url }, (error, redirectLocation, renderProps) => {
+          match({ history, routes: routes(history, store).props.children, location: ctx.request.url }, (error, redirectLocation, renderProps) => {
             if (error) {
               reject(error);
             } else {
@@ -33,7 +36,7 @@ export default function (webpackIsomorphicTools) {
         });
       } catch (e) {
         console.log(e);
-        await next();
+        return await next();
         // return ctx.throw(e, 404);
       }
       if (redirectLocation) {
@@ -41,7 +44,6 @@ export default function (webpackIsomorphicTools) {
       } else if (renderProps) {
         try {
           await loadOnServer({ ...renderProps, store });
-          await authOnServer(ctx.req.headers.cookie, store);
         } catch (e) { }
         let component = (
           <Provider store={store} key="provider">
