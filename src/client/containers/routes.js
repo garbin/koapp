@@ -37,15 +37,19 @@ export default function (history, store) {
   let ReduxNotifications = connect(state => ({notifications:state.notifications}))(Notifications);
   return (
     <Router render={props => <ReduxAsyncConnect {...props}/>} history={history}>
-      <Route component={props => <div><NProgress /><ReduxNotifications />{props.children}</div>} onEnter={store_initialize(store)}>
-        <Route path="/" component={OAuthComponent(Public.Root)}>
+      <Route component={props => <div><NProgress /><ReduxNotifications />{props.children}</div>}>
+        <Route path="/"
+               component={OAuthComponent(Public.Root)}
+               onEnter={store_initialize(store)}>
           <IndexRoute component={Public.Index} />
           <Route path="counter" component={Public.Counter} />
           <Route path="async" component={Public.Async} />
           <Route path="auth" component={Public.Auth} />
         </Route>
         <Route path="/admin/signin" component={Admin.Signin} />
-        <Route path="/admin" component={UserIsAuthenticated(OAuthComponent(Admin.Root))}>
+        <Route path="/admin"
+               component={UserIsAuthenticated(OAuthComponent(Admin.Root))}
+               onEnter={store_initialize(store)}>
           <IndexRoute component={Admin.Index} />
           <Route path="test" component={Admin.Test} />
           <Route path="list" component={Admin.List} />
