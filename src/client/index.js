@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { browserHistory } from 'react-router'
@@ -11,6 +12,6 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render((
   <Provider store={store}>
-    {routes(history)}
+    {routes(history, store)}
   </Provider>
 ), document.getElementById('koapp'));

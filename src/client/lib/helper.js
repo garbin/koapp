@@ -5,6 +5,7 @@ import _ from 'lodash';
 import config from '../config'
 import axios from 'axios'
 import { select } from 'reactabular'
+import react_cookie from 'react-cookie'
 
 export const api = axios.create({
   baseURL: config.api,
@@ -13,10 +14,12 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(function (config) {
-  var { access_token } = localStorage || {};
-  // Do something before request is sent
-  config.headers["Authorization"] = "Bearer " + access_token;
+  try {
+    let { access_token } = react_cookie.load('redux_oauth2');
+    config.headers["Authorization"] = "Bearer " + access_token;
+  } catch (e) { }
   return config;
+  // Do something before request is sent
 }, function (error) {
   // Do something with request error
   return Promise.reject(error);

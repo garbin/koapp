@@ -1,4 +1,4 @@
-let api = 'http://localhost:5000/api';
+let api = 'http://localhost:5000';
 
 export default {
   api,
