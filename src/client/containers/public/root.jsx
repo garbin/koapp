@@ -15,7 +15,7 @@ export class Root extends React.Component {
     let navs = [
       { label: 'Counter', href: '/counter' },
       { label: 'Async', href: '/async' },
-      { label: 'Admin', href: '/admin' }
+      { label: 'Admin', href: '/admin', reload: true }
     ];
     let SignoutLink = OAuthSignout(Button);
     return (
@@ -27,7 +27,7 @@ export class Root extends React.Component {
               {navs.map((item, k) => (
                 <NavItem key={k}>
                   <NavLink active={this.context.router.isActive(item.href)}
-                           tag={Link} to={item.href}>
+                           tag={item.reload ? 'a' : Link} href={item.href} to={item.href}>
                            {item.label}
                   </NavLink>
                 </NavItem>

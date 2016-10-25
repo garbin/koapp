@@ -1,7 +1,7 @@
 var path = require('path');
 module.exports = {
   universal: {
-    ssr: true,
+    ssr: false,
     server: '/api',
   },
   port: 3000,

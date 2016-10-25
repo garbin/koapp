@@ -26,6 +26,8 @@ export default function server(webpackIsomorphicTools) {
     app.use(require('../../middlewares/ssr').default(webpackIsomorphicTools));
   }
 
+  app.use(convert(historyApiFallback()));
+  
   if (process.env.NODE_ENV == 'development') {
     app.use(convert(require('koa-proxy')({
       host:'http://localhost:' + (config.dev_server_port || config.port + 1),
@@ -35,7 +37,6 @@ export default function server(webpackIsomorphicTools) {
   }
 
 
-  app.use(convert(historyApiFallback()));
 
 
   const server = app.listen(
