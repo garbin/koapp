@@ -22,7 +22,7 @@ export class Root extends React.Component {
         <Navbar dark full color="inverse" className="navbar">
           <div className="container">
             <NavbarBrand style={{marginRight:"30px"}} href="/">
-              Koapp ABC
+              Koapp
             </NavbarBrand>
             <Nav navbar>
               {navs.map((item, k) => (
