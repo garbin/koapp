@@ -26,10 +26,17 @@ export class Root extends React.Component {
             <Nav navbar>
               {navs.map((item, k) => (
                 <NavItem key={k}>
+                  {item.reload ? (
                   <NavLink active={this.context.router.isActive(item.href)}
-                           tag={item.reload ? 'a' : Link} href={item.href} to={item.href}>
-                           {item.label}
+                           href={item.href}>
+                   {item.label}
                   </NavLink>
+                  ) : (
+                  <NavLink active={this.context.router.isActive(item.href)}
+                           tag={Link} to={item.href}>
+                   {item.label}
+                  </NavLink>
+                  )}
                 </NavItem>
               ))}
             </Nav>

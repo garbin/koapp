@@ -27,19 +27,34 @@ var compiler = {
   },
   module: {
     rules: [
-      { test: /\.html$/,
-        loader: 'file?name=[name].[ext]' },
       { test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: [ 'babel' ] },
+        loader: 'babel' },
       { test: /\.(png|jpg|gif)$/,
-        loader: 'file-loader?name=' + asset_dir + 'img/[name].[ext]' },
+        loader: 'file',
+        options: {
+          name: asset_dir + 'img/[name].[ext]'
+        }
+      },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "url-loader?limit=100000&minetype=application/font-woff" },
+        loader: "url-loader",
+        options: {
+          limit: 100000,
+          mimetype: 'application/font-woff'
+        }
+      },
       { test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader?name=" + asset_dir + "fonts/[name].[ext]" },
+        loader: "file-loader",
+        options: {
+          name: asset_dir + "fonts/[name].[ext]"
+        }
+       },
       { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader?name=" + asset_dir + "svg/[name].[ext]" },
+        loader: "file-loader",
+        options: {
+          name: asset_dir + "svg/[name].[ext]"
+        }
+      },
       {
         test: /\.less$/,
         use: [
