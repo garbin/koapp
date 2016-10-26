@@ -18,7 +18,13 @@ var css_options = {
 var compiler = {
   devtool: 'source-map',
   context: path.join(__dirname, '../../src/client'),
-  entry:  './index.js',
+  entry:  {
+    main: './index.js',
+    vendor: [
+      'react', 'redux', 'react-redux', 'react-router-redux', 'react-router',
+      'redux-actions', 'react-dom'
+    ]
+  },
   output: {
     path: path.join(__dirname, '../../storage/public'),
     filename: asset_dir + 'js/[name].js',
@@ -75,10 +81,8 @@ var compiler = {
         context: path.join(__dirname, '../../src/client'),
       }
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'main',
-      async: true,
-    }),
+    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
+    new webpack.optimize.CommonsChunkPlugin({ name: 'main', async: true }),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV) },
       __SERVER__: false,

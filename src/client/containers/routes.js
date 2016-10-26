@@ -7,14 +7,14 @@ import { OAuthComponent, storeInitialize } from 'react-redux-oauth2'
 import { NProgress } from 'redux-nprogress'
 import Notifications from 'react-notification-system-redux'
 
-const Public = s => System.import('./public')
+const Website = s => System.import('./website')
 const Admin = s => System.import('./admin')
 
 const UserIsAuthenticated = UserAuthWrapper({
   authSelector: state => state.oauth.user, // how to get the user state
   failureRedirectPath: '/admin/signin',
   wrapperDisplayName: 'UserIsAuthenticated' // a nice name for this auth check
-})
+});
 
 function store_initialize(store) {
   return function (n, r, cb) {
@@ -55,11 +55,11 @@ export default function (history, store) {
           <ReduxNotifications />
           {props.children}
         </div>}>
-        <Route path="/" getComponent={get(Public, 'Root')}>
-          <IndexRoute getComponent={get(Public, 'Index')} />
-          <Route path="counter" getComponent={get(Public, 'Counter')} />
-          <Route path="async" getComponent={get(Public, 'Async')} />
-          <Route path="auth" getComponent={get(Public, 'Auth')} />
+        <Route path="/" getComponent={get(Website, 'Root')}>
+          <IndexRoute getComponent={get(Website, 'Index')} />
+          <Route path="counter" getComponent={get(Website, 'Counter')} />
+          <Route path="async" getComponent={get(Website, 'Async')} />
+          <Route path="auth" getComponent={get(Website, 'Auth')} />
         </Route>
         <Route path="/admin/signin" getComponent={get(Admin, 'Signin')} />
         <Route path="/admin"

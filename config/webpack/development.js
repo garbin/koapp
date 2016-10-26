@@ -1,5 +1,5 @@
 module.exports = function (compiler) {
-  compiler.devtool = 'cheap-module-eval-source-map';
+  compiler.devtool = 'eval';
 
   return compiler;
 };
