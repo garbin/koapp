@@ -34,7 +34,11 @@ function store_initialize(store) {
   }
 }
 
-function component(promise, resolve) {
+function get(promise, resolve) {
+  if (typeof resolve !== 'function') {
+    let key = resolve;
+    resolve = Module => Module[key];
+  }
   return async s => resolve(await promise(s));
 }
 
@@ -51,25 +55,21 @@ export default function (history, store) {
           <ReduxNotifications />
           {props.children}
         </div>}>
-        <Route getChildRoutes={component(Public, Public => [
-          <Route path="/" component={Public.Root}>
-            <IndexRoute component={Public.Index} />
-            <Route path="counter" component={Public.Counter} />
-            <Route path="async" component={Public.Async} />
-            <Route path="auth" component={Public.Auth} />
-          </Route>
-        ])} />
-        <Route getChildRoutes={component(Admin, Admin => [
-          <Route path="/admin/signin" component={Admin.Signin} />,
-          <Route path="/admin"
-                 component={UserIsAuthenticated(Admin.Root)}
-                 onEnter={store_initialize(store)}>
-            <IndexRoute component={Admin.Index} />
-            <Route path="test" component={Admin.Test} />
-            <Route path="list" component={Admin.List} />
-            <Route path="form" component={Admin.Form} />
-          </Route>
-        ])} />
+        <Route path="/" getComponent={get(Public, 'Root')}>
+          <IndexRoute getComponent={get(Public, 'Index')} />
+          <Route path="counter" getComponent={get(Public, 'Counter')} />
+          <Route path="async" getComponent={get(Public, 'Async')} />
+          <Route path="auth" getComponent={get(Public, 'Auth')} />
+        </Route>
+        <Route path="/admin/signin" getComponent={get(Admin, 'Signin')} />
+        <Route path="/admin"
+               onEnter={store_initialize(store)}
+               getComponent={get(Admin, Admin => UserIsAuthenticated(Admin.Root))}>
+         <IndexRoute getComponent={get(Admin, 'Index')} />
+         <Route path="test" getComponent={get(Admin, 'Test')} />
+         <Route path="list" getComponent={get(Admin, 'List')} />
+         <Route path="form" getComponent={get(Admin, 'Form')} />
+       </Route>
       </Route>
     </Router>
   )
