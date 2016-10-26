@@ -35,13 +35,7 @@ function store_initialize(store) {
 }
 
 function component(promise, resolve) {
-  return async function (s, cb) {
-    try {
-      cb(null, resolve(await promise(s)));
-    } catch (e) {
-      console.error(e);
-    }
-  }
+  return async s => resolve(await promise(s));
 }
 
 export default function (history, store) {
@@ -56,7 +50,7 @@ export default function (history, store) {
           <NProgress />
           <ReduxNotifications />
           {props.children}
-        </div> }>
+        </div>}>
         <Route getChildRoutes={component(Public, Public => [
           <Route path="/" component={Public.Root}>
             <IndexRoute component={Public.Index} />
