@@ -1,4 +1,8 @@
 module.exports = {
+  universal:{
+    ssr: false,
+    server: '/api'
+  },
   port: 5000,
   database : {
     client: 'pg',

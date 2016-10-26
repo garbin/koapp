@@ -6,7 +6,6 @@ import { Navbar, ButtonDropdown, Button,
          DropdownToggle, NavbarBrand,
          Nav, NavItem, NavLink } from 'reactstrap'
 import { OAuthSignin, OAuthSignout, actions } from 'react-redux-oauth2'
-import styles from './themes/default.scss'
 
 export class Root extends React.Component {
   static contextTypes = { router: React.PropTypes.object };
@@ -20,7 +19,7 @@ export class Root extends React.Component {
     let SignoutLink = OAuthSignout(Button);
     return (
       <div>
-        <Navbar dark full color="inverse" className={styles.navbar}>
+        <Navbar dark full color="inverse" className="navbar">
           <div className="container">
             <NavbarBrand style={{marginRight:"30px"}} href="/">Koapp</NavbarBrand>
             <Nav navbar>
@@ -67,9 +66,9 @@ export class Root extends React.Component {
           {this.props.children}
           </div>
         </div>
-        <footer className={styles.footer}>
+        <footer className="footer">
           <div className="container">
-            <ul className={styles.footer_links}>
+            <ul className="footer_links">
               <li><a href="https://github.com/koapi/koapp">GitHub</a></li>
               <li><a href="https://twitter.com/garbinh">Twitter</a></li>
             </ul>

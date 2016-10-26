@@ -56,30 +56,6 @@ var compiler = {
         }
       },
       {
-        test: /\.less$/,
-        use: [
-          'style',
-          {
-            loader: 'css',
-            options: css_options,
-          },
-          'postcss',
-          'less'
-        ]
-      },
-      {
-        test: /\.(scss|sass)$/,
-        use: [
-          'style',
-          {
-            loader: 'css',
-            options: css_options,
-          },
-          'postcss',
-          'sass'
-        ]
-      },
-      {
         test: /\.css$/,
         use: [
           'style', 'css', 'postcss'

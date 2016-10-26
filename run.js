@@ -66,7 +66,7 @@ program.command('build [object]')
          var args = _.slice(options.parent.args, 0, -1).join(' ');
          switch (object) {
            case 'client':
-             shelljs.exec('rm -rf ./storage/public/* && webpack -p --progress --colors --config ./config/webpack');
+             shelljs.exec('rm -rf ./storage/public/* && webpack --progress --colors --config ./config/webpack');
            break;
            case 'docs':
              shelljs.exec(`npm run build schemas && apidoc --debug -i ./src -o ./docs -f \".*\\.es$ \" -f \".*\\.js$\" ${args}`)
