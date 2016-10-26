@@ -95,7 +95,8 @@ var compiler = {
     }),
   ],
   devServer: {
-    hot: true,
+    hot: false,
+    compress: true,
     port: config.client_dev_port || config.port + 1
   }
 }

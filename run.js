@@ -44,7 +44,7 @@ program.command('start [what]')
  .action(function (what, options) {
    switch (what) {
      case 'client':
-     shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --hot --inline --progress --host 0.0.0.0`);
+     shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --inline --progress --host 0.0.0.0`);
      break;
      case 'server':
      shelljs.exec(`nodemon --harmony --watch src/server -L -e js,es,jsx run.js -- server`);

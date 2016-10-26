@@ -21,7 +21,9 @@ export class Root extends React.Component {
       <div>
         <Navbar dark full color="inverse" className="navbar">
           <div className="container">
-            <NavbarBrand style={{marginRight:"30px"}} href="/">Koapp</NavbarBrand>
+            <NavbarBrand style={{marginRight:"30px"}} href="/">
+              Koapp ABC
+            </NavbarBrand>
             <Nav navbar>
               {navs.map((item, k) => (
                 <NavItem key={k}>
