@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { connect } from 'react-redux'
+import { connect } from '../../lib/helper'
 import classnames from 'classnames'
 import BodyClassname from 'react-body-classname'
 import Dropdown from 'react-aria-menubutton'
@@ -8,6 +8,7 @@ import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import { OAuthSignout } from 'react-redux-oauth2'
 import Metismenu from 'react-metismenu'
 import RouterLink from 'react-metismenu-router-link'
+import { actions } from '../../reduxers/website'
 
 const menu = [
   {label:'控制台', icon: 'fa fa-dashboard', to: '/admin'},
@@ -20,33 +21,22 @@ const menu = [
   ]},
 ];
 
-export default class Root extends React.Component {
+export class Root extends React.Component {
   render(){
     if (__SERVER__) {
       BodyClassname.rewind();
     }
 
-    let {authData} = this.props;
+    let {authData, actions, sidebar_open} = this.props;
 
-    // let menu = [
-    //   {key:"dashboard", label:'控制台', icon: 'fa fa-dashboard', href: '/admin'},
-    //   {key:"resource", label:'菜单', href:"/admin/list", icon: 'fa fa-file', children:[
-    //     {key:"resource_table", label:'列表', icon: 'fa fa-table', href: '/admin/list'},
-    //     {key:"resource_form", label:'表单', icon: 'fa fa-pencil-square-o', href: '/admin/form'},
-    //   ]},
-    //   {key:"resource1", label:'菜单', href:"/admin/table", icon: 'fa fa-file', children:[
-    //     {key:"resource_table1", label:'列表', icon: 'fa fa-table', href: '/admin/table'},
-    //     {key:"resource_form1", label:'表单', icon: 'fa fa-pencil-square-o', href: '/admin/form'},
-    //   ]},
-    // ];
     let SignoutLink  = OAuthSignout(props => <a {...props} />);
     return (
       <BodyClassname className="loaded">
         <div className="main-wrapper">
-            <div className="app header-fixed sidebar-fixed" id="app">
+            <div className={classnames("app header-fixed sidebar-fixed", {'sidebar-open':sidebar_open})} id="app">
                 <header className="header">
                     <div className="header-block header-block-collapse hidden-lg-up">
-                      <button className="collapse-btn" id="sidebar-collapse-btn">
+                      <button className="collapse-btn" id="sidebar-collapse-btn" onClick={e => actions.sidebarToggle()}>
                         <i className="fa fa-bars"></i>
                       </button>
                     </div>
@@ -104,7 +94,7 @@ export default class Root extends React.Component {
                                iconNameStateVisible="fa arrow" />
                   </div>
                 </aside>
-                <div className="sidebar-overlay" id="sidebar-overlay"></div>
+                <div className="sidebar-overlay" onClick={actions.sidebarToggle} id="sidebar-overlay"></div>
                 {this.props.children}
                 <footer className="footer" style={{width:'100%'}}>
                     <div className="footer-block author text-xs-right">
@@ -120,52 +110,4 @@ export default class Root extends React.Component {
   }
 }
 
-                            // <Dropdown.Wrapper tag="li" className="notifications new open" onSelection={function(){}}>
-                            //   <Dropdown.Button tag="a" href="#">
-                            //     <i className="fa fa-bell-o"></i>
-                            //     <sup>
-                            //       <span className="counter">8</span>
-                            //     </sup>
-                            //   </Dropdown.Button>
-                            //   <Dropdown.Menu className='dropdown-menu notifications-dropdown-menu'>
-                            //     <ul className="notifications-container">
-                            //       <li>
-                            //         <a href="" className="notification-item">
-                            //           <div className="img-col">
-                            //             <div className="img"></div>
-                            //           </div>
-                            //           <div className="body-col">
-                            //             <p> <span className="accent">Zack Alien</span> pushed new commit: <span className="accent">Fix page load performance issue</span>. </p>
-                            //           </div>
-                            //         </a>
-                            //       </li>
-                            //       <li>
-                            //         <a href="" className="notification-item">
-                            //           <div className="img-col">
-                            //             <div className="img"></div>
-                            //           </div>
-                            //           <div className="body-col">
-                            //             <p> <span className="accent">Amaya Hatsumi</span> started new task: <span className="accent">Dashboard UI design.</span>. </p>
-                            //           </div>
-                            //         </a>
-                            //       </li>
-                            //       <li>
-                            //         <a href="" className="notification-item">
-                            //           <div className="img-col">
-                            //             <div className="img"></div>
-                            //           </div>
-                            //           <div className="body-col">
-                            //             <p> <span className="accent">Andy Nouman</span> deployed new version of <span className="accent">NodeJS REST Api V3</span> </p>
-                            //           </div>
-                            //         </a>
-                            //       </li>
-                            //     </ul>
-                            //     <footer>
-                            //       <ul>
-                            //         <li> <a href="">
-                            //           View All
-                            //         </a> </li>
-                            //       </ul>
-                            //     </footer>
-                            //   </Dropdown.Menu>
-                            // </Dropdown.Wrapper>
+export default connect(state => ({sidebar_open:state.sidebar_open}), actions)(Root);
