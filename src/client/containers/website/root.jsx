@@ -22,7 +22,7 @@ export class Root extends React.Component {
         <Navbar dark full color="inverse" className="navbar">
           <div className="container">
             <NavbarBrand style={{marginRight:"30px"}} href="/">
-              Koapp
+              Koapp DEF
             </NavbarBrand>
             <Nav navbar>
               {navs.map((item, k) => (

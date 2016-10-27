@@ -19,7 +19,10 @@ var compiler = {
   devtool: 'source-map',
   context: path.join(__dirname, '../../src/client'),
   entry:  {
-    main: './index.js',
+    main: [
+      'react-hot-loader/patch',
+      './index.js'
+    ],
     vendor: [
       'react', 'redux', 'react-redux', 'react-router-redux', 'react-router',
       'redux-actions', 'react-dom'
@@ -81,6 +84,7 @@ var compiler = {
         context: path.join(__dirname, '../../src/client'),
       }
     }),
+    new webpack.NamedModulesPlugin(),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'main', async: true }),
     new webpack.DefinePlugin({
@@ -95,7 +99,7 @@ var compiler = {
     }),
   ],
   devServer: {
-    hot: false,
+    hot: true,
     compress: true,
     port: config.client_dev_port || config.port + 1
   }

@@ -5,7 +5,7 @@ import { table } from '../../lib/helper'
 
 export class List extends React.Component {
   render(){
-    return <div>test</div>;
+    return <div>test111</div>;
   }
 }
 
