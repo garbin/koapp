@@ -3,7 +3,7 @@ import { Router } from 'koapi'
 
 export const router =  Router.define(router => {
   router.get('/', async(ctx)=>{
-    ctx.body = 'subdomain api';
+    ctx.body = 'api';
   })
 });
 
