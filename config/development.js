@@ -10,7 +10,7 @@ module.exports = {
       host     : 'localhost',
       user     : 'postgres',
       password : '123456',
-      database : 'koapi_boilerplate',
+      database : 'koapp',
       charset  : 'utf8'
     },
   },

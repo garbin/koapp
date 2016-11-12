@@ -59,6 +59,7 @@
     "axios": "^0.15.2",
     "better-react-spinkit": "^2.0.0-4",
     "blueimp-md5": "^2.4.0",
+    "bookshelf-modelbase": "https://github.com/garbin/bookshelf-modelbase.git",
     "bootstrap": "^4.0.0-alpha.5",
     "bull": "^1.0.0",
     "bull-ui": "^1.2.1",

@@ -63,10 +63,10 @@ passport.use(new BasicStrategy(
 passport.use(new ClientPasswordStrategy(
   async function(client_id, client_secret, done) {
     try {
-      let client = await Client.where({client_id, client_secret}).fetch({require:true})
+      let client = await Client.where({id: client_id, client_secret}).fetch({require:true})
       done(null, client);
     } catch (e) {
-      done(creaate_error(401, e), false);
+      done(create_error(401, e), false);
     }
   }
 ));

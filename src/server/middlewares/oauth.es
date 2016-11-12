@@ -11,7 +11,7 @@ server.exchange(oauth2orize.exchange.password(async (client, username, password,
     // 验证用户名密码
     let user   = await User.auth(username, password);
     // 签发Token
-    let token  = await Token.issue(client.get('client_id'), user.get('id').toString());
+    let token  = await Token.issue(client.get('id'), user.get('id').toString());
     return [token.get('access_token'), token.get('refresh_token'), {
       expires: 7200
     }];

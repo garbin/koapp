@@ -7,10 +7,7 @@ suite(({ResourceTester, request, expect, test}) => {
 
   // POST
   tester.create({
-    client_secret: 'aaa',
     redirect_uri: 'abc',
-    grant_types: 'aaa',
-    scope: 'aaa',
     user_id: '111',
   }, token).test();
 
@@ -18,5 +15,5 @@ suite(({ResourceTester, request, expect, test}) => {
   // GET
   tester.read().catch(e => expect(e).to.have.status(401)).test();
   tester.read(token).test();
-  tester.read('123', token).test();
+  tester.read('0f434d4b-06bf-4cb2-b8f4-f20bf9349beb', token).test();
 });

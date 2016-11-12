@@ -1,14 +1,13 @@
 exports.up = function(knex, Promise) {
   return knex.schema
              .createTable('oauth_clients', function (table) {
-               table.string('client_id').primary();
+               table.uuid('id').primary();
                table.string('client_secret');
                table.string('redirect_uri');
                table.string('grant_types');
                table.string('scope');
                table.string('user_id');
-               table.timestamp('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-               table.timestamp('updated_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+               table.timestamps(true, knex.fn.now());
              })
              .createTable('oauth_authorization_codes', function (table) {
                table.string('code').primary();

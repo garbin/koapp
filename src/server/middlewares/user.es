@@ -8,7 +8,7 @@ export default {
       await ctx.state.user.load('roles');
       let result = ctx.state.user.related('roles').find(role => {
         // super role
-        if (role.get('permissions')['all'] === true)  return true;
+        if (role.get('permissions') === true)  return true;
 
         // check permission item
         return role.get('permissions')[permission] === true;

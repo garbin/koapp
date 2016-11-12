@@ -26,17 +26,16 @@ export default class Token extends bookshelf.Model {
     access_token_expires_at: Joi.date(),
     refresh_token_expires_at: Joi.date(),
   };
-  static async issue(client_id, user_id){
+  static async issue(client_id, user_id, options){
     let token = new this();
-    token = await token.save({
+    token = await token.save(Object.assign({
       client_id,
       user_id,
-      scope: 'all',
       access_token: md5(uuid.v1()),
       access_token_expires_at: moment().add(1, 'days').toDate(),
       refresh_token: md5(uuid.v1()),
       refresh_token_expires_at: moment().add(30, 'days').toDate()
-    });
+    }, options));
 
     return token;
   }

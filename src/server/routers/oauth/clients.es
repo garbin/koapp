@@ -8,7 +8,6 @@ export default ResourceRouter.define({
   root: '/oauth/clients',
   name: 'clients',
   fields: omit(Client.fields, ['client_secret', 'user_id']),
-  id: 'client_id',
   setup(router){
     router.use(user.grant('admin.oauth'));
 

@@ -1,6 +1,7 @@
 import { bookshelf } from 'koapi/lib/model';
 import Joi from 'joi';
 import Role from './role'
+import Post from './post'
 import Account from './user_account'
 import md5 from 'blueimp-md5'
 
@@ -12,6 +13,9 @@ export default class User extends bookshelf.Model {
   }
   accounts(){
     return this.hasMany(Account);
+  }
+  posts(){
+    return this.hasMany(Post);
   }
 
   static fields = {
