@@ -20,9 +20,9 @@ server.exchange(oauth2orize.exchange.password(async (client, username, password,
   }
 }));
 
-server.exchange(oauth2orize.exchange.refreshToken(async (client, refreshToken, scope) => {
+server.exchange(oauth2orize.exchange.refreshToken(async (client, refresh_token, scope) => {
   try {
-    let token = await Token.where({token:refreshToken, type:'refresh'}).fetch({require:true});
+    let token = await Token.where({refresh_token}).fetch({require:true});
     let new_token = await Token.issue(token.get('client_id'), token.get('user_id'));
     return [new_token.get('access_token'), new_token.get('refresh_token'), {
       expires: 7200
