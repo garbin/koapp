@@ -1,18 +1,18 @@
-import { storeInitialize } from 'react-redux-oauth2'
+import { storeInitialize } from 'react-redux-oauth2';
 import { Provider } from 'react-redux';
-import { ReduxAsyncConnect, loadOnServer } from 'redux-connect'
+import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import createHistory from 'react-router/lib/createMemoryHistory';
 import routes from '../../client/containers/routes';
-import HTML from '../../client/components/html'
-import createStore from '../../client/store'
+import HTML from '../../client/components/html';
+import createStore from '../../client/store';
 
 export default function (webpackIsomorphicTools) {
   return async (ctx, next) => {
-    if (process.env.NODE_ENV == 'development') {
+    if (process.env.NODE_ENV === 'development') {
       webpackIsomorphicTools.refresh();
     }
 
@@ -24,21 +24,15 @@ export default function (webpackIsomorphicTools) {
         await storeInitialize(ctx.req.headers.cookie || '', store);
       } catch (e) {}
 
-      try {
-        var { redirectLocation, renderProps } = await new Promise((resolve, reject)=>{
-          match({ history, routes: routes(history, store).props.children, location: ctx.request.url }, (error, redirectLocation, renderProps) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve({redirectLocation, renderProps});
-            }
-          });
+      let { redirectLocation, renderProps } = await new Promise((resolve, reject) => {
+        match({ history, routes: routes(history, store).props.children, location: ctx.request.url }, (error, redirectLocation, renderProps) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve({ redirectLocation, renderProps });
+          }
         });
-      } catch (e) {
-        console.log(e);
-        return await next();
-        // return ctx.throw(e, 404);
-      }
+      });
       if (redirectLocation) {
         ctx.redirect(redirectLocation.pathname + redirectLocation.search);
       } else if (renderProps) {
@@ -53,15 +47,16 @@ export default function (webpackIsomorphicTools) {
         ctx.body = `
         <!doctype html>
         ${ReactDOM.renderToStaticMarkup(
-          <HTML assets={webpackIsomorphicTools.assets()}
-          component={component}
-          store={store} />)}`;
+          <HTML
+            assets={webpackIsomorphicTools.assets()}
+            component={component}
+            store={store}
+          />)}`;
         return;
       }
     } catch (e) {
       console.log(e);
-      return await next();
     }
-    return await next();
-  }
+    await next();
+  };
 }

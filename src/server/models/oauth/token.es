@@ -1,19 +1,19 @@
 import { bookshelf } from 'koapi/lib/model';
 import Joi from 'joi';
-import moment from 'moment'
-import md5 from 'blueimp-md5'
-import uuid from 'node-uuid'
-import User from '../user'
+import moment from 'moment';
+import md5 from 'blueimp-md5';
+import uuid from 'node-uuid';
+import User from '../user';
 
 export default class Token extends bookshelf.Model {
-  get tableName(){
-    return 'oauth_tokens'
+  get tableName() {
+    return 'oauth_tokens';
   }
-  get hasTimestamps(){
+  get hasTimestamps() {
     return true;
   }
 
-  user(){
+  user() {
     return this.belongsTo(User);
   }
 
@@ -26,7 +26,7 @@ export default class Token extends bookshelf.Model {
     access_token_expires_at: Joi.date(),
     refresh_token_expires_at: Joi.date(),
   };
-  static async issue(client_id, user_id, options){
+  static async issue(client_id, user_id, options) {
     let token = new this();
     token = await token.save(Object.assign({
       client_id,
@@ -34,7 +34,7 @@ export default class Token extends bookshelf.Model {
       access_token: md5(uuid.v1()),
       access_token_expires_at: moment().add(1, 'days').toDate(),
       refresh_token: md5(uuid.v1()),
-      refresh_token_expires_at: moment().add(30, 'days').toDate()
+      refresh_token_expires_at: moment().add(30, 'days').toDate(),
     }, options));
 
     return token;

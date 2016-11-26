@@ -1,11 +1,10 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
 
 export function loadable(Component) {
   return props => {
-    let { loading, loadingSpinner, children, ...rest } = props;
-    loadingSpinner = loadingSpinner || 'loading...';
+    const { loading, loadingSpinner, children, ...rest } = props;
+    const spinner = loadingSpinner || 'loading...';
 
-    return (<Component {...rest}>{loading ? loadingSpinner : children}</Component>)
-  }
+    return (<Component {...rest}>{loading ? spinner : children}</Component>);
+  };
 }

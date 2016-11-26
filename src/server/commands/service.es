@@ -1,19 +1,19 @@
-import cluster from 'throng'
-import _ from 'lodash'
-import log from 'winston'
+import cluster from 'throng';
+import _ from 'lodash';
+import log from 'winston';
 
-function run_service(services) {
+function runService(services) {
   return function (pid) {
-    services.forEach(function (service) {
+    services.forEach(service => {
       service.start(pid);
       process.on('SIGTERM', service.stop.bind(service.stop, pid));
     });
-  }
+  };
 }
 
-function run_command(services, cluster_mode) {
-  var master = run_service(services.master);
-  var worker = run_service(services.worker);
+function runCommand(services, cluster_mode) {
+  let master = runService(services.master);
+  let worker = runService(services.worker);
   if (cluster_mode) {
     log.info('cluster enabled, workers:%s, PID:', require('os').cpus().length, process.pid);
     cluster({ master, start: worker });
@@ -27,22 +27,23 @@ function run_command(services, cluster_mode) {
 export default {
   command: 'service [name]',
   description: 'service',
-  options:{
-    '-x, --cluster': 'cluster mode'
+  options: {
+    '-x, --cluster': 'cluster mode',
   },
   action: (name, options, a, b, c) => {
-    var services = {};
+    let services = {};
     if (name) {
-      var service = require('../services/' + name).default;
-      var start, stop;
-          start = stop = function(){};
+      let service = require(`../services/${name}`).default;
+      let start;
+      let stop;
+      start = stop = function(){};
       services = {
-        master: [ {start, stop} ],
-        worker: [ service ]
+        master: [{ start, stop }],
+        worker: [service],
       };
     } else {
       services = require('../services').default;
     }
-    run_command(services, options.cluster);
-  }
+    runCommand(services, options.cluster);
+  },
 };

@@ -1,7 +1,7 @@
-import {server} from '../../__lib__/init'
-import suite from 'koapi/lib/test'
+import suite from 'koapi/lib/test';
+import { server } from '../../__lib__/init';
 
-suite(({ResourceTester, request, expect, test}) => {
+suite(({ ResourceTester, request, expect, test }) => {
   let tester = new ResourceTester(server, '/oauth/clients');
   let token = req => req.set('Authorization', 'Bearer 691ae08f7b038e5b09983d2435d3a878');
 

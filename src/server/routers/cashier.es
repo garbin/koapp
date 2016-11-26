@@ -1,12 +1,11 @@
-import { Router } from 'koapi'
-import _ from 'lodash'
-import payments from '../middlewares/payments'
-import config from '../../../config'
-import { Order } from 'paymentjs'
+import { Router } from 'koapi';
+import _ from 'lodash';
+import { Order } from 'paymentjs';
+import payments from '../middlewares/payments';
+import config from '../../../config';
 
 export default Router.define(router => {
-
-  router.get('/cashier/:gateway', payments(), async(ctx, next)=>{
+  router.get('/cashier/:gateway', payments(), async(ctx, next) => {
     let payment = ctx.state.payments[ctx.params.gateway];
     let response = await payment.purchase(new Order({
       amount: 100,
@@ -22,7 +21,7 @@ export default Router.define(router => {
       ctx.body = response.body;
     }
   });
-  router.get('/cashier/:gateway/callback', payments(), async(ctx, next)=>{
+  router.get('/cashier/:gateway/callback', payments(), async(ctx, next) => {
     let payment = ctx.state.payments[ctx.params.gateway];
     let response = await payment.response(ctx.request.query);
     if (await response.isSuccess()) {
@@ -31,5 +30,4 @@ export default Router.define(router => {
       ctx.body = response.body;
     }
   });
-
 });

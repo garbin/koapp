@@ -1,7 +1,7 @@
 import { bookshelf } from 'koapi/lib/model';
 import Joi from 'joi';
-import md5 from 'blueimp-md5'
-import moment from 'moment'
+import md5 from 'blueimp-md5';
+import moment from 'moment';
 
 export default class Client extends bookshelf.Model {
   static fields = {
@@ -14,10 +14,10 @@ export default class Client extends bookshelf.Model {
   get tableName() {
     return 'oauth_clients';
   }
-  get hasTimestamps(){
+  get hasTimestamps() {
     return true;
   }
-  get uuid(){
+  get uuid() {
     return true;
   }
 }

@@ -3,13 +3,13 @@ import Comment from './comment';
 import Joi from 'joi';
 
 export default class Post extends bookshelf.Model {
-  get tableName(){
+  get tableName() {
     return 'posts';
   }
-  get hasTimestamps(){
+  get hasTimestamps() {
     return true;
   }
-  comments(){
+  comments() {
     return this.hasMany(Comment);
   }
 

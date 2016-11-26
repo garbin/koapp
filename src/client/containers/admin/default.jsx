@@ -1,13 +1,12 @@
-import React from 'react'
-import {asyncConnect} from 'redux-connect'
-import {connect} from '../../lib/helper'
+import React from 'react';
+import { connect } from '../../lib/helper';
 
 export class Dashboard extends React.Component {
-  render(){
+  render() {
     return (
       <div>Dashboard</div>
     );
   }
 }
 
-export default connect(state => ({oauth:state.oauth}))(Dashboard);
+export default connect(state => ({ oauth: state.oauth }))(Dashboard);

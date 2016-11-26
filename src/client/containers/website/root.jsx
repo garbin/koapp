@@ -1,42 +1,44 @@
-import React from 'react'
-import { Link } from 'react-router'
-import { connect } from 'react-redux'
-import { Navbar, ButtonDropdown, Button,
-         DropdownMenu, DropdownItem,
-         DropdownToggle, NavbarBrand,
-         Nav, NavItem, NavLink } from 'reactstrap'
-import { OAuthSignin, OAuthSignout, actions } from 'react-redux-oauth2'
+import React from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { Navbar, Button, NavbarBrand,
+         Nav, NavItem, NavLink } from 'reactstrap';
+import { OAuthSignout } from 'react-redux-oauth2';
 
 export class Root extends React.Component {
   static contextTypes = { router: React.PropTypes.object };
-  render(){
+  render() {
     let { oauth } = this.props;
     let navs = [
       { label: 'Counter', href: '/counter' },
       { label: 'Async', href: '/async' },
-      { label: 'Admin', href: '/admin', reload: true }
+      { label: 'Admin', href: '/admin', reload: true },
     ];
     let SignoutLink = OAuthSignout(Button);
     return (
       <div>
         <Navbar dark full color="inverse" className="navbar">
           <div className="container">
-            <NavbarBrand style={{marginRight:"30px"}} href="/">
+            <NavbarBrand style={{ marginRight: '30px' }} href="/">
               Koapp
             </NavbarBrand>
             <Nav navbar>
               {navs.map((item, k) => (
                 <NavItem key={k}>
                   {item.reload ? (
-                  <NavLink active={this.context.router.isActive(item.href)}
-                           href={item.href}>
-                   {item.label}
-                  </NavLink>
+                    <NavLink
+                      active={this.context.router.isActive(item.href)}
+                      href={item.href}
+                    >
+                      {item.label}
+                    </NavLink>
                   ) : (
-                  <NavLink active={this.context.router.isActive(item.href)}
-                           tag={Link} to={item.href}>
-                   {item.label}
-                  </NavLink>
+                    <NavLink
+                      active={this.context.router.isActive(item.href)}
+                      tag={Link} to={item.href}
+                    >
+                      {item.label}
+                    </NavLink>
                   )}
                 </NavItem>
               ))}
@@ -52,7 +54,7 @@ export class Root extends React.Component {
                   <NavLink tag={SignoutLink} color="link">
                     Signout
                   </NavLink>
-                </NavItem>
+                </NavItem>,
               ] : (
                 <NavItem>
                   <NavLink tag={Link} to="/auth">
@@ -65,7 +67,7 @@ export class Root extends React.Component {
         </Navbar>
         <div className="container">
           <div className="jumbotron">
-          {this.props.children}
+            {this.props.children}
           </div>
         </div>
         <footer className="footer">
@@ -82,4 +84,4 @@ export class Root extends React.Component {
   }
 }
 
-export default connect(state => ({oauth:state.oauth}))(Root);
+export default connect(state => ({ oauth: state.oauth }))(Root);

@@ -1,7 +1,7 @@
-import queue from './queue'
-import scheduler from './scheduler'
+import queue from './queue';
+import scheduler from './scheduler';
 
 export default {
-  master: [ scheduler ],
-  worker: [ queue ]
+  master: [scheduler],
+  worker: [queue],
 };

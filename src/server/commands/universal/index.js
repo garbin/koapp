@@ -1,23 +1,23 @@
 // import server from '../'
-import config from '../../../../config'
-import path from 'path'
+import path from 'path';
+import config from '../../../../config';
 
 export default {
   command: 'universal',
   description: 'run universal server',
-  action: (options) => {
+  action: options => {
     if (config.universal.ssr) {
-      var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-      var tools_config = require('../../../../config/webpack/isomorphic-tools');
-      var webpackIsomorphicTools = new WebpackIsomorphicTools(tools_config);
+      const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
+      const toolsConfig = require('../../../../config/webpack/isomorphic-tools');
+      const webpackIsomorphicTools = new WebpackIsomorphicTools(toolsConfig);
       webpackIsomorphicTools.server(
-        path.resolve(__dirname + '/../../../client'),
-        function () {
+        path.resolve(`${__dirname}/../../../client`),
+        () => {
           global.__SERVER__ = true;
           require('./server').default(webpackIsomorphicTools);
-      });
+        });
     } else {
       require('./server').default();
     }
-  }
+  },
 };

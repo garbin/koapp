@@ -1,5 +1,5 @@
-import {server} from '../../__lib__/init'
-import {test, expect, request} from 'koapi/lib/test'
+import { test, expect, request } from 'koapi/lib/test';
+import { server } from '../../__lib__/init';
 
 
 test('GET /auth/github', t =>

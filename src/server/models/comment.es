@@ -1,12 +1,12 @@
 import { bookshelf } from 'koapi/lib/model';
-import Joi from 'joi'
+import Joi from 'joi';
 
 
 export default class Comment extends bookshelf.Model {
-  get tableName(){
-    return 'comments'
+  get tableName() {
+    return 'comments';
   }
-  get hasTimestamps(){
+  get hasTimestamps() {
     return true;
   }
 

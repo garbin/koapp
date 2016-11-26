@@ -1,16 +1,16 @@
 import { bookshelf } from 'koapi/lib/model';
 import Joi from 'joi';
-import User from './user'
+import User from './user';
 
 
 export default class Role extends bookshelf.Model {
-  get tableName(){
+  get tableName() {
     return 'roles';
   }
-  get hasTimestamps(){
+  get hasTimestamps() {
     return false;
   }
-  users(){
+  users() {
     return this.belongsToMany(User, 'user2role');
   }
 

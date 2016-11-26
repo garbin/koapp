@@ -1,25 +1,25 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import { Router, Route, IndexRoute } from 'react-router'
-import { ReduxAsyncConnect } from 'redux-connect'
-import { UserAuthWrapper } from 'redux-auth-wrapper'
-import { OAuthComponent, storeInitialize } from 'react-redux-oauth2'
-import { NProgress } from 'redux-nprogress'
-import Notifications from 'react-notification-system-redux'
+import { connect } from 'react-redux';
+import { Router, Route, IndexRoute } from 'react-router';
+import { ReduxAsyncConnect } from 'redux-connect';
+import { UserAuthWrapper } from 'redux-auth-wrapper';
+import { OAuthComponent, storeInitialize } from 'react-redux-oauth2';
+import { NProgress } from 'redux-nprogress';
+import Notifications from 'react-notification-system-redux';
 
-const Website = s => System.import('./website')
-const Admin = s => System.import('./admin')
+const Website = s => System.import('./website');
+const Admin = s => System.import('./admin');
 
 const UserIsAuthenticated = UserAuthWrapper({
   authSelector: state => state.oauth.user, // how to get the user state
   failureRedirectPath: '/admin/signin',
-  wrapperDisplayName: 'UserIsAuthenticated' // a nice name for this auth check
+  wrapperDisplayName: 'UserIsAuthenticated', // a nice name for this auth check
 });
 
 function store_initialize(store) {
   return function (n, r, cb) {
     if (!__SERVER__) {
-      let { oauth: { user } } = store.getState();
+      const { oauth: { user } } = store.getState();
       if (!user) {
         storeInitialize(document.cookie, store).then(data => cb()).catch(e => {
           console.error(e);
@@ -31,30 +31,32 @@ function store_initialize(store) {
     } else {
       cb();
     }
-  }
+  };
 }
 
 function get(promise, resolve) {
   if (typeof resolve !== 'function') {
-    let key = resolve;
+    const key = resolve;
     resolve = Module => Module[key];
   }
   return async s => resolve(await promise(s));
 }
 
 export default function (history, store) {
-  let ReduxNotifications = connect(
-    state => ({notifications:state.notifications})
+  const ReduxNotifications = connect(
+    state => ({ notifications: state.notifications })
   )(Notifications);
 
   return (
-    <Router render={props => <ReduxAsyncConnect {...props}/>} history={history}>
-      <Route component={props =>
-        <div>
-          <NProgress />
-          <ReduxNotifications />
-          {props.children}
-        </div>}>
+    <Router render={props => <ReduxAsyncConnect {...props} />} history={history}>
+      <Route
+        component={props =>
+          <div>
+            <NProgress />
+            <ReduxNotifications />
+            {props.children}
+          </div>}
+      >
         <Route path="/" getComponent={get(Website, 'Root')}>
           <IndexRoute getComponent={get(Website, 'Index')} />
           <Route path="counter" getComponent={get(Website, 'Counter')} />
@@ -62,15 +64,17 @@ export default function (history, store) {
           <Route path="auth" getComponent={get(Website, 'Auth')} />
         </Route>
         <Route path="/admin/signin" getComponent={get(Admin, 'Signin')} />
-        <Route path="/admin"
-               onEnter={store_initialize(store)}
-               getComponent={get(Admin, Admin => UserIsAuthenticated(Admin.Root))}>
-         <IndexRoute getComponent={get(Admin, 'Index')} />
-         <Route path="test" getComponent={get(Admin, 'Test')} />
-         <Route path="list" getComponent={get(Admin, 'List')} />
-         <Route path="form" getComponent={get(Admin, 'Form')} />
-       </Route>
+        <Route
+          path="/admin"
+          onEnter={store_initialize(store)}
+          getComponent={get(Admin, Admin => UserIsAuthenticated(Admin.Root))}
+        >
+          <IndexRoute getComponent={get(Admin, 'Index')} />
+          <Route path="test" getComponent={get(Admin, 'Test')} />
+          <Route path="list" getComponent={get(Admin, 'List')} />
+          <Route path="form" getComponent={get(Admin, 'Form')} />
+        </Route>
       </Route>
     </Router>
-  )
+  );
 }

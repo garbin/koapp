@@ -1,7 +1,6 @@
 var webpack = require('webpack');
 // var DashboardPlugin = require('webpack-dashboard/plugin');
 var path = require('path');
-var rucksack = require('rucksack-css');
 var cssnext  = require('postcss-cssnext');
 var nested  = require('postcss-nested');
 var autoprefixer = require('autoprefixer');
@@ -35,9 +34,9 @@ var compiler = {
     rules: [
       { test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel' },
+        loader: 'babel-loader' },
       { test: /\.(png|jpg|gif)$/,
-        loader: 'file',
+        loader: 'file-loader',
         options: {
           name: asset_dir + 'img/[name].[ext]'
         }
@@ -64,7 +63,7 @@ var compiler = {
       {
         test: /\.css$/,
         use: [
-          'style', 'css', 'postcss'
+          'style-loader', 'css-loader', 'postcss-loader'
         ]
       }
     ],

@@ -29,7 +29,7 @@ const app = new Koapi();
 app.setup(Object.assign({
   middlewares: require('./middlewares'),
   routers: require('./routers').default,
-  serve: { root: storage('/public') }
+  serve: { root: storage('/public') },
 }, config));
 
 

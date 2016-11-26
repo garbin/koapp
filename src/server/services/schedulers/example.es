@@ -1,7 +1,7 @@
-import schedule from 'node-schedule'
-import {queue} from '../queues/resque'
-import {queue as mailer} from '../queues/bull'
-import log from 'koapi/lib/logger'
+import schedule from 'node-schedule';
+import log from 'koapi/lib/logger';
+import { queue } from '../queues/resque';
+import { queue as mailer } from '../queues/bull';
 
 const jobs = {};
 
@@ -13,8 +13,8 @@ export default {
     if (!jobs[1]) {
       let job = schedule.scheduleJob('*/3 * * * * *', async () => {
         try {
-          await queue.enqueue('mailer', {Hello:'World'});
-          await mailer.add({Hello:"World!"});
+          await queue.enqueue('mailer', { Hello: 'World' });
+          await mailer.add({ Hello: 'World!' });
           log.info('msg send');
         } catch (e) {
           log.error(e);
@@ -23,5 +23,5 @@ export default {
       jobs[1] = job;
     }
     log.info('ran into scheduler example');
-  }
+  },
 };

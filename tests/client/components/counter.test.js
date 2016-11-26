@@ -1,8 +1,8 @@
-import React from 'react'
-import { shallow, mount } from 'enzyme'
-import Counter from '../../../src/client/components/counter'
-import {test, expect} from 'koapi/lib/test'
-import sinon from 'sinon'
+import React from 'react';
+import { shallow, mount } from 'enzyme';
+import { test, expect } from 'koapi/lib/test';
+import sinon from 'sinon';
+import Counter from '../../../src/client/components/counter';
 
 test('components should render correctly', t => {
   let increase = sinon.spy();

@@ -29,6 +29,103 @@
       "react-hot-loader/babel"
     ]
   },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "env": {
+      "browser": true,
+      "node": true,
+      "mocha": true,
+      "es6": true
+    },
+    "plugins": [
+      "jsx-a11y"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "arrow-parens": [
+        "error",
+        "as-needed"
+      ],
+      "arrow-body-style": [
+        2,
+        "as-needed"
+      ],
+      "comma-dangle": [
+        2,
+        "always-multiline"
+      ],
+      "no-console": 0,
+      "no-shadow": 0,
+      "new-cap": 0,
+      "prefer-const": 1,
+      "consistent-return": 1,
+      "no-param-reassign": 1,
+      "no-empty": 0,
+      "no-unused-vars": 1,
+      "camelcase": 1,
+      "global-require": 0,
+      "import/extensions": 0,
+      "import/imports-first": 1,
+      "import/newline-after-import": 0,
+      "import/no-dynamic-require": 0,
+      "import/no-extraneous-dependencies": 0,
+      "import/no-named-as-default": 0,
+      "import/no-unresolved": 2,
+      "import/prefer-default-export": 0,
+      "indent": [
+        2,
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "jsx-a11y/aria-props": 2,
+      "jsx-a11y/heading-has-content": 0,
+      "jsx-a11y/href-no-hash": 1,
+      "jsx-a11y/label-has-for": 2,
+      "jsx-a11y/mouse-events-have-key-events": 2,
+      "jsx-a11y/role-has-required-aria-props": 2,
+      "jsx-a11y/role-supports-aria-props": 2,
+      "max-len": 0,
+      "newline-per-chained-call": 0,
+      "no-use-before-define": 0,
+      "no-underscore-dangle": 0,
+      "prefer-template": 2,
+      "class-methods-use-this": 0,
+      "react/prop-types": 0,
+      "react/forbid-prop-types": 0,
+      "react/no-danger": 0,
+      "react/no-multi-comp": 0,
+      "react/jsx-first-prop-new-line": [
+        2,
+        "multiline"
+      ],
+      "react/jsx-filename-extension": 0,
+      "react/jsx-no-target-blank": 0,
+      "react/require-extension": 0,
+      "react/prefer-stateless-function": 0,
+      "react/self-closing-comp": 0
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [
+            ".json",
+            ".js",
+            ".jsx",
+            ".es"
+          ]
+        }
+      }
+    }
+  },
   "ava": {
     "files": [
       "tests/**/*.test.{js,es}",
@@ -87,6 +184,7 @@
     "koa-static": "^2.0.0",
     "koa-static-server": "^1.0.0",
     "koa-webpack-middleware": "^1.0.1",
+    "koapi": "^0.2.88",
     "lodash": "^4.12.0",
     "metismenu": "^2.5.2",
     "moment": "^2.15.2",
@@ -153,7 +251,6 @@
     "apidoc": "^0.16.1",
     "apidoc-plugin-schema": "0.0.7",
     "autoprefixer": "^6.4.1",
-    "babel": "^6.5.2",
     "babel-cli": "^6.18.0",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.2.5",
@@ -168,9 +265,9 @@
     "enzyme": "^2.5.1",
     "eslint": "^3.8.1",
     "eslint-config-airbnb": "^12.0.0",
-    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.4.1",
+    "eslint-plugin-react": "^6.7.1",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
