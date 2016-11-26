@@ -1,1 +1,1 @@
-export default store => next => action => next(action);
+export default store => next => action => next(action)

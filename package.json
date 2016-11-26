@@ -8,7 +8,8 @@
     "watch": "node --harmony run.js watch",
     "command": "node --harmony run.js",
     "build": "node --harmony run.js build",
-    "test": "node --harmony run.js test",
+    "lint": "standard",
+    "test": "npm run lint && node --harmony run.js test",
     "migrate": "node --harmony run.js migrate",
     "dashboard": "WEBPACK_DASHBOARD=true webpack-dashboard -- npm run watch client"
   },
@@ -19,6 +20,13 @@
   "browser": {
     "joi": "joi-browser"
   },
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "/docs",
+      "/storage"
+    ]
+  },
   "babel": {
     "presets": [
       "latest",
@@ -28,103 +36,6 @@
     "plugins": [
       "react-hot-loader/babel"
     ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "airbnb",
-    "env": {
-      "browser": true,
-      "node": true,
-      "mocha": true,
-      "es6": true
-    },
-    "plugins": [
-      "jsx-a11y"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2017,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "jsx": true
-      }
-    },
-    "rules": {
-      "arrow-parens": [
-        "error",
-        "as-needed"
-      ],
-      "arrow-body-style": [
-        2,
-        "as-needed"
-      ],
-      "comma-dangle": [
-        2,
-        "always-multiline"
-      ],
-      "no-console": 0,
-      "no-shadow": 0,
-      "new-cap": 0,
-      "prefer-const": 1,
-      "consistent-return": 1,
-      "no-param-reassign": 1,
-      "no-empty": 0,
-      "no-unused-vars": 1,
-      "camelcase": 1,
-      "global-require": 0,
-      "import/extensions": 0,
-      "import/imports-first": 1,
-      "import/newline-after-import": 0,
-      "import/no-dynamic-require": 0,
-      "import/no-extraneous-dependencies": 0,
-      "import/no-named-as-default": 0,
-      "import/no-unresolved": 2,
-      "import/prefer-default-export": 0,
-      "indent": [
-        2,
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ],
-      "jsx-a11y/aria-props": 2,
-      "jsx-a11y/heading-has-content": 0,
-      "jsx-a11y/href-no-hash": 1,
-      "jsx-a11y/label-has-for": 2,
-      "jsx-a11y/mouse-events-have-key-events": 2,
-      "jsx-a11y/role-has-required-aria-props": 2,
-      "jsx-a11y/role-supports-aria-props": 2,
-      "max-len": 0,
-      "newline-per-chained-call": 0,
-      "no-use-before-define": 0,
-      "no-underscore-dangle": 0,
-      "prefer-template": 2,
-      "class-methods-use-this": 0,
-      "react/prop-types": 0,
-      "react/forbid-prop-types": 0,
-      "react/no-danger": 0,
-      "react/no-multi-comp": 0,
-      "react/jsx-first-prop-new-line": [
-        2,
-        "multiline"
-      ],
-      "react/jsx-filename-extension": 0,
-      "react/jsx-no-target-blank": 0,
-      "react/require-extension": 0,
-      "react/prefer-stateless-function": 0,
-      "react/self-closing-comp": 0
-    },
-    "settings": {
-      "import/resolver": {
-        "node": {
-          "extensions": [
-            ".json",
-            ".js",
-            ".jsx",
-            ".es"
-          ]
-        }
-      }
-    }
   },
   "ava": {
     "files": [
@@ -263,11 +174,6 @@
     "babel-register": "^6.18.0",
     "css-loader": "^0.25.0",
     "enzyme": "^2.5.1",
-    "eslint": "^3.8.1",
-    "eslint-config-airbnb": "^12.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.7.1",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
@@ -285,6 +191,7 @@
     "redux-mock-store": "^1.2.0",
     "resolve-url-loader": "^1.6.0",
     "sinon": "^1.17.5",
+    "standard": "^8.6.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^2.1.0-beta.25",

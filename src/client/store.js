@@ -1,25 +1,25 @@
-import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
-import { reducer as formReducer } from 'redux-form';
-import { reducer as reduxAsyncConnect } from 'redux-connect';
-import configure_oauth2, { reducer as oauthReducer } from 'react-redux-oauth2';
-import { reducer as notifications } from 'react-notification-system-redux';
-import { nprogress } from 'redux-nprogress';
-import middlewares from './middlewares';
-import { reducer } from './reduxers';
-import config from './config';
+import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
+import { reducer as formReducer } from 'redux-form'
+import { reducer as reduxAsyncConnect } from 'redux-connect'
+import configureOauth2, { reducer as oauthReducer } from 'react-redux-oauth2'
+import { reducer as notifications } from 'react-notification-system-redux'
+import { nprogress } from 'redux-nprogress'
+import middlewares from './middlewares'
+import { reducer } from './reduxers'
+import config from './config'
 
-export function configure(reducers, initial) {
+export function configure (reducers, initial) {
   const store = createStore(reducers, initial,
     compose(
     applyMiddleware.apply(this, middlewares),
-    (!__SERVER__ && window.devToolsExtension) ? window.devToolsExtension() : f => f
-  ));
+    (!process.env.__SERVER__ && window.devToolsExtension) ? window.devToolsExtension() : f => f
+  ))
 
-  return store;
+  return store
 }
 export default function (history) {
-  configure_oauth2(config.oauth);
+  configureOauth2(config.oauth)
 
   return configure(combineReducers({
     ...reducer,
@@ -28,6 +28,6 @@ export default function (history) {
     notifications,
     reduxAsyncConnect,
     routing: routerReducer,
-    form: formReducer,
-  }), !__SERVER__ ? window.__INITIAL_STATE__ : {}, history);
+    form: formReducer
+  }), !process.env.__SERVER__ ? window.__INITIAL_STATE__ : {}, history)
 }

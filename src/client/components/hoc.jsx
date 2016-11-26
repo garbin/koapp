@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 
-export function loadable(Component) {
+export function loadable (Component) {
   return props => {
-    const { loading, loadingSpinner, children, ...rest } = props;
-    const spinner = loadingSpinner || 'loading...';
+    const { loading, loadingSpinner, children, ...rest } = props
+    const spinner = loadingSpinner || 'loading...'
 
-    return (<Component {...rest}>{loading ? spinner : children}</Component>);
-  };
+    return (<Component {...rest}>{loading ? spinner : children}</Component>)
+  }
 }

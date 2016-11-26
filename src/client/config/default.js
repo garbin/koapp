@@ -1,4 +1,4 @@
-const api = 'http://localhost:5000';
+const api = 'http://localhost:5000'
 
 export default {
   api,
@@ -7,7 +7,7 @@ export default {
     client_secret: '123',
     url: api,
     providers: {
-      github: '/auth/github',
-    },
-  },
-};
+      github: '/auth/github'
+    }
+  }
+}

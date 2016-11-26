@@ -1,57 +1,57 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Table } from 'reactabular';
-import { table } from '../../lib/helper';
+import React from 'react'
+import { connect } from 'react-redux'
+import { Table } from 'reactabular'
+import { table } from '../../lib/helper'
 
 export class List extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
-      checked: [1, 2],
-    };
+      checked: [1, 2]
+    }
   }
-  render() {
+  render () {
     const rows = [
       { id: 2, name: 'Name', created_at: new Date() },
-      { id: 1, name: 'Name', created_at: new Date() },
-    ];
+      { id: 1, name: 'Name', created_at: new Date() }
+    ]
     const columns = [
-      table.column('id', 'ID', { onCheck(items) { console.log(items); }, checkable: true }),
+      table.column('id', 'ID', { onCheck (items) { console.log(items) }, checkable: true }),
       table.column('name', '名称'),
-      table.column('created_at', '创建时间'),
-    ];
+      table.column('created_at', '创建时间')
+    ]
 
     return (
-      <article className="content items-list-page">
-        <div className="title-search-block">
-          <div className="title-block">
-            <div className="row">
-              <div className="col-md-6">
-                <h3 className="title">
+      <article className='content items-list-page'>
+        <div className='title-search-block'>
+          <div className='title-block'>
+            <div className='row'>
+              <div className='col-md-6'>
+                <h3 className='title'>
                   Items
-                  <a href="item-editor.html" className="btn btn-primary btn-sm rounded-s">
+                  <a href='item-editor.html' className='btn btn-primary btn-sm rounded-s'>
                     Add New
                   </a>
-                  <div className="action dropdown">
-                    <button className="btn  btn-sm rounded-s btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <div className='action dropdown'>
+                    <button className='btn  btn-sm rounded-s btn-secondary dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                     More actions...
                     </button>
-                    <div className="dropdown-menu" aria-labelledby="dropdownMenu1">
-                      <button className="dropdown-item"><i className="fa fa-pencil-square-o icon"></i>Mark as a draft</button>
-                      <button className="dropdown-item" data-toggle="modal" data-target="#confirm-modal"><i className="fa fa-close icon"></i>Delete</button>
+                    <div className='dropdown-menu' aria-labelledby='dropdownMenu1'>
+                      <button className='dropdown-item'><i className='fa fa-pencil-square-o icon' />Mark as a draft</button>
+                      <button className='dropdown-item' data-toggle='modal' data-target='#confirm-modal'><i className='fa fa-close icon' />Delete</button>
                     </div>
                   </div>
                 </h3>
-                <p className="title-description"> List of sample items - e.g. books, movies, events, etc... </p>
+                <p className='title-description'> List of sample items - e.g. books, movies, events, etc... </p>
               </div>
             </div>
           </div>
-          <div className="items-search">
-            <form className="form-inline">
-              <div className="input-group">
-                <input type="text" className="form-control boxed rounded-s" placeholder="Search for..." /> <span className="input-group-btn">
-                  <button className="btn btn-secondary rounded-s" type="button">
-                    <i className="fa fa-search"></i>
+          <div className='items-search'>
+            <form className='form-inline'>
+              <div className='input-group'>
+                <input type='text' className='form-control boxed rounded-s' placeholder='Search for...' /> <span className='input-group-btn'>
+                  <button className='btn btn-secondary rounded-s' type='button'>
+                    <i className='fa fa-search' />
                   </button>
                 </span>
               </div>
@@ -60,39 +60,39 @@ export class List extends React.Component {
         </div>
         <Table.Provider columns={columns} components={table.list}>
           <Table.Header />
-          <Table.Body rows={rows} rowKey="id" />
+          <Table.Body rows={rows} rowKey='id' />
         </Table.Provider>
-        <nav className="text-xs-right">
-          <ul className="pagination">
-            <li className="page-item"> <a className="page-link" href="">
+        <nav className='text-xs-right'>
+          <ul className='pagination'>
+            <li className='page-item'> <a className='page-link' href=''>
               Prev
             </a> </li>
-            <li className="page-item active"> <a className="page-link" href="">
+            <li className='page-item active'> <a className='page-link' href=''>
               1
             </a> </li>
-            <li className="page-item"> <a className="page-link" href="">
+            <li className='page-item'> <a className='page-link' href=''>
               2
             </a> </li>
-            <li className="page-item"> <a className="page-link" href="">
+            <li className='page-item'> <a className='page-link' href=''>
               3
             </a> </li>
-            <li className="page-item"> <a className="page-link" href="">
+            <li className='page-item'> <a className='page-link' href=''>
               4
             </a> </li>
-            <li className="page-item"> <a className="page-link" href="">
+            <li className='page-item'> <a className='page-link' href=''>
               5
             </a> </li>
-            <li className="page-item"> <a className="page-link" href="">
+            <li className='page-item'> <a className='page-link' href=''>
               Next
             </a> </li>
           </ul>
         </nav>
       </article>
-    );
+    )
   }
 }
 
-export default connect(state => ({ oauth: state.oauth }))(List);
+export default connect(state => ({ oauth: state.oauth }))(List)
 
       // <div className="card items">
       //   <ul className="item-list striped">

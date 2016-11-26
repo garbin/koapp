@@ -1,13 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router';
-import Loading from 'react-loading';
+import React from 'react'
 
 export default class extends React.Component {
-  render() {
-    let { index } = this.props;
+  render () {
     return (<div>
               Hello redux
-              <div className="image"></div>
-    </div>);
+              <div className='image' />
+    </div>)
   }
 }

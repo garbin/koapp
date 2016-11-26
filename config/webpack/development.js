@@ -1,5 +1,5 @@
 module.exports = function (compiler) {
-  compiler.devtool = 'eval';
+  compiler.devtool = 'eval'
 
-  return compiler;
-};
+  return compiler
+}

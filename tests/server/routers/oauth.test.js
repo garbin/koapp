@@ -1,6 +1,5 @@
-import { test, expect, request } from 'koapi/lib/test';
-import { server } from '../../__lib__/init';
-
+import { test, expect, request } from 'koapi/lib/test'
+import { server } from '../../__lib__/init'
 
 test('POST /oauth/token', t =>
   request(server).post('/oauth/token')
@@ -11,10 +10,10 @@ test('POST /oauth/token', t =>
                    grant_type: 'password',
                    username: 'test',
                    password: 'test',
-                   scope: 'all',
+                   scope: 'all'
                  })
                  .then(res => {
-                   expect(res).to.have.status(200);
-                   expect(res.body.access_token).to.not.be.empty;
+                   expect(res).to.have.status(200)
+                   expect(res.body.access_token).to.not.be.empty
                  })
-);
+)

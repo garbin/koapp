@@ -1,13 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 
 export class List extends React.Component {
-  render() {
-    return <div>test</div>;
+  render () {
+    return <div>test</div>
   }
 }
 
-export default connect(state => ({ oauth: state.oauth }))(List);
+export default connect(state => ({ oauth: state.oauth }))(List)
 
       // <div className="card items">
       //   <ul className="item-list striped">
