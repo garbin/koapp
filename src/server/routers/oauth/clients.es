@@ -1,16 +1,15 @@
-import { ResourceRouter } from 'koapi';
-import { omit } from 'lodash';
-import user from '../../middlewares/user';
-import Client from '../../models/oauth/client';
+import { ResourceRouter } from 'koapi'
+import { omit } from 'lodash'
+import user from '../../middlewares/user'
+import Client from '../../models/oauth/client'
 
 export default ResourceRouter.define({
   collection: Client.collection(),
   root: '/oauth/clients',
   name: 'clients',
   fields: omit(Client.fields, ['client_secret', 'user_id']),
-  setup(router) {
-    router.use(user.grant('admin.oauth'));
-
+  setup (router) {
+    router.use(user.grant('admin.oauth'))
 
     /**
      * @api {post} /oauth/clients Create Clients
@@ -42,12 +41,11 @@ export default ResourceRouter.define({
      * @apiSchema {jsonschema=../../../../schemas/clients/update/response.schema.json} apiSuccess
      */
 
-
     /**
      * @api {delete} /oauth/clients/:id Delete Clients
      * @apiName delete-client
      * @apiGroup Client
      */
-    router.crud();
-  },
-});
+    router.crud()
+  }
+})

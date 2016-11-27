@@ -1,33 +1,33 @@
-import { bookshelf } from 'koapi/lib/model';
-import Joi from 'joi';
-import md5 from 'blueimp-md5';
-import Role from './role';
-import Post from './post';
-import Account from './user_account';
+import { bookshelf } from 'koapi/lib/model'
+import Joi from 'joi'
+import md5 from 'blueimp-md5'
+import Role from './role'
+import Post from './post'
+import Account from './user_account'
 
 export default class User extends bookshelf.Model {
-  get tableName() { return 'users'; }
-  get hasTimestamps() { return true; }
-  roles() {
-    return this.belongsToMany(Role, 'user2role');
+  get tableName () { return 'users' }
+  get hasTimestamps () { return true }
+  roles () {
+    return this.belongsToMany(Role, 'user2role')
   }
-  accounts() {
-    return this.hasMany(Account);
+  accounts () {
+    return this.hasMany(Account)
   }
-  posts() {
-    return this.hasMany(Post);
+  posts () {
+    return this.hasMany(Post)
   }
 
   static fields = {
     username: Joi.string().required(),
     password: Joi.string().required(),
-    email: Joi.string().email().required(),
+    email: Joi.string().email().required()
   };
-  static async auth(ident, password) {
-    let user = await this.query(q => q.where({ username: ident }).orWhere({ email: ident })).fetch({ require: true });
+  static async auth (ident, password) {
+    let user = await this.query(q => q.where({ username: ident }).orWhere({ email: ident })).fetch({ require: true })
     if (user && user.get('password') === md5(password)) {
-      return user;
+      return user
     }
-    throw new Error('auth failed');
+    throw new Error('auth failed')
   }
 }

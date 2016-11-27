@@ -1,6 +1,5 @@
-import { Router } from 'koapi';
-import { queue } from '../services/queues/resque';
-
+import { Router } from 'koapi'
+import { queue } from '../services/queues/resque'
 
 export default Router.define(router => {
   /**
@@ -24,17 +23,17 @@ export default Router.define(router => {
    */
   router.get('/', async ctx => {
     // return ctx.throw('haha', 422);
-    let e = new Error('haha');
-    e.name = 'ValidationError';
-    throw e;
-  });
+    let e = new Error('haha')
+    e.name = 'ValidationError'
+    throw e
+  })
 
   router.get('/test', async ctx => {
-    queue.enqueue('abc', 'mailer', [{ msg: 'hehe' }]);
-    ctx.body = 'hehe';
-  });
+    queue.enqueue('abc', 'mailer', [{ msg: 'hehe' }])
+    ctx.body = 'hehe'
+  })
 
   router.post('/', async ctx => {
-    ctx.body = ctx.request.body;
-  });
-});
+    ctx.body = ctx.request.body
+  })
+})

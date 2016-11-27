@@ -1,7 +1,6 @@
-import { bookshelf } from 'koapi/lib/model';
-import Joi from 'joi';
-import md5 from 'blueimp-md5';
-import moment from 'moment';
+import { bookshelf } from 'koapi/lib/model'
+import Joi from 'joi'
+import md5 from 'blueimp-md5'
 
 export default class Client extends bookshelf.Model {
   static fields = {
@@ -9,15 +8,15 @@ export default class Client extends bookshelf.Model {
     redirect_uri: Joi.string().required().description('Redirect URI'),
     user_id: Joi.string().required(),
     grant_types: Joi.string().default('password'),
-    scope: Joi.string().default('all'),
+    scope: Joi.string().default('all')
   }
-  get tableName() {
-    return 'oauth_clients';
+  get tableName () {
+    return 'oauth_clients'
   }
-  get hasTimestamps() {
-    return true;
+  get hasTimestamps () {
+    return true
   }
-  get uuid() {
-    return true;
+  get uuid () {
+    return true
   }
 }

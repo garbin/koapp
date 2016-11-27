@@ -8,7 +8,7 @@
     "watch": "node --harmony run.js watch",
     "command": "node --harmony run.js",
     "build": "node --harmony run.js build",
-    "lint": "standard",
+    "lint": "standard ./**/*.js ./**/*.es ./**/*.jsx",
     "test": "npm run lint && node --harmony run.js test",
     "migrate": "node --harmony run.js migrate",
     "dashboard": "WEBPACK_DASHBOARD=true webpack-dashboard -- npm run watch client"

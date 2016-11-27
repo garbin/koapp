@@ -4,12 +4,12 @@
 
 // for built-in oauth server & social login
 // issue access_token by self
-import { middlewares } from 'koapi';
-import passport from './passport';
+import { middlewares } from 'koapi'
+import passport from './passport'
 
 export const before = [
   middlewares.json_error(),
-  passport.initialize(),
-];
+  passport.initialize()
+]
 
-export const after = [];
+export const after = []
