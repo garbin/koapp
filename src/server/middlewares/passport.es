@@ -10,6 +10,7 @@ import Account from '../models/user_account'
 import Client from '../models/oauth/client'
 import User from '../models/user'
 import Token from '../models/oauth/token'
+import request from 'axios'
 
 function accountSignin (provider, getProfile) {
   return async (accessToken, refreshToken, params, profile, done) => {
@@ -38,12 +39,19 @@ passport.use(new GithubStrategy(config.passport.github, accountSignin('github', 
   profile
 }))))
 
-passport.use(new OAuth2Strategy(config.passport.oauth2, accountSignin('oauth2', async ({ access_token, profile }) => ({
-  account_id: 1000,
-  username: 'garbin1000',
-  email: 'garbin100@gmail.com',
-  profile
-}))))
+passport.use(new OAuth2Strategy(config.passport.oauth2, accountSignin('oauth2', async ({ accessToken }) => {
+  let res = await request.get(config.passport.oauth2.profileURL, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  })
+  return {
+    account_id: res.data.uuid,
+    username: res.data.username,
+    email: res.data.email,
+    profile: res.data
+  }
+})))
 
 passport.use(new BasicStrategy(
   async function (username, password, done) {
