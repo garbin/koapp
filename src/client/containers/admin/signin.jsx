@@ -68,7 +68,7 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
                 </h1> </header>
               <div className='auth-content'>
                 <p className='text-xs-center'>LOGIN TO CONTINUE</p>
-                <form onSubmit={this.props.handleSubmit(this.submit)}>
+                <form onSubmit={this.props.handleSubmit(this.submit.bind(this))}>
                   <Field
                     component={renderField}
                     type='text'

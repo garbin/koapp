@@ -1,7 +1,7 @@
 import 'font-awesome/css/font-awesome.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import './themes/orange/app.css'
-import './themes/admin.css'
+import './themes/admin.scss'
 
 export Root from './root'
 export Index from './default'

@@ -1,11 +1,16 @@
 import cluster from 'throng'
-import log from 'winston'
+import logger, { winston } from 'koapi/lib/logger'
+import { storage } from '../lib/helper'
 
 function runService (services) {
   return function (pid) {
-    services.forEach(service => {
-      service.start(pid)
-      process.on('SIGTERM', service.stop.bind(service.stop, pid))
+    services.forEach(async service => {
+      try {
+        service.start(pid)
+        process.on('SIGTERM', service.stop.bind(service.stop, pid))
+      } catch (e) {
+        logger.error(e)
+      }
     })
   }
 }
@@ -14,7 +19,7 @@ function runCommand (services, clusterMode) {
   let master = runService(services.master)
   let worker = runService(services.worker)
   if (clusterMode) {
-    log.info('cluster enabled, workers:%s, PID:', require('os').cpus().length, process.pid)
+    logger.info('cluster enabled, workers:%s, PID:', require('os').cpus().length, process.pid)
     cluster({ master, start: worker })
   } else {
     master()
@@ -30,6 +35,17 @@ export default {
     '-x, --cluster': 'cluster mode'
   },
   action: (name, options, a, b, c) => {
+    logger.add(winston.transports.File, {
+      name: 'services_error',
+      json: false,
+      filename: storage('/logs/services_error.log'),
+      level: 'error'
+    })
+    logger.add(winston.transports.File, {
+      name: 'services',
+      json: false,
+      filename: storage('/logs/services_all.log')
+    })
     let services = {}
     if (name) {
       let service = require(`../services/${name}`).default
