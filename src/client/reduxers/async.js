@@ -1,14 +1,10 @@
-import { createAction, handleActions } from 'redux-actions'
-import { api, asyncState } from '../lib/helper'
+import { createAction, handleAction } from 'redux-actions'
+import { api, handleAsyncAction } from '../lib/helper'
 
 export const actions = {
-  fetch: createAction('FETCH', payload => api.get('/posts').then(res => { throw new Error('haha') }))
+  fetch: createAction('FETCH', payload => api.get('/posts'))
 }
 
 export const reducer = {
-  async: handleActions({
-    FETCH_FULFILLED: (state, action) => asyncState(action.payload.data, true),
-    FETCH_REJECTED: (state, action) => asyncState(action.payload.data || action.payload.toString(), false),
-    FETCH_PENDING: (state, action) => asyncState(null, false, true)
-  }, asyncState())
+  async: handleAction('FETCH_FULFILLED', (state, action) => action.payload.data, [])
 }

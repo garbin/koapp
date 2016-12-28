@@ -6,8 +6,9 @@ import configureOauth2, { reducer as oauthReducer } from 'react-redux-oauth2'
 import { reducer as notifications } from 'react-notification-system-redux'
 import { nprogress } from 'redux-nprogress'
 import middlewares from './middlewares'
-import { reducer } from './reduxers'
+import reduxers from './reduxers'
 import config from './config'
+import { asyncActionStatus } from './lib/helper'
 
 export function configure (reducers, initial) {
   const store = createStore(reducers, initial,
@@ -22,12 +23,13 @@ export default function (history) {
   configureOauth2(config.oauth)
 
   return configure(combineReducers({
-    ...reducer,
+    ...reduxers.reducer,
     ...oauthReducer,
     nprogress,
     notifications,
     reduxAsyncConnect,
     routing: routerReducer,
-    form: formReducer
+    form: formReducer,
+    asyncActionStatus
   }), !process.env.__SERVER__ ? window.__INITIAL_STATE__ : {}, history)
 }

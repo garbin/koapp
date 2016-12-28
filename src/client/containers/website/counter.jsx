@@ -1,7 +1,7 @@
 import React from 'react'
 import Counter from '../../components/counter'
 import { connect } from '../../lib/helper'
-import { actions } from '../../reduxers'
+import reduxers from '../../reduxers'
 
 class CounterApp extends React.Component {
   render () {
@@ -9,4 +9,4 @@ class CounterApp extends React.Component {
   }
 }
 
-export default connect(state => ({ counter: state.counter }), actions.counter)(CounterApp)
+export default connect(state => ({ counter: state.counter }), reduxers.actions.counter)(CounterApp)

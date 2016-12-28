@@ -19,9 +19,14 @@ api.interceptors.request.use(config => {
   } catch (e) { }
   return config
   // Do something before request is sent
-}, error =>
-  // Do something with request error
-   Promise.reject(error))
+}, error => Promise.reject(error))
+
+export function reduxers (rxs) {
+  const actions = _.mapValues(rxs, reduxer => reduxer.actions)
+  const reducer = _.transform(rxs, (result = {}, reduxer) => Object.assign(result, reduxer.reducer))
+
+  return {actions, reducer}
+}
 
 export function connect (mapState, actions) {
   const mapActions = dispatch => {
@@ -46,13 +51,19 @@ export function convertJoiError (joiErrors) {
   return errors
 }
 
-export function asyncState (payload = null, result = undefined, loading = false) {
-  return {
-    loading,
-    loaded: result !== undefined,
-    data: result ? payload : null,
-    error: result ? null : payload
+export function asyncActionStatus (state, action) {
+  const { type } = action
+  const status = (loading, loaded, error = null) => ({loading, loaded, error})
+  if (type.endsWith('_PENDING')) {
+    return {...state, [type.slice(0, -8)]: status(true, false)}
   }
+  if (type.endsWith('_REJECTED')) {
+    return {...state, [type.slice(0, -9)]: status(false, false, action.payload.data || action.payload.toString())}
+  }
+  if (type.endsWith('_FULFILLED')) {
+    return {...state, [type.slice(0, -10)]: status(false, true)}
+  }
+  return {}
 }
 
 export const table = {
