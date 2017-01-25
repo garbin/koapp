@@ -1,0 +1,8 @@
+npm install
+npm run build
+npm run build client
+passed=$?
+if [[ $passed != 0 ]]; then
+    # test failed, exit. app's working tree on the server will be reset.
+    exit $passed
+fi

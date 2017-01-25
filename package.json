@@ -2,7 +2,7 @@
   "name": "Koapp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "run.js",
   "scripts": {
     "start": "node --harmony run.js start",
     "watch": "node --harmony run.js watch",
@@ -94,7 +94,7 @@
     "koa-static": "^2.0.0",
     "koa-static-server": "^1.0.0",
     "koa-webpack-middleware": "^1.0.1",
-    "koapi": "^0.2.88",
+    "koapi": "^0.3.2",
     "lodash": "^4.12.0",
     "metismenu": "^2.5.2",
     "moment": "^2.15.2",
