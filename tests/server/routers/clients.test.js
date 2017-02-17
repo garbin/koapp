@@ -1,5 +1,5 @@
-import { server } from '../../__lib__/init'
-import restful from 'koapi/lib/test'
+const { server } = require('../../__lib__/init')
+const {default: restful} = require('koapi/lib/test')
 
 describe('Clients', () => {
   const clients = restful(server, '/oauth/clients')

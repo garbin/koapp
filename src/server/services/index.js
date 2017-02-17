@@ -1,7 +1,4 @@
-import queue from './queue'
-import scheduler from './scheduler'
+const {default: queue} = require('./queue')
+const {default: scheduler} = require('./scheduler')
 
-export default {
-  master: [scheduler],
-  worker: [queue]
-}
+exports.default = { master: [scheduler], worker: [queue] }

@@ -1,11 +1,11 @@
-// import server from '../'
-import path from 'path'
-import config from '../../../../config'
+// const {default: server} = require('../')
+const path = require('path')
+const config = require('../../../../config')
 
-export default {
+exports.default = {
   command: 'universal',
-  description: 'run universal server',
-  action: options => {
+  describe: 'run universal server',
+  handler: argv => {
     if (config.universal.ssr) {
       const WebpackIsomorphicTools = require('webpack-isomorphic-tools')
       const toolsConfig = require('../../../../config/webpack/isomorphic-tools')

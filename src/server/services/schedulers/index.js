@@ -1,5 +1,3 @@
-import example from './example'
+const {default: example} = require('./example')
 
-export default [
-  example
-]
+exports.default = [ example ]

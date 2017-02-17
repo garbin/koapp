@@ -1,5 +1,5 @@
-import restful from 'koapi/lib/test'
-import { server } from '../../__lib__/init'
+const {default: restful} = require('koapi/lib/test')
+const { server } = require('../../__lib__/init')
 
 describe('Comments', () => restful(server, '/posts/1/comments').setup({
    title: 'Post Title', contents: 'Post Contents'

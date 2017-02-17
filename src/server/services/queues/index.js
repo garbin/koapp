@@ -1,7 +1,4 @@
-import bull from './bull'
-import resque from './resque'
+const {default: bull} = require('./bull')
+const {default: resque} = require('./resque')
 
-export default [
-  bull,
-  resque
-]
+exports.default = [ bull, resque ]

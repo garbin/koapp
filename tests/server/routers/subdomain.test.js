@@ -1,5 +1,5 @@
-import { request } from 'koapi/lib/test'
-import { server } from '../../__lib__/init'
+const { request } = require('koapi/lib/test')
+const { server } = require('../../__lib__/init')
 
 test('GET http://api.koapi.com/', () =>
   request(server)

@@ -1,12 +1,19 @@
-// import example from './example'
-import bullui from './bullui'
-import service from './service'
-import server from './server'
-import universal from './universal'
+const {default: bullui} = require('./bullui')
+const {default: service} = require('./service')
+const {default: server} = require('./server')
+const {default: universal} = require('./universal')
+const {default: build} = require('./build')
+const {default: watch} = require('./watch')
+const {default: migrate} = require('./migrate')
+const {default: example} = require('./example')
 
-export default [
+exports.default = [
   service,
   server,
   universal,
-  bullui
+  bullui,
+  build,
+  watch,
+  migrate,
+  example
 ]

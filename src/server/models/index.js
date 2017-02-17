@@ -1,6 +1,6 @@
-export User from './user'
-export Role from './role'
-export Client from './oauth/client'
-export Token from './oauth/token'
-export Post from './post'
-export Comment from './comment'
+exports.User = require('./user').default
+exports.Role = require('./role').default
+exports.Client = require('./oauth/client').default
+exports.Token = require('./oauth/token').default
+exports.Post = require('./post').default
+exports.Comment = require('./comment').default

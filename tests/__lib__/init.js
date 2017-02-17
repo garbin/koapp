@@ -1,7 +1,7 @@
-import app from '../../src/server'
-import nock from 'nock'
+const {default: app} = require('../../src/server')
+const nock = require('nock')
 
-export const server = app.listen(0)
+const server = exports.server = app.listen(0)
 
 nock('https://github.com').post('/login/oauth/access_token', {
   grant_type: 'authorization_code',

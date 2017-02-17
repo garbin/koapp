@@ -4,11 +4,9 @@
   "description": "",
   "main": "run.js",
   "scripts": {
-    "app": "node --harmony run.js",
-    "start": "npm run app start",
-    "migrate": "npm run app migrate",
+    "start": "node --harmony index.js",
     "lint": "standard ./**/*.js ./**/*.es ./**/*.jsx",
-    "test": "export NODE_ENV=test && knex migrate:rollback && knex migrate:latest && knex seed:run && ${coverage} jest --forceExit ${args}"
+    "test": "export NODE_ENV=test && npm run lint && npm start migrate reset && jest --forceExit"
   },
   "repository": {
     "type": "git",
@@ -150,7 +148,8 @@
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.9",
     "webpack-isomorphic-tools": "^2.5.8",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "yargs": "^6.6.0"
   },
   "devDependencies": {
     "apidoc": "^0.16.1",

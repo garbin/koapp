@@ -1,1 +1,1 @@
-module.exports = require('./' + process.env.NODE_ENV + '/webpack')(require('./default/webpack'))
+module.exports = require('./' + (process.env.NODE_ENV || 'development') + '/webpack')(require('./default/webpack'))

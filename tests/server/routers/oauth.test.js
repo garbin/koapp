@@ -1,5 +1,5 @@
-import { request } from 'koapi/lib/test'
-import { server } from '../../__lib__/init'
+const { request } = require('koapi/lib/test')
+const { server } = require('../../__lib__/init')
 
 test('POST /oauth/token', () =>
   request(server).post('/oauth/token')

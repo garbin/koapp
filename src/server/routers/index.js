@@ -1,12 +1,12 @@
-import index from './default'
-import auth from './auth'
-import clients from './oauth/clients'
-import token from './oauth/token'
-import posts from './posts'
-import subdomain from './subdomain'
-import cashier from './cashier'
+const {default: index} = require('./default')
+const {default: auth} = require('./auth')
+const {default: clients} = require('./oauth/clients')
+const {default: token} = require('./oauth/token')
+const {default: posts} = require('./posts')
+const {default: subdomain} = require('./subdomain')
+const {default: cashier} = require('./cashier')
 
-export default [
+exports.default =  [
   subdomain,
   index,
   posts,

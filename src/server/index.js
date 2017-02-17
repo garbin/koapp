@@ -1,7 +1,7 @@
-import Koapi, { Model } from 'koapi'
-import logger, { winston } from 'koapi/lib/logger'
-import config from '../../config'
-import { storage } from './lib/helper'
+const {default: Koapi, Model} = require('koapi')
+const {default: logger, winston} = require('koapi/lib/logger')
+const config = require('../../config')
+const { storage } = require('./lib/helper')
 
 logger.emitErrs = true
 logger.on('error', console.error)
@@ -31,4 +31,4 @@ app.setup(Object.assign({
   serve: { root: storage('/public') }
 }, config))
 
-export default app
+exports.default = app
