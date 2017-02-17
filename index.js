@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+if (!process.argv[2]) process.argv.push('universal')
 const yargs = require('yargs')
 const {default: commands} = require('./src/server/commands')
 
