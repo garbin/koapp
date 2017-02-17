@@ -4,14 +4,11 @@
   "description": "",
   "main": "run.js",
   "scripts": {
-    "start": "node --harmony run.js start",
-    "watch": "node --harmony run.js watch",
-    "command": "node --harmony run.js",
-    "build": "node --harmony run.js build",
+    "app": "node --harmony run.js",
+    "start": "npm run app start",
+    "migrate": "npm run app migrate",
     "lint": "standard ./**/*.js ./**/*.es ./**/*.jsx",
-    "test": "npm run lint && node --harmony run.js test",
-    "migrate": "node --harmony run.js migrate",
-    "dashboard": "WEBPACK_DASHBOARD=true webpack-dashboard -- npm run watch client"
+    "test": "npm run lint && npm run app test"
   },
   "repository": {
     "type": "git",

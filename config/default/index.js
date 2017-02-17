@@ -9,7 +9,7 @@ module.exports = {
   cors: {
     expose: ['Content-Range']
   },
-  accesslog: { path: path.join(__dirname, '/../storage/logs/access.log') },
+  accesslog: { path: path.join(__dirname, '/../../storage/logs/access.log') },
   passport: {
     github: {
       clientID: 'f2ee0541fecc7c773d5d',

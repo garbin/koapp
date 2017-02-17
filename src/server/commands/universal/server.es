@@ -27,7 +27,7 @@ export default function server (webpackIsomorphicTools) {
   }
 
   app.use(convert(historyApiFallback()))
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.USE_WEBPACK_DEV_SERVER) {
     app.use(convert(require('koa-proxy')({
       host: `http://localhost:${config.dev_server_port || config.port + 1}`
     })))
