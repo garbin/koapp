@@ -67,9 +67,7 @@ passport.use(new BasicStrategy(
 passport.use(new ClientPasswordStrategy(
   async function (clientId, clientSecret, done) {
     try {
-      console.log(clientId, clientSecret)
       let client = await Client.where({ id: clientId, client_secret: clientSecret }).fetch({ require: true })
-      console.log(client)
       done(null, client)
     } catch (e) {
       done(createError(401, e), false)

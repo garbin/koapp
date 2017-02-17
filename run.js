@@ -115,7 +115,7 @@ program.command('test [type]')
              shelljs.exec(`nyc report --reporter=lcov ${args}`)
              break
            default:
-             shelljs.exec(`export NODE_ENV=${env} && knex migrate:rollback && knex migrate:latest && knex seed:run && ${coverage} ava ${args}`)
+             shelljs.exec(`export NODE_ENV=${env} && knex migrate:rollback && knex migrate:latest && knex seed:run && ${coverage} jest --forceExit ${args}`)
          }
          done()
        })

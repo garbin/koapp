@@ -1,7 +1,7 @@
-import { test, expect, request } from 'koapi/lib/test'
+import { request } from 'koapi/lib/test'
 import { server } from '../../__lib__/init'
 
-test('POST /oauth/token', t =>
+test('POST /oauth/token', () =>
   request(server).post('/oauth/token')
                  .set('Accept', 'application/json')
                  .send({
@@ -13,7 +13,6 @@ test('POST /oauth/token', t =>
                    scope: 'all'
                  })
                  .then(res => {
-                   expect(res).to.have.status(200)
-                   expect(res.body.access_token).to.not.be.empty
+                   expect(res.status).toBe(200)
                  })
 )

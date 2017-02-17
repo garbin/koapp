@@ -8,7 +8,7 @@
     "start": "npm run app start",
     "migrate": "npm run app migrate",
     "lint": "standard ./**/*.js ./**/*.es ./**/*.jsx",
-    "test": "npm run lint && npm run app test"
+    "test": "export NODE_ENV=test && knex migrate:rollback && knex migrate:latest && knex seed:run && ${coverage} jest --forceExit ${args}"
   },
   "repository": {
     "type": "git",
@@ -34,25 +34,23 @@
       "react-hot-loader/babel"
     ]
   },
-  "ava": {
-    "files": [
-      "tests/**/*.test.{js,es}",
-      "!tests/__lib__/**/*.{js,es}"
+  "jest": {
+    "transform": {
+      ".*": "<rootDir>/node_modules/babel-jest"
+    },
+    "testRegex": "(/tests/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es"
     ],
-    "source": [
-      "**/*.test.{js,jsx,es}",
-      "!build/**/*"
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/lib",
+      "__lib__"
     ],
-    "require": [
-      "babel-register",
-      "babel-polyfill"
-    ],
-    "babel": "inherit"
-  },
-  "nyc": {
-    "extension": [
-      ".jsx",
-      ".es"
+    "setupFiles": [
+      "<rootDir>/node_modules/babel-polyfill/lib"
     ]
   },
   "author": "Garbin Huang",
