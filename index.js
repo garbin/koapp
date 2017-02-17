@@ -26,8 +26,3 @@ yargs.fail((msg, err, yargs) => {
   console.error('You should be doing', yargs.help())
   process.exit(1)
 }).help().argv
-// build
-// watch
-// test
-// migrate
-// command
