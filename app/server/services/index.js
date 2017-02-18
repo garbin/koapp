@@ -1,4 +1,4 @@
-const {default: queue} = require('./queue')
-const {default: scheduler} = require('./scheduler')
+const {default: queue} = require('./queues')
+const {default: scheduler} = require('./schedulers')
 
 exports.default = { master: [scheduler], worker: [queue] }

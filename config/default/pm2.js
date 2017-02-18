@@ -7,34 +7,32 @@ module.exports = {
    */
   apps: [
     {
-      name: `${pkg.name}-universal`,
+      name: `${pkg.name}_universal`,
       script: 'npm',
-      args: 'run watch universal',
+      args: 'start universal -- -b -- -d',
       env: {
         NODE_ENV: 'development',
         USE_WEBPACK_DEV_SERVER: true
       },
-      node_args: '--harmony',
-      exec_mode: 'cluster',
-      instances: -1
+      node_args: '--harmony'
     },
+    // {
+    //   name: `${pkg.name}_api`,
+    //   script: 'npm',
+    //   args: 'start server',
+    //   node_args: '--harmony',
+    //   env: {
+    //     NODE_ENV: 'development'
+    //   }
+    // },
     {
-      name: `${pkg.name}-client`,
+      name: `${pkg.name}_service`,
       script: 'npm',
-      args: 'run watch client',
+      args: 'start service',
       node_args: '--harmony',
       env: {
         NODE_ENV: 'development'
       }
     }
-    // For Production
-    // {
-    //   name: `${pkg.name}`,
-    //   script: 'npm',
-    //   args: 'start universal',
-    //   env: {
-    //     NODE_ENV: 'production'
-    //   }
-    // },
   ]
 }
