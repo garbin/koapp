@@ -3,7 +3,7 @@ import { initialize } from 'koapi/lib/model'
 
 export async function seed (knex, Promise) {
   initialize(knex)
-  const { Client, User, Role, Token } = require('../../src/server/models')
+  const { Client, User, Role, Token } = require('../../app/server/models')
   let user = await User.forge().save({
     username: 'test', password: md5('test'), email: 'test@gmail.com'
   })

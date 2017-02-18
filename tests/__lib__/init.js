@@ -1,4 +1,4 @@
-const {default: app} = require('../../src/server')
+const {default: app} = require('../../app/server')
 const nock = require('nock')
 
 const server = exports.server = app.listen(0)

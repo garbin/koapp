@@ -7,7 +7,7 @@ var assetDir = 'static/'
 
 var compiler = {
   devtool: 'source-map',
-  context: path.join(__dirname, '../../src/client'),
+  context: path.join(__dirname, '../../app/client'),
   entry: {
     main: './index.js',
     vendor: [
@@ -72,7 +72,7 @@ var compiler = {
   plugins: [
     new webpack.LoaderOptionsPlugin({
       options: {
-        context: path.join(__dirname, '../../src/client')
+        context: path.join(__dirname, '../../app/client')
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),

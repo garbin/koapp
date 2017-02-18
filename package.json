@@ -2,11 +2,16 @@
   "name": "Koapp",
   "version": "1.0.0",
   "description": "",
-  "main": "run.js",
   "scripts": {
-    "start": "node --harmony index.js",
+    "start": "node --harmony `which koapi`",
     "lint": "standard ./**/*.js ./**/*.es ./**/*.jsx",
     "test": "export NODE_ENV=test && npm run lint && npm start migrate reset && jest --forceExit"
+  },
+  "koapi":{
+    "commands":{
+      "path": "./app/server/commands",
+      "default": ["universal"]
+    }
   },
   "repository": {
     "type": "git",
@@ -148,8 +153,7 @@
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.9",
     "webpack-isomorphic-tools": "^2.5.8",
-    "winston": "^2.2.0",
-    "yargs": "^6.6.0"
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "apidoc": "^0.16.1",

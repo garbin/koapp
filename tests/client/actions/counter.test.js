@@ -1,4 +1,4 @@
-const { actions } = require('../../../src/client/reduxers/counter')
+const { actions } = require('../../../app/client/reduxers/counter')
 
 test('actions should create an action to increas', () => {
   const expectedAction = {
