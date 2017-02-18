@@ -4,7 +4,7 @@ const {default: server} = require('./server')
 const {default: universal} = require('./universal')
 const {default: building} = require('./building')
 const {default: watching} = require('./watching')
-const {default: migrate} = require('./migrate')
+const {default: migrate} = require('./migrating')
 const {default: example} = require('./example')
 
 module.exports = [

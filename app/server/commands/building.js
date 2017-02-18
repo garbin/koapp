@@ -1,7 +1,4 @@
 const shelljs = require('shelljs')
-const cla = require('command-line-args')
-const _ = require('lodash')
-// const fs = require('fs-extra')
 
 exports.default = {
   command: 'building [stuff]',

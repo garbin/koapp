@@ -1,12 +1,14 @@
 const shelljs = require('shelljs')
 
 exports.default = {
-  command: 'migrate [stuff]',
-  describe: 'Example',
-  builder: yargs => yargs.option('haha', {
-    alias: 'h',
-    default: 'Haha'
-  }),
+  command: 'migrating [stuff]',
+  describe: 'Migrating',
+  builder: {
+    stuff: {
+      default: 'latest',
+      choices: ['latest', 'setup', 'rollback', 'reset']
+    }
+  },
   handler: async argv => {
     let {stuff} = argv
     switch (stuff) {
@@ -22,6 +24,7 @@ exports.default = {
         shelljs.exec('node --harmony `which knex` migrate:latest')
         shelljs.exec('node --harmony `which knex` seed:run')
         break
+      case 'latest':
       default:
         shelljs.exec('node --harmony `which knex` migrate:latest')
     }
