@@ -1,11 +1,7 @@
 // Update with your config settings.
-require('babel-register')
-require('babel-polyfill')
-process.env.NODE_ENV = process.env.NODE_ENV || 'development'
-var config = require('./config')
-var _ = require('lodash')
+const config = require('./config')
 
-var database = {
+const database = {
   migrations: {
     directory: './database/migrations'
   },
@@ -14,4 +10,4 @@ var database = {
   }
 }
 
-module.exports = _.assign(database, config.database)
+module.exports = Object.assign(database, config.database)

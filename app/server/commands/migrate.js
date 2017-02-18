@@ -9,19 +9,21 @@ exports.default = {
   }),
   handler: async argv => {
     let {stuff} = argv
-    let args = ''
     switch (stuff) {
       case 'setup':
-        shelljs.exec(`knex migrate:latest && knex seed:run ${args}`)
+        shelljs.exec('node --harmony `which knex` migrate:latest')
+        shelljs.exec('node --harmony `which knex` seed:run')
         break
       case 'rollback':
-        shelljs.exec(`knex migrate:rollback ${args}`)
+        shelljs.exec('node --harmony `which knex` migrate:rollback')
         break
       case 'reset':
-        shelljs.exec(`knex migrate:rollback && knex migrate:latest && knex seed:run ${args}`)
+        shelljs.exec('node --harmony `which knex` migrate:rollback')
+        shelljs.exec('node --harmony `which knex` migrate:latest')
+        shelljs.exec('node --harmony `which knex` seed:run')
         break
       default:
-        shelljs.exec(`knex migrate:latest ${args}`)
+        shelljs.exec('node --harmony `which knex` migrate:latest')
     }
   }
 }
