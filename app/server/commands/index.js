@@ -2,8 +2,8 @@ const {default: bullui} = require('./bullui')
 const {default: service} = require('./service')
 const {default: server} = require('./server')
 const {default: universal} = require('./universal')
-const {default: build} = require('./build')
-const {default: watch} = require('./watch')
+const {default: building} = require('./building')
+const {default: watching} = require('./watching')
 const {default: migrate} = require('./migrate')
 const {default: example} = require('./example')
 
@@ -12,8 +12,8 @@ module.exports = [
   server,
   universal,
   bullui,
-  build,
-  watch,
+  building,
+  watching,
   migrate,
   example
 ]

@@ -1,7 +1,7 @@
 const shelljs = require('shelljs')
 
 exports.default = {
-  command: 'watch [stuff]',
+  command: 'watching [stuff]',
   describe: 'watch mode',
   builder: yargs => yargs.options({
     stuff: {
