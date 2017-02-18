@@ -1,5 +1,3 @@
-const config = require('../../../config/server')
-
 exports.default = {
   command: 'server',
   describe: 'run web server',
@@ -9,8 +7,7 @@ exports.default = {
     boolean: true
   }),
   handler: argv => {
-    // console.log(argv)
-    // console.log(require('../').default)
+    const config = require('../../../config/server')
     require('../').default.listen(
       config.port,
       () => console.log(`server is running on port ${config.port}`)

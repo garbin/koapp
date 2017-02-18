@@ -1,6 +1,5 @@
 const cluster = require('throng')
 const { default: logger, winston } = require('koapi/lib/logger')
-const { storage } = require('../lib/helper')
 
 function runService (services) {
   return function (pid) {
@@ -37,7 +36,9 @@ exports.default = {
     type: 'boolean'
   }),
   handler: argv => {
+    const { storage } = require('../lib/helper')
     const { name } = argv
+
     logger.add(winston.transports.File, {
       name: 'services_error',
       json: false,

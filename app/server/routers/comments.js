@@ -1,5 +1,5 @@
 const { ResourceRouter } = require('koapi')
-const {default: Comment} = require('../models/comment')
+const { Comment } = require('../models')
 
 exports.default = ResourceRouter.define({
   collection: ctx => ctx.state.parents.post.comments(),

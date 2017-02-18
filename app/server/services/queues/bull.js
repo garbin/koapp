@@ -1,11 +1,11 @@
 const Queue = require('bull')
 const {default: log} = require('koapi/lib/logger')
-const config = require('../../../../config/server')
+const config = require('../../../../config')
 
 const queue = exports.queue = new Queue('Mailer', config.redis.port, config.redis.host)
 const worker = exports.worker = async function (job) {
   log.info('Bull: msg received %s, serverd by %s', JSON.stringify(job.data), process.pid)
-  throw new Error('error')
+  throw new Error('hahaha')
 }
 
 exports.default = async function () {

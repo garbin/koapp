@@ -1,6 +1,6 @@
 const {default: log} = require('koapi/lib/logger')
 const { queue: Queue, worker: Worker } = require('node-resque')
-const config = require('../../../../config/server')
+const config = require('../../../../config')
 
 const jobs = {
   mailer: {

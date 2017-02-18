@@ -1,7 +1,6 @@
 const oauth2orize = require('oauth2orize-koa')
 const createError = require('http-errors')
-const {default: User} = require('../models/user')
-const {default: Token} = require('../models/oauth/token')
+const { User, Token } = require('../models')
 
 const server = oauth2orize.createServer()
 
@@ -31,4 +30,4 @@ server.exchange(oauth2orize.exchange.refreshToken(async (client, refreshToken, s
   }
 }))
 
-exports.default =  server
+exports.default = server

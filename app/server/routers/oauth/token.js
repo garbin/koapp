@@ -1,7 +1,7 @@
 const { Router } = require('koapi')
 const { authenticate } = require('../../middlewares/passport')
 const {default: oauthServer} = require('../../middlewares/oauth')
-const {default: Token} = require('../../models/oauth/token')
+const { Token } = require('../../models')
 
 exports.default =  Router.define(router => {
   router.get('/oauth/token', authenticate('bearer'), async ctx => {
