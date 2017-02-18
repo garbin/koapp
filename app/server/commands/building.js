@@ -15,7 +15,7 @@ exports.default = {
     }
   },
   handler: async argv => {
-    if (argv.delete) shelljs.exec('rm -rf storage/public/*')
+    if (argv.delete) shelljs.exec('rm -rf storage/public/* && echo "public deleted"')
     shelljs.exec(`webpack --progress --colors --config ./config/webpack ${addonArgs()}`)
     // switch (argv.stuff) {
     //   case 'docs':

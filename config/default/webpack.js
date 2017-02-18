@@ -1,8 +1,7 @@
 var webpack = require('webpack')
-// var DashboardPlugin = require('webpack-dashboard/plugin');
 var path = require('path')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var config = require('../../config')
+var config = require('../../config/server')
 var assetDir = 'static/'
 
 var compiler = {
@@ -95,12 +94,6 @@ var compiler = {
     compress: true,
     port: config.client_dev_port || config.port + 1
   }
-}
-
-if (config.universal.ssr) {
-  var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
-  var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(require('./isomorphic-tools'))
-  compiler.plugins.push(process.env.NODE_ENV !== 'production' ? webpackIsomorphicToolsPlugin.development() : webpackIsomorphicToolsPlugin)
 }
 
 module.exports = compiler

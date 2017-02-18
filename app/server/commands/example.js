@@ -7,7 +7,7 @@ exports.default = {
   }),
   handler: async (argv) => {
     const { Model } = require('koapi')
-    const config = require('../../../config')
+    const config = require('../../../config/server')
     Model.initialize(config.database)
     const log = require('winston')
     const { Post } = require('../models')

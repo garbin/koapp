@@ -1,9 +1,6 @@
 var path = require('path')
 module.exports = {
-  universal: {
-    ssr: true,
-    server: '/api'
-  },
+  universal: { api: '/api', webpack_dev_server: false },
   port: 3000,
   debug: true,
   cors: {

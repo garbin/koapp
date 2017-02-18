@@ -1,8 +1,5 @@
 module.exports = {
-  universal: {
-    ssr: false,
-    server: '/api'
-  },
+  universal: { api: '/api', webpack_dev_server: true },
   port: 5000,
   database: {
     client: 'pg',

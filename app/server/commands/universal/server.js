@@ -3,9 +3,9 @@ const convert = require('koa-convert')
 const mount = require('koa-mount')
 const { default: logger, winston } = require('koapi/lib/logger')
 const historyApiFallback = require('koa-history-api-fallback')
-const config = require('../../../../config')
+const config = require('../../../../config/server')
 
-exports.default = function server (webpackIsomorphicTools) {
+exports.default = function server () {
   logger.add(winston.transports.File, {
     name: 'koapp',
     json: false,
@@ -14,28 +14,18 @@ exports.default = function server (webpackIsomorphicTools) {
 
   const app = new Koapi()
 
-  if (config.universal.server) {
-    app.use(mount(config.universal.server, require('../../').default.koa))
-  }
-
-  if (config.universal.ssr) {
-    if (process.env.NODE_ENV === 'development')webpackIsomorphicTools.refresh()
-    app.use(require('../../middlewares/ssr').default(webpackIsomorphicTools))
-  }
+  if (config.universal.api) app.use(mount(config.universal.api, require('../../').default.koa))
 
   app.use(convert(historyApiFallback()))
-  if (process.env.USE_WEBPACK_DEV_SERVER) {
+  if (config.universal.webpack_dev_server) {
     app.use(convert(require('koa-proxy')({
-      host: `http://localhost:${config.dev_server_port || config.port + 1}`
+      host: `http://localhost:${config.universal.webpack_dev_server === true ? config.port + 1 : config.universal.webpack_dev_server}`
     })))
   } else {
     app.serve({ root: `${__dirname}/../../../../storage/public` })
   }
 
-  const server = app.listen(
-    config.port,
-    e => console.log(`Server running on port ${config.port}`)
-  )
+  const server = app.listen(config.port, e => console.log(`Server running on port ${config.port}`))
 
   return server
 }
