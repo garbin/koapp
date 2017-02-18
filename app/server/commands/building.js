@@ -1,4 +1,5 @@
 const shelljs = require('shelljs')
+const { addonArgs } = require('../lib/helper')
 
 exports.default = {
   command: 'building [stuff]',
@@ -15,7 +16,7 @@ exports.default = {
   },
   handler: async argv => {
     if (argv.delete) shelljs.exec('rm -rf storage/public/*')
-    shelljs.exec(`webpack --progress --colors --config ./config/webpack`)
+    shelljs.exec(`webpack --progress --colors --config ./config/webpack ${addonArgs()}`)
     // switch (argv.stuff) {
     //   case 'docs':
     //     shelljs.exec(`npm start build schemas && apidoc --debug -i ./app/server -o ./docs -f ".*.es$ " -f ".*.js$"`)

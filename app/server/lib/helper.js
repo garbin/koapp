@@ -14,3 +14,7 @@ exports.base64 = {
     return (new Buffer(str)).toString('base64')
   }
 }
+exports.addonArgs = function () {
+  let addonIndex = process.argv.findIndex(arg => arg === '--')
+  return addonIndex ? process.argv.slice(addonIndex + 1).join(' ') : ''
+}

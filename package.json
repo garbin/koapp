@@ -4,15 +4,12 @@
   "description": "",
   "scripts": {
     "start": "node --harmony `which koapi`",
-    "lint": "standard ./**/*.js ./**/*.es ./**/*.jsx",
-    "test": "export NODE_ENV=test && npm run lint && npm start migrate reset && jest --forceExit"
+    "test": "export NODE_ENV=test && npm start linting && npm start migrating reset && jest --forceExit"
   },
   "koapi": {
     "commands": {
       "path": "./app/server/commands",
-      "default": [
-        "universal"
-      ]
+      "default": [ "universal" ]
     }
   },
   "repository": {
