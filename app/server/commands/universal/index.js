@@ -1,11 +1,13 @@
 // const {default: server} = require('../')
 const path = require('path')
 const config = require('../../../../config')
+const shelljs = require('shelljs')
 
 exports.default = {
   command: 'universal',
   describe: 'run universal server',
   handler: argv => {
+    shelljs.exec('npm start building -- -d')
     if (config.universal.ssr) {
       const WebpackIsomorphicTools = require('webpack-isomorphic-tools')
       const toolsConfig = require('../../../../config/webpack/isomorphic-tools')
