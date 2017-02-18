@@ -8,7 +8,7 @@ exports.seed = async function (knex, Promise) {
     username: 'test', password: md5('test'), email: 'test@gmail.com'
   })
   let client = await Client.forge().save({
-    id: '0f434d4b-06bf-4cb2-b8f4-f20bf9349beb',
+    id: '01B98M4375SQ2TQYNMHSNTKPDK',
     client_secret: '530897d5880494a6a9ac92d1273d8ba5',
     redirect_uri: 'http://localhost:5000',
     user_id: user.get('id').toString()

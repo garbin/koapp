@@ -9,108 +9,66 @@ A univeral web app framework baed on Koa & React & Redux
 - [x] [react-router-redux](https://github.com/reactjs/react-router-redux)
 - [x] [redux-form](https://github.com/erikras/redux-form)
 - [x] [redux-thunk](https://github.com/gaearon/redux-thunk)
-- [x] [react-validation-mixin with Joi](https://github.com/jurassix/react-validation-mixin)
-- [x] [fetch-plus](https://github.com/RickWong/fetch-plus)
 - [x] [Webpack](https://webpack.github.io/)
 - [x] [Babel](http://babeljs.io/)
-- [x] [Autoprefixer](https://github.com/postcss/autoprefixer)
-- [x] [PostCSS](https://github.com/postcss/postcss)
-- [x] [Rucksack](http://simplaio.github.io/rucksack/docs)
 - [x] [Koapi](https://github.com/koapi/koapi)
 - [x] [Knex](http://knexjs.org/)
 - [x] [Bookshelf](http://bookshelfjs.org/)
 - [x] [Babel](https://babeljs.io/)
 - [x] [Apidoc](http://apidocjs.com/)
 - [x] [Nodemon](http://nodemon.io/)
-- [x] [Istanbul](https://github.com/gotwarlost/istanbul)
-- [x] [Avajs](https://ava.li)
-- [x] [chaijs](http://chaijs.com)
 
-## For deployment
-### start server
-```bash
-npm start server
-```
+## Quick Start
 
-### start service
 ```bash
-npm start service
-```
-
-### start universal server
-```bash
-npm start universal
-```
-
-## For development
-### Watch file-changes and auto restart server(Dev-mode)
-```bash
-npm run watch server
-```
-### Watch file-changes and auto restart services(Dev-mode)
-```bash
-npm run watch service
-```
-### watch client
-```bash
-npm run watch client
-```
-### watch universal
-```bash
-npm run watch universal
-```
-
-## For build
-### build server side code
-```bash
-npm run build
+# start universal server
+npm start
 # or
-npm run build server
-```
-### build client side code
-```bash
-npm run build client
-```
-### build docs
-```bash
-npm run build docs
-```
-### build schemas
-```bash
-npm run build schemas
+npm start universal
+# start universal sever and build client
+npm start universal -- -b
+# start universal sever and delete public path and build client
+npm start universal -- -b -- -d
+
+# ======================
+# start api server
+npm start server
+
+# ======================
+# start services(eg. queue, scheduler)
+npm start service
+
+# ======================
+# build client code
+npm start building
 ```
 
-## Test
-
+## Development
 ```bash
-# For unit testing
-npm test
+# start universal dev server and watch file changes
+npm start watching univeral
 
-# For code coverage testing
-npm run test -- --coverage
+# ======================
+# start api server alone with file-change watching
+npm start watching server
+
+# ======================
+# start webpack-dev-server
+npm start watching client
+
+# ======================
+# code linting
+npm start linting
 ```
 
-## maintenance
-### database
+## Deployment
 ```bash
 # migrate latest
-npm run migrate
-
-# Rollback db changes
-npm run migrate rollback
-```
-
-```bash
+npm start migrating
 # migrate & seed
-npm run migrate setup
-```
-
-```bash
-# rollback & migrate & seed
-npm run migrate reset
-```
-
-### server command
-```bash
-npm run command ${command name in server/commands}
+npm start migrating setup
+# rollback database changes
+npm start migrating rollback
+# reset database
+npm start migrating reset
 ```

@@ -2,7 +2,7 @@ const { bookshelf } = require('koapi/lib/model')
 const Joi = require('joi')
 const md5 = require('blueimp-md5')
 
-exports.default =  class Client extends bookshelf.Model {
+exports.default = class Client extends bookshelf.Model {
   static get fields () {
     return {
       client_secret: Joi.string().default(ctx => md5(Date.now()), 'Secret'),
@@ -12,13 +12,7 @@ exports.default =  class Client extends bookshelf.Model {
       scope: Joi.string().default('all')
     }
   }
-  get tableName () {
-    return 'oauth_clients'
-  }
-  get hasTimestamps () {
-    return true
-  }
-  get uuid () {
-    return true
-  }
+  get tableName () { return 'oauth_clients' }
+  get hasTimestamps () { return true }
+  get ulid () { return true }
 }

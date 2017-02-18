@@ -13,7 +13,7 @@ const jobs = {
 
 const instance = new Queue({ connection: config.redis }, jobs)
 instance.on('error', log.error)
-instance.connect(console.log)
+instance.connect(a => a)
 
 const worker = exports.worker = new Worker({ connection: config.redis, queues: '*' }, jobs)
 

@@ -42,6 +42,7 @@
     "transform": {
       ".*": "<rootDir>/node_modules/babel-jest"
     },
+    "testEnvironment": "node",
     "testRegex": "(/tests/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
       "js",

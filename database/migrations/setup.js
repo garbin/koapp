@@ -1,7 +1,7 @@
 exports.up = function (knex, Promise) {
   return knex.schema
              .createTable('oauth_clients', function (table) {
-               table.uuid('id').primary()
+               table.string('id').primary()
                table.string('client_secret')
                table.string('redirect_uri')
                table.string('grant_types')
