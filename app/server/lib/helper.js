@@ -16,5 +16,5 @@ exports.base64 = {
 }
 exports.addonArgs = function () {
   let addonIndex = process.argv.findIndex(arg => arg === '--')
-  return addonIndex ? process.argv.slice(addonIndex + 1).join(' ') : ''
+  return addonIndex !== -1 ? process.argv.slice(addonIndex + 1).join(' ') : ''
 }
