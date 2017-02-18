@@ -1,6 +1,6 @@
 const schedule = require('node-schedule')
-const {default: schedulers} = require('./schedulers')
-const log = require('koapi/lib/logger')
+const { default: schedulers } = require('./schedulers')
+const { default: log } = require('koapi/lib/logger')
 
 function done (scheduler) {
   context.done += 1

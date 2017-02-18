@@ -1,6 +1,6 @@
 const {default: Koapi, Model} = require('koapi')
 const {default: logger, winston} = require('koapi/lib/logger')
-const config = require('../../config/server')
+const config = require('../../config')
 const fs = require('fs-extra')
 const { storage } = require('./lib/helper')
 
@@ -29,6 +29,6 @@ app.setup(Object.assign({
   middlewares: require('./middlewares'),
   routers: require('./routers').default,
   serve: { root: storage('/public') }
-}, config))
+}, require('../../config/server')))
 
 exports.default = app

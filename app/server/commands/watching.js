@@ -20,13 +20,13 @@ exports.default = {
         })
         break
       case 'server':
-        shelljs.exec('nodemon --harmony --watch app/server -L -e js,es,jsx `which koapi` -- server ' + args)
+        shelljs.exec('nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- server ' + args)
         break
       case 'universal':
-        shelljs.exec('nodemon --harmony --watch app/server -L -e js,es,jsx `which koapi` -- universal ' + args)
+        shelljs.exec('nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- universal ' + args)
         break
       case 'service':
-        shelljs.exec('nodemon --harmony --watch app/server -L -e js,es,jsx `which koapi` -- service ' + args)
+        shelljs.exec('nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- service ' + args)
         break
     }
   }

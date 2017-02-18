@@ -1,5 +1,5 @@
 // Update with your config settings.
-const config = require('./config/server')
+const config = require('./config')
 
 const database = {
   migrations: {

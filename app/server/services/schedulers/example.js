@@ -1,5 +1,5 @@
 const schedule = require('node-schedule')
-const log = require('koapi/lib/logger')
+const { default: log } = require('koapi/lib/logger')
 const { queue } = require('../queues/resque')
 const { queue: mailer } = require('../queues/bull')
 

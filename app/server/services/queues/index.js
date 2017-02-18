@@ -1,4 +1,3 @@
-const {default: bull} = require('./bull')
-const {default: resque} = require('./resque')
+const config = require('../../../../config/service')
 
-exports.default = [ bull, resque ]
+exports.default = (config.queues || []).map(queue => require(`./${queue}`).default)

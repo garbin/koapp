@@ -1,3 +1,3 @@
-const {default: example} = require('./example')
+const config = require('../../../../config/service')
 
-exports.default = [ example ]
+exports.default = (config.schedulers || []).map(scheduler => require(`./${scheduler}`).default)

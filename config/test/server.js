@@ -1,16 +1,6 @@
 module.exports = {
   port: 0,
   debug: false,
-  database: {
-    client: 'pg',
-    connection: {
-      host: 'localhost',
-      user: 'postgres',
-      password: '123456',
-      database: 'koapp_test',
-      charset: 'utf8'
-    }
-  },
   passport: {
     github: {
       clientID: 'f2ee0541fecc7c773d5d',
