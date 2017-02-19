@@ -7,7 +7,7 @@ import { reducer as notifications } from 'react-notification-system-redux'
 import { nprogress } from 'redux-nprogress'
 import middlewares from './middlewares'
 import reduxers from './reduxers'
-import config from '../../config/client'
+import config from '../../../config/client'
 import { asyncActionStatus } from './lib/helper'
 
 export function configure (reducers, initial) {

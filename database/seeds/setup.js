@@ -1,9 +1,7 @@
 const md5 = require('blueimp-md5')
-const { initialize } = require('koapi/lib/model')
 
 exports.seed = async function (knex, Promise) {
-  initialize(knex)
-  const { Client, User, Role, Token } = require('../../app/server/models')
+  const { Client, User, Role, Token } = require('../../app/models')
   let user = await User.forge().save({
     username: 'test', password: md5('test'), email: 'test@gmail.com'
   })

@@ -1,7 +1,7 @@
 const {default: Koapi} = require('koapi')
 const {default: logger, winston} = require('koapi/lib/logger')
 const fs = require('fs-extra')
-const { storage } = require('./lib/helper')
+const { storage } = require('../lib/helper')
 
 logger.emitErrs = true
 logger.on('error', console.error)

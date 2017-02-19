@@ -2,7 +2,7 @@ const path = require('path')
 const _ = require('lodash')
 
 exports.storage = function (relative) {
-  return path.resolve(`${__dirname}/../../../storage${relative}`)
+  return path.resolve(`${__dirname}/../../storage${relative}`)
 }
 
 exports.base64 = {

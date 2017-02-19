@@ -1,4 +1,4 @@
-const config = require('../../../../config/service')
+const config = require('../../../config/service')
 const {default: log} = require('koapi/lib/logger')
 
 exports.default = {

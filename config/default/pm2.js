@@ -11,8 +11,7 @@ module.exports = {
       script: 'npm',
       args: 'start universal -- -b -- -d',
       env: {
-        NODE_ENV: 'development',
-        USE_WEBPACK_DEV_SERVER: true
+        NODE_ENV: 'development'
       },
       node_args: '--harmony'
     },

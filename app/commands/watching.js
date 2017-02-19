@@ -14,11 +14,6 @@ exports.default = {
     let { stuff } = argv
     let args = addonArgs()
     switch (stuff) {
-      case 'client':
-        shelljs.exec(`webpack-dev-server --config ./config/webpack -d --history-api-fallback --inline --progress --host 0.0.0.0 ${args}`, {
-          maxBuffer: 1024 * 1000
-        })
-        break
       case 'server':
         shelljs.exec('nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- server ' + args)
         break
@@ -28,6 +23,10 @@ exports.default = {
       case 'service':
         shelljs.exec('nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- service ' + args)
         break
+      default:
+        shelljs.exec(`webpack-dev-server --config ./config/webpack --env.client ${argv.stuff} -d --history-api-fallback --inline --progress --host 0.0.0.0 ${args}`, {
+          maxBuffer: 1024 * 1000
+        })
     }
   }
 }

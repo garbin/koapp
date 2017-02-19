@@ -1,21 +1,11 @@
-var webpack = require('webpack')
-var path = require('path')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var config = require('../../config/server')
-var assetDir = 'static/'
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const config = require('../../config/server')
+const assetDir = 'static/'
 
-var compiler = {
+const compiler = {
   devtool: 'source-map',
-  context: path.join(__dirname, '../../app/client'),
-  entry: {
-    main: './index.js',
-    vendor: [
-      'react', 'redux', 'react-redux', 'react-router-redux', 'react-router',
-      'redux-actions', 'react-dom'
-    ]
-  },
   output: {
-    path: path.join(__dirname, '../../storage/public'),
     filename: assetDir + 'js/[name].js',
     chunkFilename: assetDir + 'js/[chunkhash].[name].js',
     publicPath: '/'
@@ -69,18 +59,11 @@ var compiler = {
     }
   },
   plugins: [
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        context: path.join(__dirname, '../../app/client')
-      }
-    }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'main', async: true }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        __SERVER__: JSON.stringify(false),
-        __CLIENT__: JSON.stringify(true)
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
     new HtmlWebpackPlugin({

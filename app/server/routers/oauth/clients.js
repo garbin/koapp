@@ -1,7 +1,7 @@
 const { ResourceRouter } = require('koapi')
 const { omit } = require('lodash')
 const {default: user} = require('../../middlewares/user')
-const { Client } = require('../../models')
+const { Client } = require('../../../models')
 
 exports.default = ResourceRouter.define({
   collection: Client.collection(),

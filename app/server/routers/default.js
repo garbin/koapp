@@ -1,7 +1,7 @@
 const { Router } = require('koapi')
-const { queue } = require('../services/queues/resque')
+const { queue } = require('../../services/queues/resque')
 
-exports.default =  Router.define(router => {
+exports.default = Router.define(router => {
   /**
    * @api {get} / Index
    * @apiName Index

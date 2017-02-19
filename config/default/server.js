@@ -1,12 +1,18 @@
-var path = require('path')
+const { storage } = require('../../app/lib/helper')
 module.exports = {
-  universal: { api: '/api', webpack_dev_server: false },
-  port: 3000,
+  // universal: { api: '/api', webpack_dev_server: false },
+  universal: {
+    api: '/api',
+    clients: [
+      {name: 'website', mount: '/'}
+    ]
+  },
+  port: 5000,
   debug: true,
   cors: {
     expose: ['Content-Range']
   },
-  accesslog: { path: path.join(__dirname, '/../../storage/logs/access.log') },
+  accesslog: { path: storage('/logs/access.log') },
   passport: {
     github: {
       clientID: 'f2ee0541fecc7c773d5d',
@@ -24,28 +30,5 @@ module.exports = {
       callbackURL: 'http://192.168.205.128:5000/auth/oauth2/callback',
       redirectBack: 'http://localhost:5100'
     }
-  },
-  database: {
-    client: 'mysql',
-    connection: {
-      host: 'localhost',
-      user: 'root',
-      password: '123456',
-      database: 'blog',
-      charset: 'utf8'
-    },
-    migrations: {
-      directory: './database/migrations'
-    },
-    seeds: {
-      directory: './database/seeds'
-    }
-  },
-  redis: {
-    pkg: 'ioredis',
-    database: 0,
-    host: 'localhost',
-    port: 6379,
-    password: null
   }
 }

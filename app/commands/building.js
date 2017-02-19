@@ -6,8 +6,8 @@ exports.default = {
   describe: 'build stuff',
   builder: {
     stuff: {
-      default: 'client',
-      choices: ['client', 'schemas', 'docs']
+      default: 'website',
+      choices: ['website']
     },
     delete: {
       alias: 'd',
@@ -16,7 +16,7 @@ exports.default = {
   },
   handler: async argv => {
     if (argv.delete) shelljs.exec('rm -rf storage/public/* && echo "public deleted"')
-    shelljs.exec(`webpack --progress --colors --config ./config/webpack ${addonArgs()}`)
+    shelljs.exec(`webpack --progress --colors --config ./config/webpack --env.client ${argv.stuff || 'website'} ${addonArgs()}`)
     // switch (argv.stuff) {
     //   case 'docs':
     //     shelljs.exec(`npm start build schemas && apidoc --debug -i ./app/server -o ./docs -f ".*.es$ " -f ".*.js$"`)

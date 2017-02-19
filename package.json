@@ -8,7 +8,7 @@
   },
   "koapi": {
     "commands": {
-      "path": "./app/server/commands",
+      "path": "./app/commands",
       "default": [
         "universal"
       ]

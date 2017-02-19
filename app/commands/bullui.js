@@ -1,4 +1,4 @@
-const config = require('../../../config/server')
+const config = require('../../config/server')
 
 exports.default = {
   command: 'bullui',

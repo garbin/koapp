@@ -7,7 +7,7 @@ exports.default = {
     boolean: true
   }),
   handler: argv => {
-    const config = require('../../../config/server')
+    const config = require('../../config/server')
     require('../').default.listen(
       config.port,
       () => console.log(`server is running on port ${config.port}`)

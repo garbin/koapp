@@ -6,7 +6,7 @@ const {default: posts} = require('./posts')
 const {default: subdomain} = require('./subdomain')
 const {default: cashier} = require('./cashier')
 
-exports.default =  [
+exports.default = [
   subdomain,
   index,
   posts,

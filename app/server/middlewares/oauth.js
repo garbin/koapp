@@ -1,6 +1,6 @@
 const oauth2orize = require('oauth2orize-koa')
 const createError = require('http-errors')
-const { User, Token } = require('../models')
+const { User, Token } = require('../../models')
 
 const server = oauth2orize.createServer()
 

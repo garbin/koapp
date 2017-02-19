@@ -1,7 +1,7 @@
 const { Model } = require('koapi')
 
 if (!Model.bookshelf) {
-  const config = require('../../../config')
+  const config = require('../../config')
   Model.initialize(config.database)
 }
 

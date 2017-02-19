@@ -1,4 +1,4 @@
-const config = require('../../../../config/service')
+const config = require('../../../config/service')
 const schedule = require('node-schedule')
 const { default: log } = require('koapi/lib/logger')
 
