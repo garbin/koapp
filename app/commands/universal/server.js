@@ -27,10 +27,6 @@ exports.default = function server () {
       app.use(mount(client.mount, serve(storage(`/public/${client.name}`))))
     }
   })
-  // if (config.universal.webpack_dev_server) {
-  // } else {
-  //   app.serve({ root: `${__dirname}/../../../storage/public` })
-  // }
 
   const server = app.listen(config.port, e => console.log(`Universal server running on port ${config.port}`))
 

@@ -13,8 +13,6 @@ exports.default = {
   handler: async argv => {
     let { stuff } = argv
     let args = addonArgs()
-    process.env.KOAPP_WATCH_MODE = true
-    process.env.KOAPP_WEBPACK_DEV_HOST = process.env.KOAPP_WEBPACK_DEV_HOST || 'localhost'
     switch (stuff) {
       case 'server':
         shelljs.exec('nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- server ' + args)
@@ -23,6 +21,8 @@ exports.default = {
         const config = require('../../config/server')
         let commands = []
         let names = []
+        process.env.KOAPP_WATCH_MODE = true
+        process.env.KOAPP_WEBPACK_DEV_HOST = process.env.KOAPP_WEBPACK_DEV_HOST || 'localhost'
         for (let client of config.universal.clients) {
           names.push(client.name)
           commands.push(`"npm start watch ${client.name}"`)
