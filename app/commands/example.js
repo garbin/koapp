@@ -8,6 +8,7 @@ exports.default = {
   handler: async (argv) => {
     const log = require('winston')
     const { Post } = require('../models')
-    log.info('haha', await Post.fetchAll())
+    let a = await Post.fetchAll()
+    log.info('haha', a.toJSON())
   }
 }

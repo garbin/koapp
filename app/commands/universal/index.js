@@ -7,6 +7,7 @@ exports.default = {
   builder: {
     build: {
       alias: 'b',
+      describe: 'build before start',
       boolean: true
     }
   },
