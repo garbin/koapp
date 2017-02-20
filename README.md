@@ -40,35 +40,37 @@ npm start service
 
 # ======================
 # build client code
-npm start building
+npm start build
 ```
 
 ## Development
 ```bash
 # start universal dev server and watch file changes
-npm start watching univeral
+npm start watch univeral
 
 # ======================
 # start api server alone with file-change watching
-npm start watching server
+npm start watch server
 
 # ======================
 # start webpack-dev-server
-npm start watching client
+npm start watch client
 
 # ======================
 # code linting
-npm start linting
+npm start lint
 ```
 
 ## Deployment
 ```bash
 # migrate latest
-npm start migrating
+npm start database latest
 # migrate & seed
-npm start migrating setup
+npm start database setup
 # rollback database changes
-npm start migrating rollback
+npm start database rollback
 # reset database
-npm start migrating reset
+npm start database reset
+# knex operate
+npm start database migrate:make
 ```

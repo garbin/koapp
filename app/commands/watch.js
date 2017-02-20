@@ -2,7 +2,7 @@ const shelljs = require('shelljs')
 const { addonArgs } = require('../lib/helper')
 
 exports.default = {
-  command: 'watching [stuff]',
+  command: 'watch [stuff]',
   describe: 'watch mode',
   builder: yargs => yargs.options({
     stuff: {

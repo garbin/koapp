@@ -2,8 +2,8 @@ const shelljs = require('shelljs')
 const { addonArgs } = require('../lib/helper')
 
 exports.default = {
-  command: 'migrating [stuff]',
-  describe: 'Migrating',
+  command: 'database [stuff]',
+  describe: 'database operation',
   builder: {
     stuff: {
       default: 'latest',

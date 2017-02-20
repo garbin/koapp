@@ -2,10 +2,10 @@ const {default: bullui} = require('./bullui')
 const {default: service} = require('./service')
 const {default: server} = require('./server')
 const {default: universal} = require('./universal')
-const {default: linting} = require('./linting')
-const {default: building} = require('./building')
-const {default: watching} = require('./watching')
-const {default: migrate} = require('./migrating')
+const {default: lint} = require('./lint')
+const {default: build} = require('./build')
+const {default: watch} = require('./watch')
+const {default: database} = require('./database')
 const {default: example} = require('./example')
 
 module.exports = [
@@ -13,9 +13,9 @@ module.exports = [
   server,
   universal,
   bullui,
-  linting,
-  building,
-  watching,
-  migrate,
+  lint,
+  build,
+  watch,
+  database,
   example
 ]

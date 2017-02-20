@@ -2,7 +2,7 @@ const shelljs = require('shelljs')
 const { addonArgs } = require('../lib/helper')
 
 exports.default = {
-  command: 'building [stuff]',
+  command: 'build [stuff]',
   describe: 'build stuff',
   builder: {
     stuff: {

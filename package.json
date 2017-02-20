@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "node --harmony `which koapi`",
-    "test": "export NODE_ENV=test && npm start linting && npm start migrating reset && jest --forceExit"
+    "test": "export NODE_ENV=test && npm start lint && npm start database reset && jest --forceExit"
   },
   "koapi": {
     "commands": {
