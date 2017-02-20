@@ -26,7 +26,6 @@ function runCommand (services, clusterMode) {
   }
 }
 
-// see https://github.com/tj/commander.js
 exports.default = {
   command: 'service [name]',
   describe: 'service',
