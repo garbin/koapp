@@ -8,10 +8,6 @@ exports.default = {
     build: {
       alias: 'b',
       boolean: true
-    },
-    delete: {
-      alias: 'd',
-      boolean: true
     }
   },
   handler: argv => {
