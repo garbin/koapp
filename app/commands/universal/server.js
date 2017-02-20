@@ -16,7 +16,7 @@ exports.default = function server () {
 
   const app = new Koapi()
 
-  if (config.universal.api) app.use(mount(config.universal.api, require('../../server').default.koa))
+  if (config.universal.server) app.use(mount(config.universal.server, require('../../server').default.koa))
 
   app.use(convert(historyApiFallback()))
   config.universal.clients.forEach(client => {

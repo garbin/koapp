@@ -1,7 +1,7 @@
 const compose = require('koa-compose')
 const { authenticate } = require('./passport')
 
-exports.default =  {
+exports.default = {
   grant (permission) {
     return compose([authenticate('bearer'), async (ctx, next) => {
       // load role

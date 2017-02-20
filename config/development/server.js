@@ -1,6 +1,6 @@
 module.exports = {
   universal: {
-    api: '/api',
+    server: '/api',
     clients: [
       { name: 'website', mount: '/', dev_server: 'http://localhost:5001' }
     ]

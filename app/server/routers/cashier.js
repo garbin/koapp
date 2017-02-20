@@ -2,7 +2,7 @@ const { Router } = require('koapi')
 const { Order } = require('paymentjs')
 const {default: payments} = require('../middlewares/payments')
 
-exports.default =  Router.define(router => {
+exports.default = Router.define(router => {
   router.get('/cashier/:gateway', payments(), async(ctx, next) => {
     let payment = ctx.state.payments[ctx.params.gateway]
     let response = await payment.purchase(new Order({

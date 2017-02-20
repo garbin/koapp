@@ -27,8 +27,10 @@ exports.default = {
         shelljs.exec('node --harmony `which knex` seed:run ' + args)
         break
       case 'latest':
-      default:
         shelljs.exec('node --harmony `which knex` migrate:latest ' + args)
+        break
+      default:
+        shelljs.exec('node --harmony `which knex`' + ` ${argv.stuff} ${args}`)
     }
   }
 }

@@ -7,4 +7,4 @@ const router = exports.router = Router.define(router => {
   })
 })
 
-exports.default =  subdomain('api.*', router.routes())
+exports.default = subdomain('api.*', router.routes())

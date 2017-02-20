@@ -1,5 +1,5 @@
 import { createAction, handleAction } from 'redux-actions'
-import { api, handleAsyncAction } from '../lib/helper'
+import { api } from '../lib/helper'
 
 export const actions = {
   fetch: createAction('FETCH', payload => api.get('/posts'))

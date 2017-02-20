@@ -2,7 +2,7 @@ const { storage } = require('../../app/lib/helper')
 module.exports = {
   // universal: { api: '/api', webpack_dev_server: false },
   universal: {
-    api: '/api',
+    server: '/api',
     clients: [
       {name: 'website', mount: '/'}
     ]

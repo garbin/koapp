@@ -1,6 +1,6 @@
 const { Alipay, Stripe } = require('paymentjs/lib/gateways')
 
-exports.default =  function () {
+exports.default = function () {
   return async (ctx, next) => {
     ctx.state.payments = {
       alipay: new Alipay({
