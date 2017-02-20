@@ -20,8 +20,9 @@ exports.default = function server () {
 
   app.use(convert(historyApiFallback()))
   config.universal.clients.forEach(client => {
-    if (client.dev_server) {
-      app.use(convert(require('koa-proxy')({ host: client.dev_server })))
+    if (process.env.KOAPP_WATCH_MODE) {
+      let webpackConfig = require('../../../config/webpack')({client: client.name})
+      app.use(convert(require('koa-proxy')({ host: `http://${process.env.KOAPP_WEBPACK_DEV_HOST}:${webpackConfig.devServer.port}` })))
     } else {
       app.use(mount(client.mount, serve(storage(`/public/${client.name}`))))
     }

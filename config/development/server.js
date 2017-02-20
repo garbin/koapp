@@ -2,7 +2,7 @@ module.exports = {
   universal: {
     server: '/api',
     clients: [
-      { name: 'website', mount: '/', dev_server: 'http://localhost:5001' }
+      { name: 'website', mount: '/' }
     ]
   },
   port: 5000
