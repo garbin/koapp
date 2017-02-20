@@ -18,7 +18,16 @@ exports.default = {
         shelljs.exec('nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- server ' + args)
         break
       case 'universal':
-        shelljs.exec('nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- universal ' + args)
+        const config = require('../../config/server')
+        let commands = []
+        let names = []
+        for (let client of config.universal.clients) {
+          names.push(client.name)
+          commands.push(`"npm start watch ${client.name}"`)
+        }
+        names.push('universal')
+        commands.push('"nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- universal ' + args + '"')
+        shelljs.exec(`concurrently -p name -n "${names.join(',')}" ${commands.join(' ')}`)
         break
       case 'service':
         shelljs.exec('nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- service ' + args)
