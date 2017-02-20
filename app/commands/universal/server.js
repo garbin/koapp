@@ -31,7 +31,7 @@ exports.default = function server () {
   //   app.serve({ root: `${__dirname}/../../../storage/public` })
   // }
 
-  const server = app.listen(config.port, e => console.log(`Server running on port ${config.port}`))
+  const server = app.listen(config.port, e => console.log(`Universal server running on port ${config.port}`))
 
   return server
 }
