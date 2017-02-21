@@ -16,6 +16,7 @@ exports.default = class User extends bookshelf.Model {
   posts () {
     return this.hasMany(Post)
   }
+  static get Account () { return Account }
 
   static get fields () {
     return {
