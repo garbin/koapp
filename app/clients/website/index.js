@@ -1,17 +1,33 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { browserHistory } from 'react-router'
-import { Provider } from 'react-redux'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { connect, Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
-import routes from './containers/routes'
+import { ReduxAsyncConnect } from 'redux-connect'
+import { NProgress } from 'redux-nprogress'
+import Notifications from 'react-notification-system-redux'
+import * as Containers from './containers'
 import createStore from './store'
 
 const store = createStore(browserHistory)
 const history = syncHistoryWithStore(browserHistory, store)
 
+const ReduxNotifications = connect(
+  state => ({ notifications: state.notifications })
+)(Notifications)
+
 ReactDOM.render((
   <Provider store={store}>
-    {routes(history, store)}
+    <Router render={props => <ReduxAsyncConnect {...props} />} history={history}>
+      <Route component={props => <div><NProgress /><ReduxNotifications />{props.children}</div>}>
+        <Route path='/' component={Containers.Root}>
+          <IndexRoute component={Containers.Index} />
+          <Route path='counter' component={Containers.Counter} />
+          <Route path='async' component={Containers.Async} />
+          <Route path='auth' component={Containers.Auth} />
+        </Route>
+      </Route>
+    </Router>
   </Provider>
 ), document.getElementById('koapp'))

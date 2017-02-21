@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = require('../../config/server')
 const assetDir = 'static/'
+const package = require('../../package')
 
 const compiler = {
   devtool: 'source-map',
@@ -46,9 +47,7 @@ const compiler = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader', 'css-loader'
-        ]
+        use: [ 'style-loader', 'css-loader?importLoaders=1', 'postcss-loader' ]
       }
     ]
   },
@@ -67,16 +66,19 @@ const compiler = {
       }
     }),
     new HtmlWebpackPlugin({
-      title: 'Koapp',
+      title: `${package.title} - ${package.name}`,
       template: './index.ejs',
       filename: './index.html'
+    }),
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        postcss () {
+          return [ require('postcss-cssnext')() ]
+        }
+      }
     })
   ],
-  devServer: {
-    hot: false,
-    compress: true,
-    port: config.client_dev_port || config.port + 1
-  }
+  devServer: { hot: false, compress: true }
 }
 
 module.exports = compiler

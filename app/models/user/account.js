@@ -1,6 +1,6 @@
 const { bookshelf } = require('koapi/lib/model')
 const Joi = require('joi')
-const {default: User} = require('./user')
+const {default: User} = require('./')
 const moment = require('moment')
 
 exports.default = class Account extends bookshelf.Model {

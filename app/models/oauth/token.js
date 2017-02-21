@@ -5,7 +5,7 @@ const md5 = require('blueimp-md5')
 const uuid = require('node-uuid')
 const {default: User} = require('../user')
 
-exports.default =  class Token extends bookshelf.Model {
+exports.default = class Token extends bookshelf.Model {
   get tableName () {
     return 'oauth_tokens'
   }

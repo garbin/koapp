@@ -12,7 +12,7 @@ exports.default = {
     }
   },
   handler: argv => {
-    if (argv.build) shelljs.exec(`npm start building -- ${addonArgs()}`)
+    if (argv.build) shelljs.exec(`npm start build -- ${addonArgs()}`)
     require('./server').default()
   }
 }

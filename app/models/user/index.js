@@ -1,9 +1,8 @@
 const { bookshelf } = require('koapi/lib/model')
 const Joi = require('joi')
 const md5 = require('blueimp-md5')
-const {default: Role} = require('./role')
-const {default: Post} = require('./post')
-const {default: Account} = require('./user_account')
+const {default: Role} = require('../role')
+const {default: Post} = require('../post')
 
 exports.default = class User extends bookshelf.Model {
   get tableName () { return 'users' }
@@ -33,3 +32,5 @@ exports.default = class User extends bookshelf.Model {
     throw new Error('auth failed')
   }
 }
+
+const {default: Account} = require('./account')
