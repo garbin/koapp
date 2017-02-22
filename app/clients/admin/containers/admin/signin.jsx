@@ -27,7 +27,7 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
     return this.props.dispatch({
       type: 'SIGNIN',
       payload: new Promise((resolve, reject) => {
-        this.props.dispatch(actions.get_token(values, e => {
+        this.props.dispatch(actions.getToken(values, e => {
           if (e) {
             const err = new SubmissionError({ username: '用户不存在', password: '或者密码不正确' })
             reject(err)

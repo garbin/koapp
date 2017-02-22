@@ -9,8 +9,8 @@ exports.default = Router.define(router => {
   })
 
   router.del('/oauth/token', authenticate('bearer'), async ctx => {
-    let { access_token } = ctx.state.authInfo
-    await Token.where({ access_token }).destroy()
+    let { accessToken } = ctx.state.authInfo
+    await Token.where({ access_token: accessToken }).destroy()
     ctx.status = 204
   })
 

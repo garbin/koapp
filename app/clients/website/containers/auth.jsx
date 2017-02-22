@@ -12,7 +12,10 @@ class OAuthButton extends React.Component {
 export class AuthApp extends React.Component {
   render () {
     let { oauth } = this.props
-    let Signin = OAuthSignin(loadable(OAuthButton))
+    let Signin = OAuthSignin(loadable(OAuthButton), {
+      width: 1000,
+      height: 300
+    })
     let Signout = OAuthSignout(OAuthButton)
     return (
       <div>

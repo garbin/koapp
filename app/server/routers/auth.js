@@ -17,7 +17,10 @@ exports.default = Router.define(router => {
     await authenticate(provider, { session: false }).call(this, ctx, next)
   }, async ctx => {
     let { clientID, redirectBack } = config.passport[ctx.params.provider]
-    let state = ctx.query.state ? JSON.parse(base64.decode(ctx.query.state)) : {}
+    let state = {}
+    try {
+      state = ctx.query.state ? JSON.parse(base64.decode(ctx.query.state)) : {}
+    } catch (e) {}
     let token = await Token.issue(clientID, ctx.state.user.get('id').toString())
     let redirectUrl = `${state.redirect || state.auth_origin_url || redirectBack || '/'}?access_token=${token.get('access_token')}`
     ctx.redirect(redirectUrl)
