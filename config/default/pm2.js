@@ -8,8 +8,8 @@ module.exports = {
   apps: [
     {
       name: `${pkg.name}_universal`,
-      script: 'npm',
-      args: 'start universal -- -b -- -d',
+      script: 'index.js',
+      args: 'universal',
       env: {
         NODE_ENV: 'development'
       },
@@ -26,8 +26,8 @@ module.exports = {
     // },
     {
       name: `${pkg.name}_service`,
-      script: 'npm',
-      args: 'start service',
+      script: 'index.js',
+      args: 'service',
       node_args: '--harmony',
       env: {
         NODE_ENV: 'development'

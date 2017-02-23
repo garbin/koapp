@@ -1,3 +1,4 @@
 module.exports = {
-  // queues: []
+  queues: [],
+  schedulers: []
 }

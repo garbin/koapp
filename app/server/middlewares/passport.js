@@ -6,7 +6,7 @@ const BearerStrategy = require('passport-http-bearer')
 const ClientPasswordStrategy = require('passport-oauth2-client-password')
 const createError = require('http-errors')
 const config = require('../../../config/server')
-const { OAuth, User, Token } = require('../../models')
+const { OAuth, User } = require('../../models')
 const request = require('axios')
 
 function accountSignin (provider, getProfile) {

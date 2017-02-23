@@ -4,13 +4,13 @@ module.exports = {
   apps: [
     {
       name: `${pkg.name}_universal`,
-      script: 'npm',
-      args: 'start universal -- -b -- -d',
-      env: {
-        NODE_ENV: process.env.NODE_ENV
-      },
-      node_args: '--harmony'
-    },
+      script: 'index.js',
+      args: 'universal',
+      env: { NODE_ENV: process.env.NODE_ENV },
+      node_args: '--harmony',
+      exec_mode: 'cluster',
+      instances: 'max'
+    }
     // {
     //   name: `${pkg.name}_api`,
     //   script: 'npm',
@@ -20,14 +20,14 @@ module.exports = {
     //     NODE_ENV: 'development'
     //   }
     // },
-    {
-      name: `${pkg.name}_service`,
-      script: 'npm',
-      args: 'start service',
-      node_args: '--harmony',
-      env: {
-        NODE_ENV: process.env.NODE_ENV
-      }
-    }
+    // {
+    //   name: `${pkg.name}_service`,
+    //   script: 'index.js',
+    //   args: 'service',
+    //   node_args: '--harmony',
+    //   env: {
+    //     NODE_ENV: process.env.NODE_ENV
+    //   }
+    // }
   ]
 }

@@ -1,4 +1,4 @@
-const api = 'http://localhost:5000/api'
+const api = 'http://localhost:6000/api'
 
 module.exports = {
   api,

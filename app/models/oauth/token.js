@@ -2,7 +2,7 @@ const { bookshelf } = require('koapi/lib/model')
 const Joi = require('joi')
 const moment = require('moment')
 const md5 = require('blueimp-md5')
-const uuid = require('node-uuid')
+const uuid = require('uuid')
 const {default: User} = require('../user')
 
 exports.default = class Token extends bookshelf.Model {
@@ -27,7 +27,7 @@ exports.default = class Token extends bookshelf.Model {
       access_token_expires_at: Joi.date(),
       refresh_token_expires_at: Joi.date()
     }
-  };
+  }
   static async issue (clientId, userId, options) {
     let token = new this()
     token = await token.save(Object.assign({

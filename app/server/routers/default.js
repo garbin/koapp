@@ -1,5 +1,4 @@
 const { Router } = require('koapi')
-const { queue } = require('../../services/queues/resque')
 
 exports.default = Router.define(router => {
   /**
@@ -29,6 +28,7 @@ exports.default = Router.define(router => {
   })
 
   router.get('/test', async ctx => {
+    const { queue } = require('../../services/queues/resque')
     queue.enqueue('abc', 'mailer', [{ msg: 'hehe' }])
     ctx.body = 'hehe'
   })
