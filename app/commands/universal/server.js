@@ -1,11 +1,13 @@
 const { default: Koapi } = require('koapi')
 const convert = require('koa-convert')
+const compose = require('koa-compose')
 const mount = require('koa-mount')
 const { default: logger, winston } = require('koapi/lib/logger')
 const historyApiFallback = require('koa-history-api-fallback')
 const serve = require('koa-static')
 const config = require('../../../config/server')
 const { storage } = require('../../lib/helper')
+const proxy = require('koa-proxy')
 
 exports.default = function server () {
   logger.add(winston.transports.File, {
@@ -18,13 +20,17 @@ exports.default = function server () {
 
   if (config.universal.server) app.use(mount(config.universal.server, require('../../server').default.koa))
 
-  app.use(convert(historyApiFallback()))
   config.universal.clients.forEach(client => {
     if (process.env.KOAPP_WATCH_MODE) {
       let webpackConfig = require('../../../config/webpack')({client: client.name})
-      app.use(convert(require('koa-proxy')({ host: `http://${process.env.KOAPP_WEBPACK_DEV_HOST}:${webpackConfig.devServer.port}` })))
+      let publicContent = convert(proxy({
+        host: `http://${process.env.KOAPP_WEBPACK_DEV_HOST}:${webpackConfig.devServer.port}`,
+        map: path => client.mount !== '/' ? `${client.mount}/${path}` : path
+      }))
+      app.use(mount(client.mount, compose([convert(historyApiFallback()), publicContent])))
     } else {
-      app.use(mount(client.mount, serve(storage(`/public/${client.name}`))))
+      let publicContent = serve(storage(`/public/${client.name}`))
+      app.use(mount(client.mount, compose([convert(historyApiFallback()), publicContent])))
     }
   })
 

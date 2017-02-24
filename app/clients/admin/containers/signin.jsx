@@ -7,7 +7,7 @@ import classnames from 'classnames'
 import { beginTask, endTask } from 'redux-nprogress'
 import _ from 'lodash'
 import notify from 'react-notification-system-redux'
-import { loadable } from '../../components/hoc'
+import { loadable } from '../components/hoc'
 
 const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
   <div className={classnames('form-group', { 'has-error': !_.isEmpty(error) })}>

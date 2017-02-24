@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from '../../lib/helper'
+import { connect } from '../lib/helper'
 
 export class Dashboard extends React.Component {
   render () {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'reactabular'
-import { table } from '../../lib/helper'
+import { table } from '../lib/helper'
 
 export class List extends React.Component {
   constructor (props) {

@@ -5,8 +5,9 @@ import Dropdown from 'react-aria-menubutton'
 import { OAuthSignout } from 'react-redux-oauth2'
 import Metismenu from 'react-metismenu'
 import RouterLink from 'react-metismenu-router-link'
-import { connect } from '../../lib/helper'
-import { actions } from '../../reduxers/website'
+import { connect } from '../lib/helper'
+import { actions } from '../reduxers/website'
+import '../styles'
 
 const menu = [
   { label: '控制台', icon: 'fa fa-dashboard', to: '/admin' },
