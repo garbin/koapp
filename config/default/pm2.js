@@ -1,4 +1,5 @@
 const pkg = require('../../package')
+const cwd = `${__dirname}/../../`
 
 module.exports = {
   /**
@@ -10,6 +11,7 @@ module.exports = {
       name: `${pkg.name}_universal`,
       script: 'index.js',
       args: 'universal',
+      cwd,
       env: {
         NODE_ENV: 'development'
       },
@@ -26,8 +28,9 @@ module.exports = {
     // },
     {
       name: `${pkg.name}_service`,
+      cwd: `${__dirname}/../../`,
       script: 'index.js',
-      args: 'service',
+      args: 'service', cwd,
       node_args: '--harmony',
       env: {
         NODE_ENV: 'development'

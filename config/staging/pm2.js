@@ -1,9 +1,11 @@
 const pkg = require('../../package')
+const cwd = `${__dirname}/../../`
 
 module.exports = {
   apps: [
     {
       name: `${pkg.name}_universal`,
+      cwd,
       script: 'index.js',
       args: 'universal',
       env: { NODE_ENV: process.env.NODE_ENV },
