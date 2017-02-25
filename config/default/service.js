@@ -1,4 +1,12 @@
 module.exports = {
-  queues: ['mailer'],
-  schedulers: ['example']
+  master: {
+    schedulers: {
+      enabled: ['example']
+    }
+  },
+  worker: {
+    queues: {
+      enabled: ['mailer']
+    }
+  }
 }

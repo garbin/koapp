@@ -31,7 +31,7 @@ const context = exports.context = {
 
 exports.default = {
   start (id) {
-    (config.schedulers || []).map(name => {
+    (config.master.schedulers.enabled || []).map(name => {
       let scheduler = init(require(`./${name}`).default)
       if (scheduler.do) {
         let job = schedule.scheduleJob(scheduler.name, scheduler.schedule, function () {

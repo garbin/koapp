@@ -1,4 +1,10 @@
-const {default: queue} = require('./queues')
-const {default: scheduler} = require('./schedulers')
+const service = require('../../config/service')
 
-exports.default = { master: [scheduler], worker: [queue] }
+function services (config) {
+  return Object.entries(config).reduce(function (result, [name, config]) {
+    result.push(require(`./${name}`).default)
+    return result
+  }, [])
+}
+
+exports.default = { master: services(service.master), worker: services(service.worker) }

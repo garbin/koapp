@@ -3,7 +3,7 @@ const {default: log} = require('koapi/lib/logger')
 
 exports.default = {
   start (id) {
-    (config.queues || []).map(id => {
+    (config.worker.queues.enabled || []).map(id => {
       const queue = require(`./${id}`).default
       queue.queue.on('ready', () => {
         log.info('Queue %s ready for jobs, PID: %s', queue.name, process.pid)
