@@ -1,4 +1,4 @@
 module.exports = {
-  queues: ['bull'],
+  queues: ['mailer'],
   schedulers: ['example']
 }

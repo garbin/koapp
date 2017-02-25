@@ -1,7 +1,6 @@
 const schedule = require('node-schedule')
 const { default: log } = require('koapi/lib/logger')
-const { queue } = require('../queues/resque')
-const { queue: mailer } = require('../queues/bull')
+const { queue } = require('../queues/mailer')
 
 const jobs = {}
 
@@ -13,8 +12,7 @@ exports.default = {
     if (!jobs[1]) {
       let job = schedule.scheduleJob('*/3 * * * * *', async () => {
         try {
-          await queue.enqueue('mailer', { Hello: 'World' })
-          await mailer.add({ Hello: 'World!' })
+          await queue.add({ Hello: 'World!' })
           log.info('msg send')
         } catch (e) {
           log.error(e)
