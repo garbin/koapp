@@ -1,13 +1,30 @@
 const shelljs = require('shelljs')
+const inquirer = require('inquirer')
 const { addonArgs } = require('../lib/helper')
+
+async function prompt (name, message, force, options) {
+  if (force) return true
+  let answers = await inquirer.prompt(Object.assign({
+    name,
+    message,
+    choices: ['yes', 'no']
+  }, options))
+  let answer = answers[name].toLowerCase() === 'yes'
+  if (!answer) console.log(`${name} cancelled`)
+  return answer
+}
 
 exports.default = {
   command: 'database [stuff]',
   describe: 'database operation',
   builder: {
     stuff: {
-      default: 'latest',
-      choices: ['latest', 'setup', 'rollback', 'reset']
+      default: 'upgrade',
+      choices: ['upgrade', 'latest', 'setup', 'rollback', 'reset']
+    },
+    force: {
+      alias: 'f',
+      boolean: true
     }
   },
   handler: async argv => {
@@ -19,15 +36,22 @@ exports.default = {
         shelljs.exec('node --harmony `which knex` seed:run ' + args)
         break
       case 'rollback':
-        shelljs.exec('node --harmony `which knex` migrate:rollback ' + args)
+        if (await prompt('rollback', 'Dangerous!!! Will rollback db changes, Are you sure?[yes or no]', argv.force)) {
+          shelljs.exec('node --harmony `which knex` migrate:rollback ' + args)
+        }
         break
       case 'reset':
-        shelljs.exec('node --harmony `which knex` migrate:rollback ' + args)
-        shelljs.exec('node --harmony `which knex` migrate:latest ' + args)
-        shelljs.exec('node --harmony `which knex` seed:run ' + args)
+        if (await prompt('reset', 'Dangerous!!! Will destroy database then rebuild it, Are you sure?[yes or no]', argv.force)) {
+          shelljs.exec('node --harmony `which knex` migrate:rollback ' + args)
+          shelljs.exec('node --harmony `which knex` migrate:latest ' + args)
+          shelljs.exec('node --harmony `which knex` seed:run ' + args)
+        }
         break
+      case 'upgrade':
       case 'latest':
-        shelljs.exec('node --harmony `which knex` migrate:latest ' + args)
+        if (await prompt('upgrade', 'Dangerous!!! Will upgrade your database, Are you sure?[yes or no]', argv.force)) {
+          shelljs.exec('node --harmony `which knex` migrate:latest ' + args)
+        }
         break
       default:
         shelljs.exec('node --harmony `which knex`' + ` ${argv.stuff} ${args}`)
