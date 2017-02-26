@@ -34,7 +34,7 @@ exports.default = function server () {
     }
   })
 
-  const server = app.listen(config.port, e => console.log(`Universal server running on port ${config.port}`))
+  const server = app.listen(config.port, e => logger.info(`Universal server running on port ${config.port}`))
 
   return server
 }

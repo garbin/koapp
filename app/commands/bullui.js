@@ -1,4 +1,4 @@
-const config = require('../../config/server')
+const config = require('../../config')
 
 exports.default = {
   command: 'bullui',
@@ -9,7 +9,7 @@ exports.default = {
     type: 'string'
   }),
   handler: argv => {
-    let ui = require('toureiro')({
+    let ui = require('bull-ui/app')({
       redis: {
         host: config.redis.host,
         port: config.redis.port,
@@ -17,7 +17,7 @@ exports.default = {
       }
     })
 
-    ui.listen(argv.port || 5000, function () {
+    ui.listen(argv.port || 5050, function () {
       console.log('Bull-UI started listening on port', this.address().port)
     })
   }

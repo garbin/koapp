@@ -1,5 +1,6 @@
 const { addonArgs } = require('../../lib/helper')
 const shelljs = require('shelljs')
+const {default: log} = require('koapi/lib/logger')
 
 exports.default = {
   command: 'universal',
@@ -12,6 +13,7 @@ exports.default = {
     }
   },
   handler: argv => {
+    log.info(`Using environment: ${process.env.NODE_ENV}`)
     if (argv.build) shelljs.exec(`npm start build -- ${addonArgs()}`)
     require('./server').default()
   }

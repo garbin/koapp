@@ -49,6 +49,7 @@ exports.default = {
       json: false,
       filename: storage('/logs/services_all.log')
     })
+    logger.info(`Using environment: ${process.env.NODE_ENV}`)
     let services = {}
     if (name) {
       let service = require(`../services/${name}`).default
