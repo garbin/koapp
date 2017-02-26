@@ -14,5 +14,5 @@ exports.default = class Client extends bookshelf.Model {
   }
   get tableName () { return 'oauth_clients' }
   get hasTimestamps () { return true }
-  get ulid () { return true }
+  get uuid () { return true }
 }
