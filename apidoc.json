@@ -6,10 +6,10 @@
   "url" : "https://api.koapi.com/v1",
   "header":{
     "title":"Header",
-    "filename":"./app/server/asserts/header.md"
+    "filename":"./docs/templates/header.md"
   },
   "footer":{
     "title":"Footer",
-    "filename":"./app/server/asserts/footer.md"
+    "filename":"./docs/templates/footer.md"
   }
 }
