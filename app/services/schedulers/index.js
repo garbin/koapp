@@ -1,4 +1,3 @@
-const config = require('../../../config/service')
 const schedule = require('node-schedule')
 const { default: log } = require('koapi/lib/logger')
 
@@ -29,24 +28,26 @@ const context = exports.context = {
   error: 0
 }
 
-exports.default = {
-  start (id) {
-    (config.master.schedulers.enabled || []).map(name => {
-      let scheduler = init(require(`./${name}`).default)
-      if (scheduler.do) {
-        let job = schedule.scheduleJob(scheduler.name, scheduler.schedule, function () {
-          scheduler.do().then(done.bind(job, scheduler)).catch(error.bind(job, scheduler))
-        }, function () {
-          scheduler.done().catch(log.error)
-        })
-        log.info('%s started, schedule: %s', scheduler.name, scheduler.schedule)
-        // job.start();
-        context.jobs.push(job)
-      }
-    })
-  },
+exports.default = function (config) {
+  return {
+    start (id) {
+      (config.enabled || []).map(name => {
+        let scheduler = init(require(`./${name}`).default)
+        if (scheduler.do) {
+          let job = schedule.scheduleJob(scheduler.name, scheduler.schedule, function () {
+            scheduler.do().then(done.bind(job, scheduler)).catch(error.bind(job, scheduler))
+          }, function () {
+            scheduler.done().catch(log.error)
+          })
+          log.info('%s started, schedule: %s', scheduler.name, scheduler.schedule)
+          // job.start();
+          context.jobs.push(job)
+        }
+      })
+    },
 
-  stop (id) {
-    log.info('scheduler down')
+    stop (id) {
+      log.info('scheduler down')
+    }
   }
 }

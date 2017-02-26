@@ -1,10 +1,10 @@
-const service = require('../../config/service')
+const config = require('../../config/service')
 
-function services (config) {
-  return Object.entries(config).reduce(function (result, [name, config]) {
-    result.push(require(`./${name}`).default)
+function services (place) {
+  return config.services.filter(service => service.place === place).reduce(function (result, service) {
+    result.push(require(`./${service.name}`).default(service.config))
     return result
   }, [])
 }
 
-exports.default = { master: services(service.master), worker: services(service.worker) }
+exports.default = { master: services('master'), worker: services('worker') }
