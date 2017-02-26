@@ -6,12 +6,12 @@ async function prompt (name, message, force, options) {
   if (force) return true
   let answers = await inquirer.prompt(Object.assign({
     name,
-    message,
-    choices: ['yes', 'no']
+    type: 'confirm',
+    default: false,
+    message
   }, options))
-  let answer = answers[name].toLowerCase() === 'yes'
-  if (!answer) console.log(`${name} cancelled`)
-  return answer
+  if (!answers[name]) console.log(`${name} cancelled`)
+  return answers[name]
 }
 
 exports.default = {
@@ -36,12 +36,12 @@ exports.default = {
         shelljs.exec('node --harmony `which knex` seed:run ' + args)
         break
       case 'rollback':
-        if (await prompt('rollback', 'Dangerous!!! Will rollback db changes, Are you sure?[yes or no]', argv.force)) {
+        if (await prompt('rollback', 'Dangerous!!! Will rollback db changes, Are you sure?', argv.force)) {
           shelljs.exec('node --harmony `which knex` migrate:rollback ' + args)
         }
         break
       case 'reset':
-        if (await prompt('reset', 'Dangerous!!! Will destroy database then rebuild it, Are you sure?[yes or no]', argv.force)) {
+        if (await prompt('reset', 'Dangerous!!! Will destroy database then rebuild it, Are you sure?', argv.force)) {
           shelljs.exec('node --harmony `which knex` migrate:rollback ' + args)
           shelljs.exec('node --harmony `which knex` migrate:latest ' + args)
           shelljs.exec('node --harmony `which knex` seed:run ' + args)
@@ -49,7 +49,7 @@ exports.default = {
         break
       case 'upgrade':
       case 'latest':
-        if (await prompt('upgrade', 'Dangerous!!! Will upgrade your database, Are you sure?[yes or no]', argv.force)) {
+        if (await prompt('upgrade', 'Dangerous!!! Will upgrade your database, Are you sure?', argv.force)) {
           shelljs.exec('node --harmony `which knex` migrate:latest ' + args)
         }
         break
