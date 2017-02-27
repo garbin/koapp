@@ -12,6 +12,14 @@ exports.default = ResourceRouter.define({
     router.use(user.grant('admin.oauth'))
 
     /**
+     * @api {post} /oauth/clients Create Clients
+     * @apiName post-client
+     * @apiGroup Client
+     * @apiSchema {jsonschema=../../../../docs/schemas/client/fields.json} apiParam
+     * @apiSchema {jsonschema=../../../../docs/schemas/client/fields.json} apiSuccess
+     */
+
+    /**
      * @api {delete} /oauth/clients/:id Delete Clients
      * @apiName delete-client
      * @apiGroup Client
