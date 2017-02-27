@@ -10,9 +10,6 @@ exports.default = {
   },
   handler: async argv => {
     switch (argv.stuff) {
-      case 'docs':
-        shelljs.exec(`rm -rf ./docs/public/** && apidoc --debug -i ./app -o ./docs/public -f ".*.js$" ${addonArgs()}`)
-        break
       case 'schemas':
         let docsPath = `${__dirname}/../../docs`
         shelljs.exec(`rm -rf ${docsPath}/schemas`)
@@ -43,6 +40,11 @@ exports.default = {
           write(model.name, convert(Joi.object(model.fields)))
         }
         console.log('Done!')
+        break
+      case 'docs':
+        shelljs.exec('rm -rf ./docs/public/**')
+        shelljs.exec('npm start build schemas')
+        shelljs.exec(`apidoc --debug -i ./app -o ./docs/public -f ".*.js$" ${addonArgs()}`)
         break
       case 'clients':
       default:
