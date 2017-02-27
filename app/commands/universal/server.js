@@ -18,26 +18,29 @@ exports.default = function server () {
 
   const universal = new Koapi()
   for (let app of config.universal.apps) {
-    switch (app.type) {
-      case 'server':
-        let middleware = app.path ? require(app.path) : require(`../../${app.name}`).default.koa
-        universal.use(mount(app.point, middleware))
-        break
-      case 'static':
-      default:
-        if (process.env.KOAPP_WATCH_MODE) {
-          let webpackConfig = require('../../../config/webpack')({client: app.name})
-          let publicContent = convert(proxy({
-            host: `http://${process.env.KOAPP_WEBPACK_DEV_HOST}:${webpackConfig.devServer.port}`,
-            map: path => app.point !== '/' ? `${app.point}/${path}` : path
-          }))
-          universal.use(mount(app.point, compose([convert(historyApiFallback()), publicContent])))
-        } else {
-          let publicContent = serve(app.path ? app.path : storage(`/public/${app.name}`))
-          universal.use(mount(app.point, compose([convert(historyApiFallback()), publicContent])))
-        }
-        break
+    if (app.server) {
+      universal.use(mount(app.point, require(`../../server`).default.koa))
+      continue
     }
+    if (app.client) {
+      if (process.env.KOAPP_WATCH_MODE) {
+        let webpackConfig = require('../../../config/webpack')({client: app.client})
+        let publicContent = convert(proxy({
+          host: `http://${process.env.KOAPP_WEBPACK_DEV_HOST}:${webpackConfig.devServer.port}`,
+          map: path => app.point !== '/' ? `${app.point}/${path}` : path
+        }))
+        universal.use(mount(app.point, compose([convert(historyApiFallback()), publicContent])))
+      } else {
+        let publicContent = serve(app.path ? app.path : storage(`/public/${app.client}`))
+        universal.use(mount(app.point, compose([convert(historyApiFallback()), publicContent])))
+      }
+      continue
+    }
+    if (app.middleware) {
+      universal.use(mount(app.point, require(`../../server/middlewares/${app.middleware}`).default))
+      continue
+    }
+    universal.use(mount(app.point, require(app.path)))
   }
 
   const server = universal.listen(config.port, e => logger.info(`Universal server running on port ${config.port}`))

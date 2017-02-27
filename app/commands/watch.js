@@ -23,9 +23,9 @@ exports.default = {
         let names = []
         process.env.KOAPP_WATCH_MODE = true
         process.env.KOAPP_WEBPACK_DEV_HOST = process.env.KOAPP_WEBPACK_DEV_HOST || 'localhost'
-        for (let client of config.universal.apps.filter(app => app.type === 'static')) {
-          names.push(client.name)
-          commands.push(`"npm start watch ${client.name}"`)
+        for (let app of config.universal.apps.filter(app => app.client)) {
+          names.push(app.client)
+          commands.push(`"npm start watch ${app.client}"`)
         }
         names.push('universal')
         commands.push('"nodemon --harmony --watch app/server --watch config -L -e js,es,jsx `which koapi` -- universal ' + args + '"')
