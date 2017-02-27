@@ -1,9 +1,9 @@
 module.exports = {
   universal: {
-    server: '/api',
-    clients: [
-      { name: 'admin', mount: '/admin' },
-      { name: 'website', mount: '/' }
+    apps: [
+      {point: '/api', type: 'server', name: 'server'},
+      {point: '/admin', type: 'static', name: 'admin'},
+      {point: '/', type: 'static', name: 'website'}
     ]
   },
   port: 5000

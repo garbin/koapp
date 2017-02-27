@@ -23,7 +23,7 @@ exports.default = {
         let names = []
         process.env.KOAPP_WATCH_MODE = true
         process.env.KOAPP_WEBPACK_DEV_HOST = process.env.KOAPP_WEBPACK_DEV_HOST || 'localhost'
-        for (let client of config.universal.clients) {
+        for (let client of config.universal.apps.filter(app => app.type === 'static')) {
           names.push(client.name)
           commands.push(`"npm start watch ${client.name}"`)
         }
