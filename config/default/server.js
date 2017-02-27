@@ -2,9 +2,9 @@ const { storage } = require('../../app/lib/helper')
 module.exports = {
   universal: {
     apps: [
-      {point: '/api', server: true},
-      {point: '/admin', client: 'admin'},
-      {point: '/', client: 'website'}
+      {mount: '/api', server: true},
+      {mount: '/admin', client: 'admin'},
+      {mount: '/', client: 'website'}
     ]
   },
   port: 5000,
