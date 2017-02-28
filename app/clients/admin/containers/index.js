@@ -1,3 +1,4 @@
+import '../styles'
 export Root from './root'
 export Index from './default'
 export List from './list'
