@@ -3,6 +3,7 @@ const {default: log} = require('koapi/lib/logger')
 const config = require('../../../config')
 
 exports.queue = new Queue('Mailer', config.redis.port, config.redis.host)
+exports.queue.on('error', log.error)
 exports.default = {
   name: 'Mailer',
   queue: exports.queue,
