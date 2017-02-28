@@ -13,7 +13,7 @@ module.exports = {
       args: 'universal',
       cwd,
       env: {
-        NODE_ENV: 'development'
+        NODE_ENV: process.env.NODE_ENV
       },
       node_args: '--harmony'
     },
@@ -28,12 +28,12 @@ module.exports = {
     // },
     {
       name: `${pkg.name}_service`,
-      cwd: `${__dirname}/../../`,
+      cwd,
       script: 'index.js',
-      args: 'service', cwd,
+      args: 'service',
       node_args: '--harmony',
       env: {
-        NODE_ENV: 'development'
+        NODE_ENV: process.env.NODE_ENV
       }
     }
   ]
