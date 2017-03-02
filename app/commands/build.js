@@ -44,7 +44,7 @@ exports.default = {
       case 'docs':
         shelljs.exec('rm -rf ./docs/public/**')
         shelljs.exec('npm start build schemas')
-        shelljs.exec(`apidoc --debug -i ./app -o ./docs/public -f ".*.js$" ${addonArgs()}`)
+        shelljs.exec(`apidoc -c ./docs/apidoc.json --debug -i ./app -o ./docs/public -f ".*.js$" ${addonArgs()}`)
         break
       case 'clients':
       default:
