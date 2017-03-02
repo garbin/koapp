@@ -120,7 +120,7 @@ export class Root extends React.Component {
                     classNameItemActive='active'
                     classNameItemHasVisibleChild='open'
                     classNameContainerVisible='in'
-                    classNameContainer={depth => 'nav'}
+                    classNameContainer={itemId => itemId ? 'collapse' : 'nav'}
                     iconNamePrefix='fa '
                     iconNameStateHidden='arrow'
                     iconNameStateVisible='arrow'
