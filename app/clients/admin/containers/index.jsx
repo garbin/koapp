@@ -1,5 +1,6 @@
 import React from 'react'
 import MetisMenu from 'react-metismenu'
+import RouterLink from 'react-metismenu-router-link'
 
 export class Root extends React.Component {
   componentDidMount () {
@@ -8,18 +9,21 @@ export class Root extends React.Component {
   render () {
     const content = [
       {
-        icon: 'icon-class-name',
-        label: 'Label of Item',
-        to: '#a-link'
+        icon: 'fa-home',
+        label: 'Dashboard',
+        to: '#/dashboard'
       },
       {
-        icon: 'icon-class-name',
-        label: 'Second Item',
+        icon: 'fa-th-large',
+        label: '资源管理',
         content: [
           {
-            icon: 'icon-class-name',
-            label: 'Sub Menu of Second Item',
-            to: '#another-link'
+            label: '列表',
+            to: '/list'
+          },
+          {
+            label: '表单',
+            to: '#another-link2'
           }
         ]
       }
@@ -121,9 +125,11 @@ export class Root extends React.Component {
                     classNameItemHasVisibleChild='open'
                     classNameContainerVisible='in'
                     classNameContainer={itemId => itemId ? 'collapse' : 'nav'}
+                    classNameItemHasActiveChild='active'
                     iconNamePrefix='fa '
                     iconNameStateHidden='arrow'
                     iconNameStateVisible='arrow'
+                    LinkComponent={RouterLink}
                     activeLinkFromLocation />
                 </div>
                 <footer className='sidebar-footer'>

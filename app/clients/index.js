@@ -1,5 +1,6 @@
 const { storage } = require('../lib/helper')
 const path = require('path')
+const config = require('../../config/client')
 
 module.exports = {
   website (compiler) {
@@ -25,7 +26,7 @@ module.exports = {
       ]
     }
     compiler.output.path = storage('/public/admin')
-    compiler.output.publicPath = '/admin'
+    compiler.output.publicPath = config.admin.basename
     compiler.devServer.port = 5002
     return compiler
   }

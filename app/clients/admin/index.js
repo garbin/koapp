@@ -1,7 +1,8 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, useRouterHistory } from 'react-router'
+import { createHistory } from 'history'
 import { connect, Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { ReduxAsyncConnect } from 'redux-connect'
@@ -11,9 +12,13 @@ import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { storeInitialize } from 'react-redux-oauth2'
 import * as Containers from './containers'
 import createStore from './store'
+import { admin } from '../../../config/client'
 
-const store = createStore(browserHistory)
-const history = syncHistoryWithStore(browserHistory, store)
+const History = useRouterHistory(createHistory)({
+  basename: admin.basename || '/'
+})
+const store = createStore(History)
+const history = syncHistoryWithStore(History, store)
 
 const ReduxNotifications = connect(
   state => ({ notifications: state.notifications })
@@ -21,7 +26,7 @@ const ReduxNotifications = connect(
 
 const UserIsAuthenticated = UserAuthWrapper({
   authSelector: state => state.oauth.user, // how to get the user state
-  failureRedirectPath: '/admin/signin',
+  failureRedirectPath: '/signin',
   wrapperDisplayName: 'UserIsAuthenticated' // a nice name for this auth check
 })
 
@@ -54,13 +59,13 @@ ReactDOM.render((
             {props.children}
           </div>}
       >
-        <Route path='/admin/signin' component={Containers.Signin} />
+        <Route path='/signin' component={Containers.Signin} />
         <Route
-          path='/admin'
+          path='/'
           onEnter={oauthInit(store)}
-          component={UserIsAuthenticated(Containers.Root)}
+          component={UserIsAuthenticated(Containers.Index)}
         >
-          <IndexRoute component={Containers.Index} />
+          <IndexRoute component={Containers.Dashboard} />
           <Route path='test' component={Containers.Test} />
           <Route path='list' component={Containers.List} />
           <Route path='form' component={Containers.Form} />

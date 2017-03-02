@@ -109,6 +109,7 @@
     "react-height": "^2.1.1",
     "react-helmet": "^4.0.0",
     "react-metismenu": "github:garbin/react-metismenu",
+    "react-metismenu-router-link": "^1.0.2",
     "react-notification-system-redux": "^1.0.8",
     "react-redux": "^5.0.3",
     "react-redux-oauth2": "^0.2.0",
