@@ -12,7 +12,7 @@ export default class Menu extends React.Component {
   }
   renderItem (item, idx) {
     let hasActive = (item.children || []).filter(child => child.active).length > 0
-    let open = hasActive || item.open
+    let open = item.open
     return item.children ? (
       <li key={item.id || idx} className={classnames({ active: item.active || hasActive, open })}>
         <a href='javascript:;' onClick={e => this.props.onClick(item)}>

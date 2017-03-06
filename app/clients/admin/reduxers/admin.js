@@ -11,11 +11,11 @@ export const reducer = {
       let tree = new TreeModel()
       let menu = tree.parse({children: state})
       let current = menu.first(node => node.model.id === action.payload.id)
+      let opens = menu.all(item => item.model.children && item.model.open && item.model.id !== action.payload.id)
+      opens.forEach(item => {
+        item.model.open = false
+      })
       if (current.hasChildren()) {
-        let opens = menu.all(item => item.model.open && item.model.id !== action.payload.id)
-        opens.forEach(item => {
-          item.model.open = false
-        })
         current.model.open = !current.model.open
       } else {
         let actives = menu.all(node => node.model.active)
@@ -24,6 +24,9 @@ export const reducer = {
           node.model.open = false
         })
         current.model.active = true
+        current.getPath().forEach(parent => {
+          parent.model.open = true
+        })
       }
       return [...menu.model.children]
     }
