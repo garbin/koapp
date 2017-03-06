@@ -40,7 +40,7 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
               title: 'test',
               message: 'message'
             }))
-            this.context.router.replace('/admin')
+            this.context.router.replace('/')
             resolve()
           }
         }))

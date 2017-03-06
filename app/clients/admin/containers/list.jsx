@@ -1,7 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Table } from 'reactabular'
-import { table } from '../lib/helper'
 
 export class List extends React.Component {
   constructor (props) {
@@ -11,83 +9,8 @@ export class List extends React.Component {
     }
   }
   render () {
-    const rows = [
-      { id: 2, name: 'Name', created_at: new Date() },
-      { id: 1, name: 'Name', created_at: new Date() }
-    ]
-    const columns = [
-      table.column('id', 'ID', { onCheck (items) { console.log(items) }, checkable: true }),
-      table.column('name', '名称'),
-      table.column('created_at', '创建时间')
-    ]
-
     return (
-      <article className='content items-list-page'>
-        <div className='title-search-block'>
-          <div className='title-block'>
-            <div className='row'>
-              <div className='col-md-6'>
-                <h3 className='title'>
-                  Items
-                  <a href='item-editor.html' className='btn btn-primary btn-sm rounded-s'>
-                    Add New
-                  </a>
-                  <div className='action dropdown'>
-                    <button className='btn  btn-sm rounded-s btn-secondary dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                    More actions...
-                    </button>
-                    <div className='dropdown-menu' aria-labelledby='dropdownMenu1'>
-                      <button className='dropdown-item'><i className='fa fa-pencil-square-o icon' />Mark as a draft</button>
-                      <button className='dropdown-item' data-toggle='modal' data-target='#confirm-modal'><i className='fa fa-close icon' />Delete</button>
-                    </div>
-                  </div>
-                </h3>
-                <p className='title-description'> List of sample items - e.g. books, movies, events, etc... </p>
-              </div>
-            </div>
-          </div>
-          <div className='items-search'>
-            <form className='form-inline'>
-              <div className='input-group'>
-                <input type='text' className='form-control boxed rounded-s' placeholder='Search for...' /> <span className='input-group-btn'>
-                  <button className='btn btn-secondary rounded-s' type='button'>
-                    <i className='fa fa-search' />
-                  </button>
-                </span>
-              </div>
-            </form>
-          </div>
-        </div>
-        <Table.Provider columns={columns} components={table.list}>
-          <Table.Header />
-          <Table.Body rows={rows} rowKey='id' />
-        </Table.Provider>
-        <nav className='text-xs-right'>
-          <ul className='pagination'>
-            <li className='page-item'> <a className='page-link' href=''>
-              Prev
-            </a> </li>
-            <li className='page-item active'> <a className='page-link' href=''>
-              1
-            </a> </li>
-            <li className='page-item'> <a className='page-link' href=''>
-              2
-            </a> </li>
-            <li className='page-item'> <a className='page-link' href=''>
-              3
-            </a> </li>
-            <li className='page-item'> <a className='page-link' href=''>
-              4
-            </a> </li>
-            <li className='page-item'> <a className='page-link' href=''>
-              5
-            </a> </li>
-            <li className='page-item'> <a className='page-link' href=''>
-              Next
-            </a> </li>
-          </ul>
-        </nav>
-      </article>
+      <div>list</div>
     )
   }
 }
