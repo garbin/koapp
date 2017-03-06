@@ -13,12 +13,18 @@ export default class Menu extends React.Component {
   renderItem (item, idx) {
     let hasActive = (item.children || []).filter(child => child.active).length > 0
     let open = hasActive || item.open
-    return (
+    return item.children ? (
       <li key={item.id || idx} className={classnames({ active: item.active || hasActive, open })}>
-        <Link to={item.href || '#'} onClick={e => { this.props.onClick(item) }}>
-          {item.icon && (<i className={item.icon} />)} {item.label} {item.children && (<i className='fa arrow' />)}
+        <a href='javascript:;' onClick={e => this.props.onClick(item)}>
+          {item.icon && (<i className={item.icon} />)} {item.label} <i className='fa arrow' />
+        </a>
+        {this.renderChildren(item.children, open)}
+      </li>
+    ) : (
+      <li key={item.id || idx} className={classnames({ active: item.active || hasActive, open })}>
+        <Link to={item.href} onClick={e => { this.props.onClick(item) }}>
+          {item.icon && (<i className={item.icon} />)} {item.label}
         </Link>
-        {item.children && this.renderChildren(item.children, open)}
       </li>
     )
   }

@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Menu from '../components/menu.jsx'
 import { actions } from '../reduxers/admin'
+import TreeModel from 'tree-model'
 
 export class Root extends React.Component {
   static contextTypes = {
@@ -9,7 +10,9 @@ export class Root extends React.Component {
   }
   componentDidMount () {
     require('../styles/js/app.exec.js')
-    let current = this.props.menu.first(item => {
+    const tree = new TreeModel()
+    const menu = tree.parse({ children: this.props.menu })
+    let current = menu.first(item => {
       if (item.model.href) {
         return this.context.router.isActive(item.model.href, true)
       }
@@ -108,7 +111,7 @@ export class Root extends React.Component {
                     <div className='brand'>
                       <div className='logo'> <span className='l l1' /><span className='l l2' /><span className='l l3' /> <span className='l l4' /> <span className='l l5' /> </div> Koapp </div>
                     </div>
-                    <Menu items={menu.model.children} onClick={item => this.props.dispatch(actions.changeMenu(item))} />
+                    <Menu items={menu} onClick={item => this.props.dispatch(actions.changeMenu(item))} />
                   </div>
                   <footer className='sidebar-footer'>
                     <ul className='nav metismenu' id='customize-menu'>
