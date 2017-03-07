@@ -1,4 +1,7 @@
-import './js/vendor.exec.js'
+import 'normalize.css/normalize.css'
+import '@blueprintjs/core/dist/blueprint.css'
+// import './js/vendor.exec.js'
 import './css/vendor.css'
 import './css/app.css'
 import './css/app-red.css'
+import './css/admin.css'

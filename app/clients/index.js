@@ -9,7 +9,7 @@ module.exports = {
       main: './index.js',
       vendor: [
         'react', 'redux', 'react-redux', 'react-router-redux', 'react-router',
-        'redux-actions', 'react-dom'
+        'redux-actions', 'react-dom', 'react-addons-css-transition-group'
       ]
     }
     compiler.output.path = storage('/public/website')
@@ -22,7 +22,7 @@ module.exports = {
       main: './index.js',
       vendor: [
         'react', 'redux', 'react-redux', 'react-router-redux', 'react-router',
-        'redux-actions', 'react-dom'
+        'redux-actions', 'react-dom', 'react-addons-css-transition-group'
       ]
     }
     compiler.output.path = storage('/public/admin')
