@@ -3,30 +3,14 @@ import { connect } from 'react-redux'
 import Menu from '../components/menu.jsx'
 import { actions } from '../reduxers/admin'
 import TreeModel from 'tree-model'
-import { Collapse } from '@blueprintjs/core'
 
 export class Root extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object
   }
 
-  constructor () {
-    super()
-    this.state = { isOpen: false, profileIsOpen: false }
-  }
-
-  handleClick () {
-    this.setState({isOpen: !this.state.isOpen})
-    // console.log(this.state)
-  }
-
-  handleProfileClick () {
-    this.setState({profileIsOpen: !this.state.profileIsOpen})
-    // console.log(this.state)
-  }
-
   componentDidMount () {
-    // require('../styles/js/app.exec.js')
+    require('../styles/js/init.exec.js')
     const tree = new TreeModel()
     const menu = tree.parse({ children: this.props.menu })
     let current = menu.first(item => {
@@ -63,10 +47,10 @@ export class Root extends React.Component {
               <div className='header-block header-block-nav'>
                 <ul className='nav-profile'>
                   <li className='notifications new'>
-                    <a href='#' onClick={this.handleClick.bind(this)}> <i className='fa fa-bell-o' /><sup>
+                    <a href='' data-toggle='dropdown' aria-expanded='false'> <i className='fa fa-bell-o' /><sup>
                       <span className='counter'>8</span>
                     </sup> </a>
-                    <Collapse className='dropdown-menu notifications-dropdown-menu' isOpen={this.state.isOpen}>
+                    <div className='dropdown-menu notifications-dropdown-menu'>
                       <ul className='notifications-container'>
                         <li>
                           <a href='' className='notification-item'>
@@ -100,20 +84,20 @@ export class Root extends React.Component {
                           </a> </li>
                         </ul>
                       </footer>
-                    </Collapse>
+                    </div>
                   </li>
                   <li className='profile dropdown'>
-                    <a className='nav-link dropdown-toggle' href='#' role='button' onClick={this.handleProfileClick.bind(this)}>
+                    <a className='nav-link dropdown-toggle' data-toggle='dropdown' href='#' role='button'>
                       <div className='img' style={{backgroundImage: 'url(https://avatars3.githubusercontent.com/u/3959008?v=3&s=40)'}} /><span className='name'>
                         John Doe
                       </span> </a>
-                    <Collapse className='dropdown-menu profile-dropdown-menu' isOpen={this.state.profileIsOpen}>
+                    <div className='dropdown-menu profile-dropdown-menu'>
                       <a className='dropdown-item' href='#'> <i className='fa fa-user icon' /> Profile </a>
                       <a className='dropdown-item' href='#'> <i className='fa fa-bell icon' /> Notifications </a>
                       <a className='dropdown-item' href='#'> <i className='fa fa-gear icon' /> Settings </a>
                       <div className='dropdown-divider' />
                       <a className='dropdown-item' href='login.html'> <i className='fa fa-power-off icon' />Logout </a>
-                    </Collapse>
+                    </div>
                   </li>
                 </ul>
               </div>

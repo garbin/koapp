@@ -16,7 +16,7 @@ const compiler = {
       { test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader' },
-      { test: /\.exec\.(js|jsx)$/,
+      { test: /\.(exec|min)\.(js|jsx)$/,
         loader: 'script-loader' },
       { test: /\.(png|jpg|gif)$/,
         loader: 'file-loader',
