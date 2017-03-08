@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Menu from '../components/menu.jsx'
 import { actions } from '../reduxers/admin'
 import TreeModel from 'tree-model'
+import { OAuthSignout } from 'react-redux-oauth2'
 
 export class Root extends React.Component {
   static contextTypes = {
@@ -10,7 +11,7 @@ export class Root extends React.Component {
   }
 
   componentDidMount () {
-    require('../styles/js/init.exec.js')
+    // require('../styles/js/init.exec.js')
     const tree = new TreeModel()
     const menu = tree.parse({ children: this.props.menu })
     let current = menu.first(item => {
@@ -22,10 +23,13 @@ export class Root extends React.Component {
   }
   render () {
     const { menu } = this.props
+    const SignoutButton = OAuthSignout(props => (
+      <a className='dropdown-item' href='#' {...props}> <i className='fa fa-power-off icon' />Sign-Out </a>
+    ))
     return (
       <div>
         <div className='main-wrapper'>
-          <div className='app' id='app'>
+          <div className='app header-fixed sidebar-fixed' id='app'>
             <header className='header'>
               <div className='header-block header-block-collapse hidden-lg-up'> <button className='collapse-btn' id='sidebar-collapse-btn'>
                 <i className='fa fa-bars' />
@@ -96,7 +100,7 @@ export class Root extends React.Component {
                       <a className='dropdown-item' href='#'> <i className='fa fa-bell icon' /> Notifications </a>
                       <a className='dropdown-item' href='#'> <i className='fa fa-gear icon' /> Settings </a>
                       <div className='dropdown-divider' />
-                      <a className='dropdown-item' href='login.html'> <i className='fa fa-power-off icon' />Logout </a>
+                      <SignoutButton />
                     </div>
                   </li>
                 </ul>
@@ -112,9 +116,7 @@ export class Root extends React.Component {
               </div>
             </aside>
             <div className='sidebar-overlay' id='sidebar-overlay' />
-            <article className='content dashboard-page'>
-              {this.props.children}
-            </article>
+            {this.props.children}
             <footer className='footer'>
               <div className='footer-block buttons' />
               <div className='footer-block author'>
