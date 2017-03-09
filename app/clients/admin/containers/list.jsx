@@ -3,15 +3,10 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Button, Input, Form, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, InputGroup, InputGroupButton } from 'reactstrap'
 import Table, { column } from '../components/table'
+import responsive from '../components/table/presets/responsive'
 import Pagination from '../components/pagination'
 
 export class List extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      checked: [1, 2]
-    }
-  }
   render () {
     const rows = [
       {
@@ -33,13 +28,22 @@ export class List extends React.Component {
         category: 'Software',
         author: 'Meadow Katheryne',
         created_at: '120129'
+      },
+      {
+        id: 3,
+        media: 'https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg',
+        name: '12 Myths Uncovered About IT & Software',
+        sales: '46323',
+        stats: '',
+        category: 'Software',
+        author: 'Meadow Katheryne',
+        created_at: '120129'
       }
     ]
     const columns = [
-      column('id', 'ID', { preset: 'checkbox' }),
-      column('media', 'Media', {
-        preset: 'image',
-        config: {
+      column('id', 'ID', responsive.checkbox()),
+      column('media', 'Media', responsive.image(
+        {
           header: {
             props: {
               className: 'item-col-header fixed item-col-img md'
@@ -52,101 +56,80 @@ export class List extends React.Component {
             href: data => 'haha'
           }
         }
-      }),
-      column('name', 'Name', {
-        preset: 'link',
-        config: {
-          header: {
-            props: {
-              className: 'item-col-header item-col-title'
-            }
+      )),
+      column('name', 'Name', responsive.link({
+        header: {
+          props: {
+            className: 'item-col-header item-col-title'
+          }
+        },
+        cell: {
+          props: {
+            className: 'fixed pull-left item-col-title'
           },
-          cell: {
-            props: {
-              className: 'fixed pull-left item-col-title'
-            },
-            href: item => 'kk'
+          href: item => 'kk'
+        }
+      })),
+      column('sales', 'Sales', responsive.text({
+        header: { props: { className: 'item-col-header item-col-sales' } },
+        cell: { props: { className: 'item-col-sales' } }
+      })),
+      column('stats', 'Stats', responsive.text({
+        header: { props: { className: 'item-col-header item-col-stats' } },
+        cell: { props: { className: 'item-col-stats no-overflow' } }
+      })),
+      column('category', 'Category', responsive.text({
+        header: { props: { className: 'item-col-header item-col-category' } },
+        cell: { props: { className: 'item-col-category no-overflow' }, formatters: [ value => (<div className='no-overflow'><a href=''>{value}</a></div>) ] }
+      })),
+      column('author', 'Author', responsive.text({
+        header: {
+          props: {
+            className: 'item-col-header item-col-author'
+          }
+        },
+        cell: {
+          props: {
+            className: 'item-col-author'
+          },
+          formatters: [
+            value => (<div className='no-overflow'> {value} </div>)
+          ]
+        }
+      })),
+      column('created_at', 'Published', responsive.text({
+        header: {
+          props: {
+            className: 'item-col-header item-col-date'
+          }
+        },
+        cell: {
+          props: {
+            className: 'item-col-date'
+          },
+          formatters: [ value => (<div className='no-overflow'> {value} </div>) ]
+        }
+      })),
+      column('id', 'Action', responsive.actions({
+        header: {
+          props: {
+            className: 'item-col-header item-col-actions-dropdown'
+          }
+        },
+        cell: {
+          props: {
+            className: 'item-col-actions-dropdown'
+          },
+          actions: {
+            label: '编辑',
+            dropdown: item => (
+              <DropdownMenu>
+                <DropdownItem>删除</DropdownItem>
+              </DropdownMenu>
+            )
           }
         }
-      }),
-      column('sales', 'Sales', {
-        preset: 'text',
-        config: {
-          header: { props: { className: 'item-col-header item-col-sales' } },
-          cell: { props: { className: 'item-col-sales' } }
-        }
-      }),
-      column('stats', 'Stats', {
-        preset: 'text',
-        config: {
-          header: { props: { className: 'item-col-header item-col-stats' } },
-          cell: { props: { className: 'item-col-stats no-overflow' } }
-        }
-      }),
-      column('category', 'Category', {
-        preset: 'text',
-        config: {
-          header: { props: { className: 'item-col-header item-col-category' } },
-          cell: { props: { className: 'item-col-category no-overflow' }, formatters: [ value => (<div className='no-overflow'><a href=''>{value}</a></div>) ] }
-        }
-      }),
-      column('author', 'Author', {
-        preset: 'text',
-        config: {
-          header: {
-            props: {
-              className: 'item-col-header item-col-author'
-            }
-          },
-          cell: {
-            props: {
-              className: 'item-col-author'
-            },
-            formatters: [
-              value => (<div className='no-overflow'> {value} </div>)
-            ]
-          }
-        }
-      }),
-      column('created_at', 'Published', {
-        preset: 'text',
-        config: {
-          header: {
-            props: {
-              className: 'item-col-header item-col-date'
-            }
-          },
-          cell: {
-            props: {
-              className: 'item-col-date'
-            },
-            formatters: [ value => (<div className='no-overflow'> {value} </div>) ]
-          }
-        }
-      }),
-      column('id', 'Action', {
-        preset: 'actions',
-        config: {
-          header: {
-            props: {
-              className: 'item-col-header item-col-actions-dropdown'
-            }
-          },
-          cell: {
-            props: {
-              className: 'item-col-actions-dropdown'
-            },
-            actions: {
-              label: '编辑',
-              dropdown: item => (
-                <DropdownMenu>
-                  <DropdownItem>删除</DropdownItem>
-                </DropdownMenu>
-              )
-            }
-          }
-        }
-      })
+      }))
     ]
     return (
       <article className='content items-list-page'>

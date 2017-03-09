@@ -1,3 +1,8 @@
+:root {
+  --primaryColor: #FF6161;
+  --primaryColorHover: #ff2424;
+}
+
 .item-list {
   & li.tbody {
     margin:0;
@@ -7,6 +12,21 @@
       margin:0;
       padding:0;
       border:0;
+    }
+  }
+}
+.auth {
+  & .pt-button {
+    box-shadow: none;
+    background: var(--primaryColor);
+    &:disabled {
+      box-shadow: none;
+      background: var(--primaryColor);
+    }
+    &:hover {
+      box-shadow: none;
+      background: var(--primaryColorHover);
+      border-color: var(--primaryColorHover);
     }
   }
 }

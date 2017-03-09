@@ -1,13 +1,13 @@
 import React from 'react'
 import { OAuthSignin, actions } from 'react-redux-oauth2'
-import { Input, Button } from 'reactstrap'
+import { Input } from 'reactstrap'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 import { beginTask, endTask } from 'redux-nprogress'
 import _ from 'lodash'
 import notify from 'react-notification-system-redux'
-import { loadable } from '../components/hoc'
+import { Button } from '@blueprintjs/core'
 
 const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
   <div className={classnames('form-group', { 'has-error': !_.isEmpty(error) })}>
@@ -48,8 +48,8 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
     })
   }
   render () {
-    const OAuthSigninButton = OAuthSignin(loadable(Button))
-    const SigninButton = loadable(props => <button {...props} />)
+    const OAuthSigninButton = OAuthSignin(Button)
+    const SigninButton = Button
 
     return (
       <div>
@@ -96,13 +96,16 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
                   <div className='form-group'>
                     <div className='row'>
                       <div className='col-sm-8'>
-                        <SigninButton loading={this.props.oauth.authenticating} type='submit' className='btn btn-block btn-primary'>
+                        <SigninButton className='btn btn-block btn-primary'
+                          loading={this.props.oauth.authenticating}
+                          type='submit'>
                           Signin
                         </SigninButton>
                       </div>
                       <div className='col-sm-4 text-xs-right'>
                         <OAuthSigninButton
                           loading={this.props.oauth.authenticating}
+                          className='btn btn-block btn-primary'
                           provider='github'
                           onClick={() => this.props.dispatch(beginTask())}
                           onCancel={() => this.props.dispatch(endTask())}

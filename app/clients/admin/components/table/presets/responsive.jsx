@@ -1,5 +1,4 @@
 import React from 'react'
-import { Provider, Header, Body } from 'reactabular-table'
 import classnames from 'classnames'
 import { Input, ButtonDropdown, Button, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import _ from 'lodash'
@@ -134,23 +133,17 @@ export const presets = {
   }
 }
 
-export function column (property, label, render) {
-  const { preset, config, override } = render
-  const base = {property, header: { label }}
-  if (override) return {...presets[preset], ...base, ...config}
-  return _.mergeWith({}, presets[preset], base, config, (obj, src) => {
+function merge (base, definition, override = false) {
+  if (override) return {...base, ...definition}
+  return _.mergeWith({}, base, definition, (obj, src) => {
     if (_.isArray(obj)) return src.concat(obj)
   })
 }
 
-export default class extends React.Component {
-  render () {
-    const { rows, columns } = this.props
-    return (
-      <Provider columns={columns} components={components}>
-        <Header />
-        <Body rows={rows} rowKey='id' />
-      </Provider>
-    )
+function preset (type) {
+  return (definition, override = false) => {
+    return merge(presets[type], definition, override)
   }
 }
+
+export default Object.entries(presets).reduce((result, [type]) => ({...result, [type]: preset(type)}), {})

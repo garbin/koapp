@@ -9,9 +9,15 @@ export class Root extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object
   }
-
-  componentDidMount () {
-    // require('../styles/js/init.exec.js')
+  componentWillMount () {
+    this.updateMenu()
+  }
+  componentWillReceiveProps (props) {
+    if (this.props.location.pathname !== props.location.pathname) {
+      this.updateMenu()
+    }
+  }
+  updateMenu () {
     const tree = new TreeModel()
     const menu = tree.parse({ children: this.props.menu })
     let current = menu.first(item => {
@@ -22,7 +28,7 @@ export class Root extends React.Component {
     this.props.dispatch(actions.changeMenu(current.model))
   }
   render () {
-    const { menu } = this.props
+    const { menu, oauth } = this.props
     const SignoutButton = OAuthSignout(props => (
       <a className='dropdown-item' href='#' {...props}> <i className='fa fa-power-off icon' />Sign-Out </a>
     ))
@@ -93,7 +99,7 @@ export class Root extends React.Component {
                   <li className='profile dropdown'>
                     <a className='nav-link dropdown-toggle' data-toggle='dropdown' href='#' role='button'>
                       <div className='img' style={{backgroundImage: 'url(https://avatars3.githubusercontent.com/u/3959008?v=3&s=40)'}} /><span className='name'>
-                        John Doe
+                        {oauth.user.username}
                       </span> </a>
                     <div className='dropdown-menu profile-dropdown-menu'>
                       <a className='dropdown-item' href='#'> <i className='fa fa-user icon' /> Profile </a>
@@ -132,4 +138,4 @@ export class Root extends React.Component {
   }
 }
 
-export default connect(state => ({menu: state.menu}))(Root)
+export default connect(state => ({menu: state.menu, oauth: state.oauth}))(Root)
