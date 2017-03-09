@@ -15,8 +15,8 @@
     }
   }
 }
-.auth {
-  & .pt-button {
+.btn {
+  &.pt-button {
     box-shadow: none;
     background: var(--primaryColor);
     &:disabled {

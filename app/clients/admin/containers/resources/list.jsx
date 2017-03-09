@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Button, Input, Form, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, InputGroup, InputGroupButton } from 'reactstrap'
-import Table, { column } from '../components/table'
-import responsive from '../components/table/presets/responsive'
-import Pagination from '../components/pagination'
+import Table, { column } from '../../components/table'
+import responsive from '../../components/table/presets/responsive'
+import Pagination from '../../components/pagination'
 
 export class List extends React.Component {
   render () {
@@ -137,7 +137,7 @@ export class List extends React.Component {
           <div className='title-block'>
             <div className='row'>
               <div className='col-md-6'>
-                <h3 className='title'> 资源列表&nbsp;<Link to='/form' className='btn btn-primary btn-sm rounded-s'> 添加 </Link>
+                <h3 className='title'> 资源列表&nbsp;<Link to='/resources/create' className='btn btn-primary btn-sm rounded-s'> 添加 </Link>
                   &nbsp;
                   <Dropdown className='action' isOpen={false} toggle={function () {}}>
                     <DropdownToggle className='btn-sm rounded-s' caret> 操作 </DropdownToggle>

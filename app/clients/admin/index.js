@@ -66,9 +66,10 @@ ReactDOM.render((
           component={UserIsAuthenticated(Containers.Index)}
         >
           <IndexRoute component={Containers.Dashboard} />
-          <Route path='test' component={Containers.Test} />
-          <Route path='list' component={Containers.List} />
-          <Route path='form' component={Containers.Form} />
+          <Route path='resources'>
+            <IndexRoute component={Containers.Resource.List} />
+            <Route path='create' component={Containers.Resource.Form} />
+          </Route>
         </Route>
       </Route>
     </Router>

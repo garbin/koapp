@@ -36,8 +36,8 @@ export const reducer = {
       icon: 'fa fa-th-large',
       label: '资源管理',
       children: [
-      { id: 'list_table', label: '列表', href: '/list' },
-      { id: 'list_form', label: '表单', href: '/form' } ] },
+      { id: 'list_table', label: '列表', href: '/resources' },
+      { id: 'list_form', label: '表单', href: '/resources/create' } ] },
     { id: 'setting',
       icon: 'fa fa-gear',
       label: '设置',
