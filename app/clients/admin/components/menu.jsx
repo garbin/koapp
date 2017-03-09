@@ -21,7 +21,7 @@ export default class Menu extends React.Component {
         {this.renderChildren(item.children, open)}
       </li>
     ) : (
-      <li key={item.id || idx} className={classnames({ active: item.active || hasActive, open })}>
+      <li key={item.id || idx} className={classnames({ active: item.active || hasActive })}>
         <Link to={item.href} onClick={e => { this.props.onClick(item) }}>
           {item.icon && (<i className={item.icon} />)} {item.label}
         </Link>

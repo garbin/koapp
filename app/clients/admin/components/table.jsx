@@ -4,13 +4,6 @@ import classnames from 'classnames'
 import { Input, ButtonDropdown, Button, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import _ from 'lodash'
 
-export function merge (base, props, override = false) {
-  if (override) return {...base, ...props}
-  return _.mergeWith({}, base, props, (obj, src) => {
-    if (_.isArray(obj)) return src.concat(obj)
-  })
-}
-
 export const formatters = {
   header (name) {
     return (<div><span>{name}</span></div>)
@@ -141,8 +134,13 @@ export const presets = {
   }
 }
 
-export function column (preset, props, override = false) {
-  return merge(presets[preset], props, override)
+export function column (property, label, render) {
+  const { preset, config, override } = render
+  const base = {property, header: { label }}
+  if (override) return {...presets[preset], ...base, ...config}
+  return _.mergeWith({}, presets[preset], base, config, (obj, src) => {
+    if (_.isArray(obj)) return src.concat(obj)
+  })
 }
 
 export default class extends React.Component {

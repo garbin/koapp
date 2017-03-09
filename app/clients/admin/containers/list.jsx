@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Button, Input, Form, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, InputGroup, InputGroupButton } from 'reactstrap'
-import Table, { formatters, column } from '../components/table'
+import Table, { column } from '../components/table'
 import Pagination from '../components/pagination'
 
 export class List extends React.Component {
@@ -26,103 +26,114 @@ export class List extends React.Component {
       }
     ]
     const columns = [
-      column('checkbox'),
-      column('image', {
-        property: 'media',
-        header: {
-          label: 'Media',
-          props: {
-            className: 'item-col-header fixed item-col-img md'
-          }
-        },
-        cell: {
-          props: {
-            className: 'fixed item-col-img md'
+      column('id', 'ID', { preset: 'checkbox' }),
+      column('media', 'Media', {
+        preset: 'image',
+        config: {
+          header: {
+            props: {
+              className: 'item-col-header fixed item-col-img md'
+            }
           },
-          href: data => 'haha'
+          cell: {
+            props: {
+              className: 'fixed item-col-img md'
+            },
+            href: data => 'haha'
+          }
         }
       }),
-      column('link', {
-        property: 'name',
-        header: {
-          label: 'Name',
-          props: {
-            className: 'item-col-header item-col-title'
-          }
-        },
-        cell: {
-          props: {
-            className: 'fixed pull-left item-col-title'
+      column('name', 'Name', {
+        preset: 'link',
+        config: {
+          header: {
+            props: {
+              className: 'item-col-header item-col-title'
+            }
           },
-          href: item => 'kk'
+          cell: {
+            props: {
+              className: 'fixed pull-left item-col-title'
+            },
+            href: item => 'kk'
+          }
         }
       }),
-      column('text', {
-        property: 'sales',
-        header: { label: 'Sales', props: { className: 'item-col-header item-col-sales' } },
-        cell: { props: { className: 'item-col-sales' } }
-      }),
-      column('text', {
-        property: 'stats',
-        header: { label: 'Stats', props: { className: 'item-col-header item-col-stats' } },
-        cell: { props: { className: 'item-col-stats no-overflow' } }
-      }),
-      column('text', {
-        property: 'category',
-        header: { label: 'Category', props: { className: 'item-col-header item-col-category' } },
-        cell: { props: { className: 'item-col-category no-overflow' }, formatters: [ value => (<div className='no-overflow'><a href=''>{value}</a></div>) ] }
-      }),
-      column('text', {
-        property: 'author',
-        header: {
-          label: 'Author',
-          props: {
-            className: 'item-col-header item-col-author'
-          }
-        },
-        cell: {
-          props: {
-            className: 'item-col-author'
-          },
-          formatters: [
-            value => (<div className='no-overflow'> {value} </div>)
-          ]
+      column('sales', 'Sales', {
+        preset: 'text',
+        config: {
+          header: { props: { className: 'item-col-header item-col-sales' } },
+          cell: { props: { className: 'item-col-sales' } }
         }
       }),
-      column('text', {
-        property: 'created_at',
-        header: {
-          label: 'Published',
-          props: {
-            className: 'item-col-header item-col-date'
-          }
-        },
-        cell: {
-          props: {
-            className: 'item-col-date'
-          },
-          formatters: [ value => (<div className='no-overflow'> {value} </div>) ]
+      column('stats', 'Stats', {
+        preset: 'text',
+        config: {
+          header: { props: { className: 'item-col-header item-col-stats' } },
+          cell: { props: { className: 'item-col-stats no-overflow' } }
         }
       }),
-      column('actions', {
-        property: 'id',
-        header: {
-          label: 'Action',
-          props: {
-            className: 'item-col-header item-col-actions-dropdown'
-          }
-        },
-        cell: {
-          props: {
-            className: 'item-col-actions-dropdown'
+      column('category', 'Category', {
+        preset: 'text',
+        config: {
+          header: { props: { className: 'item-col-header item-col-category' } },
+          cell: { props: { className: 'item-col-category no-overflow' }, formatters: [ value => (<div className='no-overflow'><a href=''>{value}</a></div>) ] }
+        }
+      }),
+      column('author', 'Author', {
+        preset: 'text',
+        config: {
+          header: {
+            props: {
+              className: 'item-col-header item-col-author'
+            }
           },
-          actions: {
-            label: '编辑',
-            dropdown: item => (
-              <DropdownMenu>
-                <DropdownItem>删除</DropdownItem>
-              </DropdownMenu>
-            )
+          cell: {
+            props: {
+              className: 'item-col-author'
+            },
+            formatters: [
+              value => (<div className='no-overflow'> {value} </div>)
+            ]
+          }
+        }
+      }),
+      column('created_at', 'Published', {
+        preset: 'text',
+        config: {
+          header: {
+            props: {
+              className: 'item-col-header item-col-date'
+            }
+          },
+          cell: {
+            props: {
+              className: 'item-col-date'
+            },
+            formatters: [ value => (<div className='no-overflow'> {value} </div>) ]
+          }
+        }
+      }),
+      column('id', 'Action', {
+        preset: 'actions',
+        config: {
+          header: {
+            props: {
+              className: 'item-col-header item-col-actions-dropdown'
+            }
+          },
+          cell: {
+            props: {
+              className: 'item-col-actions-dropdown'
+            },
+            actions: {
+              label: '编辑',
+              dropdown: item => (
+                <DropdownMenu>
+                  <DropdownItem>删除</DropdownItem>
+                </DropdownMenu>
+              )
+            }
           }
         }
       })
