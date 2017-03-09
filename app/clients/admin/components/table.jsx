@@ -48,7 +48,7 @@ export const components = {
     cell: props => <div {...props} className={classnames('item-col', props.className)} />
   },
   body: {
-    wrapper: props => <li className='tbody'><ul {...props} className={classnames('tbody-wrapper', props.className)} /></li>,
+    wrapper: props => <li className='tbody'><ul {...props} className={classnames('item-list striped tbody-wrapper', props.className)} /></li>,
     row: props => <li className='item'><div {...props} className={classnames('item-row', props.className)} /></li>,
     cell: props => <div {...props} className={classnames('item-col', props.className)} />
   }

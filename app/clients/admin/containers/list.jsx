@@ -23,6 +23,16 @@ export class List extends React.Component {
         category: 'Software',
         author: 'Meadow Katheryne',
         created_at: '120129'
+      },
+      {
+        id: 2,
+        media: 'https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg',
+        name: '12 Myths Uncovered About IT & Software',
+        sales: '46323',
+        stats: '',
+        category: 'Software',
+        author: 'Meadow Katheryne',
+        created_at: '120129'
       }
     ]
     const columns = [
@@ -144,7 +154,7 @@ export class List extends React.Component {
           <div className='title-block'>
             <div className='row'>
               <div className='col-md-6'>
-                <h3 className='title'> 资源列表&nbsp;<Link to='/list/add' className='btn btn-primary btn-sm rounded-s'> 添加 </Link>
+                <h3 className='title'> 资源列表&nbsp;<Link to='/form' className='btn btn-primary btn-sm rounded-s'> 添加 </Link>
                   &nbsp;
                   <Dropdown className='action' isOpen={false} toggle={function () {}}>
                     <DropdownToggle className='btn-sm rounded-s' caret> 操作 </DropdownToggle>
