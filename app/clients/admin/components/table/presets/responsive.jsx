@@ -20,13 +20,18 @@ export const formatters = {
     )
   },
   checkbox (value, extra) {
-    const header = value === extra.column.header.label
     return (
       <label className='item-check'>
-        <Input type='checkbox'
-          onChange={header && extra.column.header.onCheckAll ? extra.column.header.onCheckAll : e => e}
-          defaultChecked={extra.rowData && (extra.rowData.selected || false)}
-          className='checkbox' />
+        {!extra.rowData ? (
+          <Input type='checkbox'
+            onChange={extra.column.onCheckAll}
+            className='checkbox' />
+        ) : (
+          <Input type='checkbox'
+            onChange={extra.column.onCheckItem.bind(null, extra.rowIndex)}
+            defaultChecked={extra.rowData.selected}
+            className='checkbox' />
+        )}
         <span />
       </label>)
   },

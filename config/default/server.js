@@ -10,7 +10,7 @@ module.exports = {
   port: 5000,
   debug: true,
   cors: {
-    expose: ['Content-Range']
+    exposeHeaders: ['Content-Range']
   },
   accesslog: { path: storage('/logs/access.log') },
   passport: {

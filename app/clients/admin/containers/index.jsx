@@ -4,10 +4,23 @@ import Menu from '../components/menu.jsx'
 import { actions } from '../reduxers/admin'
 import TreeModel from 'tree-model'
 import { OAuthSignout } from 'react-redux-oauth2'
+import classnames from 'classnames'
+import ClickOutside from 'react-click-outside'
 
 export class Root extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object
+  }
+  constructor () {
+    super()
+    this.state = { sidebar_open: false }
+  }
+  toggleSidebar (toggle = true) {
+    if (toggle) {
+      this.setState({sidebar_open: !this.state.sidebar_open})
+    } else {
+      if (this.state.sidebar_open) this.setState({sidebar_open: false})
+    }
   }
   componentWillMount () {
     this.updateMenu()
@@ -35,11 +48,13 @@ export class Root extends React.Component {
     return (
       <div>
         <div className='main-wrapper'>
-          <div className='app header-fixed sidebar-fixed' id='app'>
+          <div className={classnames('app header-fixed sidebar-fixed', {'sidebar-open': this.state.sidebar_open})} id='app'>
             <header className='header'>
-              <div className='header-block header-block-collapse hidden-lg-up'> <button className='collapse-btn' id='sidebar-collapse-btn'>
-                <i className='fa fa-bars' />
-              </button> </div>
+              <div className='header-block header-block-collapse hidden-lg-up'>
+                  <button onClick={this.toggleSidebar.bind(this)} className='collapse-btn' id='sidebar-collapse-btn'>
+                    <i className='fa fa-bars' />
+                  </button>
+              </div>
               <div className='header-block header-block-search hidden-sm-down'>
                 <form role='search'>
                   <div className='input-container'> <i className='fa fa-search' /><input type='search' placeholder='Search' />
@@ -112,15 +127,17 @@ export class Root extends React.Component {
                 </ul>
               </div>
             </header>
-            <aside className='sidebar'>
-              <div className='sidebar-container'>
-                <div className='sidebar-header'>
-                  <div className='brand'>
-                    <div className='logo'> <span className='l l1' /><span className='l l2' /><span className='l l3' /> <span className='l l4' /> <span className='l l5' /> </div> Koapp </div>
+            <ClickOutside onClickOutside={this.toggleSidebar.bind(this, false)}>
+              <aside className='sidebar'>
+                <div className='sidebar-container'>
+                  <div className='sidebar-header'>
+                    <div className='brand'>
+                      <div className='logo'> <span className='l l1' /><span className='l l2' /><span className='l l3' /> <span className='l l4' /> <span className='l l5' /> </div> Koapp </div>
+                  </div>
+                  <Menu items={menu} onClick={item => this.props.dispatch(actions.changeMenu(item))} />
                 </div>
-                <Menu items={menu} onClick={item => this.props.dispatch(actions.changeMenu(item))} />
-              </div>
-            </aside>
+              </aside>
+            </ClickOutside>
             <div className='sidebar-overlay' id='sidebar-overlay' />
             {this.props.children}
             <footer className='footer'>

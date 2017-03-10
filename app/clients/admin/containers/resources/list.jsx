@@ -6,44 +6,21 @@ import Table, { column } from '../../components/table'
 import responsive from '../../components/table/presets/responsive'
 import Pagination from '../../components/pagination'
 import { toastr } from 'react-redux-toastr'
-import * as select from 'selectabular'
+import { actions } from '../../reduxers/table'
 
 export class List extends React.Component {
   render () {
-    const rows = [
-      {
-        id: 1,
-        media: 'https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg',
-        name: '12 Myths Uncovered About IT & Software',
-        sales: '46323',
-        stats: '',
-        category: 'Software',
-        author: 'Meadow Katheryne',
-        created_at: '120129'
-      },
-      {
-        id: 2,
-        media: 'https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg',
-        name: '12 Myths Uncovered About IT & Software',
-        sales: '46323',
-        stats: '',
-        category: 'Software',
-        author: 'Meadow Katheryne',
-        created_at: '120129'
-      },
-      {
-        id: 3,
-        media: 'https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg',
-        name: '12 Myths Uncovered About IT & Software',
-        sales: '46323',
-        stats: '',
-        category: 'Software',
-        author: 'Meadow Katheryne',
-        created_at: '120129'
-      }
-    ]
+    const { checkedItems, items, dispatch } = this.props
     const columns = [
-      column('id', 'ID', responsive.checkbox()),
+      column('id', 'ID', responsive.checkbox({
+        checkedItems,
+        onCheckAll (e) {
+          dispatch(actions.checkAll(e.target.checked))
+        },
+        onCheckItem (index, e) {
+          dispatch(actions.checkItem(index, e.target.checked))
+        }
+      })),
       column('media', 'Media', responsive.image(
         {
           header: {
@@ -167,7 +144,7 @@ export class List extends React.Component {
           </div>
         </div>
         <div className='card items'>
-          <Table rows={select.all(rows)} columns={columns} />
+          <Table rows={items} columns={columns} />
         </div>
         <nav className='text-xs-right'>
           <Pagination onPageChange={console.log} />
@@ -177,4 +154,4 @@ export class List extends React.Component {
   }
 }
 
-export default connect(state => ({ oauth: state.oauth }))(List)
+export default connect(state => ({ items: state.items, oauth: state.oauth }))(List)
