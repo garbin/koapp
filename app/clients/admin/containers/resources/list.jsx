@@ -6,22 +6,27 @@ import Table, { column } from '../../components/table'
 import responsive from '../../components/table/presets/responsive'
 import Pagination from '../../components/pagination'
 import { toastr } from 'react-redux-toastr'
-import { actions } from '../../reduxers/table'
+import { actions as async } from '../../reduxers/async'
+import { actions as check } from '../../reduxers/check'
 
 export class List extends React.Component {
   componentWillMount () {
-    this.props.dispatch(actions.fetch())
+    this.props.dispatch(async.get('table')('/resources'))
+  }
+  componentWillUnmount () {
+    this.props.dispatch(check.clear())
   }
   render () {
-    const { checkedItems, items, dispatch } = this.props
+    const { check: checkedItems, async, dispatch } = this.props
+    const items = (async.table && async.table.data) ? async.table.data : []
     const columns = [
       column('id', 'ID', responsive.checkbox({
         checkedItems,
         onCheckAll (e) {
-          dispatch(actions.checkAll(e.target.checked))
+          dispatch(check.all(e.target.checked))
         },
         onCheckItem (id, e) {
-          dispatch(actions.checkItem(id, e.target.checked))
+          dispatch(check.one(id, e.target.checked))
         }
       })),
       column('media', 'Media', responsive.image(
@@ -157,4 +162,4 @@ export class List extends React.Component {
   }
 }
 
-export default connect(state => ({ checkedItems: state.checkedItems, items: state.items, oauth: state.oauth }))(List)
+export default connect(state => ({ async: state.async, check: state.check, items: state.items, oauth: state.oauth }))(List)

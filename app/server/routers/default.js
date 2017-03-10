@@ -26,6 +26,40 @@ exports.default = Router.define(router => {
     e.name = 'ValidationError'
     throw e
   })
+  router.get('/resources', async ctx => {
+    ctx.body = [
+      {
+        id: 1,
+        media: 'https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg',
+        name: '12 Myths Uncovered About IT & Software',
+        sales: '46323',
+        stats: '',
+        category: 'Software',
+        author: 'Meadow Katheryne',
+        created_at: '120129'
+      },
+      {
+        id: 2,
+        media: 'https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg',
+        name: '12 Myths Uncovered About IT & Software',
+        sales: '46323',
+        stats: '',
+        category: 'Software',
+        author: 'Meadow Katheryne',
+        created_at: '120129'
+      },
+      {
+        id: 3,
+        media: 'https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg',
+        name: '12 Myths Uncovered About IT & Software',
+        sales: '46323',
+        stats: '',
+        category: 'Software',
+        author: 'Meadow Katheryne',
+        created_at: '120129'
+      }
+    ]
+  })
 
   router.get('/test', async ctx => {
     const { queue } = require('../../services/queues/resque')

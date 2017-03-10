@@ -7,7 +7,6 @@ import { reducer as toastr } from 'react-redux-toastr'
 import middlewares from './middlewares'
 import reduxers from './reduxers'
 import config from '../../../config/client'
-import { asyncActionStatus } from './lib/helper'
 
 export function configure (reducers, initial) {
   const store = createStore(reducers, initial,
@@ -27,7 +26,6 @@ export default function (history) {
     toastr,
     reduxAsyncConnect,
     routing: routerReducer,
-    form: formReducer,
-    asyncActionStatus
+    form: formReducer
   }), !process.env.__SERVER__ ? window.__INITIAL_STATE__ : {}, history)
 }
