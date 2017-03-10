@@ -19,21 +19,26 @@ export const formatters = {
       </div>
     )
   },
-  checkbox (value, extra) {
-    return (
-      <label className='item-check'>
-        {!extra.rowData ? (
+  checkbox (type = 'item') {
+    if (type === 'header') {
+      return (value, extra) => (
+        <label className='item-check'>
           <Input type='checkbox'
             onChange={extra.column.onCheckAll}
             className='checkbox' />
-        ) : (
-          <Input type='checkbox'
-            onChange={extra.column.onCheckItem.bind(null, extra.rowIndex)}
-            defaultChecked={extra.rowData.selected}
+          <span />
+        </label>)
+    } else {
+      return (value, extra) => (
+        <label className='item-check'>
+          <input type='checkbox'
+            value={value}
+            onChange={extra.column.onCheckItem.bind(null, value)}
+            checked={extra.column.checkedItems[value]}
             className='checkbox' />
-        )}
-        <span />
-      </label>)
+          <span />
+        </label>)
+    }
   },
   image (value, extra) {
     return (<a href={extra.column.cell.href(extra.rowData)}><div className='item-img rounded' style={{backgroundImage: `url(${value})`}} /></a>)
@@ -71,7 +76,7 @@ export const presets = {
     property: 'id',
     header: {
       label: 'ID',
-      formatters: [ formatters.checkbox ],
+      formatters: [ formatters.checkbox('header') ],
       props: {
         className: 'fixed item-col-check'
       }
@@ -80,7 +85,7 @@ export const presets = {
       props: {
         className: 'fixed item-col-check'
       },
-      formatters: [ formatters.checkbox ]
+      formatters: [ formatters.checkbox('item') ]
     }
   },
   text: {

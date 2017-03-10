@@ -9,6 +9,9 @@ import { toastr } from 'react-redux-toastr'
 import { actions } from '../../reduxers/table'
 
 export class List extends React.Component {
+  componentWillMount () {
+    this.props.dispatch(actions.fetch())
+  }
   render () {
     const { checkedItems, items, dispatch } = this.props
     const columns = [
@@ -17,8 +20,8 @@ export class List extends React.Component {
         onCheckAll (e) {
           dispatch(actions.checkAll(e.target.checked))
         },
-        onCheckItem (index, e) {
-          dispatch(actions.checkItem(index, e.target.checked))
+        onCheckItem (id, e) {
+          dispatch(actions.checkItem(id, e.target.checked))
         }
       })),
       column('media', 'Media', responsive.image(
@@ -154,4 +157,4 @@ export class List extends React.Component {
   }
 }
 
-export default connect(state => ({ items: state.items, oauth: state.oauth }))(List)
+export default connect(state => ({ checkedItems: state.checkedItems, items: state.items, oauth: state.oauth }))(List)
