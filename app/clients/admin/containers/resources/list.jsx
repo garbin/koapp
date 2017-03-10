@@ -7,20 +7,22 @@ import responsive from '../../components/table/presets/responsive'
 import Pagination from '../../components/pagination'
 import { toastr } from 'react-redux-toastr'
 import { actions as async } from '../../reduxers/async'
-import { actions as check } from '../../reduxers/check'
+import { actions as check } from '../../reduxers/checklist'
 
 export class List extends React.Component {
   componentWillMount () {
-    this.props.dispatch(async.get('table')('/resources'))
+    const { dispatch } = this.props
+    dispatch(async.get('table')('/resources')).then(res => dispatch(check.init(res.action.payload.data)))
   }
   componentWillUnmount () {
     this.props.dispatch(check.clear())
   }
   render () {
-    const { check: checkedItems, items, dispatch } = this.props
+    const { checklist, items, dispatch } = this.props
+    console.log('=====', items, checklist)
     const columns = [
       column('id', 'ID', responsive.checkbox({
-        checkedItems,
+        checklist,
         onCheckAll (e) {
           dispatch(check.all(e.target.checked))
         },
@@ -161,4 +163,4 @@ export class List extends React.Component {
   }
 }
 
-export default connect(state => ({ async: state.async, check: state.check, items: state.items, oauth: state.oauth }))(List)
+export default connect(state => ({ async: state.async, checklist: state.checklist, items: state.items, oauth: state.oauth }))(List)
