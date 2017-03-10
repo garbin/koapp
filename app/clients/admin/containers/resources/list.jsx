@@ -17,8 +17,7 @@ export class List extends React.Component {
     this.props.dispatch(check.clear())
   }
   render () {
-    const { check: checkedItems, async, dispatch } = this.props
-    const items = (async.table && async.table.data) ? async.table.data : []
+    const { check: checkedItems, items, dispatch } = this.props
     const columns = [
       column('id', 'ID', responsive.checkbox({
         checkedItems,
