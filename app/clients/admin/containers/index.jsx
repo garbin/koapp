@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Menu from '../components/menu.jsx'
-import { actions } from '../reduxers/admin'
+import { actions } from '../reduxers/common'
 import TreeModel from 'tree-model'
 import { OAuthSignout } from 'react-redux-oauth2'
 import classnames from 'classnames'
