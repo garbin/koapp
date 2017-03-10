@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Button, Input, Form, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, InputGroup, InputGroupButton } from 'reactstrap'
+import { Button, Input, Form, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, InputGroup, InputGroupButton } from 'reactstrap'
 import Table, { column } from '../../components/table'
 import responsive from '../../components/table/presets/responsive'
 import Pagination from '../../components/pagination'
+import { toastr } from 'react-redux-toastr'
+import * as select from 'selectabular'
 
 export class List extends React.Component {
   render () {
@@ -121,10 +123,13 @@ export class List extends React.Component {
             className: 'item-col-actions-dropdown'
           },
           actions: {
-            label: '编辑',
+            label: <span><i className='fa fa-pencil-square-o' /> 编辑 </span>,
             dropdown: item => (
               <DropdownMenu>
-                <DropdownItem>删除</DropdownItem>
+                <DropdownItem onClick={e => toastr.confirm('确定删除吗', {
+                  onOk: e => console.log(item),
+                  onCancel: e => console.log('cancel')
+                })}>删除</DropdownItem>
               </DropdownMenu>
             )
           }
@@ -139,12 +144,12 @@ export class List extends React.Component {
               <div className='col-md-6'>
                 <h3 className='title'> 资源列表&nbsp;<Link to='/resources/create' className='btn btn-primary btn-sm rounded-s'> 添加 </Link>
                   &nbsp;
-                  <Dropdown className='action' isOpen={false} toggle={function () {}}>
-                    <DropdownToggle className='btn-sm rounded-s' caret> 操作 </DropdownToggle>
+                  <ButtonDropdown style={{marginBottom: '5px'}} group toggle={function () {}}>
+                    <DropdownToggle className='rounded-s' caret size='sm'>操作</DropdownToggle>
                     <DropdownMenu>
                       <DropdownItem tag='a'><i className='fa fa-pencil-square-o icon' /> 编辑 </DropdownItem>
                     </DropdownMenu>
-                  </Dropdown>
+                  </ButtonDropdown>
                 </h3>
                 <p className='title-description'> 资源描述...... </p>
               </div>
@@ -162,7 +167,7 @@ export class List extends React.Component {
           </div>
         </div>
         <div className='card items'>
-          <Table rows={rows} columns={columns} />
+          <Table rows={select.all(rows)} columns={columns} />
         </div>
         <nav className='text-xs-right'>
           <Pagination onPageChange={console.log} />

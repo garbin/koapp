@@ -1,6 +1,5 @@
 import React from 'react'
-import { Input } from 'reactstrap'
-import { Button } from '@blueprintjs/core'
+import { Input, Button } from 'reactstrap'
 export default class extends React.Component {
   render () {
     return (
@@ -27,7 +26,7 @@ export default class extends React.Component {
         </div>
       <div className='form-group row'>
         <div className='col-sm-10 col-sm-offset-2'>
-          <Button type='submit' className='btn btn-primary'>Submit</Button>
+          <Button type='submit' color='primary'>Submit</Button>
         </div>
       </div>
     </div>

@@ -3,11 +3,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, useRouterHistory } from 'react-router'
 import { createHistory } from 'history'
-import { connect, Provider } from 'react-redux'
+import { Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { ReduxAsyncConnect } from 'redux-connect'
-import { NProgress } from 'redux-nprogress'
-import Notifications from 'react-notification-system-redux'
+import ReduxToastr from 'react-redux-toastr'
 import { UserAuthWrapper } from 'redux-auth-wrapper'
 import { storeInitialize } from 'react-redux-oauth2'
 import * as Containers from './containers'
@@ -19,10 +18,6 @@ const History = useRouterHistory(createHistory)({
 })
 const store = createStore(History)
 const history = syncHistoryWithStore(History, store)
-
-const ReduxNotifications = connect(
-  state => ({ notifications: state.notifications })
-)(Notifications)
 
 const UserIsAuthenticated = UserAuthWrapper({
   authSelector: state => state.oauth.user, // how to get the user state
@@ -51,20 +46,12 @@ function oauthInit (store) {
 ReactDOM.render((
   <Provider store={store}>
     <Router render={props => <ReduxAsyncConnect {...props} />} history={history}>
-      <Route
-        component={props =>
-          <div>
-            <NProgress />
-            <ReduxNotifications />
-            {props.children}
-          </div>}
-      >
+      <Route component={props => <div><ReduxToastr position='bottom-right' />{props.children}</div>}>
         <Route path='/signin' component={Containers.Signin} />
         <Route
           path='/'
           onEnter={oauthInit(store)}
-          component={UserIsAuthenticated(Containers.Index)}
-        >
+          component={UserIsAuthenticated(Containers.Index)}>
           <IndexRoute component={Containers.Dashboard} />
           <Route path='resources'>
             <IndexRoute component={Containers.Resource.List} />

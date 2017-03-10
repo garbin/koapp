@@ -1,13 +1,12 @@
 import React from 'react'
 import { OAuthSignin, actions } from 'react-redux-oauth2'
-import { Input } from 'reactstrap'
+import { Input, Button } from 'reactstrap'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
-import { beginTask, endTask } from 'redux-nprogress'
 import _ from 'lodash'
-import notify from 'react-notification-system-redux'
-import { Button } from '@blueprintjs/core'
+import { toastr } from 'react-redux-toastr'
+import { loading } from '../components/helper'
 
 const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
   <div className={classnames('form-group', { 'has-error': !_.isEmpty(error) })}>
@@ -31,15 +30,9 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
           if (e) {
             const err = new SubmissionError({ username: '用户不存在', password: '或者密码不正确' })
             reject(err)
-            this.props.dispatch(notify.error({
-              title: '登录失败',
-              message: '请检查您的用户名和密码'
-            }))
+            toastr.error('登录失败', '请检查您的用户名和密码')
           } else {
-            this.props.dispatch(notify.success({
-              title: 'test',
-              message: 'message'
-            }))
+            toastr.success('恭喜', '登录成功')
             this.context.router.replace('/')
             resolve()
           }
@@ -48,8 +41,8 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
     })
   }
   render () {
-    const OAuthSigninButton = OAuthSignin(Button)
-    const SigninButton = Button
+    const OAuthSigninButton = OAuthSignin(loading(Button))
+    const SigninButton = loading(Button)
 
     return (
       <div>
@@ -68,7 +61,7 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
                 </h1> </header>
               <div className='auth-content'>
                 <p className='text-xs-center'>LOGIN TO CONTINUE</p>
-                <form onSubmit={this.props.handleSubmit(this.submit.bind(this))}>
+                <form onSubmit={this.props.handleSubmit(this.submit.bind(this))} ref='form'>
                   <Field
                     component={renderField}
                     type='text'
@@ -96,20 +89,20 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
                   <div className='form-group'>
                     <div className='row'>
                       <div className='col-sm-8'>
-                        <SigninButton className='btn btn-block btn-primary'
+                        <SigninButton block color='primary'
                           loading={this.props.oauth.authenticating}
+                          text='登录中...'
                           type='submit'>
                           Signin
                         </SigninButton>
                       </div>
                       <div className='col-sm-4 text-xs-right'>
                         <OAuthSigninButton
+                          block color='primary'
                           loading={this.props.oauth.authenticating}
-                          className='btn btn-block btn-primary'
+                          text='登录中...'
                           provider='github'
-                          onClick={() => this.props.dispatch(beginTask())}
-                          onCancel={() => this.props.dispatch(endTask())}
-                          onSuccess={() => { this.context.router.replace('/admin'); this.props.dispatch(endTask()) }}
+                          onSuccess={() => { toastr.success('恭喜', '登录成功'); this.context.router.replace('/') }}
                         >
                           <i className='fa fa-github' />&nbsp;&nbsp;Github
                         </OAuthSigninButton>

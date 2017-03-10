@@ -3,8 +3,6 @@ import { routerReducer } from 'react-router-redux'
 import { reducer as formReducer } from 'redux-form'
 import { reducer as reduxAsyncConnect } from 'redux-connect'
 import configureOauth2, { reducer as oauthReducer } from 'react-redux-oauth2'
-import { reducer as notifications } from 'react-notification-system-redux'
-import { nprogress } from 'redux-nprogress'
 import middlewares from './middlewares'
 import reduxers from './reduxers'
 import config from '../../../config/client'
@@ -25,8 +23,6 @@ export default function (history) {
   return configure(combineReducers({
     ...reduxers.reducer,
     ...oauthReducer,
-    nprogress,
-    notifications,
     reduxAsyncConnect,
     routing: routerReducer,
     form: formReducer,

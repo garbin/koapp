@@ -13,17 +13,25 @@ export const formatters = {
   link (value, extra) {
     return (
       <div>
-        <a href={extra.column.cell.href(extra.rawData)}>
+        <a href={extra.column.cell.href(extra.rowData)}>
           <h4 className='item-title'> {value} </h4>
         </a>
       </div>
     )
   },
-  checkbox (value) {
-    return (<label className='item-check'><Input type='checkbox' className='checkbox' /><span /></label>)
+  checkbox (value, extra) {
+    const header = value === extra.column.header.label
+    return (
+      <label className='item-check'>
+        <Input type='checkbox'
+          onChange={header && extra.column.header.onCheckAll ? extra.column.header.onCheckAll : e => e}
+          defaultChecked={extra.rowData && (extra.rowData.selected || false)}
+          className='checkbox' />
+        <span />
+      </label>)
   },
   image (value, extra) {
-    return (<a href={extra.column.cell.href(extra.rawData)}><div className='item-img rounded' style={{backgroundImage: `url(${value})`}} /></a>)
+    return (<a href={extra.column.cell.href(extra.rowData)}><div className='item-img rounded' style={{backgroundImage: `url(${value})`}} /></a>)
   },
   actions (value, extra) {
     let props = extra.column.cell.actions.props || {}
@@ -32,7 +40,7 @@ export const formatters = {
         <ButtonDropdown group toggle={e => e}>
           <Button color='primary' size='sm' {...props}>{extra.column.cell.actions.label}</Button>
           <DropdownToggle caret color='primary' size='sm' />
-          {extra.column.cell.actions.dropdown(extra.rawData)}
+          {extra.column.cell.actions.dropdown(extra.rowData)}
         </ButtonDropdown>
       </div>
     )

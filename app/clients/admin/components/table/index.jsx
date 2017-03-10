@@ -10,11 +10,11 @@ export function column (property, label, definition) {
 
 export default class extends React.Component {
   render () {
-    const { rows, columns, preset } = this.props
+    const { rows, columns, preset, rowKey, ...others } = this.props
     return (
-      <Provider columns={columns} components={presets[preset || 'responsive'].components}>
+      <Provider columns={columns} components={presets[preset || 'responsive'].components} {...others}>
         <Header />
-        <Body rows={rows} rowKey='id' />
+        <Body rows={rows} rowKey={rowKey || 'id'} />
       </Provider>
     )
   }

@@ -1,6 +1,6 @@
 :root {
-  --primaryColor: #FF6161;
-  --primaryColorHover: #ff2424;
+  --primaryColor: #4bcf99;
+  --primaryColorHover: #31b680;
 }
 
 .item-list {
@@ -12,21 +12,6 @@
       margin:0;
       padding:0;
       border:0;
-    }
-  }
-}
-.btn {
-  &.pt-button {
-    box-shadow: none;
-    background: var(--primaryColor);
-    &:disabled {
-      box-shadow: none;
-      background: var(--primaryColor);
-    }
-    &:hover {
-      box-shadow: none;
-      background: var(--primaryColorHover);
-      border-color: var(--primaryColorHover);
     }
   }
 }
