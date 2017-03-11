@@ -10,11 +10,11 @@ export function column (property, label, definition) {
 export default class extends React.Component {
   render () {
     const { data, columns, components, rowKey, ...others } = this.props
-    const { loading, error, data: rows } = data || {}
+    const { status, response } = data || {}
     return (
       <Provider columns={columns} components={components} {...others}>
         <Header />
-        {(loading || error) ? <Body error={error} loading={loading} rows={[]} /> : <Body rows={rows || []} rowKey={rowKey || 'id'} />}
+        {(['pending', 'rejected'].includes(status)) ? <Body error={response} loading rows={[]} /> : <Body rows={response || []} rowKey={rowKey || 'id'} />}
       </Provider>
     )
   }
