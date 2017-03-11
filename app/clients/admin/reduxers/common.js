@@ -4,7 +4,7 @@ import TreeModel from 'tree-model'
 export const actions = {
   changeMenu: createAction('MENU_CHANGE'),
   openModal: createAction('MODAL_OPEN'),
-  hideModal: createAction('MODAL_HIDE'),
+  hideModal: createAction('MODAL_HIDE')
 }
 
 export const reducer = {

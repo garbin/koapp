@@ -14,7 +14,9 @@ export default class extends React.Component {
     return (
       <Provider columns={columns} components={components} {...others}>
         <Header />
-        {(['pending', 'rejected'].includes(status)) ? <Body error={response} loading rows={[]} /> : <Body rows={response || []} rowKey={rowKey || 'id'} />}
+        {(['pending', 'rejected'].includes(status))
+          ? <Body error={response} loading rows={[]} />
+          : <Body rows={response || []} rowKey={rowKey || 'id'} />}
       </Provider>
     )
   }
