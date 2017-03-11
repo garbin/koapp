@@ -1,21 +1,50 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
-import { Button, Input, Form, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, InputGroup, InputGroupButton } from 'reactstrap'
+import { Button,
+         Form,
+         Input,
+         ButtonDropdown,
+         DropdownToggle,
+         DropdownMenu,
+         DropdownItem,
+         InputGroup,
+         InputGroupButton } from 'reactstrap'
 import Table, { column } from '../../components/table'
 import responsive, { components } from '../../components/table/presets/responsive'
 import Pagination from '../../components/pagination'
 import { toastr } from 'react-redux-toastr'
 import { actions as async } from '../../reduxers/async'
 import { actions as check } from '../../reduxers/checklist'
+import { actions as common } from '../../reduxers/common'
 
 export class List extends React.Component {
-  componentWillMount () {
+  static contextTypes = {
+    router: React.PropTypes.object
+  }
+  static childContextTypes = {
+    list: React.PropTypes.object,
+    location: React.PropTypes.object
+  }
+  getChildContext () {
+    return {
+      list: this,
+      location: this.currentLocation
+    }
+  }
+  fetch () {
     const { dispatch } = this.props
-    dispatch(async.get('table')('/resources')).then(res => dispatch(check.init(res.action.payload.data)))
+    return dispatch(async.get('table')('/resources')).then(res => dispatch(check.init(res.action.payload.data)))
+  }
+  componentWillMount () {
+    this.fetch()
   }
   componentWillUnmount () {
     this.props.dispatch(check.clear())
+  }
+  gotoEdit () {
+    this.currentLocation = this.props.location
+    this.context.router.replace('/resources/edit')
   }
   render () {
     const { checklist, async, dispatch } = this.props
@@ -109,6 +138,7 @@ export class List extends React.Component {
           },
           actions: {
             label: <span><i className='fa fa-pencil-square-o' /> 编辑 </span>,
+            props: { onClick: this.gotoEdit.bind(this) },
             dropdown: item => (
               <DropdownMenu>
                 <DropdownItem onClick={e => toastr.confirm('确定删除吗', {
@@ -157,6 +187,7 @@ export class List extends React.Component {
         <nav className='text-xs-right'>
           <Pagination onPageChange={console.log} />
         </nav>
+        {this.props.children}
       </article>
     )
   }

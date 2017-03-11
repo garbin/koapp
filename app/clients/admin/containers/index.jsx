@@ -6,6 +6,8 @@ import TreeModel from 'tree-model'
 import { OAuthSignout } from 'react-redux-oauth2'
 import classnames from 'classnames'
 import ClickOutside from 'react-click-outside'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { actions as common } from '../reduxers/common'
 
 export class Root extends React.Component {
   static contextTypes = {
@@ -38,10 +40,12 @@ export class Root extends React.Component {
         return this.context.router.isActive(item.model.href, true)
       }
     })
-    this.props.dispatch(actions.changeMenu(current.model))
+    if (current) {
+      this.props.dispatch(actions.changeMenu(current.model))
+    }
   }
   render () {
-    const { menu, oauth } = this.props
+    const { menu, oauth, modal } = this.props
     const SignoutButton = OAuthSignout(props => (
       <a className='dropdown-item' href='#' {...props}> <i className='fa fa-power-off icon' />Sign-Out </a>
     ))
@@ -148,6 +152,15 @@ export class Root extends React.Component {
                 </ul>
               </div>
             </footer>
+            <Modal isOpen={modal.open}
+              toggle={e => this.props.dispatch(common.hideModal())}
+              modalClassName='in'
+              backdropClassName='in'
+              backdrop>
+              <ModalHeader>{modal.title}</ModalHeader>
+              <ModalBody>{modal.content}</ModalBody>
+              <ModalFooter>{modal.buttons}</ModalFooter>
+            </Modal>
           </div>
         </div>
       </div>
@@ -155,4 +168,4 @@ export class Root extends React.Component {
   }
 }
 
-export default connect(state => ({menu: state.menu, oauth: state.oauth}))(Root)
+export default connect(state => ({modal: state.modal, menu: state.menu, oauth: state.oauth}))(Root)

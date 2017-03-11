@@ -11,15 +11,18 @@ export const reducer = {
   async: (state = {}, action) => {
     const { type } = action
     const status = (loading, loaded, error = null, data) => ({loading, loaded, error, data})
-    const reg = suffix => new RegExp(`(.*?)(_GET)_${suffix}`)
-    if (reg('PENDING').test(type)) {
-      return {...state, [type.match(reg('PENDING'))[1].toLowerCase()]: status(true, false)}
-    }
-    if (reg('REJECTED').test(type)) {
-      return {...state, [type.match(reg('REJECTED'))[1].toLowerCase()]: status(false, false, action.payload.data || action.payload.toString())}
-    }
-    if (reg('FULFILLED').test(type)) {
-      return {...state, [type.match(reg('FULFILLED'))[1].toLowerCase()]: status(false, true, null, action.payload.data)}
+    const reg = new RegExp(`(.*?)(_GET)_(PENDING|REJECTED|FULFILLED)$`)
+    if (reg.test(type)) {
+      const match = type.match(reg)
+      const name = match[1].toLowerCase()
+      switch (match[3]) {
+        case 'PENDING':
+          return {...state, [name]: status(true, false)}
+        case 'REJECTED':
+          return {...state, [name]: status(false, false, action.payload.data || action.payload.toString())}
+        case 'FULFILLED':
+          return {...state, [name]: status(false, false, null, action.payload.data)}
+      }
     }
     return state
   }

@@ -2,10 +2,26 @@ import { createAction, handleActions } from 'redux-actions'
 import TreeModel from 'tree-model'
 
 export const actions = {
-  changeMenu: createAction('MENU_CHANGE')
+  changeMenu: createAction('MENU_CHANGE'),
+  openModal: createAction('MODAL_OPEN'),
+  hideModal: createAction('MODAL_HIDE'),
 }
 
 export const reducer = {
+  modal: handleActions({
+    MODAL_OPEN (state, action) {
+      const { title, content, buttons } = action.payload
+      return {open: true, title, content, buttons}
+    },
+    MODAL_HIDE (state, action) {
+      return {open: false, title: '', content: '', buttons: []}
+    }
+  }, {
+    open: false,
+    title: '',
+    content: '',
+    buttons: []
+  }),
   menu: handleActions({
     MENU_CHANGE: (state, action) => {
       let tree = new TreeModel()

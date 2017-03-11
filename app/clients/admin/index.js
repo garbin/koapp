@@ -53,10 +53,10 @@ ReactDOM.render((
           onEnter={oauthInit(store)}
           component={UserIsAuthenticated(Containers.Index)}>
           <IndexRoute component={Containers.Dashboard} />
-          <Route path='resources'>
-            <IndexRoute component={Containers.Resource.List} />
-            <Route path='create' component={Containers.Resource.Form} />
+          <Route path='resources' component={Containers.Resource.List}>
+            <Route path='edit' component={Containers.Resource.Modal} />
           </Route>
+          <Route path='resources/create' component={Containers.Resource.Form} />
         </Route>
       </Route>
     </Router>
