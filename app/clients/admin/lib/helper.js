@@ -8,7 +8,7 @@ import reactCookie from 'react-cookie'
 
 export const api = axios.create({
   baseURL: config.api,
-  timeout: 1000,
+  timeout: 10000,
   headers: { 'X-Custom-Header': 'foobar' }
 })
 

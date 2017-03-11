@@ -1,7 +1,6 @@
 import React from 'react'
 import { Provider, Header, Body } from 'reactabular-table'
 import _ from 'lodash'
-import * as presets from './presets'
 
 export function column (property, label, definition) {
   const base = {property, header: { label }}
@@ -10,11 +9,12 @@ export function column (property, label, definition) {
 
 export default class extends React.Component {
   render () {
-    const { rows, columns, preset, rowKey, ...others } = this.props
+    const { data, columns, components, rowKey, ...others } = this.props
+    const { loading, error, data: rows } = data || {}
     return (
-      <Provider columns={columns} components={presets[preset || 'responsive'].components} {...others}>
+      <Provider columns={columns} components={components} {...others}>
         <Header />
-        <Body rows={rows} rowKey={rowKey || 'id'} />
+        {(loading || error) ? <Body error={error} loading={loading} rows={[]} /> : <Body rows={rows || []} rowKey={rowKey || 'id'} />}
       </Provider>
     )
   }

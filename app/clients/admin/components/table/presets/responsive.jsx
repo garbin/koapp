@@ -2,6 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import { Input, ButtonDropdown, Button, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import _ from 'lodash'
+import Loading from 'react-loading'
 
 export const formatters = {
   header (name) {
@@ -32,6 +33,7 @@ export const formatters = {
       return (value, extra) => (
         <label className='item-check'>
           <input type='checkbox'
+            value={value}
             onChange={extra.column.onCheckItem.bind(null, value)}
             checked={extra.column.checklist[value] || false}
             className='checkbox' />
@@ -64,7 +66,26 @@ export const components = {
     cell: props => <div {...props} className={classnames('item-col', props.className)} />
   },
   body: {
-    wrapper: props => <li className='tbody'><ul {...props} className={classnames('item-list striped tbody-wrapper', props.className)} /></li>,
+    wrapper: props => {
+      const {children, className, loading, error, ...others} = props
+      return (
+        <li className='tbody'>
+          <ul {...others} className={classnames('item-list striped tbody-wrapper', className)}>
+            <li className='item' style={{display: 'none'}} />
+            {(loading || error) ? (
+              <li className='item'>
+                <div className='item-row'>
+                  <div className='item-col' style={{justifyContent: 'center'}}>
+                    {loading && <Loading type='cylon' color='#4bcf99' />}
+                    {error && error}
+                  </div>
+                </div>
+              </li>
+            ) : children}
+          </ul>
+        </li>
+      )
+    },
     row: props => <li className='item'><div {...props} className={classnames('item-row', props.className)} /></li>,
     cell: props => <div {...props} className={classnames('item-col', props.className)} />
   }

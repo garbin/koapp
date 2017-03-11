@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import { Button, Input, Form, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, InputGroup, InputGroupButton } from 'reactstrap'
 import Table, { column } from '../../components/table'
-import responsive from '../../components/table/presets/responsive'
+import responsive, { components } from '../../components/table/presets/responsive'
 import Pagination from '../../components/pagination'
 import { toastr } from 'react-redux-toastr'
 import { actions as async } from '../../reduxers/async'
@@ -18,8 +18,7 @@ export class List extends React.Component {
     this.props.dispatch(check.clear())
   }
   render () {
-    const { checklist, items, dispatch } = this.props
-    console.log('=====', items, checklist)
+    const { checklist, async, dispatch } = this.props
     const columns = [
       column('id', 'ID', responsive.checkbox({
         checklist,
@@ -153,7 +152,7 @@ export class List extends React.Component {
           </div>
         </div>
         <div className='card items'>
-          <Table rows={items} columns={columns} />
+          <Table data={async.table} columns={columns} components={components} />
         </div>
         <nav className='text-xs-right'>
           <Pagination onPageChange={console.log} />

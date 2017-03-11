@@ -27,6 +27,9 @@ exports.default = Router.define(router => {
     throw e
   })
   router.get('/resources', async ctx => {
+    await new Promise((resolve, reject) => {
+      setTimeout(resolve, 3000)
+    })
     ctx.body = [
       {
         id: 1,
