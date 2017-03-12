@@ -15,6 +15,7 @@ export default class Pagination extends React.Component {
         breakLabel={<a className='page-link'>...</a>}
         nextLabel='下一页'
         nextClassName='page-item'
+        disableInitialCallback
         nextLinkClassName='page-link' {...this.props} />
     )
   }

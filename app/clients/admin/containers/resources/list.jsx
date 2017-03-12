@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import querystring from 'query-string'
 import { push, replace } from 'react-router-redux'
 import { withRouter } from 'react-router'
 import { Button,
@@ -30,13 +31,17 @@ export class List extends React.Component {
       location: this.currentLocation
     }
   }
-  fetch () {
+  fetch (search) {
     const { dispatch, location } = this.props
-    return dispatch(async.list('table')('/resources', location.query)).then(res => dispatch(check.init(res.action.payload.data)))
+    search = search || location.search
+    return dispatch(async.list('table')(`/resources`)).then(res => dispatch(check.init(res.action.payload.data)))
   }
   handlePageChange ({ selected }) {
     const { location, dispatch } = this.props
-    dispatch(replace({...location, query: Object.assign({page: parseInt(selected) + 1}, location.query)}))
+    let search = querystring.parse(location.search)
+    search.page = selected + 1
+    dispatch(replace({...location, search: querystring.stringify(search)}))
+    this.fetch(search)
   }
   componentWillMount () {
     this.fetch()
@@ -50,7 +55,9 @@ export class List extends React.Component {
     dispatch(push('/resources/edit'))
   }
   render () {
-    const { checklist, async, dispatch } = this.props
+    const { checklist, async, dispatch, location } = this.props
+    const query = querystring.parse(location.search)
+    const page = parseInt(query.page || 1) - 1
     const columns = [
       column('id', 'ID', responsive.checkbox({
         checklist,
@@ -188,7 +195,7 @@ export class List extends React.Component {
           <Table data={async.table} columns={columns} components={components} />
         </div>
         <nav className='text-xs-right'>
-          <Pagination onPageChange={this.handlePageChange.bind(this)} />
+          <Pagination initialPage={page} onPageChange={this.handlePageChange.bind(this)} />
         </nav>
         {this.props.children}
       </article>
