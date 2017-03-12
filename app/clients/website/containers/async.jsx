@@ -1,5 +1,4 @@
 import React from 'react'
-import { asyncConnect } from 'redux-connect'
 import reduxers from '../reduxers'
 import { actionProps } from '../lib/helper'
 

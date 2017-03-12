@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router-dom'
 import classnames from 'classnames'
 
 export default class Menu extends React.Component {
@@ -22,9 +22,9 @@ export default class Menu extends React.Component {
       </li>
     ) : (
       <li key={item.id || idx} className={classnames({ active: item.active || hasActive })}>
-        <Link to={item.href} onClick={e => { this.props.onClick(item) }}>
+        <NavLink to={item.href} onClick={e => { this.props.onClick(item) }}>
           {item.icon && (<i className={item.icon} />)} {item.label}
-        </Link>
+        </NavLink>
       </li>
     )
   }

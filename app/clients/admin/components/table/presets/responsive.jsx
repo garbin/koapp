@@ -76,7 +76,7 @@ export const components = {
               <li className='item'>
                 <div className='item-row'>
                   <div className='item-col' style={{justifyContent: 'center'}}>
-                    {loading && <Loading type='cylon' color='#4bcf99' />}
+                    {loading && <Loading delay={0} type='cylon' color='#4bcf99' />}
                     {error && error}
                   </div>
                 </div>

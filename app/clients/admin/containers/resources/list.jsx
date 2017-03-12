@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Button,
          Form,
          Input,
@@ -16,12 +16,8 @@ import Pagination from '../../components/pagination'
 import { toastr } from 'react-redux-toastr'
 import { actions as async } from '../../reduxers/async'
 import { actions as check } from '../../reduxers/checklist'
-import { actions as common } from '../../reduxers/common'
 
 export class List extends React.Component {
-  static contextTypes = {
-    router: React.PropTypes.object
-  }
   static childContextTypes = {
     list: React.PropTypes.object,
     location: React.PropTypes.object
@@ -33,8 +29,12 @@ export class List extends React.Component {
     }
   }
   fetch () {
-    const { dispatch } = this.props
-    return dispatch(async.get('table')('/resources')).then(res => dispatch(check.init(res.action.payload.data)))
+    const { dispatch, location } = this.props
+    return dispatch(async.list('table')('/resources', location.query)).then(res => dispatch(check.init(res.action.payload.data)))
+  }
+  handlePageChange ({ selected }) {
+    const {location} = this.props
+    // this.context.router.push({...location, query: Object.assign({page: parseInt(selected) + 1}, location.query)})
   }
   componentWillMount () {
     this.fetch()
@@ -44,7 +44,7 @@ export class List extends React.Component {
   }
   gotoEdit () {
     this.currentLocation = this.props.location
-    this.context.router.replace('/resources/edit')
+    // this.context.router.replace('/resources/edit')
   }
   render () {
     const { checklist, async, dispatch } = this.props
@@ -185,7 +185,7 @@ export class List extends React.Component {
           <Table data={async.table} columns={columns} components={components} />
         </div>
         <nav className='text-xs-right'>
-          <Pagination onPageChange={console.log} />
+          <Pagination onPageChange={this.handlePageChange.bind(this)} />
         </nav>
         {this.props.children}
       </article>

@@ -41,12 +41,3 @@ export function connect (mapState, actions) {
 export function actionProps (actions) {
   return dispatch => ({ actions: bindActionCreators(actions, dispatch) })
 }
-
-export function convertJoiError (joiErrors) {
-  const errors = {}
-  _(joiErrors).forEach(error => {
-    errors[error.path] = error.message
-  })
-
-  return errors
-}

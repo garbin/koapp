@@ -6,13 +6,10 @@ import TreeModel from 'tree-model'
 import { OAuthSignout } from 'react-redux-oauth2'
 import classnames from 'classnames'
 import ClickOutside from 'react-click-outside'
+import { push } from 'react-router-redux'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
-import { actions as common } from '../reduxers/common'
 
 export class Root extends React.Component {
-  static contextTypes = {
-    router: React.PropTypes.object
-  }
   constructor () {
     super()
     this.state = { sidebar_open: false }
@@ -25,19 +22,25 @@ export class Root extends React.Component {
     }
   }
   componentWillMount () {
-    this.updateMenu()
+    const { oauth, dispatch } = this.props
+    if (!oauth.user) {
+      dispatch(push('/signin'))
+    } else {
+      this.updateMenu()
+    }
   }
   componentWillReceiveProps (props) {
     if (this.props.location.pathname !== props.location.pathname) {
-      this.updateMenu()
+      // this.updateMenu()
     }
   }
   updateMenu () {
     const tree = new TreeModel()
     const menu = tree.parse({ children: this.props.menu })
+    const { match }  = this.props
     let current = menu.first(item => {
       if (item.model.href) {
-        return this.context.router.isActive(item.model.href, true)
+        return item.model.href === match.path
       }
     })
     if (current) {
@@ -55,9 +58,9 @@ export class Root extends React.Component {
           <div className={classnames('app header-fixed sidebar-fixed', {'sidebar-open': this.state.sidebar_open})} id='app'>
             <header className='header'>
               <div className='header-block header-block-collapse hidden-lg-up'>
-                  <button onClick={this.toggleSidebar.bind(this)} className='collapse-btn' id='sidebar-collapse-btn'>
-                    <i className='fa fa-bars' />
-                  </button>
+                <button onClick={this.toggleSidebar.bind(this)} className='collapse-btn' id='sidebar-collapse-btn'>
+                  <i className='fa fa-bars' />
+                </button>
               </div>
               <div className='header-block header-block-search hidden-sm-down'>
                 <form role='search'>
@@ -152,15 +155,6 @@ export class Root extends React.Component {
                 </ul>
               </div>
             </footer>
-            <Modal isOpen={modal.open}
-              toggle={e => this.props.dispatch(common.hideModal())}
-              modalClassName='in'
-              backdropClassName='in'
-              backdrop>
-              <ModalHeader>{modal.title}</ModalHeader>
-              <ModalBody>{modal.content}</ModalBody>
-              <ModalFooter>{modal.buttons}</ModalFooter>
-            </Modal>
           </div>
         </div>
       </div>

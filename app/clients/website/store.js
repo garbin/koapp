@@ -1,7 +1,6 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 import { reducer as formReducer } from 'redux-form'
-import { reducer as reduxAsyncConnect } from 'redux-connect'
 import configureOauth2, { reducer as oauthReducer } from 'react-redux-oauth2'
 import middlewares from './middlewares'
 import reduxers from './reduxers'

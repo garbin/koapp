@@ -1,5 +1,6 @@
 import React from 'react'
 import { OAuthSignin, actions } from 'react-redux-oauth2'
+import { push, replace } from 'react-router-redux'
 import { Input, Button } from 'reactstrap'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
@@ -18,31 +19,34 @@ const renderField = ({ input, label, type, meta: { touched, error }, ...other })
   </div>
 )
 
-export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oauth }))(class Signin extends React.Component {
+export class Signin extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object
   }
   submit (values) {
-    return this.props.dispatch({
+    const { dispatch } = this.props
+    return dispatch({
       type: 'SIGNIN',
       payload: new Promise((resolve, reject) => {
-        this.props.dispatch(actions.getToken(values, e => {
+        dispatch(actions.getToken(values, e => {
           if (e) {
             const err = new SubmissionError({ username: '用户不存在', password: '或者密码不正确' })
             reject(err)
             toastr.error('登录失败', '请检查您的用户名和密码')
           } else {
             toastr.success('恭喜', '登录成功')
-            this.context.router.replace('/')
+            dispatch(push('/'))
             resolve()
           }
         }))
       })
     })
   }
+
   render () {
     const OAuthSigninButton = OAuthSignin(loading(Button))
     const SigninButton = loading(Button)
+    const { dispatch } = this.props
 
     return (
       <div>
@@ -69,7 +73,7 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
                     name='username'
                     label='User Name'
                     placeholder='Your email address'
-                  />
+                    />
                   <Field
                     component={renderField}
                     type='password'
@@ -78,13 +82,13 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
                     label='Password'
                     placeholder='Your password'
                     required
-                  />
+                    />
                   <div className='form-group'>
                     <label htmlFor>
                       <Input className='checkbox' type='checkbox' />
                       <span>Remember me</span>
                     </label>
-                    <a href='reset.html' className='forgot-btn pull-right'>Forgot password?</a>
+                    <a href='#' className='forgot-btn pull-right' onClick={e => dispatch(push('/'))}>Forgot password?</a>
                   </div>
                   <div className='form-group'>
                     <div className='row'>
@@ -102,10 +106,10 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
                           loading={this.props.oauth.authenticating}
                           text='登录中...'
                           provider='github'
-                          onSuccess={() => { toastr.success('恭喜', '登录成功'); this.context.router.replace('/') }}
-                        >
+                          onSuccess={() => { toastr.success('恭喜', '登录成功'); dispatch(push('/')) }}
+                          >
                           <i className='fa fa-github' />&nbsp;&nbsp;Github
-                        </OAuthSigninButton>
+                          </OAuthSigninButton>
                       </div>
                     </div>
                   </div>
@@ -124,4 +128,6 @@ export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oa
       </div>
     )
   }
-}))
+}
+
+export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oauth }))(Signin))

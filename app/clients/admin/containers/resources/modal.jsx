@@ -1,12 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Field, reduxForm, SubmissionError } from 'redux-form'
+import Joi from 'joi'
+import { validate, Input } from '../../components/form'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
-         FormGroup,
-         Label,
-         Input,
-         Form,
-         FormFeedback,
-         FormText } from 'reactstrap'
+         Form } from 'reactstrap'
+
+const formValues = {
+  username: '123'
+}
+const schema = {
+  username: Joi.string().email().required()
+}
 
 export class ModalEditor extends React.Component {
   static contextTypes = {
@@ -18,40 +23,41 @@ export class ModalEditor extends React.Component {
     this.context.router.replace(this.context.location || '/resources')
     this.context.list.fetch()
   }
+  submit (values) {
+    return new Promise((resolve, reject) => {
+      console.log(values, arguments)
+      throw new SubmissionError({ username: 'User does not exist' })
+      resolve()
+    })
+  }
   render () {
+    const { handleSubmit } = this.props
+
     return (
       <Modal isOpen toggle={this.close.bind(this)}
         modalClassName='in'
         backdropClassName='in'
         backdrop>
-        <ModalHeader>编辑</ModalHeader>
-        <ModalBody>
-          <Form>
-            <FormGroup color='success'>
-              <Label for='exampleEmail'>Input with success</Label>
-              <Input state='success' />
-              <FormFeedback>Success! You did it!</FormFeedback>
-              <FormText color='muted'>Example help text that remains unchanged.</FormText>
-            </FormGroup>
-            <FormGroup color='warning'>
-              <Label for='examplePassword'>Input with warning</Label>
-              <Input state='warning' />
-              <FormFeedback>Whoops, check your formatting and try again.</FormFeedback>
-              <FormText color='muted'>Example help text that remains unchanged.</FormText>
-            </FormGroup>
-            <FormGroup color='danger'>
-              <Label for='examplePassword'>Input with danger</Label>
-              <Input state='danger' />
-              <FormFeedback>Oh noes! that name is already taken</FormFeedback>
-              <FormText color='muted'>Example help text that remains unchanged.</FormText>
-            </FormGroup>
-          </Form>
-        </ModalBody>
-        <ModalFooter>
-          <Button color='primary' onClick={this.close.bind(this)}>关闭</Button>
-        </ModalFooter>
+        <Form onSubmit={handleSubmit(this.submit.bind(this))}>
+          <ModalHeader>编辑</ModalHeader>
+          <ModalBody>
+            <Field name='username' label='用户名' component={Input} type='text' />
+          </ModalBody>
+          <ModalFooter>
+            <Button color='primary' type='submit'>提交</Button>
+            &nbsp;
+            &nbsp;
+            <Button onClick={this.close.bind(this)}>关闭</Button>
+          </ModalFooter>
+        </Form>
       </Modal>
     )
   }
 }
-export default connect(state => ({oauth: state.oauth}))(ModalEditor)
+export default connect(state => ({
+  resource: state.form.resource,
+  oauth: state.oauth,
+  initialValues: formValues
+}))(
+  reduxForm({form: 'resource', validate: validate(schema)})(ModalEditor)
+)
