@@ -33,15 +33,16 @@ export class List extends React.Component {
   }
   fetch (search) {
     const { dispatch, location } = this.props
-    search = search || location.search
-    return dispatch(async.list('table')(`/resources`)).then(res => dispatch(check.init(res.action.payload.data)))
+    search = querystring.parse(search || location.search)
+    return dispatch(async.list('table')('/resources', search)).then(res => dispatch(check.init(res.action.payload.data)))
   }
   handlePageChange ({ selected }) {
     const { location, dispatch } = this.props
     let search = querystring.parse(location.search)
     search.page = selected + 1
-    dispatch(replace({...location, search: querystring.stringify(search)}))
-    this.fetch(search)
+    let newSearch = querystring.stringify(search)
+    dispatch(replace({...location, search: newSearch}))
+    this.fetch(newSearch)
   }
   componentWillMount () {
     this.fetch()
