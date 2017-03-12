@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+import { push } from 'react-router-redux'
 import { Field, reduxForm, SubmissionError } from 'redux-form'
 import Joi from 'joi'
 import { validate, Input } from '../../components/form'
@@ -15,12 +17,12 @@ const schema = {
 
 export class ModalEditor extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object,
     list: React.PropTypes.object,
     location: React.PropTypes.object
   }
   close () {
-    this.context.router.replace(this.context.location || '/resources')
+    const { dispatch } = this.props
+    dispatch(push(this.context.location || '/resources'))
     this.context.list.fetch()
   }
   submit (values) {
@@ -59,5 +61,5 @@ export default connect(state => ({
   oauth: state.oauth,
   initialValues: formValues
 }))(
-  reduxForm({form: 'resource', validate: validate(schema)})(ModalEditor)
+  reduxForm({form: 'resource', validate: validate(schema)})(withRouter(ModalEditor))
 )

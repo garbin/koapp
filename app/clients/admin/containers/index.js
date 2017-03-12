@@ -23,14 +23,19 @@ export default props => (
     <ReduxToastr position='bottom-right' />
     <Switch>
       <Route path='/signin' exact component={Signin} />
-      <PrivateRoute path='/' children={props => (
-        <div>
-          <Route component={withRouter(Index)} />
+      <PrivateRoute path='/'>
+        <Index>
           <Switch>
-            <Route path='/resources' component={Resource.List} />
+            <Route path='/resources/create' component={Resource.Form} />
+            <Route path='/resources'>
+              <Resource.List>
+                <Route path='/resources/edit' component={Resource.Modal} />
+              </Resource.List>
+            </Route>
+            <Route component={Dashboard} />
           </Switch>
-        </div>
-      )} />
+        </Index>
+      </PrivateRoute>
     </Switch>
   </div>
 )

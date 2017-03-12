@@ -7,6 +7,7 @@ import { OAuthSignout } from 'react-redux-oauth2'
 import classnames from 'classnames'
 import ClickOutside from 'react-click-outside'
 import { push } from 'react-router-redux'
+import { withRouter } from 'react-router'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 export class Root extends React.Component {
@@ -26,21 +27,21 @@ export class Root extends React.Component {
     if (!oauth.user) {
       dispatch(push('/signin'))
     } else {
-      this.updateMenu()
+      this.updateMenu(this.props)
     }
   }
   componentWillReceiveProps (props) {
     if (this.props.location.pathname !== props.location.pathname) {
-      // this.updateMenu()
+      this.updateMenu(props)
     }
   }
-  updateMenu () {
+  updateMenu (props) {
     const tree = new TreeModel()
     const menu = tree.parse({ children: this.props.menu })
-    const { match }  = this.props
+    const { location }  = props
     let current = menu.first(item => {
       if (item.model.href) {
-        return item.model.href === match.path
+        return item.model.href === location.pathname
       }
     })
     if (current) {
@@ -48,7 +49,7 @@ export class Root extends React.Component {
     }
   }
   render () {
-    const { menu, oauth, modal } = this.props
+    const { menu, oauth } = this.props
     const SignoutButton = OAuthSignout(props => (
       <a className='dropdown-item' href='#' {...props}> <i className='fa fa-power-off icon' />Sign-Out </a>
     ))
@@ -162,4 +163,4 @@ export class Root extends React.Component {
   }
 }
 
-export default connect(state => ({modal: state.modal, menu: state.menu, oauth: state.oauth}))(Root)
+export default connect(state => ({modal: state.modal, menu: state.menu, oauth: state.oauth}))(withRouter(Root))

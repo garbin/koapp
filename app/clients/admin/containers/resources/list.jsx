@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { push, replace } from 'react-router-redux'
+import { withRouter } from 'react-router'
 import { Button,
          Form,
          Input,
@@ -33,8 +35,8 @@ export class List extends React.Component {
     return dispatch(async.list('table')('/resources', location.query)).then(res => dispatch(check.init(res.action.payload.data)))
   }
   handlePageChange ({ selected }) {
-    const {location} = this.props
-    // this.context.router.push({...location, query: Object.assign({page: parseInt(selected) + 1}, location.query)})
+    const { location, dispatch } = this.props
+    dispatch(replace({...location, query: Object.assign({page: parseInt(selected) + 1}, location.query)}))
   }
   componentWillMount () {
     this.fetch()
@@ -43,8 +45,9 @@ export class List extends React.Component {
     this.props.dispatch(check.clear())
   }
   gotoEdit () {
+    const { dispatch } = this.props
     this.currentLocation = this.props.location
-    // this.context.router.replace('/resources/edit')
+    dispatch(push('/resources/edit'))
   }
   render () {
     const { checklist, async, dispatch } = this.props
@@ -193,4 +196,8 @@ export class List extends React.Component {
   }
 }
 
-export default connect(state => ({ async: state.async, checklist: state.checklist, items: state.items, oauth: state.oauth }))(List)
+export default connect(state => ({
+  async: state.async,
+  checklist: state.checklist,
+  items: state.items,
+  oauth: state.oauth }))(withRouter(List))

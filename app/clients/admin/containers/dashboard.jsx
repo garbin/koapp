@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from '../lib/helper'
+import { withRouter } from 'react-router'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie } from 'recharts'
 
 export class Dashboard extends React.Component {
@@ -75,4 +76,4 @@ export class Dashboard extends React.Component {
   }
 }
 
-export default connect(state => ({ oauth: state.oauth }))(Dashboard)
+export default connect(state => ({ oauth: state.oauth }))(withRouter(Dashboard))
