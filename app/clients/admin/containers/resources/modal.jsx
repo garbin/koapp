@@ -17,13 +17,11 @@ const schema = {
 
 export class ModalEditor extends React.Component {
   static contextTypes = {
-    list: React.PropTypes.object,
     location: React.PropTypes.object
   }
   close () {
     const { dispatch } = this.props
     dispatch(push(this.context.location || '/resources'))
-    this.context.list.fetch()
   }
   submit (values) {
     return new Promise((resolve, reject) => {
