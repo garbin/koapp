@@ -4,23 +4,18 @@ import { Link } from 'react-router-dom'
 import querystring from 'query-string'
 import { push, replace } from 'react-router-redux'
 import { withRouter } from 'react-router'
-import { reduxForm, Field } from 'redux-form'
-import { Button,
-         Form,
-         Input,
-         ButtonDropdown,
+import { reduxForm } from 'redux-form'
+import { ButtonDropdown,
          DropdownToggle,
          DropdownMenu,
-         DropdownItem,
-         InputGroup,
-         InputGroupButton } from 'reactstrap'
+         DropdownItem } from 'reactstrap'
 import Table, { column } from '../../components/table'
 import responsive, { components } from '../../components/table/presets/responsive'
 import Pagination from '../../components/pagination'
 import { toastr } from 'react-redux-toastr'
 import { actions as async } from '../../reduxers/async'
 import { actions as check } from '../../reduxers/checklist'
-
+import SearchForm from '../../components/table/search'
 
 export class List extends React.Component {
   static childContextTypes = {
@@ -44,7 +39,6 @@ export class List extends React.Component {
     search.page = selected + 1
     let newSearch = querystring.stringify(search)
     dispatch(replace({...location, search: newSearch}))
-    this.fetch(newSearch)
   }
   componentWillMount () {
     this.fetch()
@@ -67,30 +61,7 @@ export class List extends React.Component {
     const query = querystring.parse(location.search)
     const page = parseInt(query.page || 1) - 1
 
-    const SearchForm = reduxForm({form: 'search', initialValues: {q: query.q}})(withRouter(class extends React.Component {
-      submit (values) {
-        console.log(values, this.props.location)
-        const { location, dispatch } = this.props
-        const search = querystring.parse(location.search)
-        dispatch(push({...location, search: querystring.stringify({...search, ...values})}))
-      }
-      render () {
-        const { handleSubmit, location } = this.props
-        const search = querystring.parse(location.search)
-        return (
-          <Form inline onSubmit={handleSubmit(this.submit.bind(this))}>
-            <InputGroup>
-              <Field name='q' type='text' className='boxed rounded-s' placeholder='search for...' component={({input, meta, ...props}) => (<Input {...input} {...props} />)} />
-              <InputGroupButton>
-                <Button className='rounded-s' type='submit'>
-                  <i className='fa fa-search' />
-                </Button>
-              </InputGroupButton>
-            </InputGroup>
-          </Form>
-        )
-      }
-    }))
+    const ReduxSearchForm = reduxForm({form: 'search', initialValues: {q: query.q}})(SearchForm)
 
     const columns = [
       column('id', 'ID', responsive.checkbox({
@@ -215,7 +186,7 @@ export class List extends React.Component {
             </div>
           </div>
           <div className='items-search'>
-            <SearchForm />
+            <ReduxSearchForm />
           </div>
         </div>
         <div className='card items'>
