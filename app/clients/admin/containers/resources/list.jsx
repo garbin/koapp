@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import querystring from 'query-string'
 import { push, replace } from 'react-router-redux'
 import { withRouter } from 'react-router'
+import { reduxForm, Field } from 'redux-form'
 import { Button,
          Form,
          Input,
@@ -19,6 +20,7 @@ import Pagination from '../../components/pagination'
 import { toastr } from 'react-redux-toastr'
 import { actions as async } from '../../reduxers/async'
 import { actions as check } from '../../reduxers/checklist'
+
 
 export class List extends React.Component {
   static childContextTypes = {
@@ -47,6 +49,11 @@ export class List extends React.Component {
   componentWillMount () {
     this.fetch()
   }
+  componentWillReceiveProps (nextProps) {
+    if (this.props.location.search !== nextProps.location.search) {
+      this.fetch(nextProps.location.search)
+    }
+  }
   componentWillUnmount () {
     this.props.dispatch(check.clear())
   }
@@ -59,6 +66,32 @@ export class List extends React.Component {
     const { checklist, async, dispatch, location } = this.props
     const query = querystring.parse(location.search)
     const page = parseInt(query.page || 1) - 1
+
+    const SearchForm = reduxForm({form: 'search', initialValues: {q: query.q}})(withRouter(class extends React.Component {
+      submit (values) {
+        console.log(values, this.props.location)
+        const { location, dispatch } = this.props
+        const search = querystring.parse(location.search)
+        dispatch(push({...location, search: querystring.stringify({...search, ...values})}))
+      }
+      render () {
+        const { handleSubmit, location } = this.props
+        const search = querystring.parse(location.search)
+        return (
+          <Form inline onSubmit={handleSubmit(this.submit.bind(this))}>
+            <InputGroup>
+              <Field name='q' type='text' className='boxed rounded-s' placeholder='search for...' component={({input, meta, ...props}) => (<Input {...input} {...props} />)} />
+              <InputGroupButton>
+                <Button className='rounded-s' type='submit'>
+                  <i className='fa fa-search' />
+                </Button>
+              </InputGroupButton>
+            </InputGroup>
+          </Form>
+        )
+      }
+    }))
+
     const columns = [
       column('id', 'ID', responsive.checkbox({
         checklist,
@@ -182,14 +215,7 @@ export class List extends React.Component {
             </div>
           </div>
           <div className='items-search'>
-            <Form inline>
-              <InputGroup>
-                <Input type='text' className='boxed rounded-s' placeholder='Search for...' />
-                <InputGroupButton>
-                  <Button className='rounded-s'><i className='fa fa-search' /></Button>
-                </InputGroupButton>
-              </InputGroup>
-            </Form>
+            <SearchForm />
           </div>
         </div>
         <div className='card items'>
