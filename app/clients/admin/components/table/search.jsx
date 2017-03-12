@@ -17,7 +17,11 @@ export class SearchForm extends React.Component {
     return (
       <Form inline onSubmit={handleSubmit(this.submit.bind(this))}>
         <InputGroup>
-          <Field name='q' type='text' className='boxed rounded-s' placeholder='search for...' component={({input, meta, ...props}) => (<Input {...input} {...props} />)} />
+          <Field name='q'
+            type='text'
+            className='boxed rounded-s'
+            placeholder='search for...'
+            component={({input, meta, ...props}) => (<Input {...input} {...props} />)} />
           <InputGroupButton>
             <Button className='rounded-s' type='submit'>
               <i className='fa fa-search' />

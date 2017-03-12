@@ -5,6 +5,8 @@ const {default: token} = require('./oauth/token')
 const {default: posts} = require('./posts')
 const {default: subdomain} = require('./subdomain')
 const {default: cashier} = require('./cashier')
+const {default: users} = require('./users')
+const {default: roles} = require('./roles')
 
 exports.default = [
   subdomain,
@@ -13,5 +15,7 @@ exports.default = [
   auth,
   token,
   clients,
+  roles,
+  users,
   cashier
 ]

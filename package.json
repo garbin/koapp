@@ -82,7 +82,7 @@
     "koa-mount": "^2.0.0",
     "koa-passport": "^3.0.0-rc.1",
     "koa-proxy": "^0.8.0",
-    "koapi": "^0.3.2",
+    "koapi": "^0.3.15",
     "lodash": "^4.12.0",
     "moment": "^2.15.2",
     "node-sass": "^4.5.0",
