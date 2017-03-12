@@ -16,6 +16,7 @@ exports.default = class Role extends bookshelf.Model {
   static get fields () {
     return {
       name: Joi.string().required(),
+      desc: Joi.string(),
       permissions: Joi.alternatives().try(
         Joi.object().required(),
         Joi.boolean().required()

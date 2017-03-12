@@ -36,6 +36,7 @@ exports.up = function (knex, Promise) {
                table.string('username').unique()
                table.string('password')
                table.string('email').unique()
+               table.string('avatar')
                table.timestamp('created_at').notNullable().defaultTo(knex.fn.now())
                table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now())
              })
@@ -46,6 +47,7 @@ exports.up = function (knex, Promise) {
              .createTable('roles', function (table) {
                table.increments('id').primary()
                table.string('name').unique()
+               table.string('desc')
                table.jsonb('permissions')
              })
              .createTable('user_accounts', function (table) {

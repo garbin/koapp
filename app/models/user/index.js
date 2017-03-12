@@ -22,6 +22,7 @@ exports.default = class User extends bookshelf.Model {
     return {
       username: Joi.string().required(),
       password: Joi.string().required(),
+      avatar: Joi.string(),
       email: Joi.string().email().required()
     }
   };
