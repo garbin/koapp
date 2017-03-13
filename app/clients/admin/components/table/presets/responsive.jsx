@@ -74,17 +74,18 @@ export const components = {
   },
   body: {
     wrapper: props => {
-      const {children, className, loading, error, ...others} = props
+      const {children, className, loading, empty, error, ...others} = props
       return (
         <li className='tbody'>
           <ul {...others} className={classnames('item-list striped tbody-wrapper', className)}>
             <li className='item' style={{display: 'none'}} />
-            {(loading || error) ? (
+            {(loading || error || empty) ? (
               <li className='item'>
                 <div className='item-row'>
                   <div className='item-col' style={{justifyContent: 'center'}}>
                     {loading && <Loading delay={0} type='cylon' color='#4bcf99' />}
                     {error && error}
+                    {empty && <span>没有找到符合条件的记录</span>}
                   </div>
                 </div>
               </li>

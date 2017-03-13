@@ -69,7 +69,7 @@ export class List extends React.Component {
     dispatch(push(`/users/${value}/edit`))
   }
   render () {
-    const { checklist, async, dispatch, location } = this.props
+    const { checklist, async, dispatch, location, oauth } = this.props
     const query = querystring.parse(location.search)
     const page = parseInt(query.page || 1) - 1
     const pageCount = (async.users && async.users.range) ? Math.ceil(async.users.range.length / perPage) : perPage
@@ -156,7 +156,7 @@ export class List extends React.Component {
             primary: value => <Button color='primary' onClick={e => this.gotoEdit(value)} size='sm'><span><i className='fa fa-pencil-square-o' /> 编辑 </span></Button>,
             dropdown: item => (
               <DropdownMenu>
-                <DropdownItem onClick={e => toastr.confirm('确定删除吗', {
+                <DropdownItem disabled={oauth.user.id === item.id} onClick={e => toastr.confirm('确定删除吗', {
                   onOk: e => this.handleDestroy(item),
                   onCancel: e => console.log('cancel')
                 })}>删除</DropdownItem>

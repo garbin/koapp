@@ -87,46 +87,6 @@ const Index = connect(state => ({
                     */}
                   <div className='header-block header-block-nav'>
                     <ul className='nav-profile'>
-                      <li className='notifications new'>
-                        <a href='' data-toggle='dropdown' aria-expanded='false'> <i className='fa fa-bell-o' /><sup>
-                          <span className='counter'>8</span>
-                        </sup> </a>
-                        <div className='dropdown-menu notifications-dropdown-menu'>
-                          <ul className='notifications-container'>
-                            <li>
-                              <a href='' className='notification-item'>
-                                <div className='img-col' />
-                                <div className='body-col'>
-                                  <p> <span className='accent'>Zack Alien</span> pushed new commit: <span className='accent'>Fix page load performance issue</span>. </p>
-                                </div>
-                              </a>
-                            </li>
-                            <li>
-                              <a href='' className='notification-item'>
-                                <div className='img-col' />
-                                <div className='body-col'>
-                                  <p> <span className='accent'>Amaya Hatsumi</span> started new task: <span className='accent'>Dashboard UI design.</span>. </p>
-                                </div>
-                              </a>
-                            </li>
-                            <li>
-                              <a href='' className='notification-item'>
-                                <div className='img-col' />
-                                <div className='body-col'>
-                                  <p> <span className='accent'>Andy Nouman</span> deployed new version of <span className='accent'>NodeJS REST Api V3</span> </p>
-                                </div>
-                              </a>
-                            </li>
-                          </ul>
-                          <footer>
-                            <ul>
-                              <li> <a href=''>
-                                View All
-                              </a> </li>
-                            </ul>
-                          </footer>
-                        </div>
-                      </li>
                       <li className='profile dropdown'>
                         <a className='nav-link dropdown-toggle' data-toggle='dropdown' href='#' role='button'>
                           <div className='img' style={{backgroundImage: 'url(https://avatars3.githubusercontent.com/u/3959008?v=3&s=40)'}} /><span className='name'>

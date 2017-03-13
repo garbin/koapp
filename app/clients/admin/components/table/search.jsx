@@ -7,7 +7,6 @@ import { withRouter } from 'react-router'
 
 export class SearchForm extends React.Component {
   submit (values) {
-    console.log(values, this.props.location)
     const { location, dispatch } = this.props
     const search = querystring.parse(location.search)
     dispatch(push({...location, search: querystring.stringify({...search, ...values})}))

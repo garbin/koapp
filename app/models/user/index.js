@@ -25,7 +25,8 @@ exports.default = class User extends bookshelf.Model {
       avatar: Joi.string(),
       email: Joi.string().email().required()
     }
-  };
+  }
+
   static async auth (ident, password) {
     let user = await this.query(q => q.where({ username: ident }).orWhere({ email: ident })).fetch({ require: true })
     if (user && user.get('password') === md5(password)) {

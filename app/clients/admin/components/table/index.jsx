@@ -11,12 +11,13 @@ export default class extends React.Component {
   render () {
     const { data, columns, components, rowKey, ...others } = this.props
     const { status, response } = data || {}
+    const rows = response || []
     return (
       <Provider columns={columns} components={components} {...others}>
         <Header />
         {(['pending', 'rejected'].includes(status))
           ? <Body error={response} loading rows={[]} />
-          : <Body rows={response || []} rowKey={rowKey || 'id'} />}
+        : <Body rows={rows} empty={rows.length === 0} rowKey={rowKey || 'id'} />}
       </Provider>
     )
   }
