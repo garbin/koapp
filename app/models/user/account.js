@@ -2,6 +2,8 @@ const { bookshelf } = require('koapi/lib/model')
 const Joi = require('joi')
 const {default: User} = require('./')
 const moment = require('moment')
+const random = require('randomatic')
+const md5 = require('blueimp-md5')
 
 exports.default = class Account extends bookshelf.Model {
   get tableName () {
@@ -34,7 +36,7 @@ exports.default = class Account extends bookshelf.Model {
       await bookshelf.transaction(t => user.save({
         username,
         email,
-        password: 'default'
+        password: md5(random('Aa0!', 10))
       }, {
         transacting: t
       }).tap(model => model.accounts().create({
