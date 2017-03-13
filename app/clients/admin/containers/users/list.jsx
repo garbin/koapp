@@ -55,12 +55,19 @@ export class List extends React.Component {
   componentWillUnmount () {
     this.props.dispatch(check.clear())
   }
-  handleDestroy (item) {
-    console.log(item)
+  handleDestroy (checklist) {
     const { dispatch } = this.props
-    dispatch(async.destroy('user')(`/users/${item.id}`)).then(v => {
+    const items = Object.entries(checklist).reduce((result, [id, checked]) => {
+      checked && result.push(id)
+      return result
+    }, [])
+    Promise.all(items.map(item => {
+      return dispatch(async.destroy('user')(`/users/${item}`))
+    })).then(v => {
       toastr.success('恭喜', '删除成功')
       this.fetch()
+    }).catch(e => {
+      toastr.error('很遗憾', e.message)
     })
   }
   gotoEdit (value) {
@@ -157,7 +164,7 @@ export class List extends React.Component {
             dropdown: item => (
               <DropdownMenu>
                 <DropdownItem disabled={oauth.user.id === item.id} onClick={e => toastr.confirm('确定删除吗', {
-                  onOk: e => this.handleDestroy(item),
+                  onOk: e => this.handleDestroy({[item.id]: true}),
                   onCancel: e => console.log('cancel')
                 })}>删除</DropdownItem>
               </DropdownMenu>
@@ -177,7 +184,10 @@ export class List extends React.Component {
                   <ButtonDropdown style={{marginBottom: '5px'}} group toggle={function () {}}>
                     <DropdownToggle className='rounded-s' caret size='sm'>操作</DropdownToggle>
                     <DropdownMenu>
-                      <DropdownItem tag='a'><i className='fa fa-pencil-square-o icon' /> 编辑 </DropdownItem>
+                      <DropdownItem onClick={e => toastr.confirm('确定删除吗', {
+                        onOk: e => this.handleDestroy(checklist),
+                        onCancel: e => console.log('cancel')
+                      })}><i className='fa fa-pencil-square-o icon' />删除</DropdownItem>
                     </DropdownMenu>
                   </ButtonDropdown>
                 </h3>
