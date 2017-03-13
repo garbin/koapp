@@ -38,10 +38,6 @@ export class List extends React.Component {
     return dispatch(async.list('users', {perPage})('/users', {params})).then(res => {
       dispatch(check.init(res.action.payload.data))
       return res
-    }).catch(error => {
-      if (error.response.status === 403) {
-        dispatch(push('/unauthorizated'))
-      }
     })
   }
   handlePageChange ({ selected }) {
