@@ -89,7 +89,7 @@ const Index = connect(state => ({
                     <ul className='nav-profile'>
                       <li className='profile dropdown'>
                         <a className='nav-link dropdown-toggle' data-toggle='dropdown' href='#' role='button'>
-                          <div className='img' style={{backgroundImage: 'url(https://avatars3.githubusercontent.com/u/3959008?v=3&s=40)'}} /><span className='name'>
+                          <div className='img' style={{backgroundImage: `url(${oauth.user.avatar})`}} /><span className='name'>
                             {oauth.user.username}
                           </span> </a>
                         <div className='dropdown-menu profile-dropdown-menu'>

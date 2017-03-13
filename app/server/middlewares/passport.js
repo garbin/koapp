@@ -33,6 +33,7 @@ passport.use(new GithubStrategy(config.passport.github, accountSignin('github', 
   account_id: profile.id,
   username: profile.username,
   email: 'garbinh@gmail.com',
+  avatar: profile.photos[0].value,
   profile
 }))))
 

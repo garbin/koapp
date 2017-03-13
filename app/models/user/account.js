@@ -28,7 +28,7 @@ exports.default = class Account extends bookshelf.Model {
     }
   };
   static async signin (provider, response) {
-    let { account_id, username, email, profile, access_token, refresh_token } = response
+    let { account_id, username, email, avatar, profile, access_token, refresh_token } = response
     let account = await this.forge().where({ account_id }).fetch({ withRelated: ['user'] })
     let user
     if (!account) {
@@ -36,6 +36,7 @@ exports.default = class Account extends bookshelf.Model {
       await bookshelf.transaction(t => user.save({
         username,
         email,
+        avatar,
         password: md5(random('Aa0!', 10))
       }, {
         transacting: t
