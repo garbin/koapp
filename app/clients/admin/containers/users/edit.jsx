@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { push } from 'react-router-redux'
-import { Field, reduxForm, SubmissionError } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import Joi from 'joi'
 import { validate, Input } from '../../components/form'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
@@ -13,7 +13,15 @@ import _ from 'lodash'
 
 const schema = {
   username: Joi.string().required(),
-  email: Joi.string().email().required()
+  email: Joi.string().email().required(),
+  password: Joi.string(),
+  password_confirm: Joi.string().valid(Joi.ref('password')).options({
+    language: {
+      any: {
+        allowOnly: '两次输入的密码不一致'
+      }
+    }
+  })
 }
 
 export class ModalEditor extends React.Component {
@@ -22,9 +30,7 @@ export class ModalEditor extends React.Component {
   }
   componentWillMount () {
     const { dispatch, match } = this.props
-    if (match.params.id) {
-      dispatch(async.get('user')(`/users/${match.params.id}`))
-    }
+    dispatch(async.get('user')(`/users/${match.params.id}`))
   }
   componentWillUnmount () {
     const { dispatch } = this.props
@@ -37,10 +43,10 @@ export class ModalEditor extends React.Component {
   submit (values) {
     const { dispatch, match } = this.props
     const { username, email } = values
-    return dispatch(async.patch('user')(`/users/${match.params.id}`, {username, email})).then(v => {
-      this.close()
-      toastr.success('恭喜', '编辑成功!')
-    })
+      return dispatch(async.patch('user')(`/users/${match.params.id}`, {username, email})).then(v => {
+        this.close()
+        toastr.success('恭喜', '编辑成功!')
+      })
   }
   render () {
     const { handleSubmit } = this.props
@@ -55,6 +61,8 @@ export class ModalEditor extends React.Component {
           <ModalBody>
             <Field name='username' label='用户名' component={Input} type='text' />
             <Field name='email' label='EMail' component={Input} type='text' />
+            <Field name='password' label='密码' component={Input} type='password' />
+            <Field name='password_confirm' label='密码确认' component={Input} type='password' />
           </ModalBody>
           <ModalFooter>
             <Button color='primary' type='submit'>提交</Button>

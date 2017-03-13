@@ -84,7 +84,7 @@ export const components = {
                 <div className='item-row'>
                   <div className='item-col' style={{justifyContent: 'center'}}>
                     {loading && <Loading delay={0} type='cylon' color='#4bcf99' />}
-                    {error && error}
+                    {error && error.toString()}
                     {empty && <span>没有找到符合条件的记录</span>}
                   </div>
                 </div>

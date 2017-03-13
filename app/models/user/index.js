@@ -16,6 +16,11 @@ exports.default = class User extends bookshelf.Model {
   posts () {
     return this.hasMany(Post)
   }
+  static get format () {
+    return {
+      password: md5
+    }
+  }
   static get dependents () {
     return ['accounts']
   }

@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Dashboard from './dashboard'
 import * as User from './users'
+import Unauthorizated from './unauthorizated'
 import Signin from './signin'
 import ReduxToastr from 'react-redux-toastr'
 import { Route, Switch, Redirect, withRouter } from 'react-router'
@@ -148,10 +149,11 @@ export default props => (
       <PrivateRoute path='/'>
         <Index>
           <Switch>
+            <Route path='/unauthorizated' component={Unauthorizated} />
             <Route path='/users'>
               <User.List>
-                <Route path='/users/:id/edit' component={User.Form} />
-                <Route path='/users/create' component={User.Form} />
+                <Route path='/users/:id/edit' component={User.Edit} />
+                <Route path='/users/create' component={User.Create} />
               </User.List>
             </Route>
             <Route component={Dashboard} />

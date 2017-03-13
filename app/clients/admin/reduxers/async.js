@@ -25,6 +25,11 @@ export const actions = {
       return api.get(resource, config)
     })
   },
+  post (type, config = {}) {
+    return createAction(`${type.toUpperCase()}_POST`, (resource, data, config = {}) => {
+      return api.post(resource, data, config)
+    })
+  },
   patch (type, config = {}) {
     return createAction(`${type.toUpperCase()}_PATCH`, (resource, data, config = {}) => {
       return api.patch(resource, data, config)
@@ -43,7 +48,7 @@ export const actions = {
 export const reducer = {
   async: (state = {}, action) => {
     const { type } = action
-    const reg = new RegExp(`(.*?)_(GET|LIST|CLEAR|PATCH|DESTROY)_(PENDING|REJECTED|FULFILLED)$`)
+    const reg = new RegExp(`(.*?)_(GET|LIST|CLEAR|PATCH|POST|DESTROY)_(PENDING|REJECTED|FULFILLED)$`)
     if (reg.test(type)) {
       const match = type.match(reg)
       const name = match[1].toLowerCase()

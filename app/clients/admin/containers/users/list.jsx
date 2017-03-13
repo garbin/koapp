@@ -35,7 +35,14 @@ export class List extends React.Component {
     const { dispatch, location } = this.props
     const params = querystring.parse(search || location.search)
     params.sort = '-created_at'
-    return dispatch(async.list('users', {perPage})('/users', {params})).then(res => dispatch(check.init(res.action.payload.data)))
+    return dispatch(async.list('users', {perPage})('/users', {params})).then(res => {
+      dispatch(check.init(res.action.payload.data))
+      return res
+    }).catch(error => {
+      if (error.response.status === 403) {
+        dispatch(push('/unauthorizated'))
+      }
+    })
   }
   handlePageChange ({ selected }) {
     const { location, dispatch } = this.props
