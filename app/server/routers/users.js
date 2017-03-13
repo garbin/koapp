@@ -9,6 +9,11 @@ exports.default = ResourceRouter.define({
     router.create().read({
       sortable: ['created_at'],
       searchable: ['username', 'email']
-    }).update().destroy()
+    }).update().destroy(async (ctx, next) => {
+      if (ctx.state.user.get('id') === parseInt(ctx.params.id)) {
+        throw new Error('can not destroy yourself')
+      }
+      await next()
+    })
   }
 })

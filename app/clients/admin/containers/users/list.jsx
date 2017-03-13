@@ -72,7 +72,7 @@ export class List extends React.Component {
     const { checklist, async, dispatch, location, oauth } = this.props
     const query = querystring.parse(location.search)
     const page = parseInt(query.page || 1) - 1
-    const pageCount = (async.users && async.users.range) ? Math.ceil(async.users.range.length / perPage) : perPage
+    const pageCount = (async.users && async.users.range) ? Math.ceil(async.users.range.length / perPage) : 1
 
     const ReduxSearchForm = reduxForm({form: 'search', initialValues: {q: query.q}})(SearchForm)
 
