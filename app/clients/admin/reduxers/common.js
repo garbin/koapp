@@ -48,17 +48,11 @@ export const reducer = {
     }
   }, [
     { id: 'dashboard', icon: 'fa fa-home', label: 'Dashboard', href: '/' },
-    { id: 'list',
-      icon: 'fa fa-th-large',
-      label: '资源管理',
-      children: [
-      { id: 'list_table', label: '列表', href: '/resources' },
-      { id: 'list_form', label: '表单', href: '/resources/create' } ] },
-    { id: 'setting',
+    { id: 'system',
       icon: 'fa fa-gear',
-      label: '设置',
+      label: '系统管理',
       children: [
-      { id: 'setting_gear', label: '设置', href: '/settings' },
-      { id: 'setting_form', label: '表单', href: '/setting_form' } ] }
+      { id: 'system_users', label: '用户管理', href: '/users' },
+      { id: 'system_roles', label: '角色管理', href: '/roles' } ] }
   ])
 }

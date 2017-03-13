@@ -6,6 +6,6 @@ exports.default = ResourceRouter.define({
   collection: User.collection(),
   setup (router) {
     router.use(user.grant('admin.users'))
-    router.crud()
+    router.create().read({sortable: ['created_at']}).update().destroy()
   }
 })

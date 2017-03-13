@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Dashboard from './dashboard'
-import * as Resource from './resources'
+import * as User from './users'
 import Signin from './signin'
 import ReduxToastr from 'react-redux-toastr'
 import { Route, Switch, Redirect, withRouter } from 'react-router'
@@ -188,11 +188,11 @@ export default props => (
       <PrivateRoute path='/'>
         <Index>
           <Switch>
-            <Route path='/resources/create' component={Resource.Form} />
-            <Route path='/resources'>
-              <Resource.List>
-                <Route path='/resources/edit' component={Resource.Modal} />
-              </Resource.List>
+            <Route path='/users'>
+              <User.List>
+                <Route path='/users/:id/edit' component={User.Form} />
+                <Route path='/users/create' component={User.Form} />
+              </User.List>
             </Route>
             <Route component={Dashboard} />
           </Switch>

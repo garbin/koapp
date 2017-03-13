@@ -14,9 +14,10 @@ export const formatters = {
   link (value, extra) {
     return (
       <div>
-        <a href={extra.column.cell.href(extra.rowData)}>
-          <h4 className='item-title'> {value} </h4>
-        </a>
+        {extra.column.cell.href({
+          row: extra.rowData,
+          children: <h4 className='item-title'> {value} </h4>
+        })}
       </div>
     )
   },
@@ -42,14 +43,20 @@ export const formatters = {
     }
   },
   image (value, extra) {
-    return (<a href={extra.column.cell.href(extra.rowData)}><div className='item-img rounded' style={{backgroundImage: `url(${value})`}} /></a>)
+    if (extra.column.cell.href) {
+      return (extra.column.cell.href({
+        row: extra.rowData,
+        children: <div className='item-img rounded' style={{backgroundImage: `url(${value})`}} />
+      }))
+    } else {
+      return (<div className='item-img rounded' style={{backgroundImage: `url(${value})`}} />)
+    }
   },
   actions (value, extra) {
-    let props = extra.column.cell.actions.props || {}
     return (
       <div>
         <ButtonDropdown group toggle={e => e}>
-          <Button color='primary' size='sm' {...props}>{extra.column.cell.actions.label}</Button>
+          {extra.column.cell.actions.primary(value, extra)}
           <DropdownToggle caret color='primary' size='sm' />
           {extra.column.cell.actions.dropdown(extra.rowData)}
         </ButtonDropdown>
