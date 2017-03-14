@@ -19,9 +19,11 @@ exports.default = ResourceRouter.define({
         await next()
       }
     })
-    router.read().update(async(ctx, next) => {
+    router.read()
+    router.update(async(ctx, next) => {
       ctx.state.attributes = _.pick(ctx.request.body, ['title', 'desc'])
       await next()
-    }).destroy()
+    })
+    router.destroy()
   }
 })
