@@ -50,6 +50,16 @@ exports.up = function (knex, Promise) {
                table.string('desc')
                table.jsonb('permissions')
              })
+             .createTable('files', function (table) {
+               table.increments('id').primary()
+               table.string('title')
+               table.text('desc')
+               table.string('file_name')
+               table.string('file_type')
+               table.string('file_size')
+               table.string('file_path')
+               table.timestamps(true, knex.fn.now())
+             })
              .createTable('user_accounts', function (table) {
                table.increments('id').primary()
                table.integer('user_id')
@@ -91,5 +101,6 @@ exports.down = function (knex, Promise) {
              .dropTable('oauth_authorization_codes')
              .dropTable('oauth_tokens')
              .dropTable('posts')
+             .dropTable('files')
              .dropTable('comments')
 }
