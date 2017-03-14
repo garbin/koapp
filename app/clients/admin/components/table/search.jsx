@@ -12,9 +12,10 @@ export class SearchForm extends React.Component {
     dispatch(push({...location, search: querystring.stringify({...search, ...values})}))
   }
   render () {
-    const { handleSubmit } = this.props
+    const { handleSubmit, children } = this.props
     return (
       <Form inline onSubmit={handleSubmit(this.submit.bind(this))}>
+        {children}
         <InputGroup>
           <Field name='q'
             type='text'
