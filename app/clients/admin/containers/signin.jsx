@@ -1,6 +1,6 @@
 import React from 'react'
 import { OAuthSignin, actions } from 'react-redux-oauth2'
-import { push, replace } from 'react-router-redux'
+import { push } from 'react-router-redux'
 import { Input, Button } from 'reactstrap'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'

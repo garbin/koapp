@@ -43,12 +43,12 @@ export class Dashboard extends React.Component {
                 <div>
                   <LineChart width={700} height={300} data={data}
                     margin={{top: 30, right: 30, left: 30, bottom: 30}}>
-                    <XAxis dataKey='name'/>
+                    <XAxis dataKey='name' />
                     <YAxis />
-                    <CartesianGrid strokeDasharray='3 3'/>
+                    <CartesianGrid strokeDasharray='3 3' />
                     <Tooltip />
                     <Legend />
-                    <Line type='monotone' dataKey='pv' stroke='#8884d8' activeDot={{r: 8}}/>
+                    <Line type='monotone' dataKey='pv' stroke='#8884d8' activeDot={{r: 8}} />
                     <Line type='monotone' dataKey='uv' stroke='#82ca9d' />
                   </LineChart>
                 </div>
@@ -63,15 +63,15 @@ export class Dashboard extends React.Component {
                 </div>
                 <div className='card-block'>
                   <PieChart width={300} height={300}>
-                    <Pie data={data01} outerRadius={60} fill="#8884d8"/>
-                    <Pie data={data02} innerRadius={70} outerRadius={90} fill="#82ca9d" label/>
+                    <Pie data={data01} outerRadius={60} fill='#8884d8' />
+                    <Pie data={data02} innerRadius={70} outerRadius={90} fill='#82ca9d' label />
                   </PieChart>
                 </div>
               </div>
             </div>
-            </div>
-          </section>
-        </article>
+          </div>
+        </section>
+      </article>
     )
   }
 }

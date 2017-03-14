@@ -1,4 +1,3 @@
-import React from 'react'
 import Joi from 'joi'
 import modal from '../../components/resource/modal_form'
 
