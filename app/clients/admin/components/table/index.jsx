@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider, Header, Body } from 'reactabular-table'
 import _ from 'lodash'
+import { translate } from 'react-i18next'
 
 export function column (property, label, definition) {
   const base = {property, header: { label }}

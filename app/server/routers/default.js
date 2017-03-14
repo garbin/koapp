@@ -1,4 +1,6 @@
 const { Router } = require('koapi')
+const { default: log } = require('koapi/lib/logger')
+const fs = require('fs-extra')
 
 exports.default = Router.define(router => {
   /**
@@ -25,6 +27,22 @@ exports.default = Router.define(router => {
     let e = new Error('haha')
     e.name = 'ValidationError'
     throw e
+  })
+  router.post('/locales/:lng/:ns', async ctx => {
+    const { lng, ns } = ctx.params
+    const localeFile = `${__dirname}/../../../locales/${lng}/${ns}.json`
+    try {
+      fs.ensureFileSync(localeFile)
+      let locale = fs.readJsonSync(localeFile)
+      let newLocale = Object.assign({}, locale, ctx.request.body)
+      console.log('==========', newLocale, localeFile)
+      fs.writeJsonSync(localeFile, newLocale)
+    } catch (e) {
+      log.error(e)
+    }
+
+    ctx.body = 'ok'
+    ctx.status = 201
   })
   router.get('/resources', async ctx => {
     await new Promise((resolve, reject) => {

@@ -1,0 +1,11 @@
+{
+  "name": "名称",
+  "username": "用户名",
+  "success_signin": "登录成功",
+  "password": "密码",
+  "pending_signin": "登录中...",
+  "success_title": "恭喜",
+  "prev_page": "prev_page",
+  "_t": "Wed Mar 15 2017 00:27:09 GMT 0800 (CST)",
+  "next_page": "next_page"
+}

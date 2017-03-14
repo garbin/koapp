@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import classnames from 'classnames'
 import _ from 'lodash'
 import { toastr } from 'react-redux-toastr'
+import { translate } from 'react-i18next'
 import { loading } from '../components/helper'
 
 const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
@@ -24,17 +25,17 @@ export class Signin extends React.Component {
     router: React.PropTypes.object
   }
   submit (values) {
-    const { dispatch } = this.props
+    const { dispatch, t } = this.props
     return dispatch({
       type: 'SIGNIN',
       payload: new Promise((resolve, reject) => {
         dispatch(actions.getToken(values, e => {
           if (e) {
-            const err = new SubmissionError({ username: '用户不存在', password: '或者密码不正确' })
+            const err = new SubmissionError({ username: t('user_not_exists'), password: t('password_incorrect') })
             reject(err)
-            toastr.error('登录失败', '请检查您的用户名和密码')
+            toastr.error(t('signin_failed'), t('signin_failed_tip'))
           } else {
-            toastr.success('恭喜', '登录成功')
+            toastr.success(t('success_title'), t('success_signin'))
             dispatch(push('/'))
             resolve()
           }
@@ -44,9 +45,9 @@ export class Signin extends React.Component {
   }
 
   render () {
+    const { dispatch, t } = this.props
     const OAuthSigninButton = OAuthSignin(loading(Button))
     const SigninButton = loading(Button)
-    const { dispatch } = this.props
 
     return (
       <div>
@@ -71,7 +72,7 @@ export class Signin extends React.Component {
                     type='text'
                     className='form-control underlined'
                     name='username'
-                    label='User Name'
+                    label={t('username')}
                     placeholder='Your email address'
                     />
                   <Field
@@ -79,7 +80,7 @@ export class Signin extends React.Component {
                     type='password'
                     className='form-control underlined'
                     name='password'
-                    label='Password'
+                    label={t('password')}
                     placeholder='Your password'
                     required
                     />
@@ -95,7 +96,7 @@ export class Signin extends React.Component {
                       <div className='col-sm-8'>
                         <SigninButton block color='primary'
                           loading={this.props.oauth.authenticating}
-                          text='登录中...'
+                          text={t('pending_signin')}
                           type='submit'>
                           Signin
                         </SigninButton>
@@ -104,9 +105,9 @@ export class Signin extends React.Component {
                         <OAuthSigninButton
                           block color='primary'
                           loading={this.props.oauth.authenticating}
-                          text='登录中...'
+                          text={t('pending_signin')}
                           provider='github'
-                          onSuccess={() => { toastr.success('恭喜', '登录成功'); dispatch(push('/')) }}
+                          onSuccess={() => { toastr.success(t('success_title'), t('success_signin')); dispatch(push('/')) }}
                           >
                           <i className='fa fa-github' />&nbsp;&nbsp;Github
                           </OAuthSigninButton>
@@ -130,4 +131,7 @@ export class Signin extends React.Component {
   }
 }
 
-export default reduxForm({ form: 'signin' })(connect(state => ({ oauth: state.oauth }))(Signin))
+export default reduxForm({ form: 'signin' })(
+  connect(state => ({ oauth: state.oauth }))(
+    translate(['common'], {wait: true})(Signin)
+  ))
