@@ -39,10 +39,8 @@ export class ModalForm extends React.Component {
     const { handleSubmit, config } = this.props
 
     return (
-      <Modal isOpen toggle={this.close.bind(this)}
-        modalClassName='in'
-        backdropClassName='in'
-        backdrop>
+      <Modal isOpen modalClassName='in'
+        backdropClassName='in' style={{padding: '15px 30px'}}>
         <Form onSubmit={handleSubmit(config.submit ? config.submit.bind(this) : this.submit.bind(this))}>
           <ModalHeader>{config.formTitle}</ModalHeader>
           <ModalBody>
