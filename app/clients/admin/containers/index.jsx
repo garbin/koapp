@@ -1,19 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Dashboard from './dashboard'
-import * as User from './users'
-import * as Role from './roles'
-import Unauthorizated from './unauthorizated'
-import Signin from './signin'
-import ReduxToastr from 'react-redux-toastr'
-import { Route, Switch, Redirect, withRouter } from 'react-router'
-import Menu from '../components/menu.jsx'
-import { actions } from '../reduxers/common'
 import TreeModel from 'tree-model'
 import { OAuthSignout } from 'react-redux-oauth2'
 import classnames from 'classnames'
 import ClickOutside from 'react-click-outside'
 import { push } from 'react-router-redux'
+import { Route, Switch, Redirect, withRouter } from 'react-router'
+import Dashboard from './dashboard'
+import Unauthorizated from './unauthorizated'
+import Signin from './signin'
+import ReduxToastr from 'react-redux-toastr'
+import Menu from '../components/menu.jsx'
+import { actions } from '../reduxers/common'
+import User from './users'
+import Role from './roles'
 import '../styles'
 
 const Index = connect(state => ({
@@ -151,18 +151,8 @@ export default props => (
         <Index>
           <Switch>
             <Route path='/unauthorizated' component={Unauthorizated} />
-            <Route path='/users'>
-              <User.List>
-                <Route path='/users/:id/edit' component={User.Edit} />
-                <Route path='/users/create' component={User.Create} />
-              </User.List>
-            </Route>
-            <Route path='/roles'>
-              <Role.List>
-                <Route path='/roles/:id/edit' component={Role.Edit} />
-                <Route path='/roles/create' component={Role.Create} />
-              </Role.List>
-            </Route>
+            <Route path='/users' component={User} />
+            <Route path='/roles' component={Role} />
             <Route component={Dashboard} />
           </Switch>
         </Index>
