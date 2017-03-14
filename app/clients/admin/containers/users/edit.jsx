@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { push } from 'react-router-redux'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, SubmissionError } from 'redux-form'
 import Joi from 'joi'
 import { validate, Input } from '../../components/form'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter,
@@ -14,8 +14,9 @@ import _ from 'lodash'
 const schema = {
   username: Joi.string().required(),
   email: Joi.string().email().required(),
-  password: Joi.string(),
-  password_confirm: Joi.string().valid(Joi.ref('password')).options({
+  old_password: Joi.string().alphanum(),
+  new_password: Joi.string().alphanum(),
+  password_confirm: Joi.string().alphanum().valid(Joi.ref('new_password')).options({
     language: {
       any: {
         allowOnly: '两次输入的密码不一致'
@@ -42,11 +43,19 @@ export class ModalEditor extends React.Component {
   }
   submit (values) {
     const { dispatch, match } = this.props
-    const { username, email } = values
-      return dispatch(async.patch('user')(`/users/${match.params.id}`, {username, email})).then(v => {
+    const { username, email, new_password, old_password } = values
+    return new Promise((resolve, reject) => {
+      if (new_password) {
+        if (!old_password) {
+          throw new SubmissionError({old_password: 'required'})
+        }
+      }
+      dispatch(async.patch('user')(`/users/${match.params.id}`, {username, email})).then(v => {
         this.close()
         toastr.success('恭喜', '编辑成功!')
-      })
+        return v
+      }).then(resolve).catch(reject)
+    })
   }
   render () {
     const { handleSubmit } = this.props
@@ -61,7 +70,8 @@ export class ModalEditor extends React.Component {
           <ModalBody>
             <Field name='username' label='用户名' component={Input} type='text' />
             <Field name='email' label='EMail' component={Input} type='text' />
-            <Field name='password' label='密码' component={Input} type='password' />
+            <Field name='old_password' label='原密码' component={Input} placeholder='无需修改请留空' type='password' />
+            <Field name='new_password' label='新密码' component={Input} placeholder='无需修改请留空' type='password' />
             <Field name='password_confirm' label='密码确认' component={Input} type='password' />
           </ModalBody>
           <ModalFooter>

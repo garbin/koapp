@@ -3,7 +3,7 @@ const md5 = require('blueimp-md5')
 exports.seed = async function (knex, Promise) {
   const { User, Role, OAuth } = require('../../app/models')
   let user = await User.forge().save({
-    username: 'test', password: md5('test'), email: 'test@gmail.com'
+    username: 'test', password: 'test', email: 'test@gmail.com'
   })
   let client = await OAuth.Client.forge().save({
     id: '0f434d4b-06bf-4cb2-b8f4-f20bf9349beb',

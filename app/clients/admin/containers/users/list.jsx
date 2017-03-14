@@ -70,7 +70,7 @@ export class List extends React.Component {
       toastr.success('恭喜', '删除成功')
       this.fetch()
     }).catch(e => {
-      toastr.error('很遗憾', e.message)
+      toastr.error('很遗憾', e.response.data.message)
     })
   }
   gotoEdit (value) {
