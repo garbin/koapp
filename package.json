@@ -96,6 +96,7 @@
     "passport-oauth2-client-password": "^0.1.2",
     "paymentjs": "^0.1.0",
     "pg": "latest",
+    "pluralize": "^4.0.0",
     "postcss-cssnext": "^2.8.0",
     "query-string": "^4.2.3",
     "range-parser": "^1.2.0",
