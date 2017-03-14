@@ -58,7 +58,8 @@ exports.up = function (knex, Promise) {
                table.string('file_type')
                table.string('file_size')
                table.string('file_path')
-               table.timestamps(true, knex.fn.now())
+               table.timestamp('created_at').notNullable().defaultTo(knex.fn.now())
+               table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now())
              })
              .createTable('user_accounts', function (table) {
                table.increments('id').primary()
