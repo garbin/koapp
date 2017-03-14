@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Dashboard from './dashboard'
 import * as User from './users'
+import * as Role from './roles'
 import Unauthorizated from './unauthorizated'
 import Signin from './signin'
 import ReduxToastr from 'react-redux-toastr'
@@ -155,6 +156,12 @@ export default props => (
                 <Route path='/users/:id/edit' component={User.Edit} />
                 <Route path='/users/create' component={User.Create} />
               </User.List>
+            </Route>
+            <Route path='/roles'>
+              <Role.List>
+                <Route path='/roles/:id/edit' component={Role.Edit} />
+                <Route path='/roles/create' component={Role.Create} />
+              </Role.List>
             </Route>
             <Route component={Dashboard} />
           </Switch>

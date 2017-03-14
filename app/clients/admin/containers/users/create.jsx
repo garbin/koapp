@@ -19,6 +19,7 @@ const schema = {
 export default modal({
   resource: 'user',
   formTitle: '添加用户',
+  method: 'post',
   fields: [
     {name: 'username', label: '用户名', type: 'text'},
     {name: 'email', label: 'Email', type: 'text'},

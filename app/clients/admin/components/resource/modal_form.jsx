@@ -16,7 +16,8 @@ export class ModalForm extends React.Component {
     location: React.PropTypes.object
   }
   componentWillMount () {
-    const { config } = this.props
+    const { config, match, dispatch } = this.props
+    config.method === 'patch' && dispatch(async.get(config.resource)(config.resourcePath || `/${pluralize(config.resource)}/${match.params.id}`))
     config.componentWillMount && config.componentWillMount.bind(this).call()
   }
   componentWillUnmount () {
@@ -29,7 +30,7 @@ export class ModalForm extends React.Component {
   }
   submit (values) {
     const { dispatch, config } = this.props
-    return dispatch(async.post(config.resource)(config.resourcePath || `/${pluralize(config.resource)}`, values)).then(v => {
+    return dispatch(async[config.method](config.resource)(config.resourcePath || `/${pluralize(config.resource)}`, values)).then(v => {
       this.close()
       toastr.success('恭喜', '提交成功!')
     })
@@ -45,7 +46,9 @@ export class ModalForm extends React.Component {
         <Form onSubmit={handleSubmit(config.submit ? config.submit.bind(this) : this.submit.bind(this))}>
           <ModalHeader>{config.formTitle}</ModalHeader>
           <ModalBody>
-            {config.fields.map(field => (<Field key={field.name} component={Input} {...field} />))}
+            {config.fields.map(field => {
+              return field instanceof Function ? field({Field, Input}) : <Field key={field.name} component={Input} {...field} />
+            })}
           </ModalBody>
           <ModalFooter>
             {config.buttons || (
