@@ -41,9 +41,7 @@
     ]
   },
   "jest": {
-    "transform": {
-      ".*": "<rootDir>/node_modules/babel-jest"
-    },
+    "transform": { ".*": "<rootDir>/node_modules/babel-jest" },
     "testEnvironment": "node",
     "testRegex": "(/tests/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
@@ -150,6 +148,7 @@
     "babel-cli": "^6.18.0",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.2.5",
+    "babel-plugin-react-intl": "^2.3.1",
     "babel-plugin-system-import-transformer": "^3.1.0",
     "babel-polyfill": "^6.9.0",
     "babel-preset-env": "^1.1.10",

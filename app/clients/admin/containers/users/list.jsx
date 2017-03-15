@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import list from '../../components/resource/list'
+import { FormattedMessage } from 'react-intl'
 
 export default list({
   perPage: 10,
@@ -15,7 +16,7 @@ export default list({
       href: props => <Link to={`/users/${props.row.id}/edit`}>{props.children}</Link> },
     { preset: 'link',
       property: 'username',
-      label: '用户名',
+      label: <FormattedMessage id='user.name' />,
       href: props => <Link to={`/users/${props.row.id}/edit`}>{props.children}</Link> },
     { preset: 'text',
       property: 'email',

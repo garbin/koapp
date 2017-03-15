@@ -18,6 +18,7 @@ import { actions as async } from '../../reduxers/async'
 import { actions as check } from '../../reduxers/checklist'
 import SearchForm from '../table/search'
 import pluralize from 'pluralize'
+import _ from 'lodash'
 
 export class List extends React.Component {
   static childContextTypes = {
@@ -143,7 +144,7 @@ export class List extends React.Component {
           }
         }))
       } else if (col.preset === 'text') {
-        return column(col.property, col.label, responsive.text({
+        return column(col.property, col.label, responsive.text(_.merge({
           header: {
             props: {
               className: 'item-col-header item-col-author'
@@ -154,7 +155,7 @@ export class List extends React.Component {
               className: 'item-col-author'
             }
           }
-        }))
+        }, col.props)))
       } else {
         return col
       }

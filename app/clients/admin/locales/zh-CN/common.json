@@ -1,7 +1,8 @@
 {
+  "user.name": "用户名",
   "name": "名称",
   "desc": "描述",
-  "permissions": "权限",
+  "permission": "权限",
   "list_title_roles": "角色列表",
   "list_brief_roles": "角色资源管理",
   "username": "用户名",

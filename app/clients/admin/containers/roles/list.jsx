@@ -2,6 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import list from '../../components/resource/list'
 import { FormattedMessage } from 'react-intl'
+import { toastr } from 'react-redux-toastr'
+import { Button,
+         DropdownMenu,
+         DropdownItem } from 'reactstrap'
 
 export default list({
   perPage: 10,
@@ -19,7 +23,33 @@ export default list({
       label: <FormattedMessage id='desc' /> },
     { preset: 'text',
       property: 'permissions',
-      label: <FormattedMessage id='permissions' /> },
-    { preset: 'actions' }
+      props: {
+        cell: {
+          formatters: [v => JSON.stringify(v)]
+        }
+      },
+      label: <FormattedMessage id='permission' /> },
+    { preset: 'actions',
+      primary: function (value, extra) {
+        return (
+          <Button color='primary'
+            onClick={e => this.gotoEdit(value)}
+            disabled={extra.rowData.permissions === true}
+            size='sm'>
+            <span><i className='fa fa-pencil-square-o' /> 编辑 </span>
+          </Button>
+        )
+      },
+      dropdown: function (item) {
+        return (
+          <DropdownMenu>
+            <DropdownItem disabled={item.id === 1} onClick={e => toastr.confirm('确定删除吗', {
+              onOk: e => this.handleDestroy({[item.id]: true}),
+              onCancel: e => console.log('cancel')
+            })}>删除</DropdownItem>
+          </DropdownMenu>
+        )
+      }
+    }
   ]
 })

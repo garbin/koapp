@@ -29,10 +29,14 @@ export class ModalForm extends React.Component {
     dispatch(push(this.context.location || `/${pluralize(config.resource)}`))
   }
   submit (values) {
-    const { dispatch, config } = this.props
-    return dispatch(async[config.method](config.resource)(config.resourcePath || `/${pluralize(config.resource)}`, values)).then(v => {
+    const { dispatch, config, match } = this.props
+    const resourcePath = config.resourcePath || `/${pluralize(config.resource)}`
+    const path = config.method === 'patch' ? `${resourcePath}/${match.params.id}` : resourcePath
+    return dispatch(async[config.method](config.resource)(path, values)).then(v => {
       this.close()
       toastr.success('恭喜', '提交成功!')
+    }).catch(e => {
+      toastr.error(e.response.data.message)
     })
   }
   render () {

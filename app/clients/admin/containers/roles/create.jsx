@@ -18,7 +18,7 @@ export default modal({
   fields: [
     {name: 'name', label: '角色名称', type: 'text'},
     {name: 'desc', label: '描述', type: 'text'},
-    (Field, Input) => (<PermissionEditor />)
+    (Field, Input) => (<PermissionEditor key='permission' />)
   ],
   validate: schema
 })
