@@ -1,7 +1,9 @@
+import React from 'react'
 import Joi from 'joi'
 import modal from '../../components/resource/modal_form'
 import { actions as async } from '../../reduxers/async'
 import { toastr } from 'react-redux-toastr'
+import Dropzone from 'react-dropzone'
 
 const schema = {
   username: Joi.string().required(),
@@ -12,6 +14,16 @@ export default modal({
   resource: 'user',
   formTitle: '编辑用户',
   method: 'patch',
+  body: fields => (
+    <div className='row'>
+      <div className='col-xs-3'>
+        <Dropzone onDrop={console.log}>
+          <div>Avatar</div>
+        </Dropzone>
+      </div>
+      <div className='col-xs-9'>{fields}</div>
+    </div>
+  ),
   fields: [
     {name: 'username', label: '用户名', type: 'text'},
     {name: 'email', label: 'Email', type: 'text'}

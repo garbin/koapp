@@ -41,18 +41,19 @@ export class ModalForm extends React.Component {
   }
   render () {
     const { handleSubmit, config } = this.props
+    const body = config.body || (e => e)
 
     return (
       <Modal isOpen modalClassName='in'
-        backdropClassName='in' style={{padding: '15px 30px'}}>
+        backdropClassName='in'>
         <Form onSubmit={handleSubmit(config.submit ? config.submit.bind(this) : this.submit.bind(this))}>
           <ModalHeader>{config.formTitle}</ModalHeader>
-          <ModalBody>
-            {config.fields.map(field => {
+          <ModalBody style={{padding: '30px'}}>
+            {body(config.fields.map(field => {
               return field instanceof Function ? field({Field, Input}) : <Field key={field.name} component={Input} {...field} />
-            })}
+            }))}
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter style={{padding: '15px 30px'}}>
             {config.buttons || (
               <div>
                 <Button color='primary' type='submit'>提交</Button>
