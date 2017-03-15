@@ -12,12 +12,21 @@ exports.default = ResourceRouter.define({
       ctx.state.attributes = _.omit(ctx.request.body, ['roles'])
       await next()
       if (roles) ctx.state.resource.roles().attach(roles)
-    }).read(async (ctx, next) => {
-      await next()
-    }, {
+    }).read({
       sortable: ['created_at'],
-      searchable: ['username', 'email']
-    }).update().destroy(async (ctx, next) => {
+      searchable: ['username', 'email'],
+      fetchItem: {
+        withRelated: ['roles']
+      }
+    }).update(async (ctx, next) => {
+      const roles = ctx.request.body.roles
+      ctx.state.attributes = _.omit(ctx.request.body, ['roles'])
+      await next()
+      if (roles) {
+        await ctx.state.resource.roles().detach()
+        await ctx.state.resource.roles().attach(roles)
+      }
+    }).destroy(async (ctx, next) => {
       if (ctx.state.user.get('id') === parseInt(ctx.params.id)) {
         throw new Error('can not destroy yourself')
       }

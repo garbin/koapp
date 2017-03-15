@@ -73,11 +73,10 @@ export default function (config) {
   const _ModalForm = props => (
     <ModalForm {...props} config={config} />
   )
-  const mapStateToProps = config.mapStateToProps || ((state) => ({}))
-  return connect(state => ({
-    initialValues: _.get(state.async, `${config.resource}.response`),
-    ...mapStateToProps(state)
-  }))(
+  const mapStateToProps = config.mapStateToProps || (state => ({
+    initialValues: _.get(state.async, `${config.resource}.response`)
+  }))
+  return connect(mapStateToProps)(
     reduxForm({form: `${config.resource}_form`, validate: validate(config.validate)})(withRouter(_ModalForm))
   )
 }

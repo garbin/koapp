@@ -33,7 +33,7 @@ export class Select extends React.Component {
     return (
       <FormGroup color={state}>
         <Label for={name}>{label}</Label>
-        <ReactSelect name={name} {...input} {...props} onBlur={handleBlur} />
+        <ReactSelect name={name} {...input} {...props} values={props.multi ? input.value : undefined} onBlur={handleBlur} />
         {touched && (error && <FormFeedback>{error}</FormFeedback>)}
       </FormGroup>
     )
