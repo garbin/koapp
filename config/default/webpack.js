@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = require('../../config/server')
 const assetDir = 'static/'
 const package = require('../../package')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
 const compiler = {
@@ -69,9 +68,6 @@ const compiler = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       }
     }),
-    new CopyWebpackPlugin([{from: `${__dirname}/../../locales`, to: './locales'}], {
-      ignore: ['index.js']
-    }),
     new HtmlWebpackPlugin({
       title: `${package.title} - ${package.name}`,
       template: './index.ejs',
@@ -87,11 +83,7 @@ const compiler = {
   ],
   devServer: {
     hot: false,
-    compress: true,
-    watchOptions: {
-      // ignored: "/locales/**/*.json",
-      ignored: /locales/
-    }
+    compress: true
   }
 }
 

@@ -3,6 +3,7 @@ import { routerReducer, routerMiddleware } from 'react-router-redux'
 import { reducer as formReducer } from 'redux-form'
 import configureOauth2, { reducer as oauthReducer } from 'react-redux-oauth2'
 import { reducer as toastr } from 'react-redux-toastr'
+import { intlReducer } from 'react-intl-redux'
 import middlewares from './middlewares'
 import reduxers from './reduxers'
 import config from '../../../config/client'
@@ -17,7 +18,7 @@ export function configure (reducers, initial, history) {
 
   return store
 }
-export default function (history) {
+export default function (history, initial = {}) {
   configureOauth2(config.oauth)
 
   return configure(combineReducers({
@@ -25,6 +26,7 @@ export default function (history) {
     ...oauthReducer,
     toastr,
     router: routerReducer,
+    intl: intlReducer,
     form: formReducer
-  }), !process.env.__SERVER__ ? window.__INITIAL_STATE__ : {}, history)
+  }), initial, history)
 }

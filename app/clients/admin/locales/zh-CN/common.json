@@ -1,0 +1,16 @@
+{
+  "name": "名称",
+  "desc": "描述",
+  "permissions": "权限",
+  "list_title_roles": "角色列表",
+  "list_brief_roles": "角色资源管理",
+  "username": "用户名",
+  "success_signin": "登录成功",
+  "password": "密码",
+  "pending_signin": "登录中...",
+  "success_title": "恭喜",
+  "list_empty": "没有符合条件的结果",
+  "prev_page": "上一页",
+  "_t": "Wed Mar 15 2017 00:27:09 GMT 0800 (CST)",
+  "next_page": "下一页"
+}

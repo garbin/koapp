@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 import classnames from 'classnames'
 import _ from 'lodash'
 import { toastr } from 'react-redux-toastr'
-import { translate } from 'react-i18next'
 import { loading } from '../components/helper'
+import { FormattedMessage, injectIntl } from 'react-intl'
 
 const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
   <div className={classnames('form-group', { 'has-error': !_.isEmpty(error) })}>
@@ -25,17 +25,17 @@ export class Signin extends React.Component {
     router: React.PropTypes.object
   }
   submit (values) {
-    const { dispatch, t } = this.props
+    const { dispatch, intl } = this.props
     return dispatch({
       type: 'SIGNIN',
       payload: new Promise((resolve, reject) => {
         dispatch(actions.getToken(values, e => {
           if (e) {
-            const err = new SubmissionError({ username: t('user_not_exists'), password: t('password_incorrect') })
+            const err = new SubmissionError({ username: intl.formatMessage({id: 'user_not_exists'}), password: intl.formatMessage({id: 'password_incorrect'}) })
             reject(err)
-            toastr.error(t('signin_failed'), t('signin_failed_tip'))
+            toastr.error(intl.formatMessage({id: 'signin_failed'}), intl.formatMessage({id: 'signin_failed_tip'}))
           } else {
-            toastr.success(t('success_title'), t('success_signin'))
+            toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_signin'}))
             dispatch(push('/'))
             resolve()
           }
@@ -45,7 +45,7 @@ export class Signin extends React.Component {
   }
 
   render () {
-    const { dispatch, t } = this.props
+    const { dispatch, intl } = this.props
     const OAuthSigninButton = OAuthSignin(loading(Button))
     const SigninButton = loading(Button)
 
@@ -72,7 +72,7 @@ export class Signin extends React.Component {
                     type='text'
                     className='form-control underlined'
                     name='username'
-                    label={t('username')}
+                    label={<FormattedMessage id='username' />}
                     placeholder='Your email address'
                     />
                   <Field
@@ -80,7 +80,7 @@ export class Signin extends React.Component {
                     type='password'
                     className='form-control underlined'
                     name='password'
-                    label={t('password')}
+                    label={<FormattedMessage id='password' />}
                     placeholder='Your password'
                     required
                     />
@@ -96,7 +96,7 @@ export class Signin extends React.Component {
                       <div className='col-sm-8'>
                         <SigninButton block color='primary'
                           loading={this.props.oauth.authenticating}
-                          text={t('pending_signin')}
+                          text={<FormattedMessage id='pending_signin' />}
                           type='submit'>
                           Signin
                         </SigninButton>
@@ -105,10 +105,9 @@ export class Signin extends React.Component {
                         <OAuthSigninButton
                           block color='primary'
                           loading={this.props.oauth.authenticating}
-                          text={t('pending_signin')}
+                          text={<FormattedMessage id='pending_signin' />}
                           provider='github'
-                          onSuccess={() => { toastr.success(t('success_title'), t('success_signin')); dispatch(push('/')) }}
-                          >
+                          onSuccess={() => { toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_signin'})); dispatch(push('/')) }}>
                           <i className='fa fa-github' />&nbsp;&nbsp;Github
                           </OAuthSigninButton>
                       </div>
@@ -133,5 +132,5 @@ export class Signin extends React.Component {
 
 export default reduxForm({ form: 'signin' })(
   connect(state => ({ oauth: state.oauth }))(
-    translate(['common'], {wait: true})(Signin)
+    injectIntl(Signin)
   ))

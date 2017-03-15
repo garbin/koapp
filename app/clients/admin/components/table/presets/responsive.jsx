@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import { Input, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import _ from 'lodash'
 import Loading from 'react-loading'
+import { FormattedMessage } from 'react-intl'
 
 export const formatters = {
   header (name) {
@@ -74,7 +75,7 @@ export const components = {
   },
   body: {
     wrapper: props => {
-      const {children, className, loading, empty, error, t, ...others} = props
+      const {children, className, loading, empty, error, ...others} = props
       return (
         <li className='tbody'>
           <ul {...others} className={classnames('item-list striped tbody-wrapper', className)}>
@@ -85,7 +86,7 @@ export const components = {
                   <div className='item-col' style={{justifyContent: 'center'}}>
                     {loading && <Loading delay={0} type='cylon' color='#4bcf99' />}
                     {error && error.toString()}
-                    {empty && <span>list_empty</span>}
+                    {empty && <FormattedMessage id='list_empty' />}
                   </div>
                 </div>
               </li>
@@ -168,10 +169,10 @@ export const presets = {
       },
       formatters: [ formatters.actions ],
       actions: {
-        label: '编辑',
+        label: <FormattedMessage id='edit' />,
         dropdown: item => (
           <DropdownMenu>
-            <DropdownItem>删除</DropdownItem>
+            <DropdownItem><FormattedMessage id='delete' /></DropdownItem>
           </DropdownMenu>
         )
       }

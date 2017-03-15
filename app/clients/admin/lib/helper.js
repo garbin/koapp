@@ -5,8 +5,6 @@ import _ from 'lodash'
 import config from '../../../../config/client'
 import axios from 'axios'
 import reactCookie from 'react-cookie'
-import i18next from 'i18next'
-import i18nextXHR from 'i18next-xhr-backend'
 
 export const api = axios.create({
   baseURL: config.api,
@@ -42,20 +40,4 @@ export function connect (mapState, actions) {
 
 export function actionProps (actions) {
   return dispatch => ({ actions: bindActionCreators(actions, dispatch) })
-}
-
-export function i18n (options = {}) {
-  return i18next.use(i18nextXHR).init({
-    fallbackLng: 'zh-CN',
-    // have a common namespace used around the full app
-    ns: ['common'],
-    defaultNS: 'common',
-    debug: true,
-    saveMissing: true,
-    backend: {
-      loadPath: `${config.admin.basename}/locales/{{lng}}/{{ns}}.json`,
-      addPath: '/api/locales/{{lng}}/{{ns}}',
-    },
-    ...options
-  })
 }
