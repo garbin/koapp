@@ -16,13 +16,13 @@ module.exports = {
     }
   },
   storage: {
-    root: 'http://localhost:9000/',
+    root: 'http://localhost:9000/uploads/',
     minio: {
       endPoint: 'localhost',
       port: 9000,
       secure: false,
-      accessKey: 'RRQVBHQBIV2UWZDFQL3I',
-      secretKey: 'uhYb/ehzXwfnBy/QxufkMud10N0CcF77VvJ8Xdex'
+      accessKey: 'WAWXUCAHEZYXKEZGL13J',
+      secretKey: 'lH7SmVoYyAfwzSonSgykYazLXqBrIOMnrBP+AOVo'
     }
   },
   redis: {

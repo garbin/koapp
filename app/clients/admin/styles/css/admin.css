@@ -3,6 +3,21 @@
   --primaryColorHover: #31b680;
 }
 
+.image {
+  background-color: #efefef;
+  padding-bottom: 100%;
+  border: #efefef 1px solid;
+  width: 100%;
+  height: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  & .dropfilezone {
+    text-align: center;
+    padding-top: 40%;
+    color:#888;
+  }
+}
 .item-list {
   & li.tbody {
     margin:0;

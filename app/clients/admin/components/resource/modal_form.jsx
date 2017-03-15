@@ -23,6 +23,7 @@ export class ModalForm extends React.Component {
   componentWillUnmount () {
     const { dispatch, config } = this.props
     dispatch(async.clear(config.resource)())
+    config.componentWillUnmount && config.componentWillUnmount.call(this)
   }
   close () {
     const { dispatch, config } = this.props
@@ -49,7 +50,7 @@ export class ModalForm extends React.Component {
         <Form onSubmit={handleSubmit(config.submit ? config.submit.bind(this) : this.submit.bind(this))}>
           <ModalHeader>{config.formTitle}</ModalHeader>
           <ModalBody style={{padding: '30px'}}>
-            {body(config.fields.map(field => {
+            {body.call(this, config.fields.map(field => {
               return field instanceof Function ? field({Field, Input}) : <Field key={field.name} component={Input} {...field} />
             }))}
           </ModalBody>
@@ -72,8 +73,10 @@ export default function (config) {
   const _ModalForm = props => (
     <ModalForm {...props} config={config} />
   )
+  const mapStateToProps = config.mapStateToProps || ((state) => ({}))
   return connect(state => ({
-    initialValues: _.get(state.async, `${config.resource}.response`)
+    initialValues: _.get(state.async, `${config.resource}.response`),
+    ...mapStateToProps(state)
   }))(
     reduxForm({form: `${config.resource}_form`, validate: validate(config.validate)})(withRouter(_ModalForm))
   )
