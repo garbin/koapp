@@ -7,6 +7,9 @@ const {default: Post} = require('../post')
 exports.default = class User extends bookshelf.Model {
   get tableName () { return 'users' }
   get hasTimestamps () { return true }
+  get hidden () {
+    return ['password']
+  }
   roles () {
     return this.belongsToMany(Role, 'user2role')
   }
