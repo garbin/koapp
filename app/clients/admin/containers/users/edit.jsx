@@ -22,11 +22,12 @@ export default modal({
     let res = _.get(state.async, `user.response`)
     let user
     if (res) {
-      let roles = ''
+      let roles
+      const { username, email, avatar } = res
       if (res.roles) {
         roles = res.roles.map(role => ({value: role.id, label: role.name}))
       }
-      user = {...res, roles}
+      user = {roles, username, email, avatar}
       user.avatar = user.avatar || ''
     }
     return {
