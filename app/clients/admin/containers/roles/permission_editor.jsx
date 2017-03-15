@@ -14,8 +14,8 @@ export default props => {
         <div>
           <Field component={Checkbox} name='permissions.features.admin.dashboard' label='控制台' inline />
           <Field component={Checkbox} name='permissions.features.admin.auth' label='登录' inline />
-          <Field component={Checkbox} name='permissions.features.admin.roles' label='用户管理' inline />
-          <Field component={Checkbox} name='permissions.features.admin.users' label='角色管理' inline />
+          <Field component={Checkbox} name='permissions.features.admin.users' label='用户管理' inline />
+          <Field component={Checkbox} name='permissions.features.admin.roles' label='角色管理' inline />
         </div>
       </FormGroup>
     </fieldset>

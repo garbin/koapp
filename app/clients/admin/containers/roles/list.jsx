@@ -21,14 +21,6 @@ export default list({
     { preset: 'text',
       property: 'desc',
       label: <FormattedMessage id='desc' /> },
-    { preset: 'text',
-      property: 'permissions',
-      props: {
-        cell: {
-          formatters: [v => JSON.stringify(v)]
-        }
-      },
-      label: <FormattedMessage id='permission' /> },
     { preset: 'actions',
       primary: function (value, extra) {
         return (
