@@ -1,6 +1,7 @@
 import React from 'react'
 import Joi from 'joi'
 import _ from 'lodash'
+import ReactSelect from 'react-select'
 import { FormGroup,
          Label,
          Input as InputBootstrap,
@@ -16,6 +17,23 @@ export class Input extends React.Component {
       <FormGroup color={state}>
         <Label for={name}>{label}</Label>
         <InputBootstrap state={state} {...input} {...props} />
+        {touched && (error && <FormFeedback>{error}</FormFeedback>)}
+      </FormGroup>
+    )
+  }
+}
+
+export class Select extends React.Component {
+  render () {
+    const { input, meta: {touched, error, valid}, ...others } = this.props
+    const state = touched ? (error ? 'danger' : valid ? 'success' : undefined) : undefined
+    const { label, ...props } = others
+    const { name, onBlur } = input
+    const handleBlur = e => onBlur(input.value)
+    return (
+      <FormGroup color={state}>
+        <Label for={name}>{label}</Label>
+        <ReactSelect name={name} {...input} {...props} onBlur={handleBlur} />
         {touched && (error && <FormFeedback>{error}</FormFeedback>)}
       </FormGroup>
     )

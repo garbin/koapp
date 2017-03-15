@@ -120,6 +120,7 @@
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
     "react-router-redux": "^5.0.0-alpha.2",
+    "react-select": "^1.0.0-rc.3",
     "react-spinkit": "^2.1.1",
     "reactabular": "^8.3.0",
     "reactabular-easy": "^9.1.0",

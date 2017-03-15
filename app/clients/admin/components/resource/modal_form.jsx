@@ -51,7 +51,7 @@ export class ModalForm extends React.Component {
           <ModalHeader>{config.formTitle}</ModalHeader>
           <ModalBody style={{padding: '30px'}}>
             {body.call(this, config.fields.map(field => {
-              return field instanceof Function ? field({Field, Input}) : <Field key={field.name} component={Input} {...field} />
+              return field instanceof Function ? field.call(this, {Field, Input}) : <Field key={field.name} component={Input} {...field} />
             }))}
           </ModalBody>
           <ModalFooter style={{padding: '15px 30px'}}>

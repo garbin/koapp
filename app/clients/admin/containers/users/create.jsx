@@ -3,17 +3,19 @@ import { connect } from 'react-redux'
 import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
 import Dropzone from 'react-dropzone'
-import { change } from 'redux-form'
+import { change, Field } from 'redux-form'
 import { Button, Input } from 'reactstrap'
-import { Field } from 'redux-form'
+import { Select } from '../../components/form'
 import modal from '../../components/resource/modal_form'
 import { actions as async } from '../../reduxers/async'
 import _ from 'lodash'
+const FormData = window.FormData
 
 const schema = {
   username: Joi.string().required(),
   email: Joi.string().email().required(),
   avatar: Joi.string(),
+  roles: Joi.array(),
   password: Joi.string().min(2).required(),
   password_confirm: Joi.string().required().valid(Joi.ref('password')).options({
     language: {
@@ -23,7 +25,6 @@ const schema = {
     }
   })
 }
-
 
 export function upload (files) {
   const { dispatch } = this.props
@@ -52,7 +53,6 @@ export default connect(state => ({async: state.async}))(modal({
   },
   body: function (fields) {
     const { async } = this.props
-    console.log(async.roles)
     return (
       <div className='row'>
         <div className='col-xs-3'>
@@ -77,12 +77,16 @@ export default connect(state => ({async: state.async}))(modal({
     {name: 'username', label: '用户名', type: 'text'},
     {name: 'email', label: 'Email', type: 'text'},
     {name: 'password', label: '密码', type: 'password'},
-    {name: 'password_confirm', label: '确认密码', type: 'password'}
+    {name: 'password_confirm', label: '确认密码', type: 'password'},
+    function (props) {
+      const { async } = this.props
+      const options = _.get(async, 'roles.response', []).map(role => ({value: role.id, label: role.name}))
+      return <Field key='roles' component={Select} label='角色' multi name='roles' options={options} />
+    }
   ],
   submit (values) {
     const { dispatch } = this.props
-    const { id, password_confirm, ...data } = values
-    console.log(values, data)
+    const { id, password_confirm, roles, ...data } = values
     return dispatch(async.post('user')('/users', data)).then(v => {
       this.close()
       toastr.success('恭喜', '提交成功!')
