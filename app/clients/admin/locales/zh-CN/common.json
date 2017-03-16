@@ -12,6 +12,12 @@
   "success_title": "恭喜",
   "list_empty": "没有符合条件的结果",
   "prev_page": "上一页",
-  "_t": "Wed Mar 15 2017 00:27:09 GMT 0800 (CST)",
+  "menu.dashboard": "仪表盘",
+  "menu.files": "文件管理",
+  "menu.users": "用户管理",
+  "menu.user_list": "用户列表",
+  "menu.role_list": "角色列表",
+  "menu.system": "系统管理",
+  "menu.settings": "全局设置",
   "next_page": "下一页"
 }

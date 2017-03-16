@@ -1,6 +1,7 @@
+import React from 'react'
 import { createAction, handleActions } from 'redux-actions'
-import { api } from '../lib/helper'
 import TreeModel from 'tree-model'
+import { FormattedMessage } from 'react-intl'
 
 export const actions = {
   changeMenu: createAction('MENU_CHANGE'),
@@ -48,12 +49,19 @@ export const reducer = {
       return [...menu.model.children]
     }
   }, [
-    { id: 'dashboard', icon: 'fa fa-home', label: 'Dashboard', href: '/' },
+    { id: 'dashboard', icon: 'fa fa-home', label: <FormattedMessage id='menu.dashboard' />, href: '/' },
+    { id: 'files', icon: 'fa fa-file', label: <FormattedMessage id='menu.files' />, href: '/files' },
+    { id: 'users',
+      icon: 'fa fa-users',
+      label: <FormattedMessage id='menu.users' />,
+      children: [
+      { id: 'user_list', label: <FormattedMessage id='menu.user_list' />, href: '/users' },
+      { id: 'role_list', label: <FormattedMessage id='menu.role_list' />, href: '/roles' } ] },
     { id: 'system',
       icon: 'fa fa-gear',
-      label: '系统管理',
+      label: <FormattedMessage id='menu.system' />,
       children: [
-      { id: 'system_users', label: '用户管理', href: '/users' },
-      { id: 'system_roles', label: '角色管理', href: '/roles' } ] }
+        { id: 'settings', label: <FormattedMessage id='menu.settings' />, href: '/settings' }
+      ]}
   ])
 }

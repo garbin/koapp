@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import classnames from 'classnames'
+// import Collapse from 'react-collapse'
 
 export default class Menu extends React.Component {
   renderChildren (children, open) {
