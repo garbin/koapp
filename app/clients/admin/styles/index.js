@@ -5,3 +5,7 @@ import './css/vendor.css'
 import './css/app.css'
 import './css/app-seagreen.css'
 import './css/admin.css'
+
+export default {
+  primaryColor: '#4bcf99'
+}

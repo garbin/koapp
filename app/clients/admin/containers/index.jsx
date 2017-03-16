@@ -15,7 +15,7 @@ import Menu from '../components/menu.jsx'
 import { actions } from '../reduxers/common'
 import User from './users'
 import Role from './roles'
-import '../styles'
+import style from '../styles'
 
 const Index = connect(state => ({
   modal: state.modal,
@@ -146,7 +146,7 @@ const PrivateRoute = connect(state => ({oauth: state.oauth}))(props => {
 export default props => (
   <div>
     <ReduxToastr position='bottom-right' />
-    <LoadingBar style={{zIndex: 9999, backgroundColor: '#37ca8e'}} />
+    <LoadingBar style={{zIndex: 9999, backgroundColor: style.primaryColor}} />
     <Switch>
       <Route path='/signin' exact component={Signin} />
       <PrivateRoute path='/'>
