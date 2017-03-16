@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 import configureOauth2, { reducer as oauthReducer } from 'react-redux-oauth2'
 import { reducer as toastr } from 'react-redux-toastr'
 import { intlReducer } from 'react-intl-redux'
+import { loadingBarReducer } from 'react-redux-loading-bar'
 import middlewares from './middlewares'
 import reduxers from './reduxers'
 import config from '../../../config/client'
@@ -25,6 +26,7 @@ export default function (history, initial = {}) {
     ...reduxers.reducer,
     ...oauthReducer,
     toastr,
+    loadingBar: loadingBarReducer,
     router: routerReducer,
     intl: intlReducer,
     form: formReducer

@@ -118,6 +118,7 @@
     "react-motion": "^0.4.7",
     "react-paginate": "^4.1.1",
     "react-redux": "^5.0.3",
+    "react-redux-loading-bar": "^2.7.2",
     "react-redux-oauth2": "^0.2.7",
     "react-redux-toastr": "^5.0.0",
     "react-router": "^4.0.0",

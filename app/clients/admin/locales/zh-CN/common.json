@@ -18,6 +18,6 @@
   "menu.user_list": "用户列表",
   "menu.role_list": "角色列表",
   "menu.system": "系统管理",
-  "menu.settings": "全局设置",
+  "menu.settings_global": "全局设置",
   "next_page": "下一页"
 }

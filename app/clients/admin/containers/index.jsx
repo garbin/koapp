@@ -6,6 +6,7 @@ import classnames from 'classnames'
 import ClickOutside from 'react-click-outside'
 import { push } from 'react-router-redux'
 import { Route, Switch, Redirect, withRouter } from 'react-router'
+import LoadingBar from 'react-redux-loading-bar'
 import Dashboard from './dashboard'
 import Unauthorizated from './unauthorizated'
 import Signin from './signin'
@@ -145,6 +146,7 @@ const PrivateRoute = connect(state => ({oauth: state.oauth}))(props => {
 export default props => (
   <div>
     <ReduxToastr position='bottom-right' />
+    <LoadingBar style={{zIndex: 9999, backgroundColor: '#37ca8e'}} />
     <Switch>
       <Route path='/signin' exact component={Signin} />
       <PrivateRoute path='/'>
