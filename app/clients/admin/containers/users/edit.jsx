@@ -52,7 +52,7 @@ export default modal({
     const { user_form, async } = this.props
     return (
       <div className='row'>
-        <div className='col-xs-3'>
+        <div className='col-sm-3'>
           <Dropzone ref={node => { this.dropzone = node }} onDrop={upload.bind(this)} multiple={false} style={{}}>
             {({acceptedFiles}) => {
               if (_.get(async, 'avatar.status') === 'fulfilled') {
@@ -66,7 +66,7 @@ export default modal({
           <Field component={({input, meta, ...others}) => (<Input {...input} {...others} />)}
             style={{display: 'none'}} type='text' name='avatar' />
         </div>
-        <div className='col-xs-9'>{fields}</div>
+        <div className='col-sm-9'>{fields}</div>
       </div>
     )
   },
