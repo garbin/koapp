@@ -10,7 +10,6 @@ import { actions as async } from '../reduxers/async'
 import { toastr } from 'react-redux-toastr'
 import { FormGroup,
          Label,
-         Col,
          Form,
          Button as ButtonBootstrap,
          Input as InputBootstrap,
@@ -24,7 +23,6 @@ export const Button = props => {
     </ButtonBootstrap>
   )
 }
-
 
 export class Input extends React.Component {
   render () {
