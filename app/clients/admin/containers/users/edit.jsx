@@ -81,8 +81,8 @@ export default modal({
   ],
   submit (values) {
     const { dispatch, match } = this.props
-    const { id, roles, ...data } = values
-    console.log(roles)
+    const { roles } = values
+    const data = _.omit(values, ['id', 'roles'])
     return new Promise((resolve, reject) => {
       dispatch(async.patch('user')(`/users/${match.params.id}`, {...data, roles: roles.map(role => role.value)})).then(v => {
         this.close()

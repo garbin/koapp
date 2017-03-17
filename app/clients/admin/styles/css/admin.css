@@ -3,6 +3,57 @@
   --primaryColorHover: #31b680;
 }
 
+
+.drag-container {
+  position: relative;
+  & .drag-active {
+    position: absolute;
+    z-index: 9999;
+    background: #fff;
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+  }
+}
+.dropfileszone {
+  text-align: center;
+  padding: 3em;
+  background: #fff;
+  border: #d7dde4 1px dashed;
+  color: #d7dde4;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+div.confirm-holder {
+  & .confirm {
+    & .message {
+      width: 100%
+    }
+  }
+}
+
+div.card-gallery {
+  & .card-block {
+    padding: 0.3em;
+  }
+  & .card-footer {
+    padding: 0.1em 0.3em;
+    & label {
+      margin-top: 5px;
+      margin-left: 10px;
+      margin-bottom: 0px;
+    }
+  }
+  & .item {
+    padding-bottom: 100%;
+    width: 100%;
+    height: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
 .image {
   background-color: #efefef;
   padding-bottom: 100%;

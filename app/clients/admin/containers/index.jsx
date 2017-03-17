@@ -13,9 +13,11 @@ import Signin from './signin'
 import ReduxToastr from 'react-redux-toastr'
 import Menu from '../components/menu.jsx'
 import { actions } from '../reduxers/common'
-import User from './users'
-import Role from './roles'
 import style from '../styles'
+import Users from './users'
+import Roles from './roles'
+import Files from './files'
+import Settings from './settings'
 
 const Index = connect(state => ({
   modal: state.modal,
@@ -153,8 +155,10 @@ export default props => (
         <Index>
           <Switch>
             <Route path='/unauthorizated' component={Unauthorizated} />
-            <Route path='/users' component={User} />
-            <Route path='/roles' component={Role} />
+            <Route path='/users' component={Users} />
+            <Route path='/roles' component={Roles} />
+            <Route path='/files' component={Files} />
+            <Route path='/settings' component={Settings} />
             <Route component={Dashboard} />
           </Switch>
         </Index>

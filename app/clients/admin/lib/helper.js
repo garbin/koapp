@@ -1,4 +1,3 @@
-import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect as reduxConnect } from 'react-redux'
 import _ from 'lodash'

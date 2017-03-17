@@ -86,7 +86,8 @@ export default connect(state => ({async: state.async}))(modal({
   ],
   submit (values) {
     const { dispatch } = this.props
-    const { id, password_confirm, roles, ...data } = values
+    const { roles } = values
+    const data = _.omit(values, ['id', 'password_confirm', 'roles'])
     return dispatch(async.post('user')('/users', {...data, roles: roles.map(role => role.value)})).then(v => {
       this.close()
       toastr.success('恭喜', '提交成功!')

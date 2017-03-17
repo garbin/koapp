@@ -6,13 +6,13 @@ import { FormattedMessage } from 'react-intl'
 export default list({
   perPage: 10,
   resource: 'user',
-  listTitle: '用户列表',
-  listBrief: '用户资源管理',
+  listTitle: <FormattedMessage id='user.list_title' />,
+  listBrief: <FormattedMessage id='user.list_brief' />,
   columns: [
     { preset: 'checkbox' },
     { preset: 'image',
       property: 'avatar',
-      label: '头像',
+      label: <FormattedMessage id='user.avatar' />,
       href: props => <Link to={`/users/${props.row.id}/edit`}>{props.children}</Link> },
     { preset: 'link',
       property: 'username',
@@ -23,7 +23,7 @@ export default list({
       label: 'EMail' },
     { preset: 'text',
       property: 'created_at',
-      label: '注册时间' },
+      label: <FormattedMessage id='user.created_at' /> },
     { preset: 'actions' }
   ]
 })

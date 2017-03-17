@@ -73,6 +73,12 @@ exports.up = function (knex, Promise) {
                table.timestamp('created_at').notNullable().defaultTo(knex.fn.now())
                table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now())
              })
+             .createTable('settings', function (table) {
+               table.string('id').primary()
+               table.string('name')
+               table.text('desc')
+               table.json('settings')
+             })
              .createTable('posts', function (table) {
                table.increments('id').primary()
                table.string('title')
@@ -101,7 +107,8 @@ exports.down = function (knex, Promise) {
              .dropTable('oauth_clients')
              .dropTable('oauth_authorization_codes')
              .dropTable('oauth_tokens')
-             .dropTable('posts')
              .dropTable('files')
+             .dropTable('settings')
+             .dropTable('posts')
              .dropTable('comments')
 }

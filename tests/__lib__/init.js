@@ -1,6 +1,5 @@
 const {default: app} = require('../../app/server')
 const nock = require('nock')
-
 const server = exports.server = app.listen(0)
 
 nock('https://github.com').post('/login/oauth/access_token', {
@@ -29,3 +28,5 @@ nock('https://api.github.com').get('/user').reply(200, {
   name: 'Garbin Huang',
   email: 'garbinh@gmail.com'
 })
+
+exports.adminToken = req => req.set('Authorization', 'Bearer 691ae08f7b038e5b09983d2435d3a878')

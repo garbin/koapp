@@ -19,7 +19,7 @@ exports.default = ResourceRouter.define({
         await next()
       }
     })
-    router.read()
+    router.read({ sortable: ['created_at', 'updated_at'] })
     router.update(async(ctx, next) => {
       ctx.state.attributes = _.pick(ctx.request.body, ['title', 'desc'])
       await next()

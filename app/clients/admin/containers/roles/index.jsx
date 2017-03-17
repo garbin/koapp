@@ -6,7 +6,7 @@ import Create from './create'
 
 export default props => {
   return (
-    <List>
+    <List {...props}>
       <Route path='/roles/:id/edit' component={Edit} />
       <Route path='/roles/create' component={Create} />
     </List>

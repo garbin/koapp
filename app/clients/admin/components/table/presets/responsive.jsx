@@ -4,6 +4,7 @@ import { Input, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } fro
 import _ from 'lodash'
 import Loading from 'react-loading'
 import { FormattedMessage } from 'react-intl'
+import style from '../../../styles'
 
 export const formatters = {
   header (name) {
@@ -84,7 +85,7 @@ export const components = {
               <li className='item'>
                 <div className='item-row'>
                   <div className='item-col' style={{justifyContent: 'center'}}>
-                    {loading && <Loading delay={0} type='cylon' color='#4bcf99' />}
+                    {loading && <Loading delay={0} type='cylon' color={style.primaryColor} />}
                     {error && error.toString()}
                     {empty && <FormattedMessage id='list_empty' />}
                   </div>
@@ -157,7 +158,7 @@ export const presets = {
   actions: {
     property: 'id',
     header: {
-      label: 'Action',
+      label: <FormattedMessage id='list_actions' />,
       props: {
         className: 'item-col-header item-col-actions-dropdown'
       },

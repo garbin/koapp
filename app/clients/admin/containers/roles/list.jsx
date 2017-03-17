@@ -8,7 +8,6 @@ import { Button,
          DropdownItem } from 'reactstrap'
 
 export default list({
-  perPage: 10,
   resource: 'role',
   listTitle: <FormattedMessage id='list_title_roles' />,
   listBrief: <FormattedMessage id='list_brief_roles' />,

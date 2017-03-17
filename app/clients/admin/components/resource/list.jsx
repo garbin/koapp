@@ -18,6 +18,7 @@ import { actions as async } from '../../reduxers/async'
 import { actions as check } from '../../reduxers/checklist'
 import SearchForm from '../table/search'
 import pluralize from 'pluralize'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import _ from 'lodash'
 
 export class List extends React.Component {
@@ -31,11 +32,35 @@ export class List extends React.Component {
       location: this.currentLocation
     }
   }
+  getConfig () {
+    const { config, checklist, intl } = this.props
+    const resources = pluralize(config.resource)
+    const batchDeleteClick = e => toastr.confirm(intl.formatMessage({id: 'toastr.dangerous_confirm_message'}), {
+      onOk: e => this.handleDestroy(checklist),
+      onCancel: e => console.log('cancel')
+    })
+
+    return {
+      perPage: 10,
+      resources,
+      resourcePath: `/${resources}`,
+      createButton: (
+        <Link to={`/${resources}/create`} className='btn btn-primary btn-sm rounded-s'>
+          <FormattedMessage id='create' />
+        </Link>),
+      batchActions: (
+        <DropdownItem onClick={batchDeleteClick}>
+          <i className='fa fa-pencil-square-o icon' /><FormattedMessage id='delete' />
+        </DropdownItem>),
+      ...config
+    }
+  }
   fetch (search) {
-    const { dispatch, location, config } = this.props
+    const { dispatch, location } = this.props
+    const config = this.getConfig()
     const params = querystring.parse(search || location.search)
     params.sort = '-created_at'
-    return dispatch(async.list(pluralize(config.resource), {perPage: config.perPage})(config.resourcePath || `/${pluralize(config.resource)}`, {params})).then(res => {
+    return dispatch(async.list(config.resources, {perPage: config.perPage})(config.resourcePath, {params})).then(res => {
       dispatch(check.init(res.action.payload.data))
       return res
     })
@@ -59,27 +84,30 @@ export class List extends React.Component {
     this.props.dispatch(check.clear())
   }
   handleDestroy (checklist) {
-    const { dispatch, config } = this.props
+    const { dispatch, intl } = this.props
+    const config = this.getConfig()
     const items = Object.entries(checklist).reduce((result, [id, checked]) => {
       checked && result.push(id)
       return result
     }, [])
     Promise.all(items.map(item => {
-      return dispatch(async.destroy(config.resource)(`${config.resourcePath || '/' + pluralize(config.resource)}/${item}`))
+      return dispatch(async.destroy(config.resource)(`${config.resourcePath}/${item}`))
     })).then(v => {
-      toastr.success('恭喜', '删除成功')
+      toastr.success(intl.formatMessage({id: 'toastr.success_title'}), intl.formatMessage({id: 'toastr.success_message'}))
       this.fetch()
     }).catch(e => {
-      toastr.error('很遗憾', e.response.data.message)
+      toastr.error(intl.formatMessage({id: 'toastr.error_title'}), e.response.data.message)
     })
   }
   gotoEdit (value) {
-    const { dispatch, config } = this.props
+    const { dispatch } = this.props
+    const config = this.getConfig()
     this.currentLocation = this.props.location
-    dispatch(push(`${config.resourcePath || '/' + pluralize(config.resource)}/${value}/edit`))
+    dispatch(push(`${config.resourcePath}/${value}/edit`))
   }
   getColumns () {
-    const { dispatch, config, checklist } = this.props
+    const { dispatch, checklist, intl } = this.props
+    const config = this.getConfig()
     return config.columns.map(col => {
       if (col.preset === 'checkbox') {
         return column('id', 'ID', responsive.checkbox({
@@ -92,13 +120,13 @@ export class List extends React.Component {
           }
         }))
       } else if (col.preset === 'actions') {
-        let primary = col.primary || (value => <Button color='primary' onClick={e => this.gotoEdit(value)} size='sm'><span><i className='fa fa-pencil-square-o' /> 编辑 </span></Button>)
+        let primary = col.primary || (value => <Button color='primary' onClick={e => this.gotoEdit(value)} size='sm'><span><i className='fa fa-pencil-square-o' /> <FormattedMessage id='edit' /> </span></Button>)
         let dropdown = col.dropdown || (item => (
           <DropdownMenu>
-            <DropdownItem onClick={e => toastr.confirm('确定删除吗', {
+            <DropdownItem onClick={e => toastr.confirm(intl.formatMessage({id: 'toastr.dangerous_confirm_message'}), {
               onOk: e => this.handleDestroy({[item.id]: true}),
               onCancel: e => console.log('cancel')
-            })}>删除</DropdownItem>
+            })}><FormattedMessage id='delete' /></DropdownItem>
           </DropdownMenu>
           ))
         return column('id', col.label, responsive.actions({
@@ -162,10 +190,11 @@ export class List extends React.Component {
     })
   }
   render () {
-    const { async, location, config, checklist } = this.props
+    const { async, location } = this.props
+    const config = this.getConfig()
     const query = querystring.parse(location.search)
     const page = parseInt(query.page || 1) - 1
-    const pageCount = (async[config.resource] && async[config.resource].range) ? Math.ceil(async[config.resource].range.length / config.perPage) : 1
+    const pageCount = (async[config.resources] && async[config.resources].range) ? Math.ceil(async[config.resources].range.length / config.perPage) : 1
 
     const ReduxSearchForm = reduxForm({form: `${config.resource}_search`, initialValues: {q: query.q}})(SearchForm)
     const columns = this.getColumns()
@@ -177,19 +206,12 @@ export class List extends React.Component {
             <div className='row'>
               <div className='col-md-6'>
                 <h3 className='title'> {config.listTitle}&nbsp;
-                  {config.createButton || (
-                    <Link to={`/${pluralize(config.resource)}/create`} className='btn btn-primary btn-sm rounded-s'> 添加 </Link>
-                  )}
+                  {config.createButton}
                   &nbsp;
                   <ButtonDropdown style={{marginBottom: '5px'}} group toggle={function () {}}>
-                    <DropdownToggle className='rounded-s' caret size='sm'>操作</DropdownToggle>
+                    <DropdownToggle className='rounded-s' caret size='sm'><FormattedMessage id='batch_actions' /></DropdownToggle>
                     <DropdownMenu>
-                      {config.batchActions || (
-                        <DropdownItem onClick={e => toastr.confirm('确定删除吗', {
-                          onOk: e => this.handleDestroy(checklist),
-                          onCancel: e => console.log('cancel')
-                        })}><i className='fa fa-pencil-square-o icon' />删除</DropdownItem>
-                      )}
+                      {config.batchActions}
                     </DropdownMenu>
                   </ButtonDropdown>
                 </h3>
@@ -202,7 +224,7 @@ export class List extends React.Component {
           </div>
         </div>
         <div className='card items'>
-          <Table data={async[pluralize(config.resource)]} columns={columns} components={components} />
+          <Table data={async[config.resources]} columns={columns} components={components} />
         </div>
         <nav className='text-xs-right'>
           <Pagination initialPage={page} pageCount={pageCount} onPageChange={this.handlePageChange.bind(this)} />
@@ -222,5 +244,5 @@ export default function (config) {
     async: state.async,
     checklist: state.checklist,
     oauth: state.oauth,
-    ...connectedState }))(withRouter(_List))
+    ...connectedState }))(withRouter(injectIntl(_List)))
 }

@@ -61,7 +61,7 @@ export const reducer = {
       icon: 'fa fa-gear',
       label: <FormattedMessage id='menu.system' />,
       children: [
-        { id: 'settings_global', label: <FormattedMessage id='menu.settings_global' />, href: '/settings/global' }
+        { id: 'settings_general', label: <FormattedMessage id='menu.settings_general' />, href: '/settings/general' }
       ]}
   ])
 }

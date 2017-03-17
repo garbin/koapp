@@ -21,9 +21,6 @@ const renderField = ({ input, label, type, meta: { touched, error }, ...other })
 )
 
 export class Signin extends React.Component {
-  static contextTypes = {
-    router: React.PropTypes.object
-  }
   submit (values) {
     const { dispatch, intl } = this.props
     return dispatch({
