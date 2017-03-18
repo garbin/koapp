@@ -20,7 +20,7 @@ const schema = {
   password_confirm: Joi.string().required().valid(Joi.ref('password')).options({
     language: {
       any: {
-        allowOnly: '两次输入的密码不一致'
+        allowOnly: 'Please check your password'
       }
     }
   })

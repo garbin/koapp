@@ -40,7 +40,7 @@ export default modal({
     }
   },
   resource: 'user',
-  formTitle: '编辑用户',
+  formTitle: <FormattedMessage id='user.edit' />,
   method: 'patch',
   body: function (fields) {
     const { user_form, async } = this.props
