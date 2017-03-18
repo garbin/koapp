@@ -1,6 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
-import { Input, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
+import { ButtonDropdown } from '../../form'
+import { Input, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import _ from 'lodash'
 import Loading from 'react-loading'
 import { FormattedMessage } from 'react-intl'
@@ -57,7 +58,7 @@ export const formatters = {
   actions (value, extra) {
     return (
       <div>
-        <ButtonDropdown group toggle={e => e}>
+        <ButtonDropdown group>
           {extra.column.cell.actions.primary(value, extra)}
           <DropdownToggle caret color='primary' size='sm' />
           {extra.column.cell.actions.dropdown(extra.rowData)}

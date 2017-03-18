@@ -3,7 +3,6 @@
   --primaryColorHover: #31b680;
 }
 
-
 .drag-container {
   position: relative;
   & .drag-active {
@@ -79,5 +78,13 @@ div.card-gallery {
       padding:0;
       border:0;
     }
+  }
+}
+
+
+/* Patch */
+.show {
+  & .dropdown-menu {
+    display: block;
   }
 }

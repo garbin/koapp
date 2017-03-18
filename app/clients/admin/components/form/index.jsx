@@ -13,8 +13,9 @@ import Button from './button'
 import Checkbox from './checkbox'
 import modal from './modal'
 import Select from './select'
+import ButtonDropdown from './button_dropdown'
 
-export { Input, Button, Checkbox, modal, Select }
+export { Input, Button, Checkbox, modal, Select, ButtonDropdown }
 
 export function validate (schema) {
   return values => {

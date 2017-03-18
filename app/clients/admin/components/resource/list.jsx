@@ -5,8 +5,8 @@ import querystring from 'query-string'
 import { push, replace } from 'react-router-redux'
 import { withRouter } from 'react-router'
 import { reduxForm } from 'redux-form'
-import { ButtonDropdown,
-         DropdownToggle,
+import { ButtonDropdown } from '../../components/form'
+import { DropdownToggle,
          Button,
          DropdownMenu,
          DropdownItem } from 'reactstrap'
@@ -208,7 +208,7 @@ export class List extends React.Component {
                 <h3 className='title'> {config.listTitle}&nbsp;
                   {config.createButton}
                   &nbsp;
-                  <ButtonDropdown style={{marginBottom: '5px'}} group toggle={function () {}}>
+                  <ButtonDropdown style={{marginBottom: '5px'}} group>
                     <DropdownToggle className='rounded-s' caret size='sm'><FormattedMessage id='batch_actions' /></DropdownToggle>
                     <DropdownMenu>
                       {config.batchActions}
