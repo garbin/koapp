@@ -92,7 +92,7 @@ export default modal({
     const { dispatch, intl } = this.props
     const { roles } = values
     const data = _.omit(values, ['id', 'password_confirm', 'roles'])
-    return dispatch(async.post('user')('/users', {...data, roles: roles.map(role => role.value)})).then(v => {
+    return dispatch(async.post('user')('/users', {...data, roles: (roles || []).map(role => role.value)})).then(v => {
       this.close()
       toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
     })

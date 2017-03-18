@@ -78,7 +78,7 @@ export default modal({
     const { roles } = values
     const data = _.omit(values, ['id', 'roles'])
     return new Promise((resolve, reject) => {
-      dispatch(async.patch('user')(`/users/${match.params.id}`, {...data, roles: roles.map(role => role.value)})).then(v => {
+      dispatch(async.patch('user')(`/users/${match.params.id}`, {...data, roles: (roles || []).map(role => role.value)})).then(v => {
         this.close()
         toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
         return v
