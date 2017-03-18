@@ -5,6 +5,8 @@
   "role.desc": "角色描述",
   "role.create": "添加角色",
   "user.create": "添加用户",
+  "signin_failed": "登录失败",
+  "signin_failed_tip": "密码或用户名错误，登录失败",
   "name": "名称",
   "desc": "描述",
   "email": "EMail",
