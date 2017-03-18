@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 import classnames from 'classnames'
 import _ from 'lodash'
 import { toastr } from 'react-redux-toastr'
-import { loading } from '../components/helper'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { loading } from '../../components/helper'
 
 const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
   <div className={classnames('form-group', { 'has-error': !_.isEmpty(error) })}>

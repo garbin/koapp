@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from '../lib/helper'
+import { connect } from '../../lib/helper'
 import { withRouter } from 'react-router'
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie } from 'recharts'
 
