@@ -34,7 +34,7 @@ export class CreateForm extends ModalForm {
     // dispatch(async.clear('avatar')())
   }
   componentWillUnmount () {
-    super.componentWillMount()
+    super.componentWillUnmount()
     const { dispatch } = this.props
     dispatch(async.clear('avatar')())
   }
