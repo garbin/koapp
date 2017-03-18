@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import list from '../../components/resource/list'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
 
 export default list({
   perPage: 10,
@@ -22,13 +21,8 @@ export default list({
     { preset: 'text',
       property: 'email',
       label: 'EMail' },
-    { preset: 'text',
+    { preset: 'time',
       property: 'created_at',
-      props: {
-        cell: {
-          formatters: [ createdAt => moment(createdAt).format('YYYY-MM-DD HH:mm:ss') ]
-        }
-      },
       label: <FormattedMessage id='user.created_at' /> },
     { preset: 'actions' }
   ]

@@ -5,6 +5,7 @@ import { Input, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import _ from 'lodash'
 import Loading from 'react-loading'
 import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
 import style from '../../../styles'
 
 export const formatters = {
@@ -13,6 +14,10 @@ export const formatters = {
   },
   text (value, extra) {
     return (<div><div className='item-heading'>{extra.column.header.label}</div>{value}</div>)
+  },
+  time (value, extra) {
+    return moment(value).fromNow()
+    // return (<div><div className='item-heading'>{extra.column.header.label}</div><Timeago date={value} /></div>)
   },
   link (value, extra) {
     return (
@@ -125,6 +130,14 @@ export const presets = {
     },
     cell: {
       formatters: [ formatters.text ]
+    }
+  },
+  time: {
+    header: {
+      formatters: [ formatters.header ]
+    },
+    cell: {
+      formatters: [ formatters.time, formatters.text ]
     }
   },
   link: {

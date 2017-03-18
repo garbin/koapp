@@ -125,6 +125,7 @@
     "react-router-dom": "^4.0.0",
     "react-router-redux": "^5.0.0-alpha.3",
     "react-select": "^1.0.0-rc.3",
+    "react-timeago": "^3.2.0",
     "reactabular": "^8.3.0",
     "reactabular-table": "^8.6.0",
     "reactstrap": "^4.3.0",

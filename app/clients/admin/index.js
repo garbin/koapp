@@ -12,10 +12,12 @@ import zhLocaleData from 'react-intl/locale-data/zh'
 import { admin } from '../../../config/client'
 import Containers from './containers'
 import createStore from './store'
+import moment from 'moment'
 
 addLocaleData([...zhLocaleData])
 const history = createHistory({ basename: admin.basename })
-const store = createStore(history, { intl: { locale: 'zh', messages } })
+const store = createStore(history, { intl: { locale: 'zh-CN', messages } })
+moment.locale('zh-CN')
 
 const app = user => {
   return ReactDOM.render((

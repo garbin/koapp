@@ -184,6 +184,19 @@ export class List extends React.Component {
             }
           }
         }, col.props)))
+      } else if (col.preset === 'time') {
+        return column(col.property, col.label, responsive.time(_.merge({
+          header: {
+            props: {
+              className: 'item-col-header item-col-author'
+            }
+          },
+          cell: {
+            props: {
+              className: 'item-col-author'
+            }
+          }
+        }, col.props)))
       } else {
         return col
       }
@@ -236,13 +249,12 @@ export class List extends React.Component {
 }
 
 export default function (config) {
-  const { connectedState, ...others } = config
-  const _List = props => (
-    <List {...props} config={others} />
-  )
-  return connect(state => ({
+  const mapStateToProps = config.mapStateToProps || (state => ({
     async: state.async,
     checklist: state.checklist,
-    oauth: state.oauth,
-    ...connectedState }))(withRouter(injectIntl(_List)))
+    oauth: state.oauth
+  }))
+  return connect(mapStateToProps)(
+    withRouter(injectIntl(props => <List {...props} config={config} />))
+  )
 }
