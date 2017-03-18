@@ -50,7 +50,7 @@ export const reducer = {
     }
   }, [
     { id: 'dashboard', icon: 'fa fa-home', label: <FormattedMessage id='menu.dashboard' />, href: '/' },
-    { id: 'files', icon: 'fa fa-file', label: <FormattedMessage id='menu.files' />, href: '/files' },
+    { id: 'files', icon: 'fa fa-files-o', label: <FormattedMessage id='menu.files' />, href: '/files' },
     { id: 'users',
       icon: 'fa fa-users',
       label: <FormattedMessage id='menu.users' />,
