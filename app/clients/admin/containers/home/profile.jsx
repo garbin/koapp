@@ -6,6 +6,7 @@ import Dropzone from 'react-dropzone'
 import { Field, change } from 'redux-form'
 import { Button, Input } from 'reactstrap'
 import { actions as async } from '../../reduxers/async'
+import { actions as common } from '../../reduxers/common'
 import { FormattedMessage } from 'react-intl'
 import { actions as oauth2 } from 'react-redux-oauth2'
 import _ from 'lodash'
@@ -35,6 +36,10 @@ export class ProfileForm extends Modal {
     })).then(v => {
       dispatch(change('profile_form', 'avatar', v.value.data.file_path))
     })
+  }
+  close () {
+    const { dispatch } = this.props
+    return dispatch(common.toggleProfileModal(false))
   }
 }
 

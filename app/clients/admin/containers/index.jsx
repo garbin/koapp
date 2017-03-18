@@ -8,7 +8,6 @@ import { push } from 'react-router-redux'
 import { Route, Switch, Redirect, withRouter } from 'react-router'
 import LoadingBar from 'react-redux-loading-bar'
 import { injectIntl } from 'react-intl'
-import { Link } from 'react-router-dom'
 import Dashboard from './dashboard'
 import Unauthorizated from './unauthorizated'
 import Signin from './signin'
@@ -23,6 +22,7 @@ import Home from './home'
 import Settings from './settings'
 
 const Index = connect(state => ({
+  profile: state.profileModal,
   menu: state.menu,
   oauth: state.oauth}))(injectIntl(withRouter(
     class extends React.Component {
@@ -70,8 +70,12 @@ const Index = connect(state => ({
           this.props.dispatch(actions.changeMenu(current.model))
         }
       }
+      handleProfileClick () {
+        const { dispatch } = this.props
+        return dispatch(actions.toggleProfileModal(true))
+      }
       render () {
-        const { menu, oauth, intl } = this.props
+        const { menu, oauth, intl, profile } = this.props
         const SignoutButton = OAuthSignout(props => (
           <a className='dropdown-item' href='#' {...props}> <i className='fa fa-power-off icon' />{intl.formatMessage({id: 'signout'})} </a>
         ))
@@ -108,9 +112,9 @@ const Index = connect(state => ({
                           </span> </a>
                         <ClickOutside onClickOutside={this.toggleDropdown.bind(this, false)}>
                           <div className='dropdown-menu profile-dropdown-menu' style={{display: this.state.dropdown_open ? 'block' : 'none'}}>
-                            <Link to='/home/profile' className='dropdown-item'>
+                            <a href='javascript:;' onClick={this.handleProfileClick.bind(this)} className='dropdown-item'>
                               <i className='fa fa-user icon' /> {intl.formatMessage({id: 'profile'})}
-                            </Link>
+                            </a>
                             <div className='dropdown-divider' />
                             <SignoutButton />
                           </div>
@@ -132,6 +136,7 @@ const Index = connect(state => ({
                 </ClickOutside>
                 <div className='sidebar-overlay' id='sidebar-overlay' />
                 {this.props.children}
+                {profile && (<Home />)}
                 <footer className='footer'>
                   <div className='footer-block buttons' />
                   <div className='footer-block author'>
@@ -172,7 +177,6 @@ export default props => (
             <Route path='/settings' component={Settings} />
             <Route component={Dashboard} />
           </Switch>
-          <Route path='/home/profile' component={Home} />
         </Index>
       </PrivateRoute>
     </Switch>

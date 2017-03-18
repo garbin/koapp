@@ -5,11 +5,20 @@ import { FormattedMessage } from 'react-intl'
 
 export const actions = {
   changeMenu: createAction('MENU_CHANGE'),
+  toggleProfileModal: createAction('TOGGLE_PROFILE_MODAL'),
   openModal: createAction('MODAL_OPEN'),
   hideModal: createAction('MODAL_HIDE')
 }
 
 export const reducer = {
+  profileModal: handleActions({
+    TOGGLE_PROFILE_MODAL (state, action) {
+      if (action.payload !== undefined) {
+        return action.payload
+      }
+      return state
+    }
+  }, false),
   modal: handleActions({
     MODAL_OPEN (state, action) {
       const { title, content, buttons } = action.payload
