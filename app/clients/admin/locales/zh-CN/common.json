@@ -1,6 +1,7 @@
 {
   "user.name": "用户名",
   "user.edit": "编辑用户",
+  "clear_search": "清空搜索条件",
   "role.name": "角色名称",
   "role.desc": "角色描述",
   "role.create": "添加角色",

@@ -123,7 +123,7 @@
     "react-redux-toastr": "^5.0.0",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
-    "react-router-redux": "^5.0.0-alpha.2",
+    "react-router-redux": "^5.0.0-alpha.3",
     "react-select": "^1.0.0-rc.3",
     "reactabular": "^8.3.0",
     "reactabular-table": "^8.6.0",

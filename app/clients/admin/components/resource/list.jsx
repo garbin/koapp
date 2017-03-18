@@ -58,7 +58,7 @@ export class List extends React.Component {
   fetch (search) {
     const { dispatch, location } = this.props
     const config = this.getConfig()
-    const params = querystring.parse(search || location.search)
+    const params = querystring.parse(search === undefined ? location.search : search)
     params.sort = '-created_at'
     return dispatch(async.list(config.resources, {perPage: config.perPage})(config.resourcePath, {params})).then(res => {
       dispatch(check.init(res.action.payload.data))

@@ -3,7 +3,7 @@ import { FormGroup, Label, Input, FormFeedback } from 'reactstrap'
 
 export default class extends React.Component {
   render () {
-    const {input, row, meta: {touched, error, valid}, ...others} = this.props
+    const {input, row, inline, meta: {touched, error, valid}, ...others} = this.props
     const state = touched ? (error ? 'danger' : valid ? 'success' : undefined) : undefined
     const {label, ...props} = others
     const { name } = input
@@ -17,6 +17,8 @@ export default class extends React.Component {
           </div>
         </FormGroup>
       )
+    } else if (inline) {
+      return <Input {...input} {...props} />
     } else {
       return (
         <FormGroup color={state}>
