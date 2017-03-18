@@ -131,7 +131,7 @@ export class Grid extends React.Component {
                   &nbsp;
                   <ButtonDropdown style={{marginBottom: '5px'}} group>
                     <DropdownToggle className='rounded-s' caret size='sm'>
-                      <FormattedMessage id='list_actions' />
+                      <FormattedMessage id='batch_actions' />
                     </DropdownToggle>
                     <DropdownMenu>
                       {config.batchActions}
