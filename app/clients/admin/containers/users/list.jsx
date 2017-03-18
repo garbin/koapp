@@ -26,7 +26,7 @@ export default list({
       property: 'created_at',
       props: {
         cell: {
-          formatters: [ created_at => moment(created_at).format('YYYY-MM-DD HH:mm:ss') ]
+          formatters: [ createdAt => moment(createdAt).format('YYYY-MM-DD HH:mm:ss') ]
         }
       },
       label: <FormattedMessage id='user.created_at' /> },

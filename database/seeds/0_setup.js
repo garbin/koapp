@@ -7,7 +7,10 @@ exports.seed = async function (knex, Promise) {
     settings: {}
   })
   let user = await User.forge().save({
-    username: 'admin', password: 'admin', email: 'admin@koapp.com'
+    username: 'admin',
+    password: 'admin',
+    email: 'admin@koapp.com',
+    avatar: 'http://example'
   })
   let client = await OAuth.Client.forge().save({
     id: '0f434d4b-06bf-4cb2-b8f4-f20bf9349beb',

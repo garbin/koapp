@@ -29,4 +29,8 @@ nock('https://api.github.com').get('/user').reply(200, {
   email: 'garbinh@gmail.com'
 })
 
-exports.adminToken = req => req.set('Authorization', 'Bearer 691ae08f7b038e5b09983d2435d3a878')
+exports.tokens = {
+  admin: '691ae08f7b038e5b09983d2435d3a878'
+}
+
+exports.adminToken = req => req.set('Authorization', `Bearer ${exports.tokens.admin}`)
