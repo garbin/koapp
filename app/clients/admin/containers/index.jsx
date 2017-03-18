@@ -19,7 +19,7 @@ import style from '../styles'
 import Users from './users'
 import Roles from './roles'
 import Files from './files'
-import Profile from './profile'
+import Home from './home'
 import Settings from './settings'
 
 const Index = connect(state => ({
@@ -172,7 +172,7 @@ export default props => (
             <Route path='/settings' component={Settings} />
             <Route component={Dashboard} />
           </Switch>
-          <Route path='/home/profile' component={Profile} />
+          <Route path='/home/profile' component={Home} />
         </Index>
       </PrivateRoute>
     </Switch>

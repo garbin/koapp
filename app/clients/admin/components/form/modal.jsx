@@ -2,7 +2,7 @@ import React from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { push, goBack } from 'react-router-redux'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import Button from './button'
 import Input from './input'
@@ -34,7 +34,7 @@ export class Modal extends React.Component {
   }
   close () {
     const { dispatch } = this.props
-    dispatch(push(this.context.location))
+    dispatch(this.context.location ? push(this.context.location) : goBack())
   }
   render () {
     const { handleSubmit } = this.props

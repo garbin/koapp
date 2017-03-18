@@ -20,9 +20,7 @@ exports.default = class User extends bookshelf.Model {
     return this.hasMany(Post)
   }
   static get format () {
-    return {
-      password: md5
-    }
+    return { password: md5 }
   }
   static get dependents () {
     return ['accounts']

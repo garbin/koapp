@@ -11,18 +11,28 @@ import { FormGroup, Form } from 'reactstrap'
 import Input from './input'
 import Button from './button'
 import Checkbox from './checkbox'
-import modal from './modal'
+import modal, { Modal } from './modal'
 import Select from './select'
 import ButtonDropdown from './button_dropdown'
 
-export { Input, Button, Checkbox, modal, Select, ButtonDropdown }
+export { Input, Button, Checkbox, modal, Select, ButtonDropdown, Modal }
 
 export function validate (schema) {
   return values => {
-    const result = Joi.object(schema).validate(values)
+    const joi = schema.isJoi ? schema : Joi.object().keys(schema).unknown()
+    const result = Joi.validate(values, joi)
     if (result.error) {
       return result.error.details.reduce((errors, e) => {
-        _.set(errors, e.path, e.message)
+        let { path, message } = e
+        if (path === 'value') {
+          try {
+            path = e.context.missing[0]
+            message = e.message
+          } catch (e) {
+            _.set(errors, '_error', message)
+          }
+        }
+        _.set(errors, path, message)
         return errors
       }, {})
     }
