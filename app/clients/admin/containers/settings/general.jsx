@@ -1,9 +1,9 @@
 import React from 'react'
-import { form } from '../../components/form'
+import { page } from '../../components/form'
 import { FormattedMessage } from 'react-intl'
 import Joi from 'joi'
 
-export default form({
+export default page({
   name: 'settings/general',
   formTitle: <FormattedMessage id='settings.general' />,
   fields: [

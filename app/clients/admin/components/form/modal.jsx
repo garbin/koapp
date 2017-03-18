@@ -66,6 +66,6 @@ export default function modal (config, Component = Modal) {
   }))
   return connect(mapStateToProps)(reduxForm({
     form: `${config.name || 'modal'}_form`,
-    validate: validate(config.validate)
+    validate: validate(config.validate || {})
   })(withRouter(injectIntl(props => <Component {...props} config={config} />))))
 }

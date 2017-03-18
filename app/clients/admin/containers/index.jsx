@@ -23,7 +23,6 @@ import Profile from './profile'
 import Settings from './settings'
 
 const Index = connect(state => ({
-  modal: state.modal,
   menu: state.menu,
   oauth: state.oauth}))(injectIntl(withRouter(
     class extends React.Component {

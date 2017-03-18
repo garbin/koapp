@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import querystring from 'query-string'
 import { push } from 'react-router-redux'
 import { withRouter } from 'react-router'
-import { ButtonDropdown,
-         DropdownToggle,
+import { ButtonDropdown } from '../../components/form'
+import { DropdownToggle,
          DropdownMenu,
          DropdownItem } from 'reactstrap'
 import { toastr } from 'react-redux-toastr'
@@ -102,6 +102,7 @@ export class Grid extends React.Component {
   }
   handleCheckAll (e) {
     const { dispatch } = this.props
+    console.log(this.refs.checkAll)
     dispatch(check.all(e.target.checked))
   }
   handleItemCheck (item, e) {
@@ -128,7 +129,7 @@ export class Grid extends React.Component {
                 <h3 className='title'> {config.listTitle}&nbsp;
                   {config.createButton.call(this)}
                   &nbsp;
-                  <ButtonDropdown style={{marginBottom: '5px'}} group toggle={function () {}}>
+                  <ButtonDropdown style={{marginBottom: '5px'}} group>
                     <DropdownToggle className='rounded-s' caret size='sm'>
                       <FormattedMessage id='list_actions' />
                     </DropdownToggle>
@@ -172,7 +173,7 @@ export class Grid extends React.Component {
         </section>
         <div className='row'>
           <div className='col-sm-4'>
-            <Checkbox label={<FormattedMessage id='check_all' />} onChange={this.handleCheckAll.bind(this)} />
+            <Checkbox ref='checkAll' label={<FormattedMessage id='check_all' />} onChange={this.handleCheckAll.bind(this)} />
           </div>
           <div className='col-sm-8'>
             <nav className='text-sm-right'>

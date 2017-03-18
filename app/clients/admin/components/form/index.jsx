@@ -30,7 +30,7 @@ export function validate (schema) {
   }
 }
 
-export class FormPage extends React.Component {
+export class Page extends React.Component {
   componentWillMount () {
     this.fetch()
   }
@@ -88,7 +88,7 @@ export class FormPage extends React.Component {
   }
 }
 
-export function form (config) {
+export function page (config, Component = Page) {
   const mapStateToProps = config.mapStateToProps || (state => ({
     async: state.async,
     oauth: state.oauth,
@@ -96,8 +96,8 @@ export function form (config) {
   }))
   return connect(mapStateToProps)(
     reduxForm({
-      form: config.name || 'default',
+      form: `${config.name || 'page'}_form`,
       validate: validate(config.validate || {})
-    })(withRouter(injectIntl(props => <FormPage {...props} config={config} />)))
+    })(withRouter(injectIntl(props => <Component {...props} config={config} />)))
   )
 }
