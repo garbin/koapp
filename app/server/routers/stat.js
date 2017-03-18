@@ -13,8 +13,8 @@ const stats = {
       total: ['sum', 'id as total']
     },
     default: {
-      dimension: 'createDate',
-      metric: 'total',
+      dimensions: ['createDate'],
+      metrics: ['total'],
       by: 'created_date'
     }
   }
@@ -25,10 +25,10 @@ exports.default = Router.define(router => {
   router.get('/stat/:resource', async (ctx, next) => {
     const {collection, dimensions, metrics, default: defaultOption} = stats[ctx.params.resource]
     const query = collection.query()
-    ;(ctx.request.query.dimensions || [defaultOption.dimension]).forEach(dim => {
+    ;(ctx.request.query.dimensions || defaultOption.dimensions).forEach(dim => {
       query.column(dimensions[dim])
     })
-    ;(ctx.request.query.metrics || [defaultOption.metric]).forEach(metric => {
+    ;(ctx.request.query.metrics || defaultOption.metrics).forEach(metric => {
       query[metrics[metric][0]](metrics[metric][1])
     })
     query.groupBy(ctx.request.query.by || defaultOption.by)

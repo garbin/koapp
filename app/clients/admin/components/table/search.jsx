@@ -37,7 +37,7 @@ export class SearchForm extends React.Component {
             </Button>
             {initialValues.q && (
               <Button className='rounded-s'
-                title={intl.formatMessage({id: 'clear_search'})} 
+                title={intl.formatMessage({id: 'clear_search'})}
                 type='button'
                 onClick={this.clearSearch.bind(this)}>
                 <i className='fa fa-eraser' />
