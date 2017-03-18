@@ -7,7 +7,7 @@ import error from './error'
 export default [
   effects,
   thunk,
-  error,
   promiseMiddleware(),
-  loadingBarMiddleware()
+  loadingBarMiddleware(),
+  error
 ]

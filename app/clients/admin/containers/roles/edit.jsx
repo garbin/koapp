@@ -1,8 +1,16 @@
 import React from 'react'
 import Joi from 'joi'
-import modal from '../../components/resource/modal_form'
+import modal, { ModalForm } from '../../components/resource/modal_form'
 import { actions as async } from '../../reduxers/async'
 import PermissionEditor from './permission_editor'
+
+export class RoleEdit extends ModalForm {
+  componentWillMount () {
+    super.componentWillMount()
+    const { dispatch, match } = this.props
+    dispatch(async.get('role')(`/roles/${match.params.id}`))
+  }
+}
 
 const schema = {
   name: Joi.string().required(),
@@ -22,9 +30,5 @@ export default modal({
     {name: 'desc', label: '描述', type: 'text'},
     (Field, Input) => (<PermissionEditor key='permission' />)
   ],
-  componentWillMount () {
-    const { dispatch, match } = this.props
-    dispatch(async.get('role')(`/roles/${match.params.id}`))
-  },
   validate: schema
-})
+}, RoleEdit)

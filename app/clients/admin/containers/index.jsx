@@ -7,6 +7,8 @@ import ClickOutside from 'react-click-outside'
 import { push } from 'react-router-redux'
 import { Route, Switch, Redirect, withRouter } from 'react-router'
 import LoadingBar from 'react-redux-loading-bar'
+import { injectIntl } from 'react-intl'
+import { Link } from 'react-router-dom'
 import Dashboard from './dashboard'
 import Unauthorizated from './unauthorizated'
 import Signin from './signin'
@@ -17,22 +19,30 @@ import style from '../styles'
 import Users from './users'
 import Roles from './roles'
 import Files from './files'
+import Profile from './profile'
 import Settings from './settings'
 
 const Index = connect(state => ({
   modal: state.modal,
   menu: state.menu,
-  oauth: state.oauth}))(withRouter(
+  oauth: state.oauth}))(injectIntl(withRouter(
     class extends React.Component {
       constructor () {
         super()
-        this.state = { sidebar_open: false }
+        this.state = { sidebar_open: false, dropdown_open: false }
       }
       toggleSidebar (toggle = true) {
         if (toggle) {
           this.setState({sidebar_open: !this.state.sidebar_open})
         } else {
           if (this.state.sidebar_open) this.setState({sidebar_open: false})
+        }
+      }
+      toggleDropdown (toggle = true) {
+        if (toggle) {
+          this.setState({dropdown_open: !this.state.dropdown_open})
+        } else {
+          if (this.state.dropdown_open) this.setState({dropdown_open: false})
         }
       }
       componentWillMount () {
@@ -62,9 +72,9 @@ const Index = connect(state => ({
         }
       }
       render () {
-        const { menu, oauth } = this.props
+        const { menu, oauth, intl } = this.props
         const SignoutButton = OAuthSignout(props => (
-          <a className='dropdown-item' href='#' {...props}> <i className='fa fa-power-off icon' />Sign-Out </a>
+          <a className='dropdown-item' href='#' {...props}> <i className='fa fa-power-off icon' />{intl.formatMessage({id: 'signout'})} </a>
         ))
         return (
           <div>
@@ -93,14 +103,14 @@ const Index = connect(state => ({
                   <div className='header-block header-block-nav'>
                     <ul className='nav-profile'>
                       <li className='profile dropdown'>
-                        <a className='nav-link dropdown-toggle' data-toggle='dropdown' href='#' role='button'>
+                        <a className='nav-link dropdown-toggle' href='javascript:;' onClick={this.toggleDropdown.bind(this)} role='button'>
                           <div className='img' style={{backgroundImage: `url(${oauth.user.avatar})`}} /><span className='name'>
                             {oauth.user.username}
                           </span> </a>
-                        <div className='dropdown-menu profile-dropdown-menu'>
-                          <a className='dropdown-item' href='#'> <i className='fa fa-user icon' /> Profile </a>
-                          <a className='dropdown-item' href='#'> <i className='fa fa-bell icon' /> Notifications </a>
-                          <a className='dropdown-item' href='#'> <i className='fa fa-gear icon' /> Settings </a>
+                        <div className='dropdown-menu profile-dropdown-menu' style={{display: this.state.dropdown_open ? 'block' : 'none'}}>
+                          <Link to='/home/profile' className='dropdown-item'>
+                            <i className='fa fa-user icon' /> {intl.formatMessage({id: 'profile'})}
+                          </Link>
                           <div className='dropdown-divider' />
                           <SignoutButton />
                         </div>
@@ -134,7 +144,7 @@ const Index = connect(state => ({
           </div>
         )
       }
-}))
+})))
 
 const PrivateRoute = connect(state => ({oauth: state.oauth}))(props => {
   const { oauth, ...others } = props
@@ -161,6 +171,7 @@ export default props => (
             <Route path='/settings' component={Settings} />
             <Route component={Dashboard} />
           </Switch>
+          <Route path='/home/profile' component={Profile} />
         </Index>
       </PrivateRoute>
     </Switch>

@@ -50,7 +50,7 @@ export class List extends React.Component {
         </Link>),
       batchActions: (
         <DropdownItem onClick={batchDeleteClick}>
-          <i className='fa fa-pencil-square-o icon' /><FormattedMessage id='delete' />
+          <i className='fa fa-remove icon' /><FormattedMessage id='delete' />
         </DropdownItem>),
       ...config
     }

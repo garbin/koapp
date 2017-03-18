@@ -7,7 +7,8 @@ import { Button, Input } from 'reactstrap'
 import { Select } from '../../components/form'
 import modal from '../../components/resource/modal_form'
 import { actions as async } from '../../reduxers/async'
-import { upload } from './create'
+import { FormattedMessage } from 'react-intl'
+import { CreateForm } from './create'
 import _ from 'lodash'
 
 const schema = {
@@ -16,6 +17,8 @@ const schema = {
   roles: Joi.array(),
   email: Joi.string().email().required()
 }
+
+export class EditForm extends CreateForm {}
 
 export default modal({
   mapStateToProps: state => {
@@ -39,21 +42,12 @@ export default modal({
   resource: 'user',
   formTitle: '编辑用户',
   method: 'patch',
-  componentWillMount: function () {
-    const { dispatch } = this.props
-    dispatch(async.get('roles')('/roles'))
-    // dispatch(async.clear('avatar')())
-  },
-  componentWillUnmount: function () {
-    const { dispatch } = this.props
-    dispatch(async.clear('avatar')())
-  },
   body: function (fields) {
     const { user_form, async } = this.props
     return (
       <div className='row'>
         <div className='col-sm-3'>
-          <Dropzone ref={node => { this.dropzone = node }} onDrop={upload.bind(this)} multiple={false} style={{}}>
+          <Dropzone ref={node => { this.dropzone = node }} onDrop={this.handleUpload.bind(this)} multiple={false} style={{}}>
             {({acceptedFiles}) => {
               if (_.get(async, 'avatar.status') === 'fulfilled') {
                 return <div className='image rounded' style={{backgroundImage: `url(${async.avatar.response.file_path})`}} />
@@ -71,22 +65,22 @@ export default modal({
     )
   },
   fields: [
-    {name: 'username', label: '用户名', type: 'text'},
-    {name: 'email', label: 'Email', type: 'text'},
+    {name: 'username', label: <FormattedMessage id='username' />, type: 'text'},
+    {name: 'email', label: <FormattedMessage id='email' />, type: 'text'},
     function (props) {
       const { async } = this.props
       const options = _.get(async, 'roles.response', []).map(role => ({value: role.id, label: role.name}))
-      return <Field key='roles' component={Select} label='角色' multi name='roles' options={options} />
+      return <Field key='roles' component={Select} label={<FormattedMessage id='user.role' />} multi name='roles' options={options} />
     }
   ],
   submit (values) {
-    const { dispatch, match } = this.props
+    const { intl, dispatch, match } = this.props
     const { roles } = values
     const data = _.omit(values, ['id', 'roles'])
     return new Promise((resolve, reject) => {
       dispatch(async.patch('user')(`/users/${match.params.id}`, {...data, roles: roles.map(role => role.value)})).then(v => {
         this.close()
-        toastr.success('恭喜', '编辑成功!')
+        toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
         return v
       }).then(resolve).catch(e => {
         console.log(e)
@@ -95,4 +89,4 @@ export default modal({
     })
   },
   validate: schema
-})
+}, EditForm)

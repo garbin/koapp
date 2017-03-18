@@ -51,7 +51,7 @@ export class Grid extends React.Component {
         </Link>),
       batchActions: (
         <DropdownItem onClick={deleteConfirm.bind(this, checklist)}>
-          <i className='fa fa-pencil-square-o icon' /><FormattedMessage id='delete' />
+          <i className='fa fa-remove' /><FormattedMessage id='delete' />
         </DropdownItem>),
       ...config
     }

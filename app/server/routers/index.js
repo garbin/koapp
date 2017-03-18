@@ -9,6 +9,7 @@ const {default: users} = require('./users')
 const {default: roles} = require('./roles')
 const {default: files} = require('./files')
 const {default: settings} = require('./settings')
+const {default: stat} = require('./stat')
 
 exports.default = [
   subdomain,
@@ -21,5 +22,6 @@ exports.default = [
   files,
   settings,
   users,
+  stat,
   cashier
 ]
