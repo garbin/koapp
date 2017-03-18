@@ -12,7 +12,7 @@ const schema = {
 
 export default modal({
   resource: 'role',
-  formTitle: '添加权限',
+  formTitle: <FormattedMessage id='role.create' />,
   method: 'post',
   fields: [
     {name: 'name', label: <FormattedMessage id='role.name' />, type: 'text'},

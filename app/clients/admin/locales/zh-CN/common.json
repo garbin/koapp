@@ -3,6 +3,8 @@
   "user.edit": "编辑用户",
   "role.name": "角色名称",
   "role.desc": "角色描述",
+  "role.create": "添加角色",
+  "user.create": "添加用户",
   "name": "名称",
   "desc": "描述",
   "email": "EMail",

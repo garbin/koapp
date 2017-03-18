@@ -1,4 +1,3 @@
-import './js/vendor.min.js'
 import './css/vendor.css'
 import './css/app.css'
 import './css/app-seagreen.css'

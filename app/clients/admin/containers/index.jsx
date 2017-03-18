@@ -107,13 +107,15 @@ const Index = connect(state => ({
                           <div className='img' style={{backgroundImage: `url(${oauth.user.avatar})`}} /><span className='name'>
                             {oauth.user.username}
                           </span> </a>
-                        <div className='dropdown-menu profile-dropdown-menu' style={{display: this.state.dropdown_open ? 'block' : 'none'}}>
-                          <Link to='/home/profile' className='dropdown-item'>
-                            <i className='fa fa-user icon' /> {intl.formatMessage({id: 'profile'})}
-                          </Link>
-                          <div className='dropdown-divider' />
-                          <SignoutButton />
-                        </div>
+                        <ClickOutside onClickOutside={this.toggleDropdown.bind(this, false)}>
+                          <div className='dropdown-menu profile-dropdown-menu' style={{display: this.state.dropdown_open ? 'block' : 'none'}}>
+                            <Link to='/home/profile' className='dropdown-item'>
+                              <i className='fa fa-user icon' /> {intl.formatMessage({id: 'profile'})}
+                            </Link>
+                            <div className='dropdown-divider' />
+                            <SignoutButton />
+                          </div>
+                        </ClickOutside>
                       </li>
                     </ul>
                   </div>

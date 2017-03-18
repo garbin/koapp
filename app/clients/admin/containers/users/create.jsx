@@ -53,7 +53,7 @@ export class CreateForm extends ModalForm {
 
 export default modal({
   resource: 'user',
-  formTitle: <FormattedMessage id='create' />,
+  formTitle: <FormattedMessage id='user.create' />,
   method: 'post',
   body: function (fields) {
     const { async } = this.props
