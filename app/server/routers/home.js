@@ -3,6 +3,8 @@ const { User } = require('../../models')
 const { default: user } = require('../middlewares/user')
 const { default: sendMail } = require('../middlewares/sendmail')
 const config = require('../../../config/server')
+const { Base64 } = require('js-base64')
+const qs = require('query-string')
 
 exports.default = Router.define(router => {
   router.prefix('/home')
@@ -11,9 +13,12 @@ exports.default = Router.define(router => {
     const user = await User.where({email}).fetch({require: true})
     ctx.body = await user.resetToken()
     ctx.status = 202
+    const meta = { email, token: ctx.body.get('reset_token') }
     ctx.state.mail = {
       to: email,
-      context: { link: `${config.clientUrl}/admin/session/reset?email=${email}&token=${ctx.body.get('reset_token')}` }
+      context: {
+        link: `${config.clientUrl}/admin/session/reset?${Base64.encodeURI(qs.stringify(meta))}`
+      }
     }
     await next()
   }, sendMail('mail.template.reset_password'))

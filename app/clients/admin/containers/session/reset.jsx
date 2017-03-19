@@ -10,6 +10,7 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { validate, Input } from '../../components/form'
 import { actions as async } from '../../reduxers/async'
 import qs from 'query-string'
+import { Base64 } from 'js-base64'
 
 const schema = {
   email: Joi.string().email().required(),
@@ -108,7 +109,8 @@ export class Reset extends React.Component {
 }
 
 export default connect(state => {
-  const { email, token } = qs.parse(state.router.location.search || '')
+  const { location: { search } } = state.router
+  const { email, token } = qs.parse(Base64.decode(search.substr(1)) || '')
   return { initialValues: {email, token} }
 })(
   reduxForm({ form: 'reset', validate: validate(schema) })(
