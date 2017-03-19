@@ -2,13 +2,13 @@ const { Router } = require('koapi')
 const {default: passport, authenticate} = require('../middlewares/passport')
 const config = require('../../../config/server')
 const { OAuth: { Token } } = require('../../models')
-const { base64 } = require('../../lib/helper')
+const { Base64 } = require('js-base64')
 
 exports.default = Router.define(router => {
   router.get('/auth/:provider', async (ctx, next) => {
     let provider = config.passport[ctx.params.provider].strategy || ctx.params.provider
     await passport.authenticate(provider, {
-      state: ctx.query.state || base64.encode(ctx.query)
+      state: ctx.query.state || Base64.encodeURI(ctx.query)
     })(ctx, next)
   })
 
@@ -19,7 +19,7 @@ exports.default = Router.define(router => {
     let { clientID, redirectBack } = config.passport[ctx.params.provider]
     let state = {}
     try {
-      state = ctx.query.state ? JSON.parse(base64.decode(ctx.query.state)) : {}
+      state = ctx.query.state ? JSON.parse(Base64.decode(ctx.query.state)) : {}
     } catch (e) {}
     let token = await Token.issue(clientID, ctx.state.user.get('id').toString())
     let redirectUrl = `${state.redirect || state.auth_origin_url || redirectBack || '/'}?access_token=${token.get('access_token')}`
