@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router'
 import { push } from 'react-router-redux'
 import { Button } from 'reactstrap'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
@@ -8,26 +9,25 @@ import { toastr } from 'react-redux-toastr'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { validate, Input } from '../../components/form'
 import { actions as async } from '../../reduxers/async'
+import qs from 'query-string'
 
 const schema = {
-  email: Joi.string().email().required()
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+  password_confirm: Joi.string().required().valid(Joi.ref('password')).options({
+    language: {
+      any: {
+        allowOnly: 'Please check your password'
+      }
+    }
+  })
 }
 
-// const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
-//   <div className={classnames('form-group', { 'has-error': !_.isEmpty(error) })}>
-//     <label htmlFor>{label}</label>
-//     <div>
-//       <input {...input} {...other} type={type} />
-//       {touched && error && <span className='has-error'>{error}</span>}
-//     </div>
-//   </div>
-// )
-
-export class Forget extends React.Component {
+export class Reset extends React.Component {
   submit (values) {
     const { dispatch, intl } = this.props
-    return dispatch(async.patch('forget')('/home/forget', values)).then(res => {
-      toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'reset_mail_sent'}))
+    return dispatch(async.patch('reset')('/home/reset_password', values)).then(res => {
+      toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
       dispatch(push('/session/signin'))
     }).catch(e => {
       toastr.error('error', e)
@@ -37,7 +37,6 @@ export class Forget extends React.Component {
 
   render () {
     const { dispatch } = this.props
-
     return (
       <div>
         <div className='auth'>
@@ -54,7 +53,7 @@ export class Forget extends React.Component {
                   </div>       Koapp
                 </h1> </header>
               <div className='auth-content'>
-                <p className='text-xs-center'>FORGET PASSWORD</p>
+                <p className='text-xs-center'>RESET PASSWORD</p>
                 <form onSubmit={this.props.handleSubmit(this.submit.bind(this))} ref='form'>
                   <Field
                     component={Input}
@@ -63,6 +62,21 @@ export class Forget extends React.Component {
                     name='email'
                     label={<FormattedMessage id='email' />}
                     placeholder='Your email address' />
+                  <Field component={Input} type='hidden' inline name='token' />
+                  <Field
+                    component={Input}
+                    type='password'
+                    className='form-control underlined'
+                    name='password'
+                    label={<FormattedMessage id='password' />}
+                    placeholder='Password' />
+                  <Field
+                    component={Input}
+                    type='password'
+                    className='form-control underlined'
+                    name='password_confirm'
+                    label={<FormattedMessage id='password_confirm' />}
+                    placeholder='Password confirm' />
                   <div className='form-group'>
                     <div className='row'>
                       <Button block color='primary' type='submit'>
@@ -93,4 +107,9 @@ export class Forget extends React.Component {
   }
 }
 
-export default reduxForm({ form: 'forget', validate: validate(schema) })(connect()(injectIntl(Forget)))
+export default connect(state => {
+  const { email, token } = qs.parse(state.router.location.search || '')
+  return { initialValues: {email, token} }
+})(
+  reduxForm({ form: 'reset', validate: validate(schema) })(
+    injectIntl(withRouter(Reset))))

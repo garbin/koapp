@@ -16,9 +16,10 @@ exports.default = class User extends bookshelf.Model {
   async resetToken () {
     return await this.save({
       reset_token: random('Aa0', 16),
-      reset_expires: moment().add('2 hours').toDate()
+      reset_expires: moment().add(2, 'hours').toDate()
     })
   }
+
   /* Relations */
   roles () {
     return this.belongsToMany(Role, 'user2role')

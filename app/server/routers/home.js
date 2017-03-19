@@ -2,7 +2,7 @@ const { Router } = require('koapi')
 const { User } = require('../../models')
 const { default: user } = require('../middlewares/user')
 const { default: sendMail } = require('../middlewares/sendmail')
-// const config = require('../../../config/client')
+const config = require('../../../config/server')
 
 exports.default = Router.define(router => {
   router.prefix('/home')
@@ -13,18 +13,17 @@ exports.default = Router.define(router => {
     ctx.status = 202
     ctx.state.mail = {
       to: email,
-      context: { link: ctx.body.get('reset_token') }
+      context: { link: `${config.clientUrl}/admin/session/reset?email=${email}&token=${ctx.body.get('reset_token')}` }
     }
     await next()
   }, sendMail('mail.template.reset_password'))
 
   router.patch('/reset_password', async ctx => {
-    const { password, reset_token: resetToken, username } = ctx.request.body
-    ctx.body = await User.resetPassword({
-      password,
-      resetToken,
-      username
-    })
+    const { password, token, email } = ctx.request.body
+    const user = await User.where({email, reset_token: token})
+                           .where('reset_expires', '>', new Date())
+                           .fetch({require: true})
+    ctx.body = await user.save({ password })
     ctx.status = 202
   })
 

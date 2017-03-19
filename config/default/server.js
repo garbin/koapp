@@ -1,5 +1,6 @@
 const path = require('path')
 module.exports = {
+  clientUrl: 'http://localhost:5000',
   universal: {
     apps: [
       {mount: '/api', server: true},

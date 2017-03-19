@@ -2,6 +2,7 @@
   "user.name": "用户名",
   "user.edit": "编辑用户",
   "forget_password": "忘记密码?",
+  "reset_token": "重置口令",
   "remeber_me": "记住我",
   "signin": "登录",
   "goback_signin": "返回登录",
