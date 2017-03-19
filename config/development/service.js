@@ -3,9 +3,7 @@ module.exports = {
     {
       name: 'schedulers',
       place: 'master',
-      config: {
-        enabled: ['example']
-      }
+      config: { /* enabled: ['example'] */ }
     },
     {
       name: 'queues',

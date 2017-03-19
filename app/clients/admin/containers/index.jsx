@@ -13,8 +13,7 @@ import Menu from '../components/menu.jsx'
 import { actions } from '../reduxers/common'
 import style from '../styles'
 import Dashboard from './dashboard'
-import Unauthorizated from './session/unauthorizated'
-import Signin from './session/signin'
+import Session from './session'
 import Users from './users'
 import Roles from './roles'
 import Files from './files'
@@ -155,7 +154,7 @@ const Index = connect(state => ({
 const PrivateRoute = connect(state => ({oauth: state.oauth}))(props => {
   const { oauth, ...others } = props
   if (!oauth.user) {
-    return <Redirect to={{pathname: '/signin'}} />
+    return <Redirect to={{pathname: '/session/signin'}} />
   } else {
     return <Route {...others} />
   }
@@ -166,11 +165,10 @@ export default props => (
     <ReduxToastr position='bottom-right' />
     <LoadingBar style={{zIndex: 9999, backgroundColor: style.primaryColor}} />
     <Switch>
-      <Route path='/signin' exact component={Signin} />
+      <Route path='/session' component={Session} />
       <PrivateRoute path='/'>
         <Index>
           <Switch>
-            <Route path='/unauthorizated' component={Unauthorizated} />
             <Route path='/users' component={Users} />
             <Route path='/roles' component={Roles} />
             <Route path='/files' component={Files} />

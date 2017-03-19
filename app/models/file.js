@@ -1,13 +1,14 @@
 const { bookshelf } = require('koapi/lib/model')
+const path = require('path')
 const { default: log } = require('koapi/lib/logger')
 const Joi = require('joi')
 const { Client } = require('minio')
 const mime = require('mime-types')
 const moment = require('moment')
 const fs = require('fs')
-const md5 = require('blueimp-md5')
 const config = require('../../config')
 const Promise = require('bluebird')
+const ulid = require('ulid')
 const Storage = exports.Storage = Promise.promisifyAll(new Client(config.storage.minio))
 
 /**
@@ -29,7 +30,7 @@ exports.default = class File extends bookshelf.Model {
   initialize () {
     this.on('saving', async (model, attrs, options) => {
       if (attrs.file_path && this.hasChanged('file_path')) {
-        let filePath = moment().format('YM/D/') + md5(Date.now()) + '-' + attrs.file_name
+        let filePath = moment().format('YM/D/') + ulid() + path.parse(attrs.file_name).ext
         try { await Storage.makeBucketAsync('uploads', 'us-east-1') } catch (e) {}
         let fileType = attrs.file_type || mime.lookup(attrs.file_name) || 'application/octet-stream'
         let fileSize = attrs.file_size || fs.statSync(attrs.file_path).size

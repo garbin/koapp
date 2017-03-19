@@ -1,5 +1,6 @@
 import React from 'react'
 import { OAuthSignin, actions } from 'react-redux-oauth2'
+import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import { Input, Button } from 'reactstrap'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
@@ -86,28 +87,28 @@ export class Signin extends React.Component {
                       <Input className='checkbox' type='checkbox' />
                       <span>Remember me</span>
                     </label>
-                    <a href='#' className='forgot-btn pull-right' onClick={e => dispatch(push('/'))}>Forgot password?</a>
+                    <Link to='/session/forget' className='forget-btn pull-right'>
+                      <FormattedMessage id='forget_password' />
+                    </Link>
                   </div>
                   <div className='form-group'>
                     <div className='row'>
-                      <div className='col-sm-8'>
-                        <SigninButton block color='primary'
-                          loading={this.props.oauth.authenticating}
-                          text={<FormattedMessage id='pending_signin' />}
-                          type='submit'>
-                          Signin
-                        </SigninButton>
-                      </div>
-                      <div className='col-sm-4 text-xs-right'>
-                        <OAuthSigninButton
-                          block color='primary'
-                          loading={this.props.oauth.authenticating}
-                          text={<FormattedMessage id='pending_signin' />}
-                          provider='github'
-                          onSuccess={() => { toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_signin'})); dispatch(push('/')) }}>
-                          <i className='fa fa-github' />&nbsp;&nbsp;Github
-                          </OAuthSigninButton>
-                      </div>
+                      <SigninButton block color='primary'
+                        loading={this.props.oauth.authenticating}
+                        text={<FormattedMessage id='pending_signin' />}
+                        type='submit'>
+                        Signin
+                      </SigninButton>
+                    </div>
+                    <hr />
+                    <div className='row'>
+                      <OAuthSigninButton block
+                        loading={this.props.oauth.authenticating}
+                        text={<FormattedMessage id='pending_signin' />}
+                        provider='github'
+                        onSuccess={() => { toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_signin'})); dispatch(push('/')) }}>
+                        <i className='fa fa-github' />&nbsp;&nbsp;Github
+                        </OAuthSigninButton>
                     </div>
                   </div>
                 </form>

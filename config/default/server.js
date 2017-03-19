@@ -12,7 +12,7 @@ module.exports = {
   cors: {
     exposeHeaders: ['Content-Range']
   },
-  accesslog: { path: path.resolve('../../logs/access.log') },
+  accesslog: { path: path.resolve('./storage/logs/access.log') },
   passport: {
     github: {
       clientID: 'f2ee0541fecc7c773d5d',

@@ -19,7 +19,7 @@ export function upload (files) {
   })).then(v => {
     toastr.success(intl.formatMessage({id: 'success_message'}))
     this.fetch()
-  })
+  }).catch(console.error)
 }
 
 export default grid({

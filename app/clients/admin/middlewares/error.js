@@ -5,7 +5,7 @@ export default store => next => action => {
   if (/_REJECTED$/.test(action.type)) {
     try {
       if (action.payload.response.status === 403) {
-        return store.dispatch(push('/unauthorizated'))
+        return store.dispatch(push('/session/forbidden'))
       } else if (action.payload.response.status === 416) {
         const {router: {location}} = store.getState()
         let query = qs.parse(location.search)

@@ -1,3 +1,5 @@
+const fs = require('fs')
+const path = require('path')
 exports.seed = async function (knex, Promise) {
   const { User, Role, OAuth, Setting } = require('../../app/models')
   await Setting.forge().save({
@@ -6,10 +8,21 @@ exports.seed = async function (knex, Promise) {
     desc: 'General Settings',
     settings: {}
   })
+  await Setting.forge().save({
+    id: 'mail.template.reset_password',
+    name: 'Reset Password template',
+    desc: 'Reset Password template',
+    settings: {
+      subject: 'reset password',
+      type: 'html',
+      content: fs.readFileSync(path.resolve(__dirname, './mails/reset_password.html')).toString(),
+      defaults: {}
+    }
+  })
   let user = await User.forge().save({
     username: 'admin',
     password: 'admin',
-    email: 'admin@koapp.com',
+    email: 'garbinh@gmail.com',
     avatar: 'http://example'
   })
   let client = await OAuth.Client.forge().save({

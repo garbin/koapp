@@ -37,6 +37,8 @@ exports.up = function (knex, Promise) {
                table.string('password')
                table.string('email').unique()
                table.string('avatar')
+               table.string('reset_token')
+               table.timestamp('reset_expires').defaultTo(knex.raw('now() + \'2 hours\'::interval'))
                table.timestamp('created_at').notNullable().defaultTo(knex.fn.now())
                table.timestamp('updated_at').notNullable().defaultTo(knex.fn.now())
              })
