@@ -8,7 +8,8 @@ exports.default = Router.define(router => {
   router.prefix('/home')
   router.patch('/forget', async (ctx, next) => {
     const { email } = ctx.request.body
-    ctx.body = await User.resetToken(email)
+    const user = await User.where({email}).fetch({require: true})
+    ctx.body = await user.resetToken()
     ctx.status = 202
     ctx.state.mail = {
       to: email,

@@ -5,25 +5,31 @@ import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 import _ from 'lodash'
+import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { validate, Input } from '../../components/form'
 import { actions as async } from '../../reduxers/async'
 
-const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
-  <div className={classnames('form-group', { 'has-error': !_.isEmpty(error) })}>
-    <label htmlFor>{label}</label>
-    <div>
-      <input {...input} {...other} type={type} />
-      {touched && error && <span className='has-error'>{error}</span>}
-    </div>
-  </div>
-)
+const schema = {
+  email: Joi.string().email().required()
+}
+
+// const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
+//   <div className={classnames('form-group', { 'has-error': !_.isEmpty(error) })}>
+//     <label htmlFor>{label}</label>
+//     <div>
+//       <input {...input} {...other} type={type} />
+//       {touched && error && <span className='has-error'>{error}</span>}
+//     </div>
+//   </div>
+// )
 
 export class Forget extends React.Component {
   submit (values) {
-    const { dispatch } = this.props
+    const { dispatch, intl } = this.props
     return dispatch(async.patch('forget')('/home/forget', values)).then(res => {
-      toastr.success('checkyour email')
+      toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'reset_mail_sent'}))
       dispatch(push('/session/signin'))
     }).catch(e => {
       toastr.error('error', e)
@@ -53,7 +59,7 @@ export class Forget extends React.Component {
                 <p className='text-xs-center'>FORGET PASSWORD</p>
                 <form onSubmit={this.props.handleSubmit(this.submit.bind(this))} ref='form'>
                   <Field
-                    component={renderField}
+                    component={Input}
                     type='email'
                     className='form-control underlined'
                     name='email'
@@ -89,4 +95,4 @@ export class Forget extends React.Component {
   }
 }
 
-export default reduxForm({ form: 'forget' })(connect()(injectIntl(Forget)))
+export default reduxForm({ form: 'forget', validate: validate(schema) })(connect()(injectIntl(Forget)))

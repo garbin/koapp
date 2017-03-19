@@ -13,6 +13,12 @@ exports.default = class User extends bookshelf.Model {
   get hidden () {
     return ['password']
   }
+  async resetToken () {
+    return await this.save({
+      reset_token: random('Aa0', 16),
+      reset_expires: moment().add('2 hours').toDate()
+    })
+  }
   /* Relations */
   roles () {
     return this.belongsToMany(Role, 'user2role')
@@ -27,13 +33,6 @@ exports.default = class User extends bookshelf.Model {
     return {
       password: password => bcrypt.hashSync(password, saltRounds)
     }
-  }
-  static async resetToken (email) {
-    const user = await this.where({email}).fetch()
-    return await user.save({
-      reset_token: random('Aa0', 16),
-      reset_expires: moment().add('2 hours').toDate()
-    })
   }
   static get dependents () {
     return ['accounts']

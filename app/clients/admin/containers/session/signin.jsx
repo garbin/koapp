@@ -2,24 +2,17 @@ import React from 'react'
 import { OAuthSignin, actions } from 'react-redux-oauth2'
 import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
-import { Input, Button } from 'reactstrap'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
-import classnames from 'classnames'
-import _ from 'lodash'
 import { toastr } from 'react-redux-toastr'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { loading } from '../../components/helper'
+import { Input, Button, Checkbox, validate } from '../../components/form'
+import Joi from 'joi'
 
-const renderField = ({ input, label, type, meta: { touched, error }, ...other }) => (
-  <div className={classnames('form-group', { 'has-error': !_.isEmpty(error) })}>
-    <label htmlFor>{label}</label>
-    <div>
-      <input {...input} {...other} type={type} />
-      {touched && error && <span className='has-error'>{error}</span>}
-    </div>
-  </div>
-)
+const schema = {
+  username: Joi.string().required(),
+  password: Joi.string().required()
+}
 
 export class Signin extends React.Component {
   submit (values) {
@@ -44,8 +37,7 @@ export class Signin extends React.Component {
 
   render () {
     const { dispatch, intl } = this.props
-    const OAuthSigninButton = OAuthSignin(loading(Button))
-    const SigninButton = loading(Button)
+    const OAuthSigninButton = OAuthSignin(Button)
 
     return (
       <div>
@@ -66,7 +58,7 @@ export class Signin extends React.Component {
                 <p className='text-xs-center'>LOGIN TO CONTINUE</p>
                 <form onSubmit={this.props.handleSubmit(this.submit.bind(this))} ref='form'>
                   <Field
-                    component={renderField}
+                    component={Input}
                     type='text'
                     className='form-control underlined'
                     name='username'
@@ -74,7 +66,7 @@ export class Signin extends React.Component {
                     placeholder='Your email address'
                     />
                   <Field
-                    component={renderField}
+                    component={Input}
                     type='password'
                     className='form-control underlined'
                     name='password'
@@ -83,28 +75,25 @@ export class Signin extends React.Component {
                     required
                     />
                   <div className='form-group'>
-                    <label htmlFor>
-                      <Input className='checkbox' type='checkbox' />
-                      <span>Remember me</span>
-                    </label>
+                    <Checkbox inline label={<FormattedMessage id='remeber_me' />} />
                     <Link to='/session/forget' className='forget-btn pull-right'>
                       <FormattedMessage id='forget_password' />
                     </Link>
                   </div>
                   <div className='form-group'>
                     <div className='row'>
-                      <SigninButton block color='primary'
+                      <Button block color='primary'
                         loading={this.props.oauth.authenticating}
-                        text={<FormattedMessage id='pending_signin' />}
+                        loadingText={<FormattedMessage id='pending_signin' />}
                         type='submit'>
-                        Signin
-                      </SigninButton>
+                        <FormattedMessage id='signin' />
+                      </Button>
                     </div>
                     <hr />
                     <div className='row'>
                       <OAuthSigninButton block
                         loading={this.props.oauth.authenticating}
-                        text={<FormattedMessage id='pending_signin' />}
+                        loadingText={<FormattedMessage id='pending_signin' />}
                         provider='github'
                         onSuccess={() => { toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_signin'})); dispatch(push('/')) }}>
                         <i className='fa fa-github' />&nbsp;&nbsp;Github
@@ -128,7 +117,7 @@ export class Signin extends React.Component {
   }
 }
 
-export default reduxForm({ form: 'signin' })(
+export default reduxForm({ form: 'signin', validate: validate(schema) })(
   connect(state => ({ oauth: state.oauth }))(
     injectIntl(Signin)
   ))
