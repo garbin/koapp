@@ -3,6 +3,8 @@
   "user.edit": "编辑用户",
   "forget_password": "忘记密码?",
   "reset_token": "重置口令",
+  "checkyour_username": "请检查您的用户名",
+  "checkyour_password": "请检查您的密码",
   "remeber_me": "记住我",
   "signin": "登录",
   "goback_signin": "返回登录",

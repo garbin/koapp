@@ -2,7 +2,7 @@ import React from 'react'
 import { OAuthSignin, actions } from 'react-redux-oauth2'
 import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
 import { toastr } from 'react-redux-toastr'
 import { FormattedMessage, injectIntl } from 'react-intl'
@@ -20,7 +20,11 @@ export class Signin extends React.Component {
     return new Promise((resolve, reject) => {
       dispatch(actions.getToken(values, e => {
         if (e) {
-          reject(e)
+          const err = new SubmissionError({
+            username: intl.formatMessage({id: 'checkyour_username'}),
+            password: intl.formatMessage({id: 'checkyour_password'})
+          })
+          reject(err)
           toastr.error(intl.formatMessage({id: 'signin_failed'}), intl.formatMessage({id: 'signin_failed_tip'}))
         } else {
           toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_signin'}))
@@ -68,7 +72,6 @@ export class Signin extends React.Component {
                     name='password'
                     label={<FormattedMessage id='password' />}
                     placeholder='Your password'
-                    required
                     />
                   <div className='form-group'>
                     <Checkbox inline label={<FormattedMessage id='remeber_me' />} />
