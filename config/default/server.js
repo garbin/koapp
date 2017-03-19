@@ -1,4 +1,4 @@
-const { storage } = require('../../app/lib/helper')
+const path = require('path')
 module.exports = {
   universal: {
     apps: [
@@ -12,7 +12,7 @@ module.exports = {
   cors: {
     exposeHeaders: ['Content-Range']
   },
-  accesslog: { path: storage('/logs/access.log') },
+  accesslog: { path: path.resolve('../../logs/access.log') },
   passport: {
     github: {
       clientID: 'f2ee0541fecc7c773d5d',

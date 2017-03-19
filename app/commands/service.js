@@ -56,9 +56,10 @@ exports.default = {
       let start
       let stop
       start = stop = function () {}
+      const config = require('../../config/service')
       services = {
         master: [{ start, stop }],
-        worker: [service]
+        worker: [service(config.services.filter(item => item.name === name)[0].config)]
       }
     } else {
       services = require('../services').default

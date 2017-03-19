@@ -9,7 +9,7 @@ exports.default = function (config) {
           log.info('Queue %s ready for jobs, PID: %s', queue.name, process.pid)
         })
         queue.queue.process(job => {
-          queue.worker(job).catch(log.error)
+          return queue.worker(job).catch(log.error)
         })
       })
     },

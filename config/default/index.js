@@ -25,6 +25,18 @@ module.exports = {
       secretKey: 'lH7SmVoYyAfwzSonSgykYazLXqBrIOMnrBP+AOVo'
     }
   },
+  mailer: {
+    smtp: {
+      service: 'Zoho',
+      auth: {
+        user: 'support@dianpou.com',
+        pass: 'd1psNblLvDeddpHb'
+      }
+    },
+    defaults: {
+      from: 'support@dianpou.com'
+    }
+  },
   redis: {
     pkg: 'ioredis',
     database: 0,
