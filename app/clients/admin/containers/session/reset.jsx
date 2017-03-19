@@ -61,6 +61,7 @@ export class Reset extends React.Component {
                     type='email'
                     className='form-control underlined'
                     name='email'
+                    readOnly
                     label={<FormattedMessage id='email' />}
                     placeholder='Your email address' />
                   <Field component={Input} type='hidden' inline name='token' />
