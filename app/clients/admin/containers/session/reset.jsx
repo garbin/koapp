@@ -1,13 +1,12 @@
 import React from 'react'
 import { withRouter } from 'react-router'
 import { push } from 'react-router-redux'
-import { Button } from 'reactstrap'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
 import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { validate, Input } from '../../components/form'
+import { validate, Input, Button } from '../../components/form'
 import { actions as async } from '../../reduxers/async'
 import qs from 'query-string'
 import { Base64 } from 'js-base64'
@@ -25,6 +24,10 @@ const schema = {
 }
 
 export class Reset extends React.Component {
+  componentWillUnmount () {
+    const { dispatch } = this.props
+    dispatch(async.clear('reset'))
+  }
   submit (values) {
     const { dispatch, intl } = this.props
     return dispatch(async.patch('reset')('/home/reset_password', values)).then(res => {
@@ -37,7 +40,7 @@ export class Reset extends React.Component {
   }
 
   render () {
-    const { dispatch } = this.props
+    const { dispatch, async } = this.props
     return (
       <div>
         <div className='auth'>
@@ -81,13 +84,18 @@ export class Reset extends React.Component {
                     placeholder='Password confirm' />
                   <div className='form-group'>
                     <div className='row'>
-                      <Button block color='primary' type='submit'>
+                      <Button block
+                        loading={async.reset && async.reset.status === 'pending'}
+                        color='primary'
+                        type='submit'>
                         <FormattedMessage id='reset_password' />
                       </Button>
                     </div>
                     <hr />
                     <div className='row'>
                       <Button block onClick={e => dispatch(push('/session/signin'))}>
+                        <i className='fa-angle-double-left fa' />
+                        &nbsp;&nbsp;
                         <FormattedMessage id='goback_signin' />
                       </Button>
                     </div>
@@ -112,7 +120,7 @@ export class Reset extends React.Component {
 export default connect(state => {
   const { location: { search } } = state.router
   const { email, token } = qs.parse(Base64.decode(search.substr(1)) || '')
-  return { initialValues: {email, token} }
+  return { initialValues: {email, token}, async: state.async }
 })(
   reduxForm({ form: 'reset', validate: validate(schema) })(
     injectIntl(withRouter(Reset))))

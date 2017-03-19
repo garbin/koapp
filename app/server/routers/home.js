@@ -5,6 +5,7 @@ const { default: sendMail } = require('../middlewares/sendmail')
 const config = require('../../../config/server')
 const { Base64 } = require('js-base64')
 const qs = require('query-string')
+const slow = require('koa-slow')
 
 exports.default = Router.define(router => {
   router.prefix('/home')
@@ -28,7 +29,7 @@ exports.default = Router.define(router => {
     const user = await User.where({email, reset_token: token})
                            .where('reset_expires', '>', new Date())
                            .fetch({require: true})
-    ctx.body = await user.save({ password })
+    ctx.body = await user.save({ password, reset_expires: new Date() })
     ctx.status = 202
   })
 

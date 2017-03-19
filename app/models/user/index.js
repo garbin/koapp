@@ -11,7 +11,7 @@ exports.default = class User extends bookshelf.Model {
   get tableName () { return 'users' }
   get hasTimestamps () { return true }
   get hidden () {
-    return ['password']
+    return ['password', 'reset_token', 'reset_expires']
   }
   async resetToken () {
     return await this.save({

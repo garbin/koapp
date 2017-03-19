@@ -1,12 +1,11 @@
 import React from 'react'
 import { push } from 'react-router-redux'
-import { Button } from 'reactstrap'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
 import { connect } from 'react-redux'
 import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { validate, Input } from '../../components/form'
+import { validate, Input, Button } from '../../components/form'
 import { actions as async } from '../../reduxers/async'
 
 const schema = {
@@ -24,6 +23,10 @@ const schema = {
 // )
 
 export class Forget extends React.Component {
+  componentWillUnmount () {
+    const { dispatch } = this.props
+    dispatch(async.clear('forget'))
+  }
   submit (values) {
     const { dispatch, intl } = this.props
     return dispatch(async.patch('forget')('/home/forget', values)).then(res => {
@@ -36,7 +39,7 @@ export class Forget extends React.Component {
   }
 
   render () {
-    const { dispatch } = this.props
+    const { dispatch, forget } = this.props
 
     return (
       <div>
@@ -65,13 +68,18 @@ export class Forget extends React.Component {
                     placeholder='Your email address' />
                   <div className='form-group'>
                     <div className='row'>
-                      <Button block color='primary' type='submit'>
+                      <Button block
+                        loading={forget && forget.status === 'pending'}
+                        color='primary'
+                        type='submit'>
                         <FormattedMessage id='reset_password' />
                       </Button>
                     </div>
                     <hr />
                     <div className='row'>
                       <Button block onClick={e => dispatch(push('/session/signin'))}>
+                        <i className='fa-angle-double-left fa' />
+                        &nbsp;&nbsp;
                         <FormattedMessage id='goback_signin' />
                       </Button>
                     </div>
@@ -93,4 +101,6 @@ export class Forget extends React.Component {
   }
 }
 
-export default reduxForm({ form: 'forget', validate: validate(schema) })(connect()(injectIntl(Forget)))
+export default reduxForm({ form: 'forget', validate: validate(schema) })(connect(
+  state => ({forget: state.async.forget})
+)(injectIntl(Forget)))

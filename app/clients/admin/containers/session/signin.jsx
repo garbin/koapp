@@ -20,8 +20,7 @@ export class Signin extends React.Component {
     return new Promise((resolve, reject) => {
       dispatch(actions.getToken(values, e => {
         if (e) {
-          const err = new SubmissionError({ username: intl.formatMessage({id: 'user_not_exists'}), password: intl.formatMessage({id: 'password_incorrect'}) })
-          reject(err)
+          reject(e)
           toastr.error(intl.formatMessage({id: 'signin_failed'}), intl.formatMessage({id: 'signin_failed_tip'}))
         } else {
           toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_signin'}))
