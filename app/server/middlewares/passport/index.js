@@ -1,15 +1,12 @@
 const passport = require('koa-passport')
-const GithubStrategy = require('passport-github')
-const OAuth2Strategy = require('passport-oauth2')
 const { BasicStrategy } = require('passport-http')
 const BearerStrategy = require('passport-http-bearer')
 const ClientPasswordStrategy = require('passport-oauth2-client-password')
 const createError = require('http-errors')
-const config = require('../../../config/server')
-const { OAuth, User } = require('../../models')
-const request = require('axios')
+const { OAuth, User } = require('../../../models')
+const config = require('../../../../config/server')
 
-function accountSignin (provider, getProfile) {
+exports.accountSignin = function (provider, getProfile) {
   return async (accessToken, refreshToken, params, profile, done) => {
     let authInfo = { accessToken, refreshToken, profile, params }
     try {
@@ -29,27 +26,15 @@ function accountSignin (provider, getProfile) {
   }
 }
 
-passport.use(new GithubStrategy(config.passport.github, accountSignin('github', async ({ profile }) => ({
-  account_id: profile.id,
-  username: profile.username,
-  email: 'garbinh@gmail.com',
-  avatar: profile.photos[0].value,
-  profile
-}))))
+const strategies = {
+  github: require('./github').default,
+  weibo: require('./weibo').default,
+  oauth2: require('./oauth2').default
+}
 
-passport.use(new OAuth2Strategy(config.passport.oauth2, accountSignin('oauth2', async ({ accessToken }) => {
-  let res = await request.get(config.passport.oauth2.profileURL, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  })
-  return {
-    account_id: res.data.uuid,
-    username: res.data.username,
-    email: res.data.email,
-    profile: res.data
-  }
-})))
+Object.entries(config.passport).forEach(([provider, settings]) => {
+  strategies[provider](settings)
+})
 
 passport.use(new BasicStrategy(
   async function (username, password, done) {

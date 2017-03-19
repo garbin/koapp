@@ -21,6 +21,12 @@ module.exports = {
       callbackURL: 'http://localhost:5000/api/auth/github/callback',
       redirectBack: 'http://localhost:5000'
     },
+    // weibo: {
+    //   clientID: '1908676044',
+    //   clientSecret: 'b003b4c1feb20b5c9354ffe25d29795c',
+    //   callbackURL: 'http://dev.koapp/api/auth/github/callback',
+    //   redirectBack: 'http://dev.koapp'
+    // },
     oauth2: {
       strategy: 'oauth2',
       profileURL: 'http://dev.open.admaster.co/user',
