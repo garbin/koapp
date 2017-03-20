@@ -35,20 +35,8 @@ exports.default = {
     type: 'boolean'
   }),
   handler: argv => {
-    const { storage } = require('../lib/helper')
     const { name } = argv
 
-    logger.add(winston.transports.File, {
-      name: 'services_error',
-      json: false,
-      filename: storage('/logs/services_error.log'),
-      level: 'error'
-    })
-    logger.add(winston.transports.File, {
-      name: 'services',
-      json: false,
-      filename: storage('/logs/services_all.log')
-    })
     logger.info(`Using environment: ${process.env.NODE_ENV}`)
     let services = {}
     if (name) {
