@@ -1,6 +1,6 @@
 const { logger: log } = require('koapi')
 
-exports.default = function (config) {
+exports.default = config => {
   return {
     start (id) {
       (config.enabled || []).map(id => {
@@ -15,6 +15,10 @@ exports.default = function (config) {
     },
     stop (id) {
       log.info('queue shutdown %s', id)
+    },
+    async disconnect () {
+      // console.log(config.enabled)
+      return await Promise.all((config.enabled || []).map(item => require(`./${item}`).queue.close()))
     }
   }
 }

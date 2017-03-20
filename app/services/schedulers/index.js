@@ -45,9 +45,7 @@ exports.default = function (config) {
         }
       })
     },
-
-    stop (id) {
-      log.info('scheduler down')
-    }
+    stop (id) { log.info('scheduler down') },
+    async disconnect () {}
   }
 }

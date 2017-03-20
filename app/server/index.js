@@ -3,22 +3,13 @@ const { connection } = require('../models')
 const { Storage } = require('../models/file')
 const fs = require('fs-extra')
 const { storage, mailer } = require('../lib/helper')
-const service = require('../../config/service')
-
-logger.emitErrs = true
-logger.on('error', console.error)
+const { services } = require('../../config/service')
 
 fs.ensureDirSync(storage('/logs'))
 logger.add(winston.transports.File, {
-  name: 'error',
+  name: 'server',
   json: false,
-  filename: storage('/logs/error.log'),
-  level: 'error'
-})
-logger.add(winston.transports.File, {
-  name: 'koapi',
-  json: false,
-  filename: storage('/logs/koapi.log')
+  filename: storage('/logs/server.log')
 })
 
 const app = new Koapi()
@@ -32,12 +23,14 @@ app.setup(Object.assign({
 exports.default = app
 
 exports.onClose = async function () {
-  // close all queues that enabled
-  const queues = service.services.find(service => service.name === 'queues')
-  await Promise.all((queues.config.enabled || []).map(name => {
-    return require(`../services/queues/${name}`).queue.close()
-  }))
-  // destroy database connection
+  try {
+    await Promise.all(services.map(({name, config}) => {
+      const service = require(`../services/${name}`).default(config)
+      return service.disconnect()
+    }))
+  } catch (e) {
+    console.error(e)
+  }
   connection.destroy()
   // close nodemailer agent
   mailer().close()

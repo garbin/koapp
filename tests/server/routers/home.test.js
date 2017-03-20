@@ -14,7 +14,7 @@ test('PATCH /home/profile', () => {
   return request(server)
     .patch('/home/profile')
     .set('Authorization', `Bearer ${tokens.admin}`)
-    .send({old_password: 'admin', password: '987', avatar: 'http://google.com'})
+    .send({old_password: 'admin', password: 'admin', avatar: 'http://google.com'})
     .then(res => {
       expect(res.status).toBe(202)
       expect(res.body.avatar).toBe('http://google.com')
