@@ -1,7 +1,7 @@
-const { bookshelf } = require('koapi/lib/model')
+const { model } = require('koapi')
 const Joi = require('joi')
 
-exports.default = class Comment extends bookshelf.Model {
+exports.default = class Comment extends model.base() {
   get tableName () {
     return 'comments'
   }

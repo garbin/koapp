@@ -7,7 +7,7 @@ exports.default = {
   }),
   handler: async (argv) => {
     const { queue } = require('../services/queues/mailer')
-    const { default: log } = require('koapi/lib/logger')
+    const { logger: log } = require('koapi')
     const { Setting } = require('../models')
     const setting = await Setting.findById('mail.template.reset_password')
     console.log(setting.template.subject({link:'abc'}))

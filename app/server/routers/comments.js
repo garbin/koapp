@@ -1,4 +1,4 @@
-const { ResourceRouter } = require('koapi')
+const { router: { ResourceRouter } } = require('koapi')
 const { Comment } = require('../../models')
 
 exports.default = ResourceRouter.define({

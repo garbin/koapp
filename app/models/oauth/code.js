@@ -1,7 +1,7 @@
-const { bookshelf } = require('koapi/lib/model')
+const { model } = require('koapi')
 const Joi = require('joi')
 
-exports.default = class OAuthCode extends bookshelf.Model {
+exports.default = class OAuthCode extends model.base() {
   get tableName () {
     return 'oauth_authorization_codes'
   }

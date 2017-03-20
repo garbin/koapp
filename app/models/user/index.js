@@ -1,4 +1,4 @@
-const { bookshelf } = require('koapi/lib/model')
+const { model } = require('koapi')
 const Joi = require('joi')
 const {default: Role} = require('../role')
 const {default: Post} = require('../post')
@@ -7,7 +7,7 @@ const moment = require('moment')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
-exports.default = class User extends bookshelf.Model {
+exports.default = class User extends model.base() {
   get tableName () { return 'users' }
   get hasTimestamps () { return true }
   get hidden () {

@@ -1,11 +1,11 @@
-const { bookshelf } = require('koapi/lib/model')
+const { model } = require('koapi')
 const Joi = require('joi')
 const {default: User} = require('./')
 const moment = require('moment')
 const random = require('randomatic')
 const md5 = require('blueimp-md5')
 
-exports.default = class Account extends bookshelf.Model {
+exports.default = class Account extends model.base() {
   get tableName () {
     return 'user_accounts'
   }

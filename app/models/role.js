@@ -1,8 +1,8 @@
-const { bookshelf } = require('koapi/lib/model')
+const { model } = require('koapi')
 const Joi = require('joi')
 const {default: User} = require('./user')
 
-exports.default = class Role extends bookshelf.Model {
+exports.default = class Role extends model.base() {
   get tableName () {
     return 'roles'
   }

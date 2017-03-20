@@ -1,11 +1,11 @@
-const { bookshelf } = require('koapi/lib/model')
+const { model } = require('koapi')
 const Joi = require('joi')
 const moment = require('moment')
 const md5 = require('blueimp-md5')
 const uuid = require('uuid')
 const {default: User} = require('../user')
 
-exports.default = class Token extends bookshelf.Model {
+exports.default = class Token extends model.base() {
   get tableName () {
     return 'oauth_tokens'
   }

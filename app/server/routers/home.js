@@ -1,4 +1,4 @@
-const { Router } = require('koapi')
+const { router: { Router } } = require('koapi')
 const { User } = require('../../models')
 const { default: user } = require('../middlewares/user')
 const { default: sendMail } = require('../middlewares/sendmail')

@@ -1,4 +1,4 @@
-const { ResourceRouter } = require('koapi')
+const { router: { ResourceRouter } } = require('koapi')
 const { File } = require('../../models')
 const { default: user } = require('../middlewares/user')
 const _ = require('lodash')

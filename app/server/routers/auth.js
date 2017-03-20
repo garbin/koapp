@@ -1,4 +1,4 @@
-const { Router } = require('koapi')
+const { router: { Router } } = require('koapi')
 const {default: passport, authenticate} = require('../middlewares/passport')
 const config = require('../../../config/server')
 const { OAuth: { Token } } = require('../../models')

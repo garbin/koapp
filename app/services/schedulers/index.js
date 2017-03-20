@@ -1,5 +1,5 @@
 const schedule = require('node-schedule')
-const { default: log } = require('koapi/lib/logger')
+const { logger: log } = require('koapi')
 
 function done (scheduler) {
   context.done += 1

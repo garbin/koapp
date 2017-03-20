@@ -1,8 +1,8 @@
-const { bookshelf } = require('koapi/lib/model')
+const { model } = require('koapi')
 const Joi = require('joi')
 const _ = require('lodash')
 
-exports.default = class Setting extends bookshelf.Model {
+exports.default = class Setting extends model.base() {
   get tableName () { return 'settings' }
   get hasTimestamps () { return false }
   get template () {

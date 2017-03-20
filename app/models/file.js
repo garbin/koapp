@@ -1,6 +1,5 @@
-const { bookshelf } = require('koapi/lib/model')
+const { model, logger: log } = require('koapi')
 const path = require('path')
-const { default: log } = require('koapi/lib/logger')
 const Joi = require('joi')
 const { Client } = require('minio')
 const mime = require('mime-types')
@@ -20,7 +19,7 @@ const Storage = exports.Storage = Promise.promisifyAll(new Client(config.storage
  *   file_path: '/tmp/adfsdf' // local path
  * });
  */
-exports.default = class File extends bookshelf.Model {
+exports.default = class File extends model.base() {
   get tableName () { return 'files' }
   serialize (options = {}) {
     let file = super.serialize(options)

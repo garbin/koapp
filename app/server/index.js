@@ -1,5 +1,4 @@
-const {default: Koapi} = require('koapi')
-const {default: logger, winston} = require('koapi/lib/logger')
+const { Koapi, logger, external: { winston } } = require('koapi')
 const fs = require('fs-extra')
 const { storage } = require('../lib/helper')
 

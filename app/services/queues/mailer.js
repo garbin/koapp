@@ -1,5 +1,5 @@
 const Queue = require('bull')
-const {default: log} = require('koapi/lib/logger')
+const { logger: log } = require('koapi')
 const config = require('../../../config')
 const { mailer } = require('../../lib/helper')
 const Joi = require('joi')

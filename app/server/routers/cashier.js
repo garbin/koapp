@@ -1,4 +1,4 @@
-const { Router } = require('koapi')
+const { router: { Router } } = require('koapi')
 const { Order } = require('paymentjs')
 const {default: payments} = require('../middlewares/payments')
 

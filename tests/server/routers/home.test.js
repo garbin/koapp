@@ -1,5 +1,8 @@
+const { server, tokens, teardown } = require('../../__lib__/init')
 const { request } = require('koapi/lib/test')
-const { server, tokens } = require('../../__lib__/init')
+const { afterAll, test, expect } = global
+
+afterAll(teardown)
 
 test('GET /home/profile', () => {
   return request(server)

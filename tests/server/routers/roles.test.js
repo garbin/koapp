@@ -1,10 +1,11 @@
-const {default: restful} = require('koapi/lib/test')
-const { server, adminToken } = require('../../__lib__/init')
+const { server, middlewares, teardown } = require('../../__lib__/init')
+const { restful } = require('koapi/lib/test')
+const { describe } = global
 const random = require('randomatic')
 
-describe('Roles', () => restful(server, '/roles').setup(() => ({
+describe('Roles', () => restful(server, '/roles').teardown(teardown).setup(() => ({
   name: random('Aa0', 10),
   permissions: true
-})).use(adminToken).crud({
+})).use(middlewares.admin).crud({
   patch: {desc: 'desc'}
 }))

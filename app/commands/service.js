@@ -1,5 +1,5 @@
 const cluster = require('throng')
-const { default: logger, winston } = require('koapi/lib/logger')
+const { logger, external: { winston } } = require('koapi')
 
 function runService (services) {
   return function (pid) {

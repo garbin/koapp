@@ -1,6 +1,7 @@
 const {default: app} = require('../../app/server')
+const {connection} = require('../../app/models')
 const nock = require('nock')
-const server = exports.server = app.listen(0)
+const server = app.listen(0)
 
 nock('https://github.com').post('/login/oauth/access_token', {
   grant_type: 'authorization_code',
@@ -29,8 +30,23 @@ nock('https://api.github.com').get('/user').reply(200, {
   email: 'garbinh@gmail.com'
 })
 
-exports.tokens = {
+const tokens = {
   admin: '691ae08f7b038e5b09983d2435d3a878'
 }
 
-exports.adminToken = req => req.set('Authorization', `Bearer ${exports.tokens.admin}`)
+const middlewares = {
+  admin: req => req.set('Authorization', `Bearer ${tokens.admin}`)
+}
+
+function teardown () {
+  server.close()
+  connection.destroy()
+}
+
+module.exports = {
+  server,
+  connection,
+  tokens,
+  middlewares,
+  teardown
+}

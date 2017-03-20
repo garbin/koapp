@@ -1,7 +1,8 @@
-const { Model } = require('koapi')
+const { model } = require('koapi')
 
-Model.initialize(require('../../config').database)
+const { connection } = model.connect(require('../../config').database)
 
+exports.connection = connection
 exports.User = require('./user').default
 exports.Role = require('./role').default
 exports.OAuth = require('./oauth').default

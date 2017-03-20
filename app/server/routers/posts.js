@@ -1,4 +1,4 @@
-const { ResourceRouter } = require('koapi')
+const { router: { ResourceRouter } } = require('koapi')
 const { Post } = require('../../models')
 const {default: comments} = require('./comments')
 

@@ -1,4 +1,4 @@
-const { ResourceRouter } = require('koapi')
+const { router: { ResourceRouter } } = require('koapi')
 const { omit } = require('lodash')
 const {default: user} = require('../../middlewares/user')
 const { OAuth } = require('../../../models')

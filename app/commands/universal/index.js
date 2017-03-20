@@ -1,6 +1,6 @@
 const { addonArgs } = require('../../lib/helper')
 const shelljs = require('shelljs')
-const {default: log} = require('koapi/lib/logger')
+const { logger: log } = require('koapi')
 
 exports.default = {
   command: 'universal',
