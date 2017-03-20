@@ -1,8 +1,8 @@
-const { server, teardown } = require('../../__lib__/init')
+const { server } = require('../../__lib__/init')
 const { request } = require('koapi/lib/test')
 const { afterAll, test, expect } = global
 
-afterAll(teardown)
+afterAll(function () { server.close() })
 
 test('POST /oauth/token', async () => {
   const res = await request(server).post('/oauth/token')
@@ -16,4 +16,5 @@ test('POST /oauth/token', async () => {
       scope: 'all'
     })
   expect(res.status).toBe(200)
+  expect(res.body.access_token).toBeDefined()
 })

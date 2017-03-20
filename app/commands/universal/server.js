@@ -42,7 +42,6 @@ exports.default = function server () {
     }
     universal.use(mount(app.mount, require(app.path)))
   }
-  debugger
 
   const server = universal.listen(config.port, e => logger.info(`Universal server running on port ${config.port}`))
 

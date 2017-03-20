@@ -8,7 +8,7 @@ const fs = require('fs')
 const config = require('../../config')
 const Promise = require('bluebird')
 const ulid = require('ulid')
-const Storage = exports.Storage = Promise.promisifyAll(new Client(config.storage.minio))
+const Storage = Promise.promisifyAll(new Client(config.storage.minio))
 
 /**
  * write:
@@ -19,7 +19,7 @@ const Storage = exports.Storage = Promise.promisifyAll(new Client(config.storage
  *   file_path: '/tmp/adfsdf' // local path
  * });
  */
-exports.default = class File extends model.base() {
+class File extends model.base() {
   get tableName () { return 'files' }
   serialize (options = {}) {
     let file = super.serialize(options)
@@ -57,4 +57,9 @@ exports.default = class File extends model.base() {
       file_path: Joi.string().required()
     }
   };
+}
+module.exports = {
+  default: File,
+  File,
+  Storage
 }

@@ -23,7 +23,7 @@ exports.seed = async function (knex, Promise) {
     username: 'admin',
     password: 'admin',
     email: 'garbinh@gmail.com',
-    avatar: 'http://example'
+    avatar: 'https://avatars2.githubusercontent.com/u/63785?v=3&s=460'
   })
   let client = await OAuth.Client.forge().save({
     id: '0f434d4b-06bf-4cb2-b8f4-f20bf9349beb',
