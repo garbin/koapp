@@ -102,7 +102,6 @@ export class Grid extends React.Component {
   }
   handleCheckAll (e) {
     const { dispatch } = this.props
-    console.log(this.refs.checkAll)
     dispatch(check.all(e.target.checked))
   }
   handleItemCheck (item, e) {
