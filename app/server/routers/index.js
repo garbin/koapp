@@ -1,4 +1,4 @@
-const { router: { Router } } = require('koapi')
+const { logger, router: { Router } } = require('koapi')
 const {default: auth} = require('./auth')
 const {default: clients} = require('./oauth/clients')
 const {default: token} = require('./oauth/token')
@@ -13,7 +13,12 @@ const {default: stat} = require('./stat')
 const {default: home} = require('./home')
 
 const index = Router.define(router => {
-  router.get('/', ctx => { ctx.body = 'Hello Koapp!' })
+  router.get('/', async ctx => { ctx.body = 'Hello Koapp!' })
+  router.get('/error', async ctx => {
+    logger.info('kk')
+    logger.debug('debug')
+    throw new Error('Error test')
+  })
 })
 
 exports.default = [ subdomain, index, posts, auth, token, clients, roles, files,

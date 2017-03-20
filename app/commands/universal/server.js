@@ -10,12 +10,6 @@ const { storage } = require('../../lib/helper')
 const proxy = require('koa-proxy')
 
 exports.default = function server () {
-  logger.add(winston.transports.File, {
-    name: 'koapp',
-    json: false,
-    filename: storage('/logs/koapp.log')
-  })
-
   const universal = new Koapi()
   for (let app of config.universal.apps) {
     if (app.server) {
@@ -43,7 +37,7 @@ exports.default = function server () {
     universal.use(mount(app.mount, require(app.path)))
   }
 
-  const server = universal.listen(config.port, e => logger.info(`Universal server running on port ${config.port}`))
+  const server = universal.listen(config.port, e => logger.info(`Universal server is running on port ${config.port}`))
 
   return server
 }

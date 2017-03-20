@@ -1,16 +1,8 @@
-const { Koapi, logger, external: { winston } } = require('koapi')
+const { Koapi, logger } = require('koapi')
 const { connection } = require('../models')
 const { Storage } = require('../models/file')
-const fs = require('fs-extra')
 const { storage, mailer } = require('../lib/helper')
 const { services } = require('../../config/service')
-
-fs.ensureDirSync(storage('/logs'))
-logger.add(winston.transports.File, {
-  name: 'server',
-  json: false,
-  filename: storage('/logs/server.log')
-})
 
 const app = new Koapi()
 

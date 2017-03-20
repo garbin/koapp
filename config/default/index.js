@@ -1,4 +1,11 @@
 module.exports = {
+  logging: {
+    // name: 'koapp',
+    // json: false,
+    // filename: storage('/logs/koapp.log'),
+    // level: 'info'
+    level: 'debug'
+  },
   database: {
     client: 'mysql',
     connection: {
