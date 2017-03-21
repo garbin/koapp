@@ -30,7 +30,7 @@ const context = exports.context = {
 
 exports.default = function (config) {
   return {
-    start (id) {
+    worker (id) {
       (config.enabled || []).map(name => {
         let scheduler = init(require(`./${name}`).default)
         if (scheduler.do) {
@@ -45,7 +45,6 @@ exports.default = function (config) {
         }
       })
     },
-    stop (id) { log.info('scheduler down') },
     async disconnect () {}
   }
 }

@@ -3,6 +3,7 @@ const { connection } = require('../models')
 const { Storage } = require('../models/file')
 const { storage, mailer } = require('../lib/helper')
 const { services } = require('../../config/service')
+const config = require('../../config/server')
 
 const app = new Koapi()
 
@@ -37,3 +38,4 @@ exports.startServer = function (port = 0, cb = null) {
   server.on('close', exports.onClose)
   return server
 }
+if (require.main === module) exports.startServer(config.port)

@@ -2,7 +2,8 @@ const { logger: log } = require('koapi')
 
 exports.default = config => {
   return {
-    start (id) {
+    master (pid) {},
+    worker (pid) {
       (config.enabled || []).map(id => {
         const queue = require(`./${id}`).default
         queue.queue.on('ready', () => {
@@ -12,9 +13,6 @@ exports.default = config => {
           return queue.worker(job).catch(log.error)
         })
       })
-    },
-    stop (id) {
-      log.info('queue shutdown %s', id)
     },
     async disconnect () {
       // console.log(config.enabled)
