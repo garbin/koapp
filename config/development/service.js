@@ -1,5 +1,5 @@
 module.exports = {
-  cluster: true,
+  cluster: false,
   services: [
     {
       name: 'schedulers',
