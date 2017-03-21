@@ -7,7 +7,7 @@ exports.up = function (knex, Promise) {
                table.string('grant_types')
                table.string('scope')
                table.string('user_id')
-               table.timestamps(true, knex.fn.now())
+               table.timestamps()
              })
              .createTable('oauth_authorization_codes', function (table) {
                table.string('code').primary()
