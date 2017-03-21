@@ -6,6 +6,8 @@ export default store => next => action => {
     try {
       if (action.payload.response.status === 403) {
         return store.dispatch(push('/session/forbidden'))
+      } else if (action.payload.response.status === 401) {
+        return store.dispatch(push('/session/signin'))
       } else if (action.payload.response.status === 416) {
         const {router: {location}} = store.getState()
         let query = qs.parse(location.search)
@@ -16,7 +18,7 @@ export default store => next => action => {
         toastr.error('Error', action.payload.response.data.message)
       }
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   }
   return next(action)
