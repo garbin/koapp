@@ -4,7 +4,7 @@ const {default: Role} = require('../role')
 const {default: Post} = require('../post')
 const random = require('randomatic')
 const moment = require('moment')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const saltRounds = 10
 
 exports.default = class User extends model.base() {
