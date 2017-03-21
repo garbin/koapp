@@ -31,11 +31,11 @@ exports.onClose = async function () {
   Storage.agent.destroy()
 }
 
-exports.startServer = function (port = 0, cb = null) {
+exports.start = function (port = 0, cb = null) {
   const server = app.listen(port, cb === null ? function () {
     logger.info(`Koapp Server is running on port ${this.address().port}`)
   } : cb)
   server.on('close', exports.onClose)
   return server
 }
-if (require.main === module) exports.startServer(config.port)
+if (require.main === module) exports.start(config.port)

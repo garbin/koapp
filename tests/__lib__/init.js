@@ -2,9 +2,9 @@ const { logger } = require('koapi')
 logger.emitErr = true
 logger.on('error', console.error)
 process.on('unhandledRejection', (reason, p) => { logger.error('unhandled rejection', reason, p) })
-const { startServer } = require('../../app/server')
+const { start } = require('../../app/server')
 const nock = require('nock')
-const server = startServer(null, false)
+const server = start(null, false)
 
 nock('https://github.com').post('/login/oauth/access_token', {
   grant_type: 'authorization_code',

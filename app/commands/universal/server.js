@@ -2,7 +2,7 @@ const { Koapi } = require('koapi')
 const convert = require('koa-convert')
 const compose = require('koa-compose')
 const mount = require('koa-mount')
-const { logger, external: { winston } } = require('koapi')
+const { logger } = require('koapi')
 const historyApiFallback = require('koa-history-api-fallback')
 const serve = require('koa-static')
 const config = require('../../../config/server')
@@ -11,9 +11,12 @@ const proxy = require('koa-proxy')
 
 exports.default = function server () {
   const universal = new Koapi()
+  let closeListener = e => e
   for (let app of config.universal.apps) {
     if (app.server) {
-      universal.use(mount(app.mount, require(`../../server`).default.koa))
+      const server = require(`../../server`)
+      closeListener = server.onClose
+      universal.use(mount(app.mount, server.default.koa))
       continue
     }
     if (app.client) {
@@ -38,6 +41,6 @@ exports.default = function server () {
   }
 
   const server = universal.listen(config.port, e => logger.info(`Universal server is running on port ${config.port}`))
-
+  server.on('close', closeListener)
   return server
 }

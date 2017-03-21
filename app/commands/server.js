@@ -5,9 +5,7 @@ exports.default = {
   handler: argv => {
     log.info(`Using environment: ${process.env.NODE_ENV}`)
     const config = require('../../config/server')
-    require('../server').default.listen(
-      config.port,
-      () => log.info(`server is running on port ${config.port}`)
-    )
+    const server = require('../server')
+    server.start(config.port)
   }
 }
