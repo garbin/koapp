@@ -3,7 +3,6 @@ const Joi = require('joi')
 const {default: User} = require('./')
 const moment = require('moment')
 const random = require('randomatic')
-const md5 = require('blueimp-md5')
 
 exports.default = class Account extends model.base() {
   get tableName () {
@@ -32,23 +31,34 @@ exports.default = class Account extends model.base() {
     let account = await this.forge().where({ account_id }).fetch({ withRelated: ['user'] })
     let user
     if (!account) {
-      user = new User()
-      await bookshelf.transaction(t => user.save({
-        username,
-        email,
-        avatar,
-        password: md5(random('Aa0!', 10))
-      }, {
-        transacting: t
-      }).tap(model => model.accounts().create({
-        account_id,
-        access_token,
-        refresh_token,
-        provider,
-        expires_at: moment().add(2, 'hours').toDate(),
-        profile
-      }, { transacting: t })).then(t.commit).catch(t.rollback)
-    )
+      user = await User.where('email', '=', email).fetch()
+      if (!user) {
+        user = new User()
+        await bookshelf.transaction(t => user.save({
+          username,
+          email,
+          avatar,
+          password: random('Aa0!', 10)
+        }, {
+          transacting: t
+        }).tap(model => model.accounts().create({
+          account_id,
+          access_token,
+          refresh_token,
+          provider,
+          expires_at: moment().add(2, 'hours').toDate(),
+          profile
+        }, { transacting: t })).then(t.commit).catch(t.rollback))
+      } else {
+        await user.accounts().create({
+          account_id,
+          access_token,
+          refresh_token,
+          provider,
+          expires_at: moment().add(2, 'hours').toDate(),
+          profile
+        })
+      }
     } else {
       await account.save({
         access_token,
@@ -62,3 +72,5 @@ exports.default = class Account extends model.base() {
     return user
   }
 }
+
+const { bookshelf } = require('../index')

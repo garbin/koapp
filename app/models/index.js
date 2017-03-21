@@ -1,8 +1,9 @@
 const { model } = require('koapi')
 
-const { connection } = model.connect(require('../../config').database)
+const { connection, bookshelf } = model.connect(require('../../config').database)
 
 exports.connection = connection
+exports.bookshelf = bookshelf
 exports.User = require('./user').default
 exports.Role = require('./role').default
 exports.OAuth = require('./oauth').default
