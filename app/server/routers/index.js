@@ -9,7 +9,7 @@ const {default: users} = require('./users')
 const {default: roles} = require('./roles')
 const {default: files} = require('./files')
 const {default: settings} = require('./settings')
-const {default: stat} = require('./stat')
+const {default: aggregate} = require('./aggregate')
 const {default: home} = require('./home')
 
 const index = Router.define(router => {
@@ -22,4 +22,4 @@ const index = Router.define(router => {
 })
 
 exports.default = [ subdomain, index, posts, auth, token, clients, roles, files,
-  settings, users, stat, cashier, home ]
+  settings, users, aggregate, cashier, home ]
