@@ -50,11 +50,16 @@ export class Page extends React.Component {
     return dispatch(async.get(config.name)(config.savePath))
   }
   getConfig () {
-    const { config, intl } = this.props
+    const { config, intl, submitting } = this.props
     return {
       fields: [{name: 'test', label: 'Test'}],
       savePath: `/${config.name}`,
       saveMethod: 'patch',
+      buttons: props => (
+        <Button type='submit' loading={submitting} color='primary'>
+          <FormattedMessage id='submit' />
+        </Button>
+      ),
       submit: function (values) {
         const { dispatch } = this.props
         const config = this.getConfig()
@@ -86,9 +91,7 @@ export class Page extends React.Component {
             <FormGroup row>
               <div className='col-sm-2' />
               <div className='col-sm-10'>
-                <Button type='submit' loading={submitting} color='primary'>
-                  <FormattedMessage id='submit' />
-                </Button>
+                {config.buttons.call(this)}
               </div>
             </FormGroup>
           </div>
