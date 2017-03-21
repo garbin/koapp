@@ -109,6 +109,10 @@ export class List extends React.Component {
     const { dispatch, checklist, intl } = this.props
     const config = this.getConfig()
     return config.columns.map(col => {
+      let { className, headerClassName, cellClassName } = col
+      className = className || ''
+      headerClassName = headerClassName || className
+      cellClassName = cellClassName || className
       if (col.preset === 'checkbox') {
         return column('id', 'ID', responsive.checkbox({
           checklist,
@@ -129,73 +133,41 @@ export class List extends React.Component {
             })}><FormattedMessage id='delete' /></DropdownItem>
           </DropdownMenu>
           ))
+        headerClassName = headerClassName || 'item-col-header item-col-actions-dropdown item-col-1'
+        cellClassName = cellClassName || 'item-col-actions-dropdown item-col-1'
         return column('id', col.label, responsive.actions({
           header: {
-            props: {
-              className: 'item-col-header item-col-actions-dropdown'
-            }
+            props: { className: headerClassName }
           },
           cell: {
-            props: {
-              className: 'item-col-actions-dropdown'
-            },
+            props: { className: cellClassName },
             actions: { primary: primary.bind(this), dropdown: dropdown.bind(this) } }
         }))
       } else if (col.preset === 'image') {
+        headerClassName = headerClassName || 'item-col-header fixed item-col-img md'
+        cellClassName = cellClassName || 'fixed item-col-img md'
         return column(col.property, col.label, responsive.image(
           {
-            header: {
-              props: {
-                className: 'item-col-header fixed item-col-img md'
-              }
-            },
-            cell: {
-              props: {
-                className: 'fixed item-col-img md'
-              },
-              href: col.href
-            }
+            header: { props: { className: headerClassName } },
+            cell: { props: { className: cellClassName }, href: col.href }
           }
         ))
       } else if (col.preset === 'link') {
         return column(col.property, col.label, responsive.link({
-          header: {
-            props: {
-              className: 'item-col-header item-col-title'
-            }
-          },
-          cell: {
-            props: {
-              className: 'fixed pull-left item-col-title'
-            },
-            href: col.href
-          }
+          header: {props: { className: `item-col-header ${headerClassName}` }},
+          cell: {props: { className: cellClassName }, href: col.href}
         }))
       } else if (col.preset === 'text') {
         return column(col.property, col.label, responsive.text(_.merge({
-          header: {
-            props: {
-              className: 'item-col-header item-col-author'
-            }
-          },
-          cell: {
-            props: {
-              className: 'item-col-author'
-            }
-          }
+          header: {props: { className: `item-col-header ${headerClassName}` }},
+          cell: {props: { className: cellClassName }}
         }, col.props)))
       } else if (col.preset === 'time') {
+        headerClassName = headerClassName || 'item-col-date'
+        cellClassName = cellClassName || 'item-col-date'
         return column(col.property, col.label, responsive.time(_.merge({
-          header: {
-            props: {
-              className: 'item-col-header item-col-author'
-            }
-          },
-          cell: {
-            props: {
-              className: 'item-col-author'
-            }
-          }
+          header: {props: { className: `item-col-header ${headerClassName}` }},
+          cell: {props: { className: cellClassName }}
         }, col.props)))
       } else {
         return col

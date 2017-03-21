@@ -69,6 +69,18 @@ div.card-gallery {
   }
 }
 .item-list {
+  & .item-row {
+    & div.item-col-auto { flex-grow: auto !important; }
+    & div.item-col-1 { flex-grow: 1 !important; }
+    & div.item-col-2 { flex-grow: 2 !important; }
+    & div.item-col-3 { flex-grow: 3 !important; }
+    & div.item-col-4 { flex-grow: 4 !important; }
+    & div.item-col-5 { flex-grow: 5 !important; }
+    & div.item-col-6 { flex-grow: 6 !important; }
+    & div.item-col-7 { flex-grow: 7 !important; }
+    & div.item-col-8 { flex-grow: 8 !important; }
+    & div.item-col-9 { flex-grow: 9 !important; }
+  }
   & li.tbody {
     margin:0;
     padding:0;

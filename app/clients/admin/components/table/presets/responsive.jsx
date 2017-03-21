@@ -13,11 +13,13 @@ export const formatters = {
     return (<div><span>{name}</span></div>)
   },
   text (value, extra) {
-    return (<div><div className='item-heading'>{extra.column.header.label}</div>{value}</div>)
+    return [
+      <div key='text-col-1' className='item-heading'>{extra.column.header.label}</div>,
+      <div key='text-col-2' className='no-overflow'>{value}</div>
+    ]
   },
   time (value, extra) {
     return moment(value).fromNow()
-    // return (<div><div className='item-heading'>{extra.column.header.label}</div><Timeago date={value} /></div>)
   },
   link (value, extra) {
     return (

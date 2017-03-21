@@ -17,12 +17,15 @@ export default list({
     { preset: 'link',
       property: 'username',
       label: <FormattedMessage id='user.name' />,
+      className: 'item-col-title item-col-3',
       href: props => <Link to={`/users/${props.row.id}/edit`}>{props.children}</Link> },
     { preset: 'text',
       property: 'email',
+      className: 'item-col-3 text-xs-left',
       label: 'EMail' },
     { preset: 'time',
       property: 'created_at',
+      className: 'item-col-date item-col-2',
       label: <FormattedMessage id='user.created_at' /> },
     { preset: 'actions' }
   ]
