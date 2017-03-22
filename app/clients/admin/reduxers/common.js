@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 
 export const actions = {
   result: name => createAction('UPDATE_RESULT', payload => ({name, result: payload})),
+  clearResult: name => createAction('CLEAR_RESULT', payload => ({name})),
   changeMenu: createAction('MENU_CHANGE'),
   toggleProfileModal: createAction('TOGGLE_PROFILE_MODAL'),
   openModal: createAction('MODAL_OPEN'),
@@ -16,6 +17,11 @@ export const reducer = {
     UPDATE_RESULT (state, action) {
       const {name, result} = action.payload
       return {...state, [name]: result}
+    },
+    CLEAR_RESULT (state, action) {
+      const newState = {...state}
+      delete newState[action.payload.name]
+      return newState
     }
   }, {}),
   profileModal: handleActions({

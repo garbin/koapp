@@ -22,7 +22,7 @@ export default function dropzone (options) {
           return dispatch(async.post(`${keyName}_${idx}`)('/files', data, {
             headers: { 'content-type': 'multipart/form-data' }
           }))
-        })).then(onSuccess.bind(this)).catch(onError.bind(this))
+        })).then(onSuccess).catch(onError)
       }
       return (
         <Dropzone style={{}} onDrop={upload} {...others}>
