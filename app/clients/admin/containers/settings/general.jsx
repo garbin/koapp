@@ -16,6 +16,6 @@ export default page({
   ],
   validate: { settings: Joi.object({
     site_title: Joi.string().min(3).required(),
-    keywords: Joi.array().required()
+    keywords: Joi.array().items(Joi.string())
   }) }
 })
