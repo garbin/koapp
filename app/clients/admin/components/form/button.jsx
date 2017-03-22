@@ -5,7 +5,9 @@ export default props => {
   const { loading, loadingText, children, ...others } = props
   return (
     <Button disabled={loading || false} {...others}>
-      {loading ? (loadingText || 'Hold on...') : children}
+      {loading
+        ? <span><i className='fa fa-cog fa-spin fa-fw' />&nbsp;{loadingText || 'Loading...'}</span>
+        : children}
     </Button>
   )
 }
