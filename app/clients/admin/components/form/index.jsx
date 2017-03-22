@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import { actions as async } from '../../reduxers/async'
 import { toastr } from 'react-redux-toastr'
-import { FormGroup, Form } from 'reactstrap'
+import { Form, Card, CardBlock, CardFooter, Row, Col } from 'reactstrap'
 import Input from './input'
 import Button from './button'
 import Checkbox from './checkbox'
@@ -61,13 +61,15 @@ export class Page extends React.Component {
         </Button>
       ),
       body: (fields, buttons) => (
-        <div className='card card-block'>
-          {fields}
-          <FormGroup row>
-            <div className='col-sm-2' />
-            <div className='col-sm-10'>{buttons}</div>
-          </FormGroup>
-        </div>
+        <Card>
+          <CardBlock>{fields}</CardBlock>
+          <CardFooter>
+            <Row>
+              <Col sm={2} />
+              <Col sm={10}>{buttons}</Col>
+            </Row>
+          </CardFooter>
+        </Card>
       ),
       submit: function (values) {
         const { dispatch } = this.props
