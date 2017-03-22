@@ -1,7 +1,6 @@
 import React from 'react'
 import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
-import Dropzone from 'react-dropzone'
 import { Field, change } from 'redux-form'
 import { Button, Input } from 'reactstrap'
 import { Select } from '../../components/form'
@@ -46,7 +45,7 @@ export default modal({
   formTitle: <FormattedMessage id='user.edit' />,
   method: 'patch',
   body: function (fields) {
-    const { user_form, async, result: { avatar = {} }, dispatch } = this.props
+    const { user_form, result: { avatar = {} }, dispatch } = this.props
     const avatarPath = avatar.file_path || _.get(user_form, 'values.avatar')
     const Avatar = dropzone({
       keyName: 'avatar',
@@ -54,9 +53,7 @@ export default modal({
         dispatch(common.result('avatar')(files[0].value.data))
         dispatch(change('user_form', 'avatar', files[0].value.data.file_path))
       },
-      onError: console.error,
-      multiple: false,
-      ref: node => { this.dropzone = node }
+      onError: console.error
     })(props => (
       <div className='image rounded' style={{backgroundImage: `url(${avatarPath})`}}>
         {!avatarPath && <div className='dropfilezone'>拖放头像至此</div>}
@@ -65,7 +62,7 @@ export default modal({
     return (
       <div className='row'>
         <div className='col-sm-3'>
-          <Avatar />
+          <Avatar multiple={false} refCallback={node => { this.dropzone = node }} />
           <Button type='button' block color='primary' size='sm' onClick={e => this.dropzone.open()}>上传</Button>
           <Field component={({input, meta, ...others}) => (<Input {...input} {...others} />)}
             style={{display: 'none'}} type='text' name='avatar' />

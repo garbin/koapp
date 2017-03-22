@@ -14,8 +14,8 @@ export default function dropzone (options) {
   } = options
   return Component => {
     return connect(mapStateToProps)(props => {
+      const { dispatch, refCallback, ...othersProps } = props
       const upload = files => {
-        const { dispatch } = props
         return Promise.all(files.map((file, idx) => {
           const data = new FormData()
           data.append('file', file, file.name)
@@ -25,7 +25,7 @@ export default function dropzone (options) {
         })).then(onSuccess).catch(onError)
       }
       return (
-        <Dropzone style={{}} onDrop={upload} {...others}>
+        <Dropzone style={{}} onDrop={upload} ref={refCallback} {...othersProps} {...others}>
           {status => <Component status={status} />}
         </Dropzone>
       )

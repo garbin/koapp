@@ -11,8 +11,6 @@ export default grid({
   body: function (children) {
     const {intl} = this.props
     const DropableList = dropzone({
-      ref: node => { this.dropzone = node },
-      disableClick: true,
       onSuccess: files => {
         toastr.success(intl.formatMessage({id: 'success_message'}))
         this.fetch()
@@ -39,7 +37,7 @@ export default grid({
         ) : <div>{children}</div>
       }
     })
-    return <DropableList />
+    return <DropableList disableClick refCallback={node => { this.dropzone = node }} />
   },
   item: function (item) {
     const { checklist } = this.props

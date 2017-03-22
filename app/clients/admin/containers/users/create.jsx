@@ -68,9 +68,7 @@ export default modal({
         dispatch(common.result('avatar')(files[0].value.data))
         dispatch(change('user_form', 'avatar', files[0].value.data.file_path))
       },
-      onError: console.error,
-      multiple: false,
-      ref: node => { this.dropzone = node }
+      onError: console.error
     })(props => (
       <div className='image rounded' style={{backgroundImage: `url(${avatar.file_path})`}}>
         {!avatar.file_path && <div className='dropfilezone'>拖放头像至此</div>}
@@ -79,7 +77,7 @@ export default modal({
     return (
       <div className='row'>
         <div className='col-sm-3'>
-          <Avatar />
+          <Avatar multiple={false} refCallback={node => { this.dropzone = node }} />
           <Button type='button' block color='primary' size='sm' onClick={e => this.dropzone.open()}>
             <FormattedMessage id='upload' />
           </Button>
