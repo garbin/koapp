@@ -1,6 +1,8 @@
 :root {
   --primaryColor: #4bcf99;
   --primaryColorHover: #31b680;
+  --inputBorder: #66afe9;
+  --successColor: #5cb85c;
 }
 
 .drag-container {
@@ -95,6 +97,26 @@ div.card-gallery {
 
 
 /* Patch */
+.react-tagsinput {
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-radius: 0.25rem;
+  & .react-tagsinput-tag {
+    background-color: var(--primaryColor);
+    border-color: var(--primaryColor);
+    color: #fff;
+    & a {
+      font-weight: bold;
+    }
+  }
+}
+.has-success {
+  & .react-tagsinput {
+    border-color:
+  }
+}
+.react-tagsinput--focused {
+  border-color: var(--inputBorder);
+}
 .show {
   & .dropdown-menu {
     display: block;
