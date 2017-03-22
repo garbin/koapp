@@ -60,6 +60,15 @@ export class Page extends React.Component {
           <FormattedMessage id='submit' />
         </Button>
       ),
+      body: (fields, buttons) => (
+        <div className='card card-block'>
+          {fields}
+          <FormGroup row>
+            <div className='col-sm-2' />
+            <div className='col-sm-10'>{buttons}</div>
+          </FormGroup>
+        </div>
+      ),
       submit: function (values) {
         const { dispatch } = this.props
         const config = this.getConfig()
@@ -73,7 +82,7 @@ export class Page extends React.Component {
     }
   }
   render () {
-    const { handleSubmit, submitting } = this.props
+    const { handleSubmit } = this.props
     const config = this.getConfig()
     return (
       <article className='content'>
@@ -81,20 +90,12 @@ export class Page extends React.Component {
           <h3 className='title'>{config.formTitle}<span className='sparkline bar' data-type='bar' /> </h3>
         </div>
         <Form onSubmit={handleSubmit(config.submit.bind(this))}>
-          <div className='card card-block'>
-            {config.fields.map((field, idx) => {
-              const { component, ...others } = field
-              return (
-                <Field key={idx} component={component || Input} row {...others} />
-              )
-            })}
-            <FormGroup row>
-              <div className='col-sm-2' />
-              <div className='col-sm-10'>
-                {config.buttons.call(this)}
-              </div>
-            </FormGroup>
-          </div>
+          {config.body.call(this, config.fields.map((field, idx) => {
+            const { component, ...others } = field
+            return (
+              <Field key={idx} component={component || Input} row {...others} />
+            )
+          }), config.buttons.call(this))}
         </Form>
       </article>
     )
