@@ -2,11 +2,13 @@ import React from 'react'
 import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
 import Dropzone from 'react-dropzone'
-import { Field } from 'redux-form'
+import { Field, change } from 'redux-form'
 import { Button, Input } from 'reactstrap'
 import { Select } from '../../components/form'
+import dropzone from '../../components/dropzone'
 import modal from '../../components/resource/modal_form'
 import { actions as async } from '../../reduxers/async'
+import { actions as common } from '../../reduxers/common'
 import { FormattedMessage } from 'react-intl'
 import { CreateForm } from './create'
 import _ from 'lodash'
@@ -34,6 +36,7 @@ export default modal({
       user.avatar = user.avatar || ''
     }
     return {
+      result: state.result,
       initialValues: user,
       async: state.async,
       user_form: state.form.user_form
@@ -43,19 +46,26 @@ export default modal({
   formTitle: <FormattedMessage id='user.edit' />,
   method: 'patch',
   body: function (fields) {
-    const { user_form, async } = this.props
+    const { user_form, async, result: { avatar = {} }, dispatch } = this.props
+    const avatarPath = avatar.file_path || _.get(user_form, 'values.avatar')
+    const Avatar = dropzone({
+      keyName: 'avatar',
+      onSuccess: files => {
+        dispatch(common.result('avatar')(files[0].value.data))
+        dispatch(change('user_form', 'avatar', files[0].value.data.file_path))
+      },
+      onError: console.error,
+      multiple: false,
+      ref: node => { this.dropzone = node }
+    })(props => (
+      <div className='image rounded' style={{backgroundImage: `url(${avatarPath})`}}>
+        {!avatarPath && <div className='dropfilezone'>拖放头像至此</div>}
+      </div>
+    ))
     return (
       <div className='row'>
         <div className='col-sm-3'>
-          <Dropzone ref={node => { this.dropzone = node }} onDrop={this.handleUpload.bind(this)} multiple={false} style={{}}>
-            {({acceptedFiles}) => {
-              if (_.get(async, 'avatar.status') === 'fulfilled') {
-                return <div className='image rounded' style={{backgroundImage: `url(${async.avatar.response.file_path})`}} />
-              } else {
-                return <div className='image rounded' style={{backgroundImage: `url(${_.get(user_form, 'values.avatar')})`}} />
-              }
-            }}
-          </Dropzone>
+          <Avatar />
           <Button type='button' block color='primary' size='sm' onClick={e => this.dropzone.open()}>上传</Button>
           <Field component={({input, meta, ...others}) => (<Input {...input} {...others} />)}
             style={{display: 'none'}} type='text' name='avatar' />

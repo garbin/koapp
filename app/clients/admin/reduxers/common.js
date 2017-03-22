@@ -4,6 +4,7 @@ import TreeModel from 'tree-model'
 import { FormattedMessage } from 'react-intl'
 
 export const actions = {
+  result: name => createAction('UPDATE_RESULT', payload => ({name, result: payload})),
   changeMenu: createAction('MENU_CHANGE'),
   toggleProfileModal: createAction('TOGGLE_PROFILE_MODAL'),
   openModal: createAction('MODAL_OPEN'),
@@ -11,6 +12,12 @@ export const actions = {
 }
 
 export const reducer = {
+  result: handleActions({
+    UPDATE_RESULT (state, action) {
+      const {name, result} = action.payload
+      return {...state, [name]: result}
+    }
+  }, {}),
   profileModal: handleActions({
     TOGGLE_PROFILE_MODAL (state, action) {
       if (action.payload !== undefined) {

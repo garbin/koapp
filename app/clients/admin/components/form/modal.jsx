@@ -24,9 +24,9 @@ export class Modal extends React.Component {
       body: e => e,
       buttons: (
         <div>
-          <Button color='primary' type='submit'><FormattedMessage id='submit' /></Button>
-          &nbsp;&nbsp;
           <Button onClick={this.close.bind(this)}><FormattedMessage id='close' /></Button>
+          &nbsp;&nbsp;
+          <Button color='primary' type='submit'><FormattedMessage id='submit' /></Button>
         </div>
       ),
       ...config

@@ -2,55 +2,44 @@ import React from 'react'
 import grid from '../../components/resource/grid'
 import { Button } from 'reactstrap'
 import { FormattedMessage } from 'react-intl'
-import Dropzone from 'react-dropzone'
 import { Checkbox } from '../../components/form'
-import { actions as async } from '../../reduxers/async'
+import dropzone from '../../components/dropzone'
 import { toastr } from 'react-redux-toastr'
-const FormData = window.FormData
-
-export function upload (files) {
-  const { dispatch, intl } = this.props
-  return Promise.all(files.map((file, idx) => {
-    const data = new FormData()
-    data.append('file', file, file.name)
-    return dispatch(async.post(`files_${idx}`)('/files', data, {
-      headers: { 'content-type': 'multipart/form-data' }
-    }))
-  })).then(v => {
-    toastr.success(intl.formatMessage({id: 'success_message'}))
-    this.fetch()
-  }).catch(console.error)
-}
 
 export default grid({
   resource: 'file',
   body: function (children) {
-    return (
-      <Dropzone style={{}} ref={node => { this.dropzone = node }} disableClick onDrop={upload.bind(this)}>
-        {props => {
-          if (children.length === 0) {
-            return (
-              <div className='row'>
-                <div className='col-sm-12'>
-                  <div className='dropfileszone'>
-                    {props.isDragActive
-                      ? <FormattedMessage id='drop_here_to_upload' />
-                    : <FormattedMessage id='drag_here_to_upload' />}
-                  </div>
-                </div>
+    const {intl} = this.props
+    const DropableList = dropzone({
+      ref: node => { this.dropzone = node },
+      disableClick: true,
+      onSuccess: files => {
+        toastr.success(intl.formatMessage({id: 'success_message'}))
+        this.fetch()
+      }
+    })(props => {
+      if (children.length === 0) {
+        return (
+          <div className='row'>
+            <div className='col-sm-12'>
+              <div className='dropfileszone'>
+                {props.status.isDragActive
+                  ? <FormattedMessage id='drop_here_to_upload' />
+                : <FormattedMessage id='drag_here_to_upload' />}
               </div>
-            )
-          } else {
-            return props.isDragActive ? (
-              <div className='drag-container'>
-                <div className='drag-active' />
-                {children}
-              </div>
-            ) : children
-          }
-        }}
-      </Dropzone>
-    )
+            </div>
+          </div>
+        )
+      } else {
+        return props.status.isDragActive ? (
+          <div className='drag-container'>
+            <div className='drag-active' />
+            {children}
+          </div>
+        ) : <div>{children}</div>
+      }
+    })
+    return <DropableList />
   },
   item: function (item) {
     const { checklist } = this.props

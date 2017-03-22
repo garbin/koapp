@@ -1,12 +1,13 @@
 import React from 'react'
 import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
-import Dropzone from 'react-dropzone'
 import { change, Field } from 'redux-form'
 import { Button, Input } from 'reactstrap'
 import { Select } from '../../components/form'
+import dropzone from '../../components/dropzone'
 import modal, { ModalForm } from '../../components/resource/modal_form'
 import { actions as async } from '../../reduxers/async'
+import { actions as common } from '../../reduxers/common'
 import { FormattedMessage } from 'react-intl'
 import _ from 'lodash'
 const FormData = window.FormData
@@ -52,24 +53,36 @@ export class CreateForm extends ModalForm {
 }
 
 export default modal({
+  mapStateToProps: state => ({
+    async: state.async,
+    result: state.result
+  }),
   resource: 'user',
   formTitle: <FormattedMessage id='user.create' />,
   method: 'post',
   body: function (fields) {
-    const { async } = this.props
+    const { dispatch, result: { avatar = {} } } = this.props
+    const Avatar = dropzone({
+      keyName: 'avatar',
+      onSuccess: files => {
+        dispatch(common.result('avatar')(files[0].value.data))
+        dispatch(change('user_form', 'avatar', files[0].value.data.file_path))
+      },
+      onError: console.error,
+      multiple: false,
+      ref: node => { this.dropzone = node }
+    })(props => (
+      <div className='image rounded' style={{backgroundImage: `url(${avatar.file_path})`}}>
+        {!avatar.file_path && <div className='dropfilezone'>拖放头像至此</div>}
+      </div>
+    ))
     return (
       <div className='row'>
         <div className='col-sm-3'>
-          <Dropzone ref={node => { this.dropzone = node }} onDrop={this.handleUpload.bind(this)} multiple={false} style={{}}>
-            {({acceptedFiles}) => {
-              if (_.get(async, 'avatar.status') === 'fulfilled') {
-                return <div className='image rounded' style={{backgroundImage: `url(${async.avatar.response.file_path})`}} />
-              } else {
-                return <div className='image rounded'><div className='dropfilezone'>拖放头像至此</div></div>
-              }
-            }}
-          </Dropzone>
-          <Button type='button' block color='primary' size='sm' onClick={e => this.dropzone.open()}>上传</Button>
+          <Avatar />
+          <Button type='button' block color='primary' size='sm' onClick={e => this.dropzone.open()}>
+            <FormattedMessage id='upload' />
+          </Button>
           <Field component={({input, meta, ...others}) => (<Input {...input} {...others} />)}
             style={{display: 'none'}} type='text' name='avatar' />
         </div>
