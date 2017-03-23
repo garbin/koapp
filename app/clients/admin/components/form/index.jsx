@@ -23,13 +23,13 @@ export function validate (schema) {
     const result = Joi.validate(values, joi)
     if (result.error) {
       return result.error.details.reduce((errors, e) => {
-        let { path, message } = e
-        if (path === 'value') {
-          try {
-            path = e.context.missing[0]
-            message = e.message
-          } catch (e) {
-            _.set(errors, '_error', message)
+        let { type, path, message, context } = e
+        if (context) {
+          switch (type) {
+            case 'object.and':
+              path = path === 'value' ? context.missing[0] : `${path}.${context.key}`
+              break
+            default:
           }
         }
         _.set(errors, path, message)
