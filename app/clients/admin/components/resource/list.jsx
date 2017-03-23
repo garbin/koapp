@@ -48,6 +48,7 @@ export class List extends React.Component {
         <Link to={`/${resources}/create`} className='btn btn-primary btn-sm rounded-s'>
           <FormattedMessage id='create' />
         </Link>),
+      columns: [],
       batchActions: (
         <DropdownItem onClick={batchDeleteClick}>
           <i className='fa fa-remove icon' /><FormattedMessage id='delete' />
@@ -108,7 +109,7 @@ export class List extends React.Component {
   getColumns () {
     const { dispatch, checklist, intl } = this.props
     const config = this.getConfig()
-    return config.columns.map(col => {
+    return (_.isFunction(config.columns) ? config.columns.call(this) : config.columns).map(col => {
       let { className, headerClassName, cellClassName } = col
       className = className || ''
       headerClassName = headerClassName || className
