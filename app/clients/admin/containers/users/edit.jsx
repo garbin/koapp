@@ -38,7 +38,7 @@ export default modal({
       result: state.result,
       initialValues: user,
       async: state.async,
-      user_form: state.form.user_form
+      user_form: state.form.user
     }
   },
   resource: 'user',
@@ -51,7 +51,7 @@ export default modal({
       keyName: 'avatar',
       onSuccess: files => {
         dispatch(common.result('avatar')(files[0].value.data))
-        dispatch(change('user_form', 'avatar', files[0].value.data.file_path))
+        dispatch(change('user', 'avatar', files[0].value.data.file_path))
       },
       onError: console.error
     })(props => (

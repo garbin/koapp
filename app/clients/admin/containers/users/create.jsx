@@ -47,7 +47,7 @@ export class CreateForm extends ModalForm {
     return dispatch(async.post('avatar')('/files', data, {
       headers: { 'content-type': 'multipart/form-data' }
     })).then(v => {
-      dispatch(change('user_form', 'avatar', v.value.data.file_path))
+      dispatch(change('user', 'avatar', v.value.data.file_path))
     })
   }
 }
@@ -66,7 +66,7 @@ export default modal({
       keyName: 'avatar',
       onSuccess: files => {
         dispatch(common.result('avatar')(files[0].value.data))
-        dispatch(change('user_form', 'avatar', files[0].value.data.file_path))
+        dispatch(change('user', 'avatar', files[0].value.data.file_path))
       },
       onError: console.error
     })(props => (

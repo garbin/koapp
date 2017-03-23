@@ -34,7 +34,7 @@ export class ProfileForm extends Modal {
     return dispatch(async.post('avatar')('/files', data, {
       headers: { 'content-type': 'multipart/form-data' }
     })).then(v => {
-      dispatch(change('profile_form', 'avatar', v.value.data.file_path))
+      dispatch(change('profile', 'avatar', v.value.data.file_path))
     })
   }
   close () {

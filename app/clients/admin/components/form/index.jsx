@@ -112,7 +112,7 @@ export function page (config, Component = Page) {
   }))
   return connect(mapStateToProps)(
     reduxForm({
-      form: `${config.name || 'page'}_form`,
+      form: `${config.name || 'page'}`,
       validate: validate(config.validate || {})
     })(withRouter(injectIntl(props => <Component {...props} config={config} />)))
   )
