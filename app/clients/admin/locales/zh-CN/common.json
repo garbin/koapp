@@ -36,6 +36,7 @@
   "check_all": "全选",
   "settings.general.site_title": "站点名称",
   "settings.general.keywords": "关键词",
+  "settings.general.status": "站点状态",
   "drop_here_to_upload": "松开上传",
   "drag_here_to_upload": "文件拖放至此上传",
   "success_message": "操作成功",

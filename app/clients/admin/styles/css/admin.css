@@ -97,6 +97,13 @@ div.card-gallery {
 
 
 /* Patch */
+.form-control-toggle {
+  height: 40px;
+  line-height: 40px;
+  & .react-toggle {
+    vertical-align: middle;
+  }
+}
 .react-tagsinput {
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 0.25rem;

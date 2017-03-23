@@ -12,7 +12,12 @@ export default page({
       name: 'settings.keywords',
       className: 'react-tagsinput',
       label: <FormattedMessage id='settings.general.keywords' />,
-      type: 'tags'}
+      type: 'tags'},
+    {
+      name: 'settings.status',
+      value: 'yes',
+      label: <FormattedMessage id='settings.general.status' />,
+      type: 'toggle'}
   ],
   validate: { settings: Joi.object({
     site_title: Joi.string().min(3).required(),

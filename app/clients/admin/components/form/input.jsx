@@ -1,7 +1,9 @@
 import React from 'react'
 import { FormGroup, Label, Input, FormFeedback } from 'reactstrap'
 import Select, { Creatable } from 'react-select'
+import Toggle from 'react-toggle'
 import TagsInput from 'react-tagsinput'
+import classnames from 'classnames'
 
 export default class extends React.Component {
   render () {
@@ -9,6 +11,7 @@ export default class extends React.Component {
     const state = touched ? (error ? 'danger' : valid ? 'success' : undefined) : undefined
     const {label, creatable, ...props} = others
     const { name } = input
+    let inputColProps = {}
     let Component
     let addons = {}
     switch (others.type) {
@@ -23,16 +26,20 @@ export default class extends React.Component {
         Component = TagsInput
         addons = { value: input.value || [] }
         break
+      case 'toggle':
+        Component = Toggle
+        inputColProps = { className: 'form-control-toggle' }
+        break
       default:
         Component = Input
-        addons = {}
+        addons = { state }
     }
     if (row) {
       return (
         <FormGroup color={state} row>
           <Label for={name} sm={2} className='text-xs-right form-control-label'>{label}</Label>
-          <div className='col-sm-10'>
-            <Component state={state} {...input} {...props} {...addons} />
+          <div {...inputColProps} className={classnames('col-sm-10', inputColProps.className)}>
+            <Component {...input} {...props} {...addons} />
             {touched && (error && <FormFeedback>{error}</FormFeedback>)}
           </div>
         </FormGroup>
@@ -43,7 +50,7 @@ export default class extends React.Component {
       return (
         <FormGroup color={state}>
           <Label for={name}>{label}</Label>
-          <Component state={state} {...input} {...props} {...addons} />
+          <Component {...input} {...props} {...addons} />
           {touched && (error && <FormFeedback>{error}</FormFeedback>)}
         </FormGroup>
       )
