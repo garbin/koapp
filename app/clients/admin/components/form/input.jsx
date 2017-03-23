@@ -27,8 +27,13 @@ export default class extends React.Component {
         addons = { value: input.value || [] }
         break
       case 'toggle':
+        const { formatValue = v => v ? 'yes' : 'no' } = others
         Component = Toggle
         inputColProps = { className: 'form-control-toggle' }
+        addons = {
+          value: formatValue(input.value),
+          checked: input.value
+        }
         break
       default:
         Component = Input

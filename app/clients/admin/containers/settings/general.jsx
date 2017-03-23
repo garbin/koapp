@@ -15,12 +15,14 @@ export default page({
       type: 'tags'},
     {
       name: 'settings.status',
-      value: 'yes',
+      format: v => v === 'available',
+      parse: v => v ? 'available' : 'unavailable',
       label: <FormattedMessage id='settings.general.status' />,
       type: 'toggle'}
   ],
   validate: { settings: Joi.object({
     site_title: Joi.string().min(3).required(),
-    keywords: Joi.array().items(Joi.string())
+    keywords: Joi.array().items(Joi.string()),
+    status: Joi.string()
   }) }
 })
