@@ -4,6 +4,7 @@ const random = require('randomatic')
 const moment = require('moment')
 const bcrypt = require('bcryptjs')
 const saltRounds = 10
+const { security } = require('../../../config')
 const { default: Account } = require('./account')
 const { default: Role } = require('./role')
 const { default: Post } = require('../post')
@@ -33,7 +34,7 @@ exports.default = model.define('User', class extends model.base() {
   }
   static formatters ({onlyChanged}) {
     return {
-      password: onlyChanged(password => bcrypt.hashSync(password, saltRounds))
+      password: onlyChanged(password => bcrypt.hashSync(password, security.saltRounds))
     }
   }
   static get Account () { return Account }

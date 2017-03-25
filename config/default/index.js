@@ -1,4 +1,5 @@
 module.exports = {
+  security: { saltRounds: 10 },
   logging: {
     // name: 'koapp',
     // json: false,
