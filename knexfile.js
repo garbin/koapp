@@ -3,10 +3,10 @@ const config = require('./app/config')
 
 const database = {
   migrations: {
-    directory: './database/migrations'
+    directory: './deploy/database/migrations'
   },
   seeds: {
-    directory: './database/seeds'
+    directory: './deploy/database/seeds'
   }
 }
 

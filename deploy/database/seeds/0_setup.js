@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 exports.seed = async function (knex, Promise) {
-  const { User, OAuth, Setting } = require('../../app/models')
+  const { User, OAuth, Setting } = require('../../../app/models')
   await Setting.forge().save({
     id: 'general',
     name: 'General',
