@@ -17,10 +17,10 @@ import ButtonDropdown from './button_dropdown'
 
 export { Input, Button, Checkbox, modal, Select, ButtonDropdown, Modal }
 
-export function validate (schema) {
+export function validate (schema, options = {}) {
   return values => {
     const joi = schema.isJoi ? schema : Joi.object().keys(schema).unknown()
-    const result = Joi.validate(values, joi)
+    const result = Joi.validate(values, joi, options)
     if (result.error) {
       return result.error.details.reduce((errors, e) => {
         let { type, path, message, context } = e
