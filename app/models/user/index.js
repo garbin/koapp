@@ -3,7 +3,6 @@ const Joi = require('joi')
 const random = require('randomatic')
 const moment = require('moment')
 const bcrypt = require('bcryptjs')
-const saltRounds = 10
 const { security } = require('../../../config')
 const { default: Account } = require('./account')
 const { default: Role } = require('./role')
