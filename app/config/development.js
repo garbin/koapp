@@ -7,6 +7,23 @@ module.exports = {
       // {mount: '/', client: 'website'}
     ]
   },
+  services: {
+    cluster: false,
+    enabled: [
+      {
+        name: 'schedulers',
+        config: {
+          enabled: [/* 'example' */]
+        }
+      },
+      {
+        name: 'queues',
+        config: {
+          enabled: ['mailer']
+        }
+      }
+    ]
+  },
   database: {
     client: 'pg',
     // debug: true,

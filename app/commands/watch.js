@@ -15,7 +15,9 @@ exports.default = {
     let args = addonArgs()
     switch (stuff) {
       case 'server':
-        shelljs.exec('nodemon --harmony --watch app --watch config --ignore app/clients --ignore locales --watch config -L -e js,es,jsx ./app/index.js -- server ' + args)
+        shelljs.exec(`nodemon --harmony --watch \
+                      app --ignore app/clients --ignore locales \
+                      -L -e js,es,jsx ./app/index.js -- server ${args}`)
         break
       case 'universal':
         const config = require('../config')
@@ -28,14 +30,20 @@ exports.default = {
           commands.push(`"npm start watch ${app.client}"`)
         }
         names.push('universal')
-        commands.push('"nodemon --harmony --watch app --ignore locales --watch config --ignore app/clients -L -e js,es,jsx ./app/index.js -- universal ' + args + '"')
+        commands.push(`"nodemon --harmony --watch app \
+                       --ignore app/clients -L -e js,es,jsx ./app/index.js \
+                       -- universal ${args}"`)
         shelljs.exec(`concurrently -p name -n "${names.join(',')}" ${commands.join(' ')}`)
         break
       case 'service':
-        shelljs.exec('nodemon --harmony --watch app --watch config --ignore app/clients --ignore locales -L -e js,es,jsx ./app/index.js -- service ' + args)
+        shelljs.exec(`nodemon --harmony --watch app \
+                      --ignore app/clients -L -e js,es,jsx ./app/index.js \
+                      -- service ${args}`)
         break
       default:
-        shelljs.exec(`webpack-dev-server --config ./app/clients/${argv.stuff}/webpack --env.client ${argv.stuff} -d --history-api-fallback --inline --progress --host 0.0.0.0 ${args}`, {
+        shelljs.exec(`webpack-dev-server --config ./app/clients/${argv.stuff}/webpack \
+        -d --history-api-fallback --inline --progress \
+        --host 0.0.0.0 ${args}`, {
           maxBuffer: 1024 * 1000
         })
     }

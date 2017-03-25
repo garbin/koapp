@@ -1,5 +1,5 @@
 const cluster = require('throng')
-const config = require('./config')
+const { services } = require('../config')
 const { logger } = require('koapi')
 
 exports.start = (enabled = [], clusterMode = false) => {
@@ -24,4 +24,4 @@ exports.start = (enabled = [], clusterMode = false) => {
   }
 }
 
-if (require.main === module) exports.start(config.services, config.cluster)
+if (require.main === module) exports.start(services.enabled, services.cluster)

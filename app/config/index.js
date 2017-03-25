@@ -9,6 +9,23 @@ const defaults = {
       {mount: '/', client: 'website'}
     ]
   },
+  services: {
+    cluster: false,
+    enabled: [
+      {
+        name: 'schedulers',
+        config: {
+          enabled: ['example']
+        }
+      },
+      {
+        name: 'queues',
+        config: {
+          enabled: ['mailer']
+        }
+      }
+    ]
+  },
   bull: {
     ui_port: 5050
   },

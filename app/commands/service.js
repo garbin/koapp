@@ -13,10 +13,10 @@ exports.default = {
     logger.info(`Using environment: ${process.env.NODE_ENV}`)
     const { name, cluster } = argv
     const service = require('../services')
-    const config = require('../services/config')
+    const { services: config } = require('../config')
     service.start(name
-      ? config.services.filter((item) => item.name === name)
-      : config.services,
+      ? config.enabled.filter((item) => item.name === name)
+      : config.enabled,
         cluster !== undefined ? cluster : config.cluster)
   }
 }

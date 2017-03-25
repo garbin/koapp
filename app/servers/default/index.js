@@ -2,7 +2,7 @@ const { Koapi, logger } = require('koapi')
 const { connection } = require('../../models')
 const { Storage } = require('../../models/file')
 const { storage, mailer } = require('../../lib/helper')
-const { services } = require('../../services/config')
+const { services } = require('../../config')
 const config = require('./config')
 
 const app = new Koapi()
@@ -15,7 +15,7 @@ app.setup(Object.assign({
 
 app.teardown(async () => {
   try {
-    await Promise.all(services.map(({name, config}) => {
+    await Promise.all(services.enabled.map(({name, config}) => {
       const service = require(`../../services/${name}`).default(config)
       return service.disconnect()
     }))
