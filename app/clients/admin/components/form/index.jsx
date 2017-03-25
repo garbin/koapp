@@ -55,6 +55,7 @@ export class Page extends React.Component {
       fields: [{name: 'test', label: 'Test'}],
       savePath: `/${config.name}`,
       saveMethod: 'patch',
+      headActions: '',
       buttons: props => (
         <Button type='submit' loading={submitting} color='primary'>
           <FormattedMessage id='submit' />
@@ -89,6 +90,7 @@ export class Page extends React.Component {
     return (
       <article className='content'>
         <div className='title-block'>
+          <div className='float-sm-right'> {config.headActions} </div>
           <h3 className='title'>{config.formTitle}<span className='sparkline bar' data-type='bar' /> </h3>
         </div>
         <Form onSubmit={handleSubmit(config.submit.bind(this))}>
