@@ -8,7 +8,7 @@ exports.default = {
     stuff: { default: 'default' },
     delete: { alias: 'd', boolean: true }
   },
-  handler: async argv => {
+  async handler (argv) {
     switch (argv.stuff) {
       case 'schemas':
         let docsPath = `${__dirname}/../../docs`

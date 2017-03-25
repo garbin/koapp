@@ -9,7 +9,7 @@ exports.default = {
     default: undefined,
     type: 'boolean'
   }),
-  handler: argv => {
+  handler (argv) {
     logger.info(`Using environment: ${process.env.NODE_ENV}`)
     const { name, cluster } = argv
     const service = require('../services')

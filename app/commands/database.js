@@ -27,7 +27,7 @@ exports.default = {
       boolean: true
     }
   },
-  handler: async argv => {
+  async handler (argv) {
     let {stuff} = argv
     let args = addonArgs()
     switch (stuff) {

@@ -12,7 +12,7 @@ exports.default = {
       boolean: true
     }
   },
-  handler: argv => {
+  handler (argv) {
     log.info(`Using environment: ${process.env.NODE_ENV}`)
     if (argv.build) shelljs.exec(`npm start build -- ${addonArgs()}`)
     require('./server').default()

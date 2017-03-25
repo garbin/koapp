@@ -5,7 +5,7 @@ exports.default = {
     alias: 'h',
     default: 'Haha'
   }),
-  handler: async (argv) => {
+  async handler (argv) {
     const { logger: log } = require('koapi')
     const { Setting } = require('../models')
     const setting = await Setting.findById('mail.template.reset_password')

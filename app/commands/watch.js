@@ -10,7 +10,7 @@ exports.default = {
     },
     port: { alias: 'p' }
   }),
-  handler: async argv => {
+  async handler (argv) {
     let { stuff } = argv
     let args = addonArgs()
     switch (stuff) {

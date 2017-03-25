@@ -13,7 +13,7 @@ module.exports = {
       {
         name: 'schedulers',
         config: {
-          enabled: [/* 'example' */]
+          enabled: ['example']
         }
       },
       {

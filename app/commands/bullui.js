@@ -8,7 +8,7 @@ exports.default = {
     describe: 'Port',
     type: 'string'
   }),
-  handler: argv => {
+  handler (argv) {
     let ui = require('bull-ui/app')({
       redis: {
         host: config.redis.host,

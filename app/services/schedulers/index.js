@@ -17,7 +17,7 @@ function init (scheduler) {
     schedule: scheduler.schedule || '00 */1 * * * *',
     name: scheduler.name || 'default',
     description: scheduler.description || 'default',
-    do: scheduler.do || empty,
+    task: scheduler.task || empty,
     done: scheduler.done || empty
   }
 }
@@ -33,9 +33,9 @@ exports.default = function (config) {
     worker (id) {
       (config.enabled || []).map(name => {
         let scheduler = init(require(`./${name}`).default)
-        if (scheduler.do) {
+        if (scheduler.task) {
           let job = schedule.scheduleJob(scheduler.name, scheduler.schedule, function () {
-            scheduler.do().then(done.bind(job, scheduler)).catch(error.bind(job, scheduler))
+            scheduler.task().then(done.bind(job, scheduler)).catch(error.bind(job, scheduler))
           }, function () {
             scheduler.done().catch(log.error)
           })
