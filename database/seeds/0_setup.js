@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 exports.seed = async function (knex, Promise) {
-  const { User, Role, OAuth, Setting } = require('../../app/models')
+  const { User, OAuth, Setting } = require('../../app/models')
   await Setting.forge().save({
     id: 'general',
     name: 'General',
@@ -35,7 +35,7 @@ exports.seed = async function (knex, Promise) {
     access_token: '691ae08f7b038e5b09983d2435d3a878',
     refresh_token: '791ae08f7b038e5b09983d2435d3a878'
   })
-  let role = await Role.forge().save({
+  let role = await User.Role.forge().save({
     name: 'admin',
     permissions: true
   })

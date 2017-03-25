@@ -19,7 +19,7 @@ const Storage = Promise.promisifyAll(new Client(config.storage.minio))
  *   file_path: '/tmp/adfsdf' // local path
  * });
  */
-class File extends model.base() {
+const File = model.define('File', class extends model.base() {
   get tableName () { return 'files' }
   serialize (options = {}) {
     let file = super.serialize(options)
@@ -57,7 +57,8 @@ class File extends model.base() {
       file_path: Joi.string().required()
     }
   };
-}
+})
+
 module.exports = {
   default: File,
   File,

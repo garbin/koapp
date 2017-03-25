@@ -1,13 +1,14 @@
 const { model } = require('koapi')
 const Joi = require('joi')
-const {default: Role} = require('../role')
-const {default: Post} = require('../post')
 const random = require('randomatic')
 const moment = require('moment')
 const bcrypt = require('bcryptjs')
 const saltRounds = 10
+const { default: Account } = require('./account')
+const { default: Role } = require('./role')
+const { default: Post } = require('../post')
 
-exports.default = class User extends model.base() {
+exports.default = model.define('User', class extends model.base() {
   get tableName () { return 'users' }
   get hasTimestamps () { return true }
   get hidden () {
@@ -30,16 +31,16 @@ exports.default = class User extends model.base() {
   posts () {
     return this.hasMany(Post)
   }
-  static get format () {
+  static formatters ({onlyChanged}) {
     return {
-      password: password => bcrypt.hashSync(password, saltRounds)
+      password: onlyChanged(password => bcrypt.hashSync(password, saltRounds))
     }
   }
+  static get Account () { return Account }
+  static get Role () { return Role }
   static get dependents () {
     return ['accounts']
   }
-  static get Account () { return Account }
-
   static get fields () {
     return {
       username: Joi.string().required(),
@@ -59,6 +60,4 @@ exports.default = class User extends model.base() {
     if (user && await bcrypt.compare(password, user.get('password'))) return user
     throw new Error('auth failed')
   }
-}
-
-const {default: Account} = require('./account')
+})

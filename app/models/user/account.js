@@ -1,10 +1,10 @@
-const { model } = require('koapi')
+const { model, getInternal } = require('koapi')
 const Joi = require('joi')
-const {default: User} = require('./')
 const moment = require('moment')
 const random = require('randomatic')
+const { default: User } = require('./index')
 
-exports.default = class Account extends model.base() {
+exports.default = model.define('Account', class extends model.base() {
   get tableName () {
     return 'user_accounts'
   }
@@ -27,6 +27,7 @@ exports.default = class Account extends model.base() {
     }
   };
   static async signin (provider, response) {
+    const bookshelf = getInternal('bookshelf')
     let { account_id, username, email, avatar, profile, access_token, refresh_token } = response
     let account = await this.forge().where({ account_id }).fetch({ withRelated: ['user'] })
     let user
@@ -71,6 +72,4 @@ exports.default = class Account extends model.base() {
 
     return user
   }
-}
-
-const { bookshelf } = require('../index')
+})
