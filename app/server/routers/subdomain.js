@@ -1,10 +1,10 @@
 const { subdomain } = require('koapi/lib/middlewares')
-const { router: { Router } } = require('koapi')
+const { router } = require('koapi')
 
-const router = exports.router = Router.define(router => {
+const subdomainRouter = exports.router = router.define(router => {
   router.get('/', async ctx => {
     ctx.body = 'api'
   })
 })
 
-exports.default = subdomain('api.*', router.routes())
+exports.default = subdomain('api.*', subdomainRouter.routes())

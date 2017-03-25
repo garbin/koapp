@@ -1,9 +1,9 @@
-const { router: { ResourceRouter } } = require('koapi')
+const { router } = require('koapi')
 const { File } = require('../../models')
 const { default: user } = require('../middlewares/user')
 const _ = require('lodash')
 
-exports.default = ResourceRouter.define({
+exports.default = router.define('resource', {
   collection: File.collection(),
   setup (router) {
     router.use(user.required())

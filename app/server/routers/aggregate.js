@@ -1,9 +1,9 @@
-const { router: { AggregateRouter } } = require('koapi')
+const { router } = require('koapi')
 const Raw = require('knex/lib/raw')
 const { default: user } = require('../middlewares/user')
 const { User } = require('../..//models')
 
-exports.default = AggregateRouter.define(router => {
+exports.default = router.define('aggregate', router => {
   // /aggregate/users
   router.use(user.grant('admin.aggregate'))
   router.aggregate(User.collection(), {

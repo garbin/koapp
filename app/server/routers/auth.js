@@ -1,10 +1,10 @@
-const { router: { Router } } = require('koapi')
+const { router } = require('koapi')
 const {default: passport, authenticate} = require('../middlewares/passport')
 const config = require('../../../config/server')
 const { OAuth: { Token } } = require('../../models')
 const { Base64 } = require('js-base64')
 
-exports.default = Router.define(router => {
+exports.default = router.define(router => {
   router.get('/auth/:provider', async (ctx, next) => {
     let provider = config.passport[ctx.params.provider].strategy || ctx.params.provider
     await passport.authenticate(provider, {
