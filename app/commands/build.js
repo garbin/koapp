@@ -5,7 +5,7 @@ exports.default = {
   command: 'build [stuff]',
   describe: 'build stuff',
   builder: {
-    stuff: { default: 'clients', choices: ['clients', 'docs'] },
+    stuff: { default: 'default' },
     delete: { alias: 'd', boolean: true }
   },
   handler: async argv => {
