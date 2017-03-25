@@ -1,6 +1,6 @@
 const path = require('path')
 const nodemailer = require('nodemailer')
-const config = require('../../config')
+const config = require('../config')
 let mailer
 
 exports.storage = relative => path.resolve(`${__dirname}/../../storage${relative}`)

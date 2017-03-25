@@ -49,10 +49,14 @@ exports.default = {
       case 'clients':
       default:
         let stuffs = [ argv.stuff ]
-        if (argv.stuff === 'clients') stuffs = Object.keys(require('../clients'))
+        if (argv.stuff === 'clients') stuffs = require('../clients')
         for (let client of stuffs) {
           if (argv.delete) shelljs.exec(`rm -rf storage/public/${client}/* && echo "build: ${client} removed"`)
-          shelljs.exec(`echo "building ${client}" && webpack --progress --colors --config ./config/webpack --env.client ${client} ${addonArgs()} && echo "${client} build completed"`)
+          shelljs.exec(`echo "building ${client}" && \
+                        webpack --progress --colors \
+                        --config ./app/clients/${client}/webpack \
+                        --env.client ${client} ${addonArgs()} && \
+                        echo "${client} build completed"`)
         }
     }
   }

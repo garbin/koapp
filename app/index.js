@@ -3,7 +3,8 @@ const koapi = require('koapi/bin/koapi')
 const { logger, external: { winston } } = require('koapi')
 const fs = require('fs-extra')
 const { storage } = require('./lib/helper')
-const config = require('../config')
+const config = require('./config')
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 logger.emitErrs = true
 logger.on('error', console.error)

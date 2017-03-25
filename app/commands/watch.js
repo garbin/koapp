@@ -18,7 +18,7 @@ exports.default = {
         shelljs.exec('nodemon --harmony --watch app --watch config --ignore app/clients --ignore locales --watch config -L -e js,es,jsx ./app/index.js -- server ' + args)
         break
       case 'universal':
-        const config = require('../../config/server')
+        const config = require('../config')
         let commands = []
         let names = []
         process.env.KOAPP_WATCH_MODE = true
@@ -35,7 +35,7 @@ exports.default = {
         shelljs.exec('nodemon --harmony --watch app --watch config --ignore app/clients --ignore locales -L -e js,es,jsx ./app/index.js -- service ' + args)
         break
       default:
-        shelljs.exec(`webpack-dev-server --config ./config/webpack --env.client ${argv.stuff} -d --history-api-fallback --inline --progress --host 0.0.0.0 ${args}`, {
+        shelljs.exec(`webpack-dev-server --config ./app/clients/${argv.stuff}/webpack --env.client ${argv.stuff} -d --history-api-fallback --inline --progress --host 0.0.0.0 ${args}`, {
           maxBuffer: 1024 * 1000
         })
     }

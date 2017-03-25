@@ -1,4 +1,4 @@
-const config = require('../../config')
+const config = require('../config')
 
 exports.default = {
   command: 'bullui',
@@ -17,7 +17,7 @@ exports.default = {
       }
     })
 
-    ui.listen(argv.port || 5050, function () {
+    ui.listen(argv.port || config.bull.ui_port, function () {
       console.log('Bull-UI started listening on port', this.address().port)
     })
   }

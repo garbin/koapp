@@ -6,12 +6,11 @@ exports.default = {
     default: 'Haha'
   }),
   handler: async (argv) => {
-    const { queue } = require('../services/queues/mailer')
     const { logger: log } = require('koapi')
     const { Setting } = require('../models')
     const setting = await Setting.findById('mail.template.reset_password')
-    console.log(setting.template.subject({link:'abc'}))
-    console.log(setting.template.content({link:'abc'}))
+    console.log(setting.template.subject({link: 'abc'}))
+    console.log(setting.template.content({link: 'abc'}))
 
     // await queue.add({
     //   to: 'garbinh@gmail.com',
