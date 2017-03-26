@@ -7,7 +7,7 @@ import classnames from 'classnames'
 
 export default class extends React.Component {
   render () {
-    const {input, row, inline, meta: {touched, error, valid}, ...others} = this.props
+    const {input, async, row, inline, meta: {touched, error, valid}, ...others} = this.props
     const state = touched ? (error ? 'danger' : valid ? 'success' : undefined) : undefined
     const {label, creatable, ...props} = others
     const { name } = input
@@ -16,7 +16,9 @@ export default class extends React.Component {
     let addons = {}
     switch (others.type) {
       case 'select':
-        Component = creatable ? Creatable : Select
+        Component = Select
+        if (creatable) Component = Creatable
+        if (async) Component = Select.Async
         addons = {
           onBlur: e => input.onBlur(input.value),
           values: props.multi ? input.value : undefined
