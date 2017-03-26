@@ -1,4 +1,3 @@
-const { logger } = require('koapi')
 
 exports.default = {
   command: 'service [name]',
@@ -10,6 +9,7 @@ exports.default = {
     type: 'boolean'
   }),
   handler (argv) {
+    const { logger } = require('koapi')
     logger.info(`Using environment: ${process.env.NODE_ENV}`)
     const { name, cluster } = argv
     const service = require('../services')

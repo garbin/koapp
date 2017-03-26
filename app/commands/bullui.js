@@ -1,5 +1,3 @@
-const config = require('../config')
-
 exports.default = {
   command: 'bullui',
   describe: 'Bull Queue Admin UI',
@@ -9,6 +7,7 @@ exports.default = {
     type: 'string'
   }),
   handler (argv) {
+    const config = require('../config')
     let ui = require('bull-ui/app')({
       redis: {
         host: config.redis.host,

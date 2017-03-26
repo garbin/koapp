@@ -1,6 +1,3 @@
-const shelljs = require('shelljs')
-const { addonArgs } = require('../lib/helper')
-
 exports.default = {
   command: 'watch [stuff]',
   describe: 'watch mode',
@@ -11,6 +8,8 @@ exports.default = {
     port: { alias: 'p' }
   }),
   async handler (argv) {
+    const shelljs = require('shelljs')
+    const { addonArgs } = require('../lib/helper')
     let { stuff } = argv
     let args = addonArgs()
     switch (stuff) {

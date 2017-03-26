@@ -1,6 +1,3 @@
-const shelljs = require('shelljs')
-const { addonArgs } = require('../lib/helper')
-
 exports.default = {
   command: 'build [stuff]',
   describe: 'build stuff',
@@ -9,6 +6,8 @@ exports.default = {
     delete: { alias: 'd', boolean: true }
   },
   async handler (argv) {
+    const shelljs = require('shelljs')
+    const { addonArgs } = require('../lib/helper')
     switch (argv.stuff) {
       case 'schemas':
         let docsPath = `${__dirname}/../../docs`

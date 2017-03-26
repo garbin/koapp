@@ -1,19 +1,3 @@
-const shelljs = require('shelljs')
-const inquirer = require('inquirer')
-const { addonArgs } = require('../lib/helper')
-
-async function prompt (name, message, force, options) {
-  if (force) return true
-  let answers = await inquirer.prompt(Object.assign({
-    name,
-    type: 'confirm',
-    default: false,
-    message
-  }, options))
-  if (!answers[name]) console.log(`${name} cancelled`)
-  return answers[name]
-}
-
 exports.default = {
   command: 'database [stuff]',
   describe: 'database operation',
@@ -28,6 +12,20 @@ exports.default = {
     }
   },
   async handler (argv) {
+    const shelljs = require('shelljs')
+    const inquirer = require('inquirer')
+    const { addonArgs } = require('../lib/helper')
+    async function prompt (name, message, force, options) {
+      if (force) return true
+      let answers = await inquirer.prompt(Object.assign({
+        name,
+        type: 'confirm',
+        default: false,
+        message
+      }, options))
+      if (!answers[name]) console.log(`${name} cancelled`)
+      return answers[name]
+    }
     let {stuff} = argv
     let args = addonArgs()
     switch (stuff) {
