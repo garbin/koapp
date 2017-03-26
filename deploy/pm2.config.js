@@ -1,7 +1,7 @@
-const pkg = require('../../package')
+const pkg = require('../package')
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 const path = require('path')
-const cwd = path.resolve(__dirname, '../../')
+const cwd = path.resolve(__dirname, '../')
 const defaults = {
   /**
    * Application configuration section
@@ -39,4 +39,4 @@ const defaults = {
     }
   ]
 }
-module.exports = Object.assign(defaults, require('../config').pm2 || {})
+module.exports = Object.assign(defaults, require('./config').pm2 || {})
