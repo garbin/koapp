@@ -2,6 +2,7 @@ const env = process.env.NODE_ENV || 'development'
 const api = 'http://localhost:5000'
 
 const defaults = {
+  basename: '/',
   api,
   oauth: {
     client_id: '123',

@@ -20,7 +20,7 @@ const compiler = {
     filename: assetDir + 'js/[name].js',
     chunkFilename: assetDir + 'js/[chunkhash].[name].js',
     path: path.storage('/public/admin'),
-    publicPath: config.basename
+    publicPath: config.basename || '/'
   },
   module: {
     rules: [
