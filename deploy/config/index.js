@@ -1,2 +1,6 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'staging'
-module.exports = Object.assign({}, require(`./${process.env.NODE_ENV}`))
+const defaults = {
+  hosts: [],
+  pm2: {}
+}
+module.exports = Object.assign(defaults, require(`./${process.env.NODE_ENV}`))

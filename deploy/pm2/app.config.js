@@ -39,5 +39,4 @@ const defaults = {
     }
   ]
 }
-
-module.exports = Object.assign(defaults, require(`./${process.env.NODE_ENV}`))
+module.exports = Object.assign(defaults, require('../config').pm2 || {})
