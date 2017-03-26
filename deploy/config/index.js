@@ -1,6 +1,9 @@
-process.env.NODE_ENV = process.env.NODE_ENV || 'staging'
-const defaults = {
-  hosts: [],
-  pm2: {}
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+module.exports = (path = 'index', base = {}) => {
+  const defaults = require(`./defaults/${path}`)
+  const env = require(`./${process.env.NODE_ENV}/${path}`)
+  return Object.assign({}, base,
+    defaults instanceof Function ? defaults(base) : defaults,
+    env instanceof Function ? env(base) : env
+  )
 }
-module.exports = Object.assign(defaults, require(`./${process.env.NODE_ENV}`))

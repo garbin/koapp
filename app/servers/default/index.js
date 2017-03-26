@@ -1,16 +1,16 @@
 const { Koapi, logger } = require('koapi')
 const { connection } = require('../../models')
 const { Storage } = require('../../models/file')
-const { storage, mailer } = require('../../lib/helper')
-const { services } = require('../../config')
-const config = require('./config')
+const { loadConfig, mailer, path } = require('../../lib/helper')
+const { services } = loadConfig()
+const config = loadConfig('servers/default')
 
 const app = new Koapi()
 
 app.setup(Object.assign({
   middlewares: require('./middlewares'),
   routers: require('./routers').default,
-  serve: { root: storage('/public') }
+  serve: { root: path.storage('/public') }
 }, config))
 
 app.teardown(async () => {

@@ -4,7 +4,8 @@ const BearerStrategy = require('passport-http-bearer')
 const ClientPasswordStrategy = require('passport-oauth2-client-password')
 const createError = require('http-errors')
 const { OAuth, User } = require('../../../../models')
-const config = require('../../config')
+const { loadConfig } = require('../../../../lib/helper')
+const config = loadConfig('servers/default')
 
 exports.accountSignin = function (provider, getProfile) {
   return async (accessToken, refreshToken, params, profile, done) => {

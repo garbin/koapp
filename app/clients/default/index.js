@@ -9,10 +9,10 @@ import { IntlProvider } from 'react-intl-redux'
 import { addLocaleData } from 'react-intl'
 import messages from './locales/zh-CN'
 import zhLocaleData from 'react-intl/locale-data/zh'
-import config from './config'
 import Containers from './containers'
 import createStore from './store'
 import moment from 'moment'
+import config from './config'
 
 addLocaleData([...zhLocaleData])
 const history = createHistory({ basename: config.basename })

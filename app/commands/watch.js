@@ -19,7 +19,8 @@ exports.default = {
                       -L -e js,es,jsx ./app/index.js -- server ${args}`)
         break
       case 'universal':
-        const config = require('../config')
+        const { loadConfig } = require('../lib/helper')
+        const config = loadConfig()
         let commands = []
         let names = []
         process.env.KOAPP_WATCH_MODE = true

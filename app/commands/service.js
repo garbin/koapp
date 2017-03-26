@@ -10,10 +10,11 @@ exports.default = {
   }),
   handler (argv) {
     const { logger } = require('koapi')
-    logger.info(`Using environment: ${process.env.NODE_ENV}`)
     const { name, cluster } = argv
+    const { loadConfig } = require('../lib/helper')
     const service = require('../services')
-    const { services: config } = require('../config')
+    const { services: config } = loadConfig()
+    logger.info(`Using environment: ${process.env.NODE_ENV}`)
     service.start(name
       ? config.enabled.filter((item) => item.name === name)
       : config.enabled,

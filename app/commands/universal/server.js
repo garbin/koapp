@@ -5,8 +5,8 @@ const mount = require('koa-mount')
 const { logger } = require('koapi')
 const historyApiFallback = require('koa-history-api-fallback')
 const serve = require('koa-static')
-const config = require('../../config')
-const { storage } = require('../../lib/helper')
+const { loadConfig, path } = require('../../lib/helper')
+const config = loadConfig()
 const proxy = require('koa-proxy')
 
 exports.default = function server () {
@@ -28,7 +28,7 @@ exports.default = function server () {
         }))
         universal.use(mount(app.mount, compose([convert(historyApiFallback()), publicContent])))
       } else {
-        let publicContent = serve(app.path ? app.path : storage(`/public/${app.client}`))
+        let publicContent = serve(app.path ? app.path : path.storage(`/public/${app.client}`))
         universal.use(mount(app.mount, compose([convert(historyApiFallback()), publicContent])))
       }
       continue

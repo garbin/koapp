@@ -2,10 +2,10 @@ const { router } = require('koapi')
 const { User } = require('../../../models')
 const { default: user } = require('../middlewares/user')
 const { default: sendMail } = require('../middlewares/sendmail')
-const config = require('../config')
+const { loadConfig } = require('../../../lib/helper')
+const config = loadConfig('servers/default')
 const { Base64 } = require('js-base64')
 const qs = require('query-string')
-const slow = require('koa-slow')
 
 exports.default = router.define(router => {
   router.prefix('/home')

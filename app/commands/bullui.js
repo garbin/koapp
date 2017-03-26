@@ -7,7 +7,8 @@ exports.default = {
     type: 'string'
   }),
   handler (argv) {
-    const config = require('../config')
+    const { loadConfig } = require('../lib/helper')
+    const config = loadConfig()
     let ui = require('bull-ui/app')({
       redis: {
         host: config.redis.host,

@@ -1,7 +1,7 @@
 const Queue = require('bull')
 const { logger: log } = require('koapi')
-const config = require('../../config')
-const { mailer } = require('../../lib/helper')
+const { mailer, loadConfig } = require('../../lib/helper')
+const config = loadConfig()
 const Joi = require('joi')
 const schema = Joi.object().keys({
   to: Joi.string().email().required(),
