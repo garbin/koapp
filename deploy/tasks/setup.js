@@ -2,9 +2,9 @@ module.exports = {
   name: 'setup',
   local () {
     this.log('Start setup')
-    this.transfer(['./app/**/*'], '/tmp/test')
-    // this.exec('npm install')
-    // this.exec('npm start build')
+    this.transfer(this.exec('git ls-files'), '/tmp/files')
   },
-  remote (env) { }
+  remote () {
+    this.exec('docker run --rm -v /tmp/files:/usr/src/app node npm install')
+  }
 }
