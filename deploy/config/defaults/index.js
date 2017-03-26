@@ -1,12 +1,13 @@
 module.exports = {
   security: { saltRounds: 10 },
   universal: {
-    port: 5000,
-    apps: [
-      {mount: '/api', server: 'default'},
-      {mount: '/admin', client: 'default'},
-      {mount: '/', client: 'website'}
-    ]
+    default: {
+      port: 5000,
+      apps: [
+        {mount: '/api', server: 'default'},
+        {mount: '/', client: 'default'}
+      ]
+    }
   },
   services: {
     cluster: false,

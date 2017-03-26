@@ -9,10 +9,11 @@ const { loadConfig, path } = require('../../lib/helper')
 const config = loadConfig()
 const proxy = require('koa-proxy')
 
-exports.default = function server () {
+exports.default = function server (instanceName) {
   const universal = new Koapi()
   const teardowns = []
-  for (let app of config.universal.apps) {
+  const instanceConfig = config.universal[instanceName]
+  for (let app of instanceConfig.apps) {
     if (app.server) {
       const instance = require(`../../servers/${app.server}`)
       teardowns.push(instance.app.listeners.teardown)
@@ -37,8 +38,8 @@ exports.default = function server () {
   }
 
   const server = universal.listen(
-    config.universal.port,
-    e => logger.info(`Universal server is running on port ${config.universal.port}`)
+    instanceConfig.port,
+    e => logger.info(`Universal server is running on port ${instanceConfig.port}`)
   )
   server.on('close', () => teardowns.forEach(teardown => teardown()))
   return server

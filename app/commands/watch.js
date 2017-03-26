@@ -1,10 +1,9 @@
 exports.default = {
-  command: 'watch [stuff]',
+  command: 'watch [stuff] [instance]',
   describe: 'watch mode',
   builder: yargs => yargs.options({
-    stuff: {
-      default: 'universal'
-    },
+    stuff: { default: 'universal' },
+    instance: { default: 'default' },
     port: { alias: 'p' }
   }),
   async handler (argv) {
@@ -25,14 +24,15 @@ exports.default = {
         let names = []
         process.env.KOAPP_WATCH_MODE = true
         process.env.KOAPP_WEBPACK_DEV_HOST = process.env.KOAPP_WEBPACK_DEV_HOST || 'localhost'
-        for (let app of config.universal.apps.filter(app => app.client)) {
+        const instanceConfig = config.universal[argv.instance]
+        for (let app of instanceConfig.apps.filter(app => app.client)) {
           names.push(app.client)
           commands.push(`"npm start watch ${app.client}"`)
         }
         names.push('universal')
         commands.push(`"nodemon --harmony --watch app \
                        --ignore app/clients -L -e js,es,jsx ./app/index.js \
-                       -- universal ${args}"`)
+                       -- universal ${argv.instance} ${args}"`)
         shelljs.exec(`concurrently -p name -n "${names.join(',')}" ${commands.join(' ')}`)
         break
       case 'service':

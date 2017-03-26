@@ -1,7 +1,8 @@
 exports.default = {
-  command: 'universal',
+  command: 'universal [instance]',
   describe: 'run universal server',
   builder: {
+    instance: { default: 'default' },
     build: {
       alias: 'b',
       describe: 'build before start',
@@ -14,6 +15,6 @@ exports.default = {
     const { logger: log } = require('koapi')
     log.info(`Using environment: ${process.env.NODE_ENV}`)
     if (argv.build) shelljs.exec(`npm start build -- ${addonArgs()}`)
-    require('./server').default()
+    require('./server').default(argv.instance)
   }
 }
