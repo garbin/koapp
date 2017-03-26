@@ -221,13 +221,13 @@ export class List extends React.Component {
   }
 }
 
-export default function (config) {
+export default function (config, Component = List) {
   const mapStateToProps = config.mapStateToProps || (state => ({
     async: state.async,
     checklist: state.checklist,
     oauth: state.oauth
   }))
   return connect(mapStateToProps)(
-    withRouter(injectIntl(props => <List {...props} config={config} />))
+    withRouter(injectIntl(props => <Component {...props} config={config} />))
   )
 }
