@@ -1,5 +1,5 @@
 // Update with your config settings.
-const config = require('./deploy/config')()
+const { config } = require('koapi')
 
 const database = {
   migrations: {
@@ -10,4 +10,4 @@ const database = {
   }
 }
 
-module.exports = Object.assign(database, config.database)
+module.exports = Object.assign(database, config.get('database'))

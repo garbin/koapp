@@ -1,7 +1,7 @@
 const cluster = require('throng')
-const { loadConfig } = require('../lib/helper')
-const { services } = loadConfig()
-const { logger } = require('koapi')
+const { logger, config } = require('koapi')
+
+const services = config.get('services')
 
 exports.start = (enabled = [], clusterMode = false) => {
   if (enabled.length === 0) {

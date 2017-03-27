@@ -1,4 +1,3 @@
-module.exports = compiler => {
-  compiler.devtool = 'eval'
-  return compiler
+module.exports = {
+  devtool: 'eval'
 }

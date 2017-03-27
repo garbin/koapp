@@ -9,15 +9,13 @@ exports.default = {
     type: 'boolean'
   }),
   handler (argv) {
-    const { logger } = require('koapi')
+    const { logger, config } = require('koapi')
     const { name, cluster } = argv
-    const { loadConfig } = require('../lib/helper')
     const service = require('../services')
-    const { services: config } = loadConfig()
     logger.info(`Using environment: ${process.env.NODE_ENV}`)
     service.start(name
-      ? config.enabled.filter((item) => item.name === name)
-      : config.enabled,
-        cluster !== undefined ? cluster : config.cluster)
+      ? config.get('services.enabled').filter((item) => item.name === name)
+      : config.get('services.enabled'),
+        cluster !== undefined ? cluster : config.get('services.cluster'))
   }
 }

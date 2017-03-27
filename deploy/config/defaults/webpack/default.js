@@ -1,3 +1,1 @@
-module.exports = compiler => {
-  return compiler
-}
+module.exports = {}

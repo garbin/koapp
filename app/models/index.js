@@ -1,6 +1,6 @@
-const { model } = require('koapi')
-const { loadConfig } = require('../lib/helper')
-const { connection, bookshelf } = model.connect(loadConfig().database)
+const { model, config } = require('koapi')
+
+const { connection, bookshelf } = model.connect(config.get('database'))
 
 exports.connection = connection
 exports.bookshelf = bookshelf

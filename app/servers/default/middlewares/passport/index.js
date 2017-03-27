@@ -1,11 +1,10 @@
+const { config } = require('koapi')
 const passport = require('koa-passport')
 const { BasicStrategy } = require('passport-http')
 const BearerStrategy = require('passport-http-bearer')
 const ClientPasswordStrategy = require('passport-oauth2-client-password')
 const createError = require('http-errors')
 const { OAuth, User } = require('../../../../models')
-const { loadConfig } = require('../../../../lib/helper')
-const config = loadConfig('servers/default')
 
 exports.accountSignin = function (provider, getProfile) {
   return async (accessToken, refreshToken, params, profile, done) => {
@@ -33,7 +32,7 @@ const strategies = {
   oauth2: require('./oauth2').default
 }
 
-Object.entries(config.passport).forEach(([provider, settings]) => {
+Object.entries(config('servers/default').get('passport')).forEach(([provider, settings]) => {
   strategies[provider](settings)
 })
 

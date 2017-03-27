@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 const koapi = require('koapi/bin/koapi')
+const { config } = require('koapi')
 const { logger, external: { winston } } = require('koapi')
 const fs = require('fs-extra')
-const { loadConfig, path } = require('./lib/helper')
-const config = loadConfig()
+const { path } = require('./lib/helper')
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 logger.emitErrs = true
@@ -16,7 +16,7 @@ logger.add(winston.transports.File, Object.assign({
   json: false,
   filename: path.storage('/logs/koapp.log'),
   level: 'info'
-}, config.logging))
+}, config.get('logging')))
 
 process.on('unhandledRejection', (reason, p) => {
   logger.error('unhandled rejection', reason, p)

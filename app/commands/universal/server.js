@@ -1,18 +1,17 @@
-const { Koapi } = require('koapi')
+const { Koapi, config } = require('koapi')
 const convert = require('koa-convert')
 const compose = require('koa-compose')
 const mount = require('koa-mount')
 const { logger } = require('koapi')
 const historyApiFallback = require('koa-history-api-fallback')
 const serve = require('koa-static')
-const { loadConfig, path } = require('../../lib/helper')
-const config = loadConfig()
+const { path } = require('../../lib/helper')
 const proxy = require('koa-proxy')
 
 exports.default = function server (instanceName) {
   const universal = new Koapi()
   const teardowns = []
-  const instanceConfig = config.universal[instanceName]
+  const instanceConfig = config.get(`universal.${instanceName}`)
   for (let app of instanceConfig.apps) {
     if (app.server) {
       const instance = require(`../../servers/${app.server}`)

@@ -14,7 +14,8 @@
       "default": [
         "universal"
       ]
-    }
+    },
+    "config": "./deploy/config"
   },
   "repository": {
     "type": "git",

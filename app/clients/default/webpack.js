@@ -3,8 +3,9 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const assetDir = 'static/'
 const pkg = require('../../../package')
-const { path, loadConfig } = require('../../lib/helper')
+const { path } = require('../../lib/helper')
 const config = require('./config')
+const { config: koapiConfig } = require('koapi')
 
 const compiler = {
   devtool: 'source-map',
@@ -98,4 +99,4 @@ const compiler = {
   }
 }
 
-module.exports = loadConfig('webpack/default', compiler)
+module.exports = Object.assign(compiler, koapiConfig('webpack/default').all())

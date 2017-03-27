@@ -1,7 +1,6 @@
 const Queue = require('bull')
-const { logger: log } = require('koapi')
-const { mailer, loadConfig } = require('../../lib/helper')
-const config = loadConfig()
+const { logger: log, config } = require('koapi')
+const { mailer } = require('../../lib/helper')
 const Joi = require('joi')
 const schema = Joi.object().keys({
   to: Joi.string().email().required(),
@@ -11,7 +10,7 @@ const schema = Joi.object().keys({
   html: Joi.string()
 }).or('text', 'html')
 
-exports.queue = new Queue('Mailer', config.redis.port, config.redis.host)
+exports.queue = new Queue('Mailer', config.get('redis.port'), config.get('redis.host'))
 exports.queue.on('error', log.error)
 exports.default = {
   name: 'Mailer',

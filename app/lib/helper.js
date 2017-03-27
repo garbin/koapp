@@ -1,3 +1,4 @@
+const { config } = require('koapi')
 const path = require('path')
 const nodemailer = require('nodemailer')
 let mailer
@@ -14,12 +15,8 @@ exports.path = {
     return `${exports.path.root()}storage/${relative}`
   }
 }
-exports.loadConfig = (file = 'index', base = {}) => {
-  return require(`${exports.path.root()}/deploy/config`)(file, base)
-}
 exports.mailer = function () {
-  const config = exports.loadConfig()
-  mailer = mailer || nodemailer.createTransport(config.mailer.smtp,
-    config.mailer.defaults)
+  mailer = mailer || nodemailer.createTransport(config.get('mailer.smtp'),
+    config.get('mailer.defaults'))
   return mailer
 }

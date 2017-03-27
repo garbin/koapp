@@ -1,15 +1,13 @@
-const { model, logger: log } = require('koapi')
+const { config, model, logger: log } = require('koapi')
 const path = require('path')
 const Joi = require('joi')
 const { Client } = require('minio')
 const mime = require('mime-types')
 const moment = require('moment')
 const fs = require('fs')
-const { loadConfig } = require('../lib/helper')
-const config = loadConfig()
 const Promise = require('bluebird')
 const ulid = require('ulid')
-const Storage = Promise.promisifyAll(new Client(config.storage.minio))
+const Storage = Promise.promisifyAll(new Client(config.get('storage.minio')))
 
 /**
  * write:
@@ -24,7 +22,7 @@ const File = model.define('File', class extends model.base() {
   get tableName () { return 'files' }
   serialize (options = {}) {
     let file = super.serialize(options)
-    file.file_path = config.storage.root + file.file_path
+    file.file_path = config.get('storage.root') + file.file_path
     return file
   }
   initialize () {

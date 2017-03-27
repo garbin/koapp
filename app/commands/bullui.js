@@ -7,17 +7,16 @@ exports.default = {
     type: 'string'
   }),
   handler (argv) {
-    const { loadConfig } = require('../lib/helper')
-    const config = loadConfig()
+    const { config } = require('koapi')
     let ui = require('bull-ui/app')({
       redis: {
-        host: config.redis.host,
-        port: config.redis.port,
-        password: config.redis.password
+        host: config.get('redis.host'),
+        port: config.get('redis.port'),
+        password: config.get('redis.password')
       }
     })
 
-    ui.listen(argv.port || config.bull.ui_port, function () {
+    ui.listen(argv.port || config.get('bull.ui_port'), function () {
       console.log('Bull-UI started listening on port', this.address().port)
     })
   }

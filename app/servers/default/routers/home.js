@@ -1,9 +1,9 @@
-const { router } = require('koapi')
+const { router, config } = require('koapi')
 const { User } = require('../../../models')
 const { default: user } = require('../middlewares/user')
 const { default: sendMail } = require('../middlewares/sendmail')
-const { loadConfig } = require('../../../lib/helper')
-const config = loadConfig('servers/default')
+
+const serverConfig = config('servers/default').all()
 const { Base64 } = require('js-base64')
 const qs = require('query-string')
 
@@ -18,7 +18,7 @@ exports.default = router.define(router => {
     ctx.state.mail = {
       to: email,
       context: {
-        link: `${config.clientUrl}/admin/session/reset?${Base64.encodeURI(qs.stringify(meta))}`
+        link: `${serverConfig.clientUrl}/admin/session/reset?${Base64.encodeURI(qs.stringify(meta))}`
       }
     }
     await next()

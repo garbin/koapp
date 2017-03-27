@@ -1,9 +1,9 @@
-const { Koapi, logger } = require('koapi')
+const { Koapi, logger, config } = require('koapi')
 const { connection } = require('../../models')
 const { Storage } = require('../../models/file')
-const { loadConfig, mailer, path } = require('../../lib/helper')
-const { services } = loadConfig()
-const config = loadConfig('servers/default')
+const { mailer, path } = require('../../lib/helper')
+const services = config.get('services')
+const serverConfig = config('servers/default').all()
 
 const app = new Koapi()
 
@@ -11,7 +11,7 @@ app.setup(Object.assign({
   middlewares: require('./middlewares'),
   routers: require('./routers').default,
   serve: { root: path.storage('/public') }
-}, config))
+}, serverConfig))
 
 app.teardown(async () => {
   try {
@@ -39,4 +39,4 @@ module.exports = {
   },
   stop () { app.server.close() }
 }
-if (require.main === module) module.exports.start(config.port)
+if (require.main === module) module.exports.start(serverConfig.port)

@@ -4,7 +4,7 @@ const OAuth2Strategy = require('passport-oauth2')
 
 exports.default = function (config) {
   passport.use(new OAuth2Strategy(config, accountSignin('oauth2', async ({ accessToken }) => {
-    let res = await request.get(config.passport.oauth2.profileURL, {
+    let res = await request.get(config.profileURL, {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }

@@ -1,10 +1,10 @@
-const { model } = require('koapi')
+const { model, config } = require('koapi')
 const Joi = require('joi')
 const random = require('randomatic')
 const moment = require('moment')
 const bcrypt = require('bcryptjs')
-const { loadConfig } = require('../../lib/helper')
-const { security } = loadConfig()
+
+const security = config.get('security')
 const { default: Account } = require('./account')
 const { default: Role } = require('./role')
 const { default: Post } = require('../post')

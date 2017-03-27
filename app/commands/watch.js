@@ -18,13 +18,12 @@ exports.default = {
                       -L -e js,es,jsx ./app/index.js -- server ${args}`)
         break
       case 'universal':
-        const { loadConfig } = require('../lib/helper')
-        const config = loadConfig()
+        const { config } = require('koapi')
         let commands = []
         let names = []
         process.env.KOAPP_WATCH_MODE = true
         process.env.KOAPP_WEBPACK_DEV_HOST = process.env.KOAPP_WEBPACK_DEV_HOST || 'localhost'
-        const instanceConfig = config.universal[argv.instance]
+        const instanceConfig = config.get(`universal.${argv.instance}`)
         for (let app of instanceConfig.apps.filter(app => app.client)) {
           names.push(app.client)
           commands.push(`"npm start watch ${app.client}"`)
