@@ -12,7 +12,7 @@ exports.path = {
     return path.resolve(__dirname, '../../')
   },
   storage (relative) {
-    return `${exports.path.root()}storage/${relative}`
+    return `${exports.path.root()}/storage${relative}`
   }
 }
 exports.mailer = function () {
