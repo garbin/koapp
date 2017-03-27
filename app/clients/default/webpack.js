@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const assetDir = 'static/'
 const pkg = require('../../../package')
 const { path } = require('../../lib/helper')
-const config = require('./config')
-const { config: koapiConfig } = require('koapi')
+const client = require('./config')
+const { config } = require('koapi')
 
 const compiler = {
   devtool: 'source-map',
@@ -21,7 +21,7 @@ const compiler = {
     filename: assetDir + 'js/[name].js',
     chunkFilename: assetDir + 'js/[chunkhash].[name].js',
     path: path.storage('/public/admin'),
-    publicPath: config.basename || '/'
+    publicPath: client.basename || '/'
   },
   module: {
     rules: [
@@ -99,4 +99,4 @@ const compiler = {
   }
 }
 
-module.exports = Object.assign(compiler, koapiConfig('webpack/default').all())
+module.exports = Object.assign(compiler, config('webpack/default').all())
