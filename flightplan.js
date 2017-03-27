@@ -1,6 +1,7 @@
+const { config } = require('koapi')
 const plan = require('flightplan')
-const config = require('./deploy/config')('deployment')
+const hosts = config('deployment').get('hosts')
 const tasks = require('./deploy/tasks')
-plan.target('deployment', config.hosts)
+plan.target('deployment', hosts)
 
 tasks(plan)
