@@ -1,4 +1,4 @@
-const { model, getInternal } = require('koapi')
+const { model } = require('koapi')
 const Joi = require('joi')
 const moment = require('moment')
 const random = require('randomatic')
@@ -27,7 +27,7 @@ exports.default = model.define('Account', class extends model.base() {
     }
   };
   static async signin (provider, response) {
-    const bookshelf = getInternal('bookshelf')
+    const bookshelf = model.getInternal('bookshelf')
     let { account_id, username, email, avatar, profile, access_token, refresh_token } = response
     let account = await this.forge().where({ account_id }).fetch({ withRelated: ['user'] })
     let user
