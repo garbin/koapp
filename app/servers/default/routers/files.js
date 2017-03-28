@@ -8,14 +8,14 @@ exports.default = router.define('resource', {
   setup (router) {
     router.use(user.required())
     router.create(async (ctx, next) => {
-      const upload = ctx.request.files['file']
+      const upload = ctx.request.body.files.file
       if (upload) {
         ctx.state.attributes = Object.assign({
           file_name: upload.name,
           file_size: upload.size,
           file_type: upload.type,
           file_path: upload.path
-        }, _.omit(ctx.request.body, 'files'))
+        }, _.omit(ctx.request.body, ['files', 'fields']))
         await next()
       }
     })

@@ -1,7 +1,7 @@
 const { model } = require('koapi')
 const Joi = require('joi')
 
-exports.default = model.define('OAuthCode', class extends model.base() {
+exports.default = class Code extends model.base() {
   get tableName () {
     return 'oauth_authorization_codes'
   }
@@ -21,4 +21,4 @@ exports.default = model.define('OAuthCode', class extends model.base() {
       expires_at: Joi.date()
     }
   };
-})
+}

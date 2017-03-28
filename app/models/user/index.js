@@ -3,13 +3,9 @@ const Joi = require('joi')
 const random = require('randomatic')
 const moment = require('moment')
 const bcrypt = require('bcryptjs')
-
 const security = config.get('security')
-const { default: Account } = require('./account')
-const { default: Role } = require('./role')
-const { default: Post } = require('../post')
 
-exports.default = model.define('User', class extends model.base() {
+exports.default = class User extends model.base() {
   get tableName () { return 'users' }
   get hasTimestamps () { return true }
   get hidden () {
@@ -61,4 +57,8 @@ exports.default = model.define('User', class extends model.base() {
     if (user && await bcrypt.compare(password, user.get('password'))) return user
     throw new Error('auth failed')
   }
-})
+}
+
+const { default: Account } = require('./account')
+const { default: Role } = require('./role')
+const { default: Post } = require('../post')

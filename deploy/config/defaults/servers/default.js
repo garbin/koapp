@@ -6,6 +6,10 @@ module.exports = {
   cors: {
     exposeHeaders: ['Content-Range']
   },
+  bodyparser: {
+    multipart: true,
+    formidable: { uploadDir: require('os').tmpdir() }
+  },
   accesslog: { path: path.resolve('./storage/logs/access.log') },
   passport: {
     github: {

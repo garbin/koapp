@@ -1,7 +1,7 @@
 const { model } = require('koapi')
 const Joi = require('joi')
 
-exports.default = model.define('Comment', class extends model.base() {
+exports.default = class Comment extends model.base() {
   get tableName () {
     return 'comments'
   }
@@ -17,4 +17,4 @@ exports.default = model.define('Comment', class extends model.base() {
       post_id: Joi.number().integer()
     }
   };
-})
+}

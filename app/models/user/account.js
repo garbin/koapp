@@ -2,9 +2,8 @@ const { model } = require('koapi')
 const Joi = require('joi')
 const moment = require('moment')
 const random = require('randomatic')
-const { default: User } = require('./index')
 
-exports.default = model.define('Account', class extends model.base() {
+exports.default = class Account extends model.base() {
   get tableName () {
     return 'user_accounts'
   }
@@ -72,4 +71,5 @@ exports.default = model.define('Account', class extends model.base() {
 
     return user
   }
-})
+}
+const { default: User } = require('./index')
