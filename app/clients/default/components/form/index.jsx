@@ -8,6 +8,7 @@ import { injectIntl, FormattedMessage } from 'react-intl'
 import { actions as async } from '../../reduxers/async'
 import { toastr } from 'react-redux-toastr'
 import { Form, Card, CardBlock, CardFooter, Row, Col } from 'reactstrap'
+import { ConfirmLink } from './link'
 import Input from './input'
 import Button from './button'
 import Checkbox from './checkbox'
@@ -15,7 +16,7 @@ import modal, { Modal } from './modal'
 import Select from './select'
 import ButtonDropdown from './button_dropdown'
 
-export { Input, Button, Checkbox, modal, Select, ButtonDropdown, Modal }
+export { Input, Button, Checkbox, modal, Select, ButtonDropdown, Modal, ConfirmLink }
 
 export function validate (schema, options = {}) {
   return values => {
