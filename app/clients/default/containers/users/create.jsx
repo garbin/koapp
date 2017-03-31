@@ -53,10 +53,10 @@ export class CreateForm extends ModalForm {
 }
 
 export default modal({
-  mapStateToProps: state => ({
+  mapStateToProps: [state => ({
     async: state.async,
     result: state.result
-  }),
+  })],
   resource: 'user',
   formTitle: <FormattedMessage id='user.create' />,
   method: 'post',

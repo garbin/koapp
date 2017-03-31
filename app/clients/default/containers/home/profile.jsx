@@ -44,13 +44,13 @@ export class ProfileForm extends Modal {
 }
 
 export default modal({
-  mapStateToProps: state => {
+  mapStateToProps: [state => {
     return {
       oauth: state.oauth,
       async: state.async,
       initialValues: state.oauth.user
     }
-  },
+  }],
   name: 'profile',
   formTitle: <FormattedMessage id='user.profile' />,
   method: 'patch',

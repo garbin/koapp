@@ -107,12 +107,12 @@ export class Page extends React.Component {
 }
 
 export function page (config, Component = Page) {
-  const mapStateToProps = config.mapStateToProps || (state => ({
+  const mapStateToProps = config.mapStateToProps || ([state => ({
     async: state.async,
     oauth: state.oauth,
     initialValues: _.get(state.async, `${config.name}.response`)
-  }))
-  return connect(mapStateToProps)(
+  })])
+  return connect(...mapStateToProps)(
     reduxForm({
       form: `${config.name || 'page'}`,
       validate: validate(config.validate || {})

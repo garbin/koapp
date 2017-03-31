@@ -22,7 +22,7 @@ const schema = {
 export class EditForm extends CreateForm {}
 
 export default modal({
-  mapStateToProps: state => {
+  mapStateToProps: [state => {
     let res = _.get(state.async, `user.response`)
     let user
     if (res) {
@@ -40,7 +40,7 @@ export default modal({
       async: state.async,
       user_form: state.form.user
     }
-  },
+  }],
   resource: 'user',
   formTitle: <FormattedMessage id='user.edit' />,
   method: 'patch',

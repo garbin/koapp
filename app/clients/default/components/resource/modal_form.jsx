@@ -45,11 +45,11 @@ export class ModalForm extends Modal {
   }
 }
 export default (config, Component = ModalForm) => {
-  const mapStateToProps = config.mapStateToProps || (state => ({
+  const mapStateToProps = config.mapStateToProps || ([state => ({
     async: state.async,
     oauth: state.oauth,
     initialValues: _.get(state.async, `${config.resource}.response`)
-  }))
+  })])
   const name = config.name || config.resource
   return modal({...config, name, mapStateToProps}, Component)
 }

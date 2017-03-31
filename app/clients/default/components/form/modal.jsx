@@ -60,11 +60,11 @@ export class Modal extends React.Component {
 }
 
 export default function modal (config, Component = Modal) {
-  const mapStateToProps = config.mapStateToProps || (state => ({
+  const mapStateToProps = config.mapStateToProps || ([state => ({
     async: state.async,
     oauth: state.oauth
-  }))
-  return connect(mapStateToProps)(reduxForm({
+  })])
+  return connect(...mapStateToProps)(reduxForm({
     form: `${config.name || 'modal'}`,
     validate: validate(config.validate || {})
   })(withRouter(injectIntl(props => <Component {...props} config={config} />))))
