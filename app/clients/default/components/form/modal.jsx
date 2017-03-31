@@ -46,7 +46,7 @@ export class Modal extends React.Component {
         <Form onSubmit={handleSubmit(config.submit.bind(this))}>
           <ModalHeader>{config.formTitle}</ModalHeader>
           <ModalBody style={{padding: '30px'}}>
-            {config.body.call(this, config.fields.map(field => {
+            {config.body.call(this, (config.fields instanceof Function ? config.fields.call(this) : config.fields).map(field => {
               return field instanceof Function
                 ? field.call(this, {Field, Input})
                 : <Field key={field.name} component={Input} {...field} />
