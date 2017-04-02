@@ -45,7 +45,7 @@ export default class extends React.Component {
         }
         break
       default:
-        Component = wrapper || Input
+        Component = Input
         addons = { state }
     }
     const field = wrapper
@@ -57,7 +57,6 @@ export default class extends React.Component {
           <Label for={name} sm={2} className='text-xs-right form-control-label'>{label}</Label>
           <div {...inputColProps} className={classnames('col-sm-10', inputColProps.className)}>
             {field}
-            <Component {...input} {...props} {...addons} />
             {touched && (error && <FormFeedback>{error}</FormFeedback>)}
           </div>
         </FormGroup>
