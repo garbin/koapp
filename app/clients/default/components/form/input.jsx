@@ -7,7 +7,14 @@ import classnames from 'classnames'
 
 export default class extends React.Component {
   render () {
-    const {input, async, row, inline, meta: {touched, error, valid}, ...others} = this.props
+    const {
+      input,
+      wrapper,
+      async,
+      row,
+      inline,
+      meta: {touched, error, valid},
+      ...others} = this.props
     const state = touched ? (error ? 'danger' : valid ? 'success' : undefined) : undefined
     const {label, creatable, ...props} = others
     const { name } = input
@@ -38,7 +45,7 @@ export default class extends React.Component {
         }
         break
       default:
-        Component = Input
+        Component = wrapper || Input
         addons = { state }
     }
     if (row) {
