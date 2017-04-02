@@ -48,23 +48,27 @@ export default class extends React.Component {
         Component = wrapper || Input
         addons = { state }
     }
+    const field = wrapper
+      ? wrapper(<Component {...input} {...props} {...addons} />)
+      : <Component {...input} {...props} {...addons} />
     if (row) {
       return (
         <FormGroup color={state} row>
           <Label for={name} sm={2} className='text-xs-right form-control-label'>{label}</Label>
           <div {...inputColProps} className={classnames('col-sm-10', inputColProps.className)}>
+            {field}
             <Component {...input} {...props} {...addons} />
             {touched && (error && <FormFeedback>{error}</FormFeedback>)}
           </div>
         </FormGroup>
       )
     } else if (inline) {
-      return <Component {...input} {...props} {...addons} />
+      return field
     } else {
       return (
         <FormGroup color={state}>
           <Label for={name}>{label}</Label>
-          <Component {...input} {...props} {...addons} />
+          {field}
           {touched && (error && <FormFeedback>{error}</FormFeedback>)}
         </FormGroup>
       )
