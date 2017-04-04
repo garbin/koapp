@@ -1,7 +1,7 @@
 const { logger } = require('koapi')
 logger.emitErr = true
 logger.on('error', console.error)
-process.on('unhandledRejection', (reason, p) => { logger.error('unhandled rejection', reason, p) })
+// process.on('unhandledRejection', (reason, p) => { logger.error('unhandled rejection', reason, p) })
 const { start } = require('../../app/servers/default')
 const nock = require('nock')
 const server = start(null, false)
