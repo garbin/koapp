@@ -1,7 +1,7 @@
 {
   "name": "Koapp",
   "title": "Koapp 应用",
-  "version": "1.0.0",
+  "version": "0.5.13",
   "description": "",
   "main": "app/index.js",
   "scripts": {
