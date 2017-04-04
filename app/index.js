@@ -19,4 +19,5 @@ logger.add(winston.transports.File, Object.assign({
 process.on('unhandledRejection', (reason, p) => {
   logger.error('unhandled rejection', reason, p)
 })
-cli()
+
+cli(require('./commands'), { strict: false, default: ['universal'] })

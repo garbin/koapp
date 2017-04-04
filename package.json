@@ -9,12 +9,6 @@
     "test": "export NODE_ENV=test && npm start lint && npm start database reset -- -f && jest"
   },
   "koapi": {
-    "commands": {
-      "path": "./app/commands",
-      "default": [
-        "universal"
-      ]
-    },
     "config": "./deploy/config"
   },
   "repository": {
