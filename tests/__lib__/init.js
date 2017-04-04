@@ -5,6 +5,7 @@ process.on('unhandledRejection', (reason, p) => { logger.error('unhandled reject
 const { start } = require('../../app/servers/default')
 const nock = require('nock')
 const server = start(null, false)
+const Promise = require('bluebird')
 
 nock('https://github.com').post('/login/oauth/access_token', {
   grant_type: 'authorization_code',
