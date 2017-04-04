@@ -20,7 +20,7 @@ app.teardown(async () => {
       return service.disconnect()
     }))
   } catch (e) {
-    console.error(e)
+    // console.error(e)
   }
   connection.destroy()
   // close nodemailer agent
