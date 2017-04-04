@@ -1,9 +1,9 @@
-const { server } = require('../../__lib__/init')
+const { server, teardown } = require('../../__lib__/init')
 const { request } = require('koapi/lib/test')
 const { beforeEach, afterAll, test, expect, jasmine } = global
 
 beforeEach(() => { jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000 })
-afterAll(function () { server.close() })
+afterAll(teardown)
 
 test('POST /oauth/token', async () => {
   const res = await request(server).post('/oauth/token')

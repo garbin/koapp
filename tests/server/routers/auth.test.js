@@ -1,8 +1,8 @@
 const { request } = require('koapi/lib/test')
-const { server } = require('../../__lib__/init')
+const { server, teardown } = require('../../__lib__/init')
 const { afterAll, test, expect } = global
 
-afterAll(e => server.close())
+afterAll(teardown)
 
 test('GET /auth/github', () =>
   // redirect to /auth/github/callback

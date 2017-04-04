@@ -38,9 +38,13 @@ const tokens = { admin: '691ae08f7b038e5b09983d2435d3a878' }
 const middlewares = {
   admin: req => req.set('Authorization', `Bearer ${tokens.admin}`)
 }
+const teardown = async () => {
+  await Promise.promisify(server.close).call(server)
+}
 
 module.exports = {
   server,
   tokens,
+  teardown,
   middlewares
 }
