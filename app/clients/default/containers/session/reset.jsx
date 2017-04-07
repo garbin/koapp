@@ -30,7 +30,7 @@ export class Reset extends React.Component {
   }
   submit (values) {
     const { dispatch, intl } = this.props
-    return dispatch(async.patch('reset')('/home/reset_password', values)).then(res => {
+    return dispatch(async.patch('reset')('/auth/user/security', values)).then(res => {
       toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
       dispatch(push('/session/signin'))
     }).catch(e => {

@@ -89,7 +89,7 @@ export default modal({
       data = {...data, password, old_password: oldPassword}
     }
     return new Promise((resolve, reject) => {
-      dispatch(async.patch('profile')(`/home/profile`, data)).then(v => {
+      dispatch(async.patch('profile')(`/auth/user/profile`, data)).then(v => {
         this.close()
         dispatch(oauth2.loadUser(v.value.data))
         toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))

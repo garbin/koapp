@@ -1,19 +1,19 @@
 const { router, config } = require('koapi')
-const {default: passport, authenticate} = require('../middlewares/passport')
+const {default: passport, authenticate} = require('../../middlewares/passport')
 
 const serverConfig = config('servers/default')
-const { OAuth: { Token } } = require('../../../models')
+const { OAuth: { Token } } = require('../../../../models')
 const { Base64 } = require('js-base64')
 
 exports.default = router.define(router => {
-  router.get('/auth/:provider', async (ctx, next) => {
+  router.get('/:provider', async (ctx, next) => {
     let provider = serverConfig.get(`passport.${ctx.params.provider}.strategy`, ctx.params.provider)
     await passport.authenticate(provider, {
       state: ctx.query.state || Base64.encodeURI(ctx.query)
     })(ctx, next)
   })
 
-  router.get('/auth/:provider/callback', async (ctx, next) => {
+  router.get('/:provider/callback', async (ctx, next) => {
     let provider = serverConfig.get(`passport.${ctx.params.provider}.strategy`, ctx.params.provider)
     await authenticate(provider, { session: false }).call(this, ctx, next)
   }, async ctx => {

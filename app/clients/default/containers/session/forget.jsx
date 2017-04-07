@@ -29,7 +29,7 @@ export class Forget extends React.Component {
   }
   submit (values) {
     const { dispatch, intl } = this.props
-    return dispatch(async.patch('forget')('/home/forget', values)).then(res => {
+    return dispatch(async.patch('forget')('/auth/user/forget', values)).then(res => {
       toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'reset_mail_sent'}))
       dispatch(push('/session/signin'))
     }).catch(e => {

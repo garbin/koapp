@@ -24,7 +24,7 @@ nock('https://github.com').get('/login/oauth/authorize').query({
   state: 'eyJjbGllbnRfaWQiOiIxMjMifQ==',
   client_id: 'f2ee0541fecc7c773d5d'
 }).reply(302, undefined, {
-  Location: 'http://127.0.0.1:' + server.address().port + '/auth/github/callback?code=5b7469b93ec67d18b57f'
+  Location: 'http://127.0.0.1:' + server.address().port + '/auth/connect/github/callback?code=5b7469b93ec67d18b57f'
 })
 
 nock('https://api.github.com').get('/user').reply(200, {

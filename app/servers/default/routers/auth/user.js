@@ -1,14 +1,12 @@
 const { router, config } = require('koapi')
-const { User } = require('../../../models')
-const { default: user } = require('../middlewares/user')
-const { default: sendMail } = require('../middlewares/sendmail')
-
+const { User } = require('../../../../models')
+const { default: user } = require('../../middlewares/user')
+const { default: sendMail } = require('../../middlewares/sendmail')
 const serverConfig = config('servers/default').all()
 const { Base64 } = require('js-base64')
 const qs = require('query-string')
 
 exports.default = router.define(router => {
-  router.prefix('/home')
   router.patch('/forget', async (ctx, next) => {
     const { email } = ctx.request.body
     const user = await User.where({email}).fetch({require: true})
@@ -24,7 +22,7 @@ exports.default = router.define(router => {
     await next()
   }, sendMail('mail.template.reset_password'))
 
-  router.patch('/reset_password', async ctx => {
+  router.patch('/security', async ctx => {
     const { password, token, email } = ctx.request.body
     const user = await User.where({email, reset_token: token})
                            .where('reset_expires', '>', new Date())
