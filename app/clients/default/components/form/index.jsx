@@ -29,11 +29,18 @@ export function validate (schema, options = {abortEarly: false}) {
           switch (type) {
             case 'object.and':
               path = path === 'value' ? context.missing[0] : `${path}.${context.key}`
+              _.set(errors, path, message)
+              break
+            case 'object.missing':
+              for (let peer of context.peers) _.set(errors, peer, message)
               break
             default:
+              _.set(errors, path, message)
+              break
           }
+        } else {
+          _.set(errors, path, message)
         }
-        _.set(errors, path, message)
         return errors
       }, {})
     }
