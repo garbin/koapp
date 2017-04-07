@@ -18,7 +18,7 @@ import ButtonDropdown from './button_dropdown'
 
 export { Input, Button, Checkbox, modal, Select, ButtonDropdown, Modal, ConfirmLink }
 
-export function validate (schema, options = {}) {
+export function validate (schema, options = {abortEarly: false}) {
   return values => {
     const joi = schema.isJoi ? schema : Joi.object().keys(schema).unknown()
     const result = Joi.validate(values, joi, options)
