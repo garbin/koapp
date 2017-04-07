@@ -61,13 +61,13 @@ module.exports = {
       return dummyRes
     }
     return async (ctx, next) => {
-      preposing && await next()
+      preposing === true && await next()
       await new Promise((resolve, reject) => {
         const req = createReqMock(ctx, 'user')
         const res = dummyRes(ctx, resolve)
         middleware(req, res, (e, ...args) => e ? reject(e) : resolve(...args))
       })
-      !preposing && await next()
+      preposing === false && await next()
     }
   }
 }

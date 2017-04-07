@@ -24,7 +24,7 @@ exports.default = router.define(router => {
                } catch (e) {
                  await connect((res, req, next) => {
                    oauthServer.errorHandler(e, res, req, next)
-                 })(ctx, next)
+                 }, null)(ctx, next)
                }
              })
 })
