@@ -23,7 +23,7 @@ module.exports = {
   },
   connect (middleware, preposing = false) {
     const createReqMock = require('koa-passport/lib/framework/request').create
-    function dummyRes (ctx, resolve) {
+    const createResMock = (ctx, resolve) => {
       const res = ctx.res
       res.on('close', resolve)
       res.on('finish', resolve)
@@ -64,7 +64,7 @@ module.exports = {
       preposing === true && await next()
       await new Promise((resolve, reject) => {
         const req = createReqMock(ctx, 'user')
-        const res = dummyRes(ctx, resolve)
+        const res = createResMock(ctx, resolve)
         middleware(req, res, (e, ...args) => e ? reject(e) : resolve(...args))
       })
       preposing === false && await next()
