@@ -64,10 +64,10 @@ module.exports = {
   },
   mailer: {
     smtp: {
-      service: 'Zoho',
+      service: 'SendCloud',
       auth: {
-        user: 'support@dianpou.com',
-        pass: 'd1psNblLvDeddpHb'
+        user: 'garbin_test_QOLzXD',
+        pass: 'XYTNmwty9uWUrUOX'
       }
     },
     defaults: {
