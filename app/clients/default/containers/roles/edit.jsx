@@ -2,6 +2,7 @@ import React from 'react'
 import Joi from 'joi'
 import modal, { ModalForm } from '../../components/resource/modal_form'
 import { actions as async } from '../../reduxers/async'
+import { FormattedMessage } from 'react-intl'
 import PermissionEditor from './permission_editor'
 
 export class RoleEdit extends ModalForm {
@@ -23,11 +24,11 @@ const schema = {
 
 export default modal({
   resource: 'role',
-  formTitle: '编辑权限',
+  formTitle: <FormattedMessage id='edit' />,
   method: 'patch',
   fields: [
-    {name: 'name', label: '角色名称', type: 'text'},
-    {name: 'desc', label: '描述', type: 'text'},
+    {name: 'name', label: <FormattedMessage id='role.name' />, type: 'text'},
+    {name: 'desc', label: <FormattedMessage id='role.desc' />, type: 'text'},
     (Field, Input) => (<PermissionEditor key='permission' />)
   ],
   validate: schema
