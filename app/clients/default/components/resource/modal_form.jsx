@@ -1,3 +1,4 @@
+import React from 'react'
 import { push } from 'react-router-redux'
 import { Button, modal, Modal } from '../form'
 import { actions as async } from '../../reduxers/async'
