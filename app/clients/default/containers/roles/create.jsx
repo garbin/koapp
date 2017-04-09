@@ -1,6 +1,6 @@
 import React from 'react'
 import Joi from 'joi'
-import modal from '../../components/resource/modal_form'
+import modal from '../../components/resource/modal'
 import PermissionEditor from './permission_editor'
 import { FormattedMessage } from 'react-intl'
 

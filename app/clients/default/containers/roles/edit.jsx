@@ -1,6 +1,6 @@
 import React from 'react'
 import Joi from 'joi'
-import modal, { ModalForm } from '../../components/resource/modal_form'
+import modal, { ModalForm } from '../../components/resource/modal'
 import { actions as async } from '../../reduxers/async'
 import { FormattedMessage } from 'react-intl'
 import PermissionEditor from './permission_editor'
