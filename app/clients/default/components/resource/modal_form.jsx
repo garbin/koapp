@@ -1,13 +1,14 @@
 import { push } from 'react-router-redux'
-import modal, { Modal } from '../form/modal'
+import { Button, modal, Modal } from '../form'
 import { actions as async } from '../../reduxers/async'
 import { toastr } from 'react-redux-toastr'
 import pluralize from 'pluralize'
+import { FormattedMessage } from 'react-intl'
 import _ from 'lodash'
 
 export class ModalForm extends Modal {
   getConfig () {
-    const { match, config: newest } = this.props
+    const { async: asyncState, match, config: newest } = this.props
     const config = super.getConfig()
     const resources = pluralize(config.resource)
     return {
@@ -25,6 +26,18 @@ export class ModalForm extends Modal {
           toastr.error(e.response.data.message)
         })
       },
+      buttons: (
+        <div>
+          <Button onClick={this.close.bind(this)} type='button'><FormattedMessage id='close' /></Button>
+          &nbsp;&nbsp;
+          <Button
+            color='primary'
+            loading={_.get(asyncState, `${config.resource}.status`) === 'pending'}
+            type='submit'>
+            <FormattedMessage id='submit' />
+          </Button>
+        </div>
+      ),
       ...newest
     }
   }
