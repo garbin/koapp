@@ -1,12 +1,12 @@
 const { model, config } = require('koapi')
-
 const { connection, bookshelf } = model.connect(config.get('database'))
+const { default: User } = require('./user')
+const { default: OAuth } = require('./oauth')
+const { default: Post } = require('./post')
+const { default: Comment } = require('./comment')
+const { default: File } = require('./file')
+const { default: Setting } = require('./setting')
 
-exports.connection = connection
-exports.bookshelf = bookshelf
-exports.User = require('./user').default
-exports.OAuth = require('./oauth').default
-exports.Post = require('./post').default
-exports.Comment = require('./comment').default
-exports.File = require('./file').default
-exports.Setting = require('./setting').default
+module.exports = {
+  connection, bookshelf, User, OAuth, Post, Comment, File, Setting
+}
