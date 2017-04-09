@@ -13,10 +13,14 @@ exports.default = router.define('resource', {
       await next()
       if (roles) ctx.state.resource.roles().attach(roles)
     }).read({
-      sortable: ['created_at'],
-      searchable: ['username', 'email'],
-      fetchItem: {
-        withRelated: ['roles']
+      list: {
+        sortable: ['created_at'],
+        searchable: ['username', 'email']
+      },
+      item: {
+        fetch: {
+          withRelated: ['roles']
+        }
       }
     }).update(async (ctx, next) => {
       const roles = ctx.request.body.roles

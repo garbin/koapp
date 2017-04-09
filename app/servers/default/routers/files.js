@@ -19,7 +19,7 @@ exports.default = router.define('resource', {
         await next()
       }
     })
-    router.read({ sortable: ['created_at', 'updated_at'] })
+    router.read({ list: { sortable: ['created_at', 'updated_at'] } })
     router.update(user.grant('admin.files'), async(ctx, next) => {
       ctx.state.attributes = _.pick(ctx.request.body, ['title', 'desc'])
       await next()
