@@ -9,7 +9,7 @@ import { IntlProvider } from 'react-intl-redux'
 import { addLocaleData } from 'react-intl'
 import messages from './locales/zh-CN'
 import zhLocaleData from 'react-intl/locale-data/zh'
-import Containers from './containers'
+import Routers from './routers'
 import createStore from './store'
 import moment from 'moment'
 import config from './config'
@@ -24,7 +24,7 @@ const app = user => {
     <Provider store={store}>
       <IntlProvider>
         <ConnectedRouter history={history}>
-          <Containers />
+          <Routers />
         </ConnectedRouter>
       </IntlProvider>
     </Provider>
