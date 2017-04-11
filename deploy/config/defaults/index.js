@@ -64,14 +64,21 @@ module.exports = {
   },
   mailer: {
     smtp: {
-      service: 'SendCloud',
+      service: 'Sparkpost',
       auth: {
-        user: 'garbin_test_QOLzXD',
-        pass: 'XYTNmwty9uWUrUOX'
+        user: 'SMTP_Injection',
+        pass: '7c020fa9771311d27d4e0fcd0b8dfe8d943a2722'
       }
     },
+    // smtp: {
+    //   service: 'SES-US-WEST-2',
+    //   auth: {
+    //     user: 'AKIAJPLMO22GMJ4PVOYQ',
+    //     pass: 'AhPF46OCu0LxqzUlDx0b1yTcey7ygCouo5ZOqMLbsBaq'
+    //   }
+    // },
     defaults: {
-      from: 'support@dianpou.com'
+      from: 'support@sp.dianpou.com'
     }
   },
   redis: {
