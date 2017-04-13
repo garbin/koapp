@@ -1,4 +1,4 @@
-const { Koapi, logger, config } = require('koapi')
+const { Koapi, logger, middlewares, config } = require('koapi')
 const { connection } = require('../../models')
 const { Storage } = require('../../models/file')
 const { mailer, path } = require('../../lib/helper')
@@ -7,13 +7,7 @@ const serverConfig = config('servers/default').all()
 
 const app = new Koapi()
 
-app.setup(Object.assign({
-  middlewares: require('./middlewares'),
-  routers: require('./routers').default,
-  serve: { root: path.storage('/public') }
-}, serverConfig))
-
-app.teardown(async () => {
+app.on('close', async () => {
   try {
     await Promise.all(services.enabled.map(({name, config}) => {
       const service = require(`../../services/${name}`).default(config)
@@ -28,6 +22,11 @@ app.teardown(async () => {
   // close minio agent
   Storage.agent.destroy()
 })
+app.use(middlewares.preset('restful', serverConfig.middlewares))
+app.use(middlewares.serve(path.storage('/public')))
+app.use(require('./middlewares').before)
+app.use(require('./routers').default)
+app.use(require('./middlewares').after)
 
 module.exports = {
   app,

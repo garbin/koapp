@@ -2,11 +2,12 @@ const path = require('path')
 module.exports = {
   clientUrl: 'http://localhost:5000',
   port: 5000,
-  debug: true,
-  cors: {
-    exposeHeaders: ['Content-Range']
+  middlewares: {
+    cors: {
+      exposeHeaders: ['Content-Range']
+    },
+    accesslog: { path: path.resolve('./storage/logs/access.log') }
   },
-  accesslog: { path: path.resolve('./storage/logs/access.log') },
   passport: {
     github: {
       clientID: 'f2ee0541fecc7c773d5d',

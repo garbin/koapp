@@ -1,9 +1,8 @@
 const { middlewares } = require('koapi')
 const { default: passport } = require('./passport')
 
-exports.before = [
-  middlewares.jsonError(),
+exports.before = middlewares.compose([
   passport.initialize()
-]
+])
 
-exports.after = []
+exports.after = middlewares.compose([])

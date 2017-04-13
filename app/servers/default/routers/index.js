@@ -1,4 +1,4 @@
-const { logger, router } = require('koapi')
+const { logger, router, middlewares } = require('koapi')
 const {default: posts} = require('./posts')
 const {default: subdomain} = require('./subdomain')
 const {default: cashier} = require('./cashier')
@@ -18,5 +18,7 @@ const index = router.define(router => {
   })
 })
 
-exports.default = [ subdomain, index, posts, auth, roles, files,
-  settings, users, aggregate, cashier ]
+exports.default = middlewares.routers([
+  subdomain, index, posts, auth, roles, files,
+  settings, users, aggregate, cashier
+])
