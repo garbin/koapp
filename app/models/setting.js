@@ -2,7 +2,7 @@ const { model } = require('koapi')
 const Joi = require('joi')
 const _ = require('lodash')
 
-exports.default = class Setting extends model.base() {
+exports.default = class Setting extends model.Base {
   get tableName () { return 'settings' }
   get hasTimestamps () { return false }
   get template () {

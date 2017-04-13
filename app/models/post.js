@@ -1,7 +1,7 @@
 const { model } = require('koapi')
 const Joi = require('joi')
 
-exports.default = class Post extends model.base() {
+exports.default = class Post extends model.Base {
   get tableName () {
     return 'posts'
   }

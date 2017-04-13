@@ -4,7 +4,7 @@ const moment = require('moment')
 const md5 = require('blueimp-md5')
 const uuid = require('uuid')
 
-exports.default = class Token extends model.base() {
+exports.default = class Token extends model.Base {
   get tableName () {
     return 'oauth_tokens'
   }

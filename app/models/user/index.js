@@ -5,7 +5,7 @@ const moment = require('moment')
 const bcrypt = require('bcryptjs')
 const security = config.get('security')
 
-exports.default = class User extends model.base() {
+exports.default = class User extends model.Base {
   get tableName () { return 'users' }
   get hasTimestamps () { return true }
   get hidden () {

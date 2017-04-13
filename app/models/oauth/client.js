@@ -2,7 +2,7 @@ const { model } = require('koapi')
 const Joi = require('joi')
 const md5 = require('blueimp-md5')
 
-exports.default = class Client extends model.base() {
+exports.default = class Client extends model.Base {
   static get fields () {
     return {
       client_secret: Joi.string().default(ctx => md5(Date.now()), 'Secret'),
