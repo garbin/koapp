@@ -15,7 +15,7 @@ exports.default = function server (instanceName) {
   for (let app of instanceConfig.apps) {
     if (app.server) {
       const instance = require(`../../servers/${app.server}`)
-      teardowns.push(instance.app.listeners.teardown)
+      teardowns.push(instance.teardown)
       universal.use(mount(app.mount, instance.app.koa))
       continue
     }

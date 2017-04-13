@@ -7,21 +7,6 @@ const serverConfig = config('servers/default').all()
 
 const app = new Koapi()
 
-app.on('close', async () => {
-  try {
-    await Promise.all(services.enabled.map(({name, config}) => {
-      const service = require(`../../services/${name}`).default(config)
-      return service.disconnect()
-    }))
-  } catch (e) {
-    console.error(e)
-  }
-  connection.destroy()
-  // close nodemailer agent
-  mailer().close()
-  // close minio agent
-  Storage.agent.destroy()
-})
 app.use(middlewares.preset('restful', serverConfig.middlewares))
 app.use(middlewares.serve(path.storage('/public')))
 app.use(require('./middlewares').before)
@@ -30,10 +15,26 @@ app.use(require('./middlewares').after)
 
 module.exports = {
   app,
+  async teardown () {
+    try {
+      await Promise.all(services.enabled.map(({name, config}) => {
+        const service = require(`../../services/${name}`).default(config)
+        return service.disconnect()
+      }))
+    } catch (e) {
+      console.error(e)
+    }
+    connection.destroy()
+    // close nodemailer agent
+    mailer().close()
+    // close minio agent
+    Storage.agent.destroy()
+  },
   start (port = 0, cb = null) {
     const server = app.listen(port, cb === null ? function () {
       logger.info(`Koapp Server is running on port ${this.address().port}`)
     } : cb)
+    server.on('close', module.exports.teardown)
     return server
   },
   stop () { app.server.close() }
