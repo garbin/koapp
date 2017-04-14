@@ -7,7 +7,7 @@ const random = require('randomatic')
 describe('Users', () => {
   const users = restful(server, '/users')
   users.use(middlewares.admin)
-  users.setup(e => ({
+  users.setup(null, e => ({
     username: random('Aa0', 10),
     password: md5('test'),
     email: random('Aa0', 10) + '@gmail.com'

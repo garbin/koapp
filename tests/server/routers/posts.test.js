@@ -4,6 +4,6 @@ const { describe } = global
 
 describe('Posts', () => {
   const posts = restful(server, '/posts')
-  posts.setup({ title: 'Post Title', contents: 'Post Contents', user_id: 1 })
+  posts.setup(null, { title: 'Post Title', contents: 'Post Contents', user_id: 1 })
   posts.crud({ patch: {title: 'new Title'} })
 })

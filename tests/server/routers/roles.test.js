@@ -5,7 +5,7 @@ const random = require('randomatic')
 
 describe('Roles', () => {
   const roles = restful(server, '/roles')
-  roles.setup(e => ({ name: random('Aa0', 10), permissions: true }))
+  roles.setup(null, e => ({ name: random('Aa0', 10), permissions: true }))
   roles.use(middlewares.admin)
   roles.crud({ patch: {desc: 'desc'} })
 })

@@ -7,8 +7,8 @@ const fs = require('fs')
 describe('Files', () => {
   const files = restful(server, '/files')
   files.use(middlewares.admin)
-  files.setup(null, req => req.attach('file', fs.readFileSync(
+  files.setup(req => req.attach('file', fs.readFileSync(
     path.join(__dirname, '/../../__lib__/iphone.jpg')), 'iphone.jpg'
-  ))
+  ), null)
   files.crud({patch: {title: 'hehe'}})
 })
