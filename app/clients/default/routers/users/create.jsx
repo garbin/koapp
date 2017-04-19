@@ -39,28 +39,7 @@ export class CreateForm extends ModalForm {
     const { dispatch } = this.props
     dispatch(async.clear('avatar')())
   }
-  handleUpload (files) {
-    const { dispatch } = this.props
-    const data = new FormData()
-    const file = files[0]
-    data.append('file', file, file.name)
-    return dispatch(async.post('avatar')('/files', data, {
-      headers: { 'content-type': 'multipart/form-data' }
-    })).then(v => {
-      dispatch(change('user', 'avatar', v.value.data.file_path))
-    })
-  }
-}
-
-export default modal({
-  mapStateToProps: [state => ({
-    async: state.async,
-    result: state.result
-  })],
-  resource: 'user',
-  formTitle: <FormattedMessage id='user.create' />,
-  method: 'post',
-  body: function (fields) {
+  renderBody () {
     const { dispatch, result: { avatar = {} } } = this.props
     const Avatar = dropzone({
       keyName: 'avatar',
@@ -84,10 +63,40 @@ export default modal({
           <Field component={({input, meta, ...others}) => (<Input {...input} {...others} />)}
             style={{display: 'none'}} type='text' name='avatar' />
         </div>
-        <div className='col-sm-9'>{fields}</div>
+        <div className='col-sm-9'>{this.renderFields()}</div>
       </div>
     )
-  },
+  }
+  handleUpload (files) {
+    const { dispatch } = this.props
+    const data = new FormData()
+    const file = files[0]
+    data.append('file', file, file.name)
+    return dispatch(async.post('avatar')('/files', data, {
+      headers: { 'content-type': 'multipart/form-data' }
+    })).then(v => {
+      dispatch(change('user', 'avatar', v.value.data.file_path))
+    })
+  }
+  handleSubmit (values) {
+    const { dispatch, intl } = this.props
+    const { roles } = values
+    const data = _.omit(values, ['id', 'password_confirm', 'roles'])
+    return dispatch(async.post('user')('/users', {...data, roles: (roles || []).map(role => role.value)})).then(v => {
+      this.handleClose()
+      toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
+    })
+  }
+}
+
+export default modal({
+  mapStateToProps: [state => ({
+    async: state.async,
+    result: state.result
+  })],
+  resource: 'user',
+  formTitle: <FormattedMessage id='user.create' />,
+  method: 'post',
   fields: [
     {name: 'username', label: <FormattedMessage id='username' />, type: 'text'},
     {name: 'email', label: <FormattedMessage id='email' />, type: 'text'},
@@ -99,14 +108,5 @@ export default modal({
       return <Field key='roles' component={Select} label={<FormattedMessage id='user.role' />} multi name='roles' options={options} />
     }
   ],
-  submit (values) {
-    const { dispatch, intl } = this.props
-    const { roles } = values
-    const data = _.omit(values, ['id', 'password_confirm', 'roles'])
-    return dispatch(async.post('user')('/users', {...data, roles: (roles || []).map(role => role.value)})).then(v => {
-      this.close()
-      toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
-    })
-  },
   validate: schema
-}, CreateForm)
+})(CreateForm)

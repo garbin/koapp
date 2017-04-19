@@ -58,39 +58,53 @@ export class Page extends React.Component {
     return dispatch(async.get(config.name)(config.savePath))
   }
   getConfig () {
-    const { config, intl, submitting } = this.props
+    const { config } = this.props
     return {
       fields: [{name: 'test', label: 'Test'}],
       savePath: `/${config.name}`,
       saveMethod: 'patch',
       headActions: '',
-      buttons: props => (
-        <Button type='submit' loading={submitting} color='primary'>
-          <FormattedMessage id='submit' />
-        </Button>
-      ),
-      body: (fields, buttons) => (
-        <Card>
-          <CardBlock>{fields}</CardBlock>
-          <CardFooter>
-            <Row>
-              <Col sm={2} />
-              <Col sm={10}>{buttons}</Col>
-            </Row>
-          </CardFooter>
-        </Card>
-      ),
-      submit: function (values) {
-        const { dispatch } = this.props
-        const config = this.getConfig()
-        return dispatch(async[config.saveMethod](config.name)(config.savePath, values)).then(v => {
-          toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
-        }).catch(e => {
-          toastr.error(intl.formatMessage({id: 'error_title'}), e)
-        })
-      },
       ...config
     }
+  }
+  renderFields () {
+    const config = this.getConfig()
+    return config.fields.map((field, idx) => {
+      const { component, ...others } = field
+      return (
+        <Field key={idx} component={component || Input} row {...others} />
+      )
+    })
+  }
+  renderButtons () {
+    const { submitting } = this.props
+    return (
+      <Button type='submit' loading={submitting} color='primary'>
+        <FormattedMessage id='submit' />
+      </Button>
+    )
+  }
+  handleSubmit (values) {
+    const { dispatch, intl } = this.props
+    const config = this.getConfig()
+    return dispatch(async[config.saveMethod](config.name)(config.savePath, values)).then(v => {
+      toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
+    }).catch(e => {
+      toastr.error(intl.formatMessage({id: 'error_title'}), e)
+    })
+  }
+  renderBody () {
+    return (
+      <Card>
+        <CardBlock>{this.renderFields()}</CardBlock>
+        <CardFooter>
+          <Row>
+            <Col sm={2} />
+            <Col sm={10}>{this.renderButtons()}</Col>
+          </Row>
+        </CardFooter>
+      </Card>
+    )
   }
   render () {
     const { handleSubmit } = this.props
@@ -101,29 +115,26 @@ export class Page extends React.Component {
           <div className='float-sm-right'> {config.headActions} </div>
           <h3 className='title'>{config.formTitle}<span className='sparkline bar' data-type='bar' /> </h3>
         </div>
-        <Form onSubmit={handleSubmit(config.submit.bind(this))}>
-          {config.body.call(this, config.fields.map((field, idx) => {
-            const { component, ...others } = field
-            return (
-              <Field key={idx} component={component || Input} row {...others} />
-            )
-          }), config.buttons.call(this))}
+        <Form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
+          {this.renderBody()}
         </Form>
       </article>
     )
   }
 }
 
-export function page (config, Component = Page) {
+export function page (config) {
   const mapStateToProps = config.mapStateToProps || ([state => ({
     async: state.async,
     oauth: state.oauth,
     initialValues: _.get(state.async, `${config.name}.response`)
   })])
-  return connect(...mapStateToProps)(
-    reduxForm({
-      form: `${config.name || 'page'}`,
-      validate: validate(config.validate || {})
-    })(withRouter(injectIntl(props => <Component {...props} config={config} />)))
-  )
+  return (Component = Page) => {
+    return connect(...mapStateToProps)(
+      reduxForm({
+        form: `${config.name || 'page'}`,
+        validate: validate(config.validate || {})
+      })(withRouter(injectIntl(props => <Component {...props} config={config} />)))
+    )
+  }
 }

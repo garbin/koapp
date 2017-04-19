@@ -25,4 +25,4 @@ export default page({
     keywords: Joi.array().items(Joi.string()),
     status: Joi.string()
   }) }
-})
+})()

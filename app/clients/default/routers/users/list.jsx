@@ -29,4 +29,4 @@ export default list({
       label: <FormattedMessage id='user.created_at' /> },
     { preset: 'actions' }
   ]
-})
+})()

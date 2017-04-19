@@ -20,4 +20,4 @@ export default modal({
     (Field, Input) => (<PermissionEditor key='permission' />)
   ],
   validate: schema
-})
+})()

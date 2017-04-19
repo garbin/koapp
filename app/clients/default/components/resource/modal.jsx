@@ -9,61 +9,72 @@ import _ from 'lodash'
 
 export class ModalForm extends Modal {
   getConfig () {
-    const { async: asyncState, match, config: newest } = this.props
+    const { config: newest, match } = this.props
     const config = super.getConfig()
     const resources = pluralize(config.resource)
     return {
       ...config,
       resources,
-      resourcePath: `/${resources}/${match.params.id}`,
-      submit: function (values) {
-        const { dispatch, config, match, intl } = this.props
-        const resourcePath = config.resourcePath || `/${pluralize(config.resource)}`
-        const path = config.method === 'patch' ? `${resourcePath}/${match.params.id}` : resourcePath
-        return dispatch(async[config.method](config.resource)(path, values)).then(v => {
-          this.close()
-          toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
-        }).catch(e => {
-          toastr.error(e.response.data.message)
-        })
-      },
-      buttons: (
-        <div>
-          <Button onClick={this.close.bind(this)} type='button'><FormattedMessage id='close' /></Button>
-          &nbsp;&nbsp;
-          <Button
-            color='primary'
-            loading={_.get(asyncState, `${config.resource}.status`) === 'pending'}
-            type='submit'>
-            <FormattedMessage id='submit' />
-          </Button>
-        </div>
-      ),
+      resourceRoot: `/${resources}`,
+      resourceItem: `/${resources}/${match.params.id}`,
       ...newest
     }
+  }
+  handleSubmit (values) {
+    const { dispatch, intl } = this.props
+    const config = this.getConfig()
+    const { resourceRoot, resourceItem } = config
+    const path = config.method === 'patch' ? resourceItem : resourceRoot
+    return dispatch(async[config.method](config.resource)(path, values)).then(v => {
+      this.handleClose()
+      toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
+    }).catch(e => {
+      toastr.error(e.response.data.message)
+    })
+  }
+  renderButtons () {
+    const { async } = this.props
+    const config = super.getConfig()
+    return (
+      <div>
+        <Button onClick={this.handleClose.bind(this)} type='button'>
+          <FormattedMessage id='close' />
+        </Button>
+        &nbsp;&nbsp;
+        <Button
+          color='primary'
+          loading={_.get(async, `${config.resource}.status`) === 'pending'}
+          type='submit'>
+          <FormattedMessage id='submit' />
+        </Button>
+      </div>
+    )
   }
   componentWillMount () {
     const { dispatch } = this.props
     const config = this.getConfig()
-    config.method === 'patch' && dispatch(async.get(config.resource)(config.resourcePath))
+    const { resourceItem } = config
+    config.method === 'patch' && dispatch(async.get(config.resource)(resourceItem))
   }
   componentWillUnmount () {
     const { dispatch } = this.props
     const config = this.getConfig()
     dispatch(async.clear(config.resource)())
   }
-  close () {
+  handleClose () {
     const { dispatch } = this.props
     const config = this.getConfig()
     dispatch(push(this.context.location || `/${config.resources}`))
   }
 }
-export default (config, Component = ModalForm) => {
+export default (config) => {
   const mapStateToProps = config.mapStateToProps || ([state => ({
     async: state.async,
     oauth: state.oauth,
     initialValues: _.get(state.async, `${config.resource}.response`)
   })])
-  const name = config.name || config.resource
-  return modal({...config, name, mapStateToProps}, Component)
+  return (Component = ModalForm) => {
+    const name = config.name || config.resource
+    return modal({...config, name, mapStateToProps})(Component)
+  }
 }

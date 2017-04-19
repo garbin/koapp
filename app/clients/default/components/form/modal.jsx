@@ -17,24 +17,40 @@ export class Modal extends React.Component {
     const { config } = this.props
     return {
       formTitle: 'test',
-      submit: function (values) {
-        console.log(values)
-      },
       fields: [],
-      body: e => e,
-      buttons: (
-        <div>
-          <Button onClick={this.close.bind(this)} type='button'><FormattedMessage id='close' /></Button>
-          &nbsp;&nbsp;
-          <Button color='primary' type='submit'><FormattedMessage id='submit' /></Button>
-        </div>
-      ),
       ...config
     }
   }
-  close () {
+  handleClose () {
     const { dispatch } = this.props
     dispatch(this.context.location ? push(this.context.location) : goBack())
+  }
+  renderFields () {
+    const config = this.getConfig()
+    return (config.fields instanceof Function ? config.fields.call(this) : config.fields).map(field => {
+      return field instanceof Function
+        ? field.call(this, {Field, Input})
+        : <Field key={field.name} component={Input} {...field} />
+    })
+  }
+  renderButtons () {
+    return (
+      <div>
+        <Button onClick={this.handleClose.bind(this)} type='button'>
+          <FormattedMessage id='close' />
+        </Button>
+        &nbsp;&nbsp;
+        <Button color='primary' type='submit'>
+          <FormattedMessage id='submit' />
+        </Button>
+      </div>
+    )
+  }
+  renderBody () {
+    return (<div>{this.renderFields()}</div>)
+  }
+  handleSubmit (values) {
+    console.log(values)
   }
   render () {
     const { handleSubmit } = this.props
@@ -43,29 +59,27 @@ export class Modal extends React.Component {
     return (
       <ModalBootstrap isOpen modalClassName='in'
         backdropClassName='in'>
-        <Form onSubmit={handleSubmit(config.submit.bind(this))}>
+        <Form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
           <ModalHeader>{config.formTitle}</ModalHeader>
           <ModalBody style={{padding: '30px'}}>
-            {config.body.call(this, (config.fields instanceof Function ? config.fields.call(this) : config.fields).map(field => {
-              return field instanceof Function
-                ? field.call(this, {Field, Input})
-                : <Field key={field.name} component={Input} {...field} />
-            }))}
+            {this.renderBody()}
           </ModalBody>
-          <ModalFooter style={{padding: '15px 30px'}}>{config.buttons}</ModalFooter>
+          <ModalFooter style={{padding: '15px 30px'}}>{this.renderButtons()}</ModalFooter>
         </Form>
       </ModalBootstrap>
     )
   }
 }
 
-export default function modal (config, Component = Modal) {
+export default function modal (config) {
   const mapStateToProps = config.mapStateToProps || ([state => ({
     async: state.async,
     oauth: state.oauth
   })])
-  return connect(...mapStateToProps)(reduxForm({
-    form: `${config.name || 'modal'}`,
-    validate: validate(config.validate || {})
-  })(withRouter(injectIntl(props => <Component {...props} config={config} />))))
+  return (Component = Modal) => {
+    return connect(...mapStateToProps)(reduxForm({
+      form: `${config.name || 'modal'}`,
+      validate: validate(config.validate || {})
+    })(withRouter(injectIntl(props => <Component {...props} config={config} />))))
+  }
 }

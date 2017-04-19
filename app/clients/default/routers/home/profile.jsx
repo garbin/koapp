@@ -37,51 +37,11 @@ export class ProfileForm extends Modal {
       dispatch(change('profile', 'avatar', v.value.data.file_path))
     })
   }
-  close () {
+  handleClose () {
     const { dispatch } = this.props
     return dispatch(common.toggleProfileModal(false))
   }
-}
-
-export default modal({
-  mapStateToProps: [state => {
-    return {
-      oauth: state.oauth,
-      async: state.async,
-      initialValues: state.oauth.user
-    }
-  }],
-  name: 'profile',
-  formTitle: <FormattedMessage id='user.profile' />,
-  method: 'patch',
-  body: function (fields) {
-    const { async, initialValues } = this.props
-    return (
-      <div className='row'>
-        <div className='col-sm-3'>
-          <Dropzone ref={node => { this.dropzone = node }} onDrop={this.handleUpload.bind(this)} multiple={false} style={{}}>
-            {({acceptedFiles}) => {
-              if (_.get(async, 'avatar.status') === 'fulfilled') {
-                return <div className='image rounded' style={{backgroundImage: `url(${async.avatar.response.file_path})`}} />
-              } else {
-                return <div className='image rounded' style={{backgroundImage: `url(${initialValues.avatar})`}} />
-              }
-            }}
-          </Dropzone>
-          <Button type='button' block color='primary' size='sm' onClick={e => this.dropzone.open()}>上传</Button>
-          <Field component={({input, meta, ...others}) => (<Input {...input} {...others} />)}
-            style={{display: 'none'}} type='text' name='avatar' />
-        </div>
-        <div className='col-sm-9'>{fields}</div>
-      </div>
-    )
-  },
-  fields: [
-    {name: 'old_password', label: <FormattedMessage id='old_password' />, type: 'password'},
-    {name: 'password', label: <FormattedMessage id='password' />, type: 'password'},
-    {name: 'password_confirm', label: <FormattedMessage id='password_confirm' />, type: 'password'}
-  ],
-  submit (values) {
+  handleSubmit (values) {
     const { intl, dispatch } = this.props
     const { avatar, password, old_password: oldPassword } = values
     let data = { avatar }
@@ -99,6 +59,48 @@ export default modal({
         reject(e)
       })
     })
-  },
+  }
+  renderBody () {
+    const { async, initialValues } = this.props
+    return (
+      <div className='row'>
+        <div className='col-sm-3'>
+          <Dropzone ref={node => { this.dropzone = node }} onDrop={this.handleUpload.bind(this)} multiple={false} style={{}}>
+            {({acceptedFiles}) => {
+              if (_.get(async, 'avatar.status') === 'fulfilled') {
+                return <div className='image rounded' style={{backgroundImage: `url(${async.avatar.response.file_path})`}} />
+              } else {
+                return <div className='image rounded' style={{backgroundImage: `url(${initialValues.avatar})`}} />
+              }
+            }}
+          </Dropzone>
+          <Button type='button' block color='primary' size='sm' onClick={e => this.dropzone.open()}>
+            <FormattedMessage id='upload' />
+          </Button>
+          <Field component={({input, meta, ...others}) => (<Input {...input} {...others} />)}
+            style={{display: 'none'}} type='text' name='avatar' />
+        </div>
+        <div className='col-sm-9'>{this.renderFields()}</div>
+      </div>
+    )
+  }
+}
+
+export default modal({
+  mapStateToProps: [state => {
+    return {
+      oauth: state.oauth,
+      async: state.async,
+      initialValues: state.oauth.user
+    }
+  }],
+  name: 'profile',
+  formTitle: <FormattedMessage id='user.profile' />,
+  method: 'patch',
+  fields: [
+    {name: 'old_password', label: <FormattedMessage id='old_password' />, type: 'password'},
+    {name: 'password', label: <FormattedMessage id='password' />, type: 'password'},
+    {name: 'password_confirm', label: <FormattedMessage id='password_confirm' />, type: 'password'}
+  ],
   validate: schema
-}, ProfileForm)
+})(ProfileForm)

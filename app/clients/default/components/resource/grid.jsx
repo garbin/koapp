@@ -30,29 +30,22 @@ export class Grid extends React.Component {
       location: this.currentLocation
     }
   }
-  getConfig () {
-    const { config, checklist, intl } = this.props
-    const resources = pluralize(config.resource)
-    const deleteConfirm = (items, e) => toastr.confirm(intl.formatMessage({id: 'toastr.dangerous_confirm_message'}), {
+  confirmDelete (items, e) {
+    const { intl } = this.props
+    return toastr.confirm(intl.formatMessage({id: 'toastr.dangerous_confirm_message'}), {
       onOk: e => this.handleDestroy(items),
       onCancel: e => console.log('cancel')
     })
+  }
+  getConfig () {
+    const { config } = this.props
+    const resources = pluralize(config.resource)
 
     return {
       perPage: 12,
       perRow: 4,
       resources,
       resourcePath: `/${resources}`,
-      deleteConfirm,
-      item: item => <div>{JSON.stringify(item)}</div>,
-      createButton: e => (
-        <Link to={`/${resources}/create`} className='btn btn-primary btn-sm rounded-s'>
-          <FormattedMessage id='upload' />
-        </Link>),
-      batchActions: (
-        <DropdownItem onClick={deleteConfirm.bind(this, checklist)}>
-          <i className='fa fa-remove' /><FormattedMessage id='delete' />
-        </DropdownItem>),
       ...config
     }
   }
@@ -66,13 +59,6 @@ export class Grid extends React.Component {
       return res
     })
   }
-  handlePageChange ({ selected }) {
-    const { location, dispatch } = this.props
-    let search = querystring.parse(location.search)
-    search.page = selected + 1
-    let newSearch = querystring.stringify(search)
-    dispatch(push({...location, search: newSearch}))
-  }
   componentWillMount () {
     this.fetch()
   }
@@ -83,6 +69,13 @@ export class Grid extends React.Component {
   }
   componentWillUnmount () {
     this.props.dispatch(check.clear())
+  }
+  handlePageChange ({ selected }) {
+    const { location, dispatch } = this.props
+    let search = querystring.parse(location.search)
+    search.page = selected + 1
+    let newSearch = querystring.stringify(search)
+    dispatch(push({...location, search: newSearch}))
   }
   handleDestroy (checklist) {
     const { dispatch, intl } = this.props
@@ -108,6 +101,40 @@ export class Grid extends React.Component {
     const { dispatch } = this.props
     dispatch(check.one(item.id, e.target.checked))
   }
+  renderItem (item) {
+    return (<div>{JSON.stringify(item)}</div>)
+  }
+  renderCreateButton () {
+    const { config } = this.props
+    const resources = pluralize(config.resource)
+    return (
+      <Link to={`/${resources}/create`} className='btn btn-primary btn-sm rounded-s'>
+        <FormattedMessage id='upload' />
+      </Link>
+    )
+  }
+  renderBatchActions () {
+    const { checklist } = this.props
+    return (
+      <DropdownItem onClick={this.confirmDelete.bind(this, checklist)}>
+        <i className='fa fa-remove' /><FormattedMessage id='delete' />
+      </DropdownItem>
+    )
+  }
+  renderBody () {
+    const { async } = this.props
+    const config = this.getConfig()
+    const response = _.get(async, `${config.resources}.response`, [])
+    return _.chunk(response, config.perRow).map((row, rid) => (
+      <div className='row' key={`row-${rid}`}>
+        {row.map((item, cid) => (
+          <div className='col-sm-3' key={`col-${row}-${cid}`}>
+            {this.renderItem(item, cid)}
+          </div>
+        ))}
+      </div>
+    ))
+  }
 
   render () {
     const { async, location } = this.props
@@ -116,8 +143,6 @@ export class Grid extends React.Component {
     const page = parseInt(query.page || 1) - 1
     const pageCount = (async[config.resources] && async[config.resources].range) ? Math.ceil(async[config.resources].range.length / config.perPage) : 1
     const status = _.get(async, `${config.resources}.status`, 'pending')
-    const response = _.get(async, `${config.resources}.response`, [])
-    const body = config.body || (e => e)
 
     return (
       <article className='content cards-page'>
@@ -126,15 +151,13 @@ export class Grid extends React.Component {
             <div className='row'>
               <div className='col-md-6'>
                 <h3 className='title'> {config.listTitle}&nbsp;
-                  {config.createButton.call(this)}
+                  {this.renderCreateButton()}
                   &nbsp;
                   <ButtonDropdown style={{marginBottom: '5px'}} group>
                     <DropdownToggle className='rounded-s' caret size='sm'>
                       <FormattedMessage id='batch_actions' />
                     </DropdownToggle>
-                    <DropdownMenu>
-                      {config.batchActions}
-                    </DropdownMenu>
+                    <DropdownMenu>{this.renderBatchActions()}</DropdownMenu>
                   </ButtonDropdown>
                 </h3>
                 <p className='title-description'> {config.listBrief} </p>
@@ -160,15 +183,7 @@ export class Grid extends React.Component {
               </div>
             </div>
           )}
-          {status === 'fulfilled' && body.call(this, _.chunk(response, config.perRow).map((row, rid) => (
-            <div className='row' key={`row-${rid}`}>
-              {row.map((item, cid) => (
-                <div className='col-sm-3' key={`col-${row}-${cid}`}>
-                  {config.item.call(this, item, cid)}
-                </div>
-              ))}
-            </div>
-          )))}
+          {status === 'fulfilled' && this.renderBody()}
         </section>
         <div className='row'>
           <div className='col-sm-4'>
@@ -188,12 +203,11 @@ export class Grid extends React.Component {
 
 export default function (config) {
   const { connectedState, ...others } = config
-  const _Grid = props => (
-    <Grid {...props} config={others} />
-  )
-  return connect(state => ({
-    async: state.async,
-    checklist: state.checklist,
-    oauth: state.oauth,
-    ...connectedState }))(injectIntl(withRouter(_Grid)))
+  return (Component = Grid) => {
+    return connect(state => ({
+      async: state.async,
+      checklist: state.checklist,
+      oauth: state.oauth,
+      ...connectedState }))(injectIntl(withRouter(props => <Component {...props} config={others} />)))
+  }
 }
