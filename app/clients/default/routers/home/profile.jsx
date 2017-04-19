@@ -50,7 +50,7 @@ export class ProfileForm extends Modal {
     }
     return new Promise((resolve, reject) => {
       dispatch(async.patch('profile')(`/auth/user/profile`, data)).then(v => {
-        this.close()
+        this.handleClose()
         dispatch(oauth2.loadUser(v.value.data))
         toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
         return v
