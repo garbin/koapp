@@ -138,6 +138,8 @@
     "tree-model": "^1.0.6",
     "ulid": "^0.1.0",
     "uuid": "^3.0.1",
+    "react-addons-shallow-compare": "^15.5.2",
+    "react-virtualized-select": "^2.4.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {

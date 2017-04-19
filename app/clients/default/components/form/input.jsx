@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormGroup, Label, Input, FormFeedback } from 'reactstrap'
 import Select, { Creatable } from 'react-select'
+import VirtualizedSelect from 'react-virtualized-select'
 import Toggle from 'react-toggle'
 import TagsInput from 'react-tagsinput'
 import classnames from 'classnames'
@@ -13,6 +14,7 @@ export default class extends React.Component {
       async,
       row,
       inline,
+      large,
       meta: {touched, error, valid},
       ...others} = this.props
     const state = touched ? (error ? 'danger' : valid ? 'success' : undefined) : undefined
@@ -25,6 +27,7 @@ export default class extends React.Component {
       case 'select':
         Component = Select
         if (creatable) Component = Creatable
+        if (large) Component = VirtualizedSelect
         if (async) Component = Select.Async
         addons = {
           onBlur: e => input.onBlur(input.value),
