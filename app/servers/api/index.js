@@ -13,30 +13,26 @@ app.use(require('./middlewares').before)
 app.use(require('./routers').default)
 app.use(require('./middlewares').after)
 
+async function teardown () {
+  require('../queues').stop()
+  require('../schedulers').stop()
+  connection.destroy()
+  // close nodemailer agent
+  mailer().close()
+  // close minio agent
+  Storage.agent.destroy()
+}
+
 module.exports = {
   app,
-  async teardown () {
-    try {
-      await Promise.all(services.enabled.map(({name, config}) => {
-        const service = require(`../../services/${name}`).default(config)
-        return service.disconnect()
-      }))
-    } catch (e) {
-      console.error(e)
-    }
-    connection.destroy()
-    // close nodemailer agent
-    mailer().close()
-    // close minio agent
-    Storage.agent.destroy()
-  },
-  start (port = 0, cb = null) {
+  teardown,
+  start (port = serverConfig.port, cb = null) {
     const server = app.listen(port, cb === null ? function () {
-      logger.info(`Koapp Server is running on port ${this.address().port}`)
+      logger.info(`Server is running on port ${this.address().port}`)
     } : cb)
-    server.on('close', module.exports.teardown)
+    server.on('close', teardown)
     return server
   },
   stop () { app.server.close() }
 }
-if (require.main === module) module.exports.start(serverConfig.port)
+require.main === module && module.exports.start()

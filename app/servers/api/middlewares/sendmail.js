@@ -1,4 +1,4 @@
-const { queue } = require('../../../services/queues/mailer')
+const { bull: queue } = require('../../queues/mailer')
 const { Setting } = require('../../../models')
 
 exports.default = function (id) {

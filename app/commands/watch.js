@@ -1,50 +1,42 @@
 exports.default = {
-  command: 'watch [stuff] [instance]',
+  command: 'watch [servers..]',
   describe: 'watch mode',
   builder: yargs => yargs.options({
-    stuff: { default: 'universal' },
-    instance: { default: 'default' },
-    port: { alias: 'p' }
+    port: { alias: 'p' },
+    client: { alias: 'c', type: 'boolean' },
+    bundle: { alias: 'b', type: 'boolean' }
   }),
   async handler (argv) {
+    const servers = argv.servers.length ? argv.servers : ['app']
     const shelljs = require('shelljs')
     const { addonArgs } = require('../lib/helper')
-    let { stuff } = argv
-    let args = addonArgs()
-    switch (stuff) {
-      case 'server':
-        shelljs.exec(`nodemon --harmony --watch \
-                      app --ignore app/clients --ignore locales \
-                      -L -e js,es,jsx ./app/index.js -- server ${args}`)
-        break
-      case 'universal':
-        const { config } = require('koapi')
-        let commands = []
-        let names = []
-        process.env.KOAPP_WATCH_MODE = true
-        process.env.KOAPP_WEBPACK_DEV_HOST = process.env.KOAPP_WEBPACK_DEV_HOST || 'localhost'
-        const instanceConfig = config.get(`universal.${argv.instance}`)
-        for (let app of instanceConfig.apps.filter(app => app.client)) {
-          names.push(app.client)
-          commands.push(`"npm start watch ${app.client}"`)
+    process.env.WATCH_MODE = true
+    if (argv.client) {
+      const args = addonArgs()
+      servers.forEach(name => {
+        shelljs.exec(`webpack-dev-server --config ./app/clients/${name}/webpack \
+          -d --history-api-fallback --inline --progress \
+          --host 0.0.0.0 ${args}`, {
+            maxBuffer: 1024 * 1000
+          })
+      })
+    } else {
+      const commands = [`"nodemon --harmony --watch \
+        app --ignore app/clients \
+        -L -e js,es,jsx ./app/index.js -- ${servers.join(' ')}"`]
+      const names = ['server']
+      servers.forEach(name => {
+        const server = require(`../servers/${name}`)
+        if (server.clients) {
+          server.clients.forEach(client => {
+            names.push(`client:${client}`)
+            commands.push(`"npm start watch ${client} -- -c"`)
+          })
         }
-        names.push('universal')
-        commands.push(`"nodemon --harmony --watch app \
-                       --ignore app/clients -L -e js,es,jsx ./app/index.js \
-                       -- universal ${argv.instance} ${args}"`)
-        shelljs.exec(`concurrently -p name -n "${names.join(',')}" ${commands.join(' ')}`)
-        break
-      case 'service':
-        shelljs.exec(`nodemon --harmony --watch app \
-                      --ignore app/clients -L -e js,es,jsx ./app/index.js \
-                      -- service ${args}`)
-        break
-      default:
-        shelljs.exec(`webpack-dev-server --config ./app/clients/${argv.stuff}/webpack \
-        -d --history-api-fallback --inline --progress \
-        --host 0.0.0.0 ${args}`, {
-          maxBuffer: 1024 * 1000
-        })
+      })
+      shelljs.exec(commands.length > 1
+        ? `concurrently -p name -n "${names.join(',')}" ${commands.join(' ')}`
+        : commands[0])
     }
   }
 }
