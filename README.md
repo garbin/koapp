@@ -21,22 +21,13 @@ A univeral web app framework baed on Koa & React & Redux
 ## Quick Start
 
 ```bash
-# start universal server
-npm start
-# or
-npm start universal
-# start universal sever and build client
-npm start universal -- -b
-# start universal sever and delete public path and build client
-npm start universal -- -b -- -d
+npm start api
+npm start app
+npm start queues
+npm start schedulers
 
-# ======================
-# start api server
-npm start server
-
-# ======================
-# start services(eg. queue, scheduler)
-npm start service
+# ===========  OR  =============
+npm start api app queues schedulers
 
 # ======================
 # build client code
@@ -45,16 +36,16 @@ npm start build
 
 ## Development
 ```bash
-# start universal dev server and watch file changes
-npm start watch univeral
+npm start watch api
+npm start watch app
+npm start watch queues
+npm start watch schedulers
 
+# ==========  OR  ============
+npm start watch api app queues schedulers
 # ======================
-# start api server alone with file-change watching
-npm start watch server
-
-# ======================
-# start webpack-dev-server
-npm start watch client
+# watch clients/default
+npm start watch default -- -c
 
 # ======================
 # code linting
