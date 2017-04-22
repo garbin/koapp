@@ -21,9 +21,7 @@ exports.default = {
           })
       })
     } else {
-      const commands = [`"nodemon --harmony --watch \
-        app --ignore app/clients \
-        -L -e js,es,jsx ./app/index.js -- ${servers.join(' ')}"`]
+      const commands = [`nodemon --harmony --watch app --ignore app/clients -L -e js,es,jsx ./app/index.js -- ${servers.join(' ')}`]
       const names = ['server']
       servers.forEach(name => {
         const server = require(`../servers/${name}`)
@@ -34,8 +32,9 @@ exports.default = {
           })
         }
       })
+      console.log(commands[0])
       shelljs.exec(commands.length > 1
-        ? `concurrently -p name -n "${names.join(',')}" ${commands.join(' ')}`
+        ? `concurrently -p name -n "${names.join(',')}" ${commands.map(c => `"${c}"`).join(' ')}`
         : commands[0])
     }
   }
