@@ -3,6 +3,7 @@ module.exports = {
   security: { saltRounds: 10 },
   servers: {
     app: { port: 5000 },
+    bullui: { port: 5050 },
     api: {
       port: 5000,
       clientUrl: 'http://localhost:5000',

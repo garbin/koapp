@@ -2,6 +2,7 @@ const path = require('path')
 module.exports = {
   servers: {
     app: { port: 5000 },
+    bullui: { port: 5050 },
     api: {
       port: 5000,
       clientUrl: 'http://localhost:5000',

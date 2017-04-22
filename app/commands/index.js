@@ -1,4 +1,3 @@
-const {default: bullui} = require('./bullui')
 const {default: servers} = require('./servers')
 const {default: lint} = require('./lint')
 const {default: build} = require('./build')
@@ -10,7 +9,6 @@ const {default: defaultCommand} = require('./default')
 
 module.exports = [
   servers,
-  bullui,
   lint,
   build,
   watch,
