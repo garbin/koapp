@@ -28,11 +28,10 @@ exports.default = {
         if (server.clients) {
           server.clients.forEach(client => {
             names.push(`client:${client}`)
-            commands.push(`"npm start watch ${client} -- -c"`)
+            commands.push(`npm start watch ${client} -- -c`)
           })
         }
       })
-      console.log(commands[0])
       shelljs.exec(commands.length > 1
         ? `concurrently -p name -n "${names.join(',')}" ${commands.map(c => `"${c}"`).join(' ')}`
         : commands[0])
