@@ -7,7 +7,7 @@ exports.default = {
   },
   async handler (argv) {
     const shelljs = require('shelljs')
-    const { addonArgs } = require('../lib/helper')
+    const { addonArgs, path } = require('../lib/helper')
     switch (argv.stuff) {
       case 'schemas':
         let docsPath = `${__dirname}/../../docs`
@@ -48,7 +48,7 @@ exports.default = {
       case 'clients':
       default:
         let stuffs = [ argv.stuff ]
-        if (argv.stuff === 'clients') stuffs = require('../clients')
+        if (argv.stuff === 'clients') stuffs = require('fs').readdirSync(path.root('app/clients')).filter(item => item[0] !== '.')
         for (let client of stuffs) {
           if (argv.delete) shelljs.exec(`rm -rf storage/public/${client}/* && echo "build: ${client} removed"`)
           shelljs.exec(`echo "building ${client}" && \

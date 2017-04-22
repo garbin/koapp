@@ -9,8 +9,8 @@ module.exports = {
     return addonIndex !== -1 ? process.argv.slice(addonIndex + 1).join(' ') : ''
   },
   path: {
-    root () {
-      return path.resolve(__dirname, '../../')
+    root (relative) {
+      return path.resolve(__dirname, '../../', relative || '')
     },
     storage (relative) {
       return `${module.exports.path.root()}/storage${relative}`

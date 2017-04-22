@@ -20,4 +20,4 @@ process.on('unhandledRejection', (reason, p) => {
   logger.error('unhandled rejection', reason, p)
 })
 
-cli(require('./commands'), { strict: false, default: ['universal'] })
+cli(require('./commands'), { strict: false, default: ['app'] })
