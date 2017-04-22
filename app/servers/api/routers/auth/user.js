@@ -15,7 +15,7 @@ exports.default = router.define(router => {
     ctx.state.mail = {
       to: email,
       context: {
-        link: `${config.get('servers.api.clientUrl')}/admin/session/reset?${Base64.encodeURI(qs.stringify(meta))}`
+        link: `${config.get('servers.api.clientUrl')}/session/reset?${Base64.encodeURI(qs.stringify(meta))}`
       }
     }
     await next()
