@@ -2,12 +2,10 @@ const { Koapi, logger, middlewares, config } = require('koapi')
 const { connection } = require('../../models')
 const { Storage } = require('../../models/file')
 const { mailer, path } = require('../../lib/helper')
-const services = config.get('services')
-const serverConfig = config('servers/default').all()
 
 const app = new Koapi()
 
-app.use(middlewares.preset('restful', serverConfig.middlewares))
+app.use(middlewares.preset('restful', config.get('servers.api.middlewares')))
 app.use(middlewares.serve(path.storage('/public')))
 app.use(require('./middlewares').before)
 app.use(require('./routers').default)
@@ -26,7 +24,7 @@ async function teardown () {
 module.exports = {
   app,
   teardown,
-  start (port = serverConfig.port, cb = null) {
+  start (port = config.get('servers.api.port'), cb = null) {
     const server = app.listen(port, cb === null ? function () {
       logger.info(`Server is running on port ${this.address().port}`)
     } : cb)

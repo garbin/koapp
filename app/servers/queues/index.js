@@ -1,5 +1,5 @@
-const { logger: log } = require('koapi')
-const queues = ['mailer']
+const { logger: log, config } = require('koapi')
+const queues = config.get('servers.queues', [])
 
 module.exports = {
   async start () {

@@ -1,6 +1,6 @@
 const schedule = require('node-schedule')
-const { logger: log } = require('koapi')
-const schedulers = ['example']
+const { logger: log, config } = require('koapi')
+const schedulers = config.get('servers.schedulers', [])
 const context = {
   jobs: [],
   done: 0,

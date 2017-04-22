@@ -32,7 +32,7 @@ const strategies = {
   oauth2: require('./oauth2').default
 }
 
-Object.entries(config('servers/default').get('passport')).forEach(([provider, settings]) => {
+Object.entries(config.get('servers.api.passport')).forEach(([provider, settings]) => {
   strategies[provider](settings)
 })
 
