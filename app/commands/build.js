@@ -48,7 +48,7 @@ exports.default = {
       case 'clients':
       default:
         let stuffs = [ argv.stuff ]
-        if (argv.stuff === 'clients') stuffs = require('fs').readdirSync(path.root('app/clients')).filter(item => item[0] !== '.')
+        if (argv.stuff === 'clients') stuffs = require('../clients')
         for (let client of stuffs) {
           if (argv.delete) shelljs.exec(`rm -rf storage/public/${client}/* && echo "build: ${client} removed"`)
           shelljs.exec(`echo "building ${client}" && \
