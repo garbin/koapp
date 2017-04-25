@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const casual = require('casual')
 exports.seed = async function (knex, Promise) {
   const { User, OAuth, Setting } = require('../../../app/models')
   await Setting.forge().save({
@@ -41,21 +42,21 @@ exports.seed = async function (knex, Promise) {
   })
   await user.roles().attach(role)
   let post1 = await user.posts().create({
-    title: 'Post Title',
-    contents: 'Post Contents'
+    title: casual.title,
+    contents: casual.text
   })
   await user.posts().create({
-    title: 'Post Title',
-    contents: 'Post Contents'
+    title: casual.title,
+    contents: casual.text
   })
   await post1.comments().create({
-    title: 'Comment Title',
-    contents: 'Comment Contents',
+    title: casual.title,
+    contents: casual.text,
     user_id: user.get('id')
   })
   await post1.comments().create({
-    title: 'Comment Title',
-    contents: 'Comment Contents',
+    title: casual.title,
+    contents: casual.text,
     user_id: user.get('id')
   })
 }

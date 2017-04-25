@@ -66,6 +66,7 @@
     "bootstrap": "^4.0.0-alpha.6",
     "bull": "^2.2.6",
     "bull-ui": "^1.2.3",
+    "casual": "^1.5.12",
     "concurrently": "^3.3.0",
     "content-range": "^1.1.0",
     "font-awesome": "^4.7.0",
