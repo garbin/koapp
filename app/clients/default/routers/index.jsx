@@ -10,7 +10,7 @@ import LoadingBar from 'react-redux-loading-bar'
 import { injectIntl } from 'react-intl'
 import ReduxToastr from 'react-redux-toastr'
 import Menu from '../components/menu.jsx'
-import { actions } from '../reduxers/common'
+import { menu, modal } from '../redux/actions'
 import style from '../styles'
 import Dashboard from './dashboard'
 import Session from './session'
@@ -21,7 +21,7 @@ import Home from './home'
 import Settings from './settings'
 
 const Index = connect(state => ({
-  profile: state.profileModal,
+  profile: state.modal,
   menu: state.menu,
   oauth: state.oauth}))(injectIntl(withRouter(
     class extends React.Component {
@@ -58,20 +58,23 @@ const Index = connect(state => ({
       }
       updateMenu (props) {
         const tree = new TreeModel()
-        const menu = tree.parse({ children: this.props.menu })
+        const menuItems = tree.parse({ children: this.props.menu })
         const { location } = props
-        let current = menu.first(item => {
+        const current = menuItems.first(item => {
           if (item.model.href) {
             return item.model.href === location.pathname
           }
         })
         if (current) {
-          this.props.dispatch(actions.changeMenu(current.model))
+          this.props.dispatch(menu.change(current.model))
         }
       }
       handleProfileClick () {
         const { dispatch } = this.props
-        return dispatch(actions.toggleProfileModal(true))
+        return dispatch(modal.toggle(true))
+      }
+      handleItemClick (item) {
+        this.props.dispatch(menu.change(item))
       }
       render () {
         const { menu, oauth, intl, profile } = this.props
@@ -129,7 +132,7 @@ const Index = connect(state => ({
                         <div className='brand'>
                           <div className='logo'> <span className='l l1' /><span className='l l2' /><span className='l l3' /> <span className='l l4' /> <span className='l l5' /> </div> Koapp </div>
                       </div>
-                      <Menu items={menu} onClick={item => this.props.dispatch(actions.changeMenu(item))} />
+                      <Menu items={menu} onClick={this.handleItemClick.bind(this)} />
                     </div>
                   </aside>
                 </ClickOutside>

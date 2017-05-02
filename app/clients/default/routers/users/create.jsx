@@ -6,8 +6,7 @@ import { Button, Input } from 'reactstrap'
 import { Select } from '../../components/form'
 import dropzone from '../../components/dropzone'
 import modal, { ModalForm } from '../../components/resource/modal'
-import { actions as async } from '../../reduxers/async'
-import { actions as common } from '../../reduxers/common'
+import { api, result } from '../../redux/actions'
 import { FormattedMessage } from 'react-intl'
 import _ from 'lodash'
 const FormData = window.FormData
@@ -31,20 +30,20 @@ export class CreateForm extends ModalForm {
   componentWillMount () {
     super.componentWillMount()
     const { dispatch } = this.props
-    dispatch(async.get('roles')('/roles'))
-    // dispatch(async.clear('avatar')())
+    dispatch(api.get('roles')('/roles'))
+    // dispatch(api.clear('avatar')())
   }
   componentWillUnmount () {
     super.componentWillUnmount()
     const { dispatch } = this.props
-    dispatch(async.clear('avatar')())
+    dispatch(api.clear('avatar')())
   }
   renderBody () {
     const { dispatch, result: { avatar = {} } } = this.props
     const Avatar = dropzone({
       keyName: 'avatar',
       onSuccess: files => {
-        dispatch(common.result('avatar')(files[0].value.data))
+        dispatch(result.set('avatar')(files[0].value.data))
         dispatch(change('user', 'avatar', files[0].value.data.file_path))
       },
       onError: console.error
@@ -72,7 +71,7 @@ export class CreateForm extends ModalForm {
     const data = new FormData()
     const file = files[0]
     data.append('file', file, file.name)
-    return dispatch(async.post('avatar')('/files', data, {
+    return dispatch(api.post('avatar')('/files', data, {
       headers: { 'content-type': 'multipart/form-data' }
     })).then(v => {
       dispatch(change('user', 'avatar', v.value.data.file_path))
@@ -82,7 +81,7 @@ export class CreateForm extends ModalForm {
     const { dispatch, intl } = this.props
     const { roles } = values
     const data = _.omit(values, ['id', 'password_confirm', 'roles'])
-    return dispatch(async.post('user')('/users', {...data, roles: (roles || []).map(role => role.value)})).then(v => {
+    return dispatch(api.post('user')('/users', {...data, roles: (roles || []).map(role => role.value)})).then(v => {
       this.handleClose()
       toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
     })
@@ -91,7 +90,7 @@ export class CreateForm extends ModalForm {
 
 export default modal({
   mapStateToProps: [state => ({
-    async: state.async,
+    api: state.api,
     result: state.result
   })],
   resource: 'user',
@@ -103,8 +102,8 @@ export default modal({
     {name: 'password', label: <FormattedMessage id='password' />, type: 'password'},
     {name: 'password_confirm', label: <FormattedMessage id='password_confirm' />, type: 'password'},
     function (props) {
-      const { async } = this.props
-      const options = _.get(async, 'roles.response', []).map(role => ({value: role.id, label: role.name}))
+      const { api } = this.props
+      const options = _.get(api, 'roles.response', []).map(role => ({value: role.id, label: role.name}))
       return <Field key='roles' component={Select} label={<FormattedMessage id='user.role' />} multi name='roles' options={options} />
     }
   ],

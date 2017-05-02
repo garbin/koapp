@@ -73,7 +73,7 @@ export class Modal extends React.Component {
 
 export default function modal (config) {
   const mapStateToProps = config.mapStateToProps || ([state => ({
-    async: state.async,
+    api: state.api,
     oauth: state.oauth
   })])
   return (Component = Modal) => {

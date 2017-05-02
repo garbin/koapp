@@ -10,7 +10,7 @@ import { addLocaleData } from 'react-intl'
 import messages from './locales/zh-CN'
 import zhLocaleData from 'react-intl/locale-data/zh'
 import Routers from './routers'
-import createStore from './store'
+import createStore from './redux'
 import moment from 'moment'
 import config from './config'
 

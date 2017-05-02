@@ -6,7 +6,7 @@ import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { validate, Input, Button } from '../../components/form'
-import { actions as async } from '../../reduxers/async'
+import { api } from '../../redux/actions'
 
 const schema = {
   email: Joi.string().email().required()
@@ -25,11 +25,11 @@ const schema = {
 export class Forget extends React.Component {
   componentWillUnmount () {
     const { dispatch } = this.props
-    dispatch(async.clear('forget'))
+    dispatch(api.clear('forget'))
   }
   submit (values) {
     const { dispatch, intl } = this.props
-    return dispatch(async.patch('forget')('/auth/user/forget', values)).then(res => {
+    return dispatch(api.patch('forget')('/auth/user/forget', values)).then(res => {
       toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'reset_mail_sent'}))
       dispatch(push('/session/signin'))
     }).catch(e => {
@@ -102,5 +102,5 @@ export class Forget extends React.Component {
 }
 
 export default reduxForm({ form: 'forget', validate: validate(schema) })(connect(
-  state => ({forget: state.async.forget})
+  state => ({forget: state.api.forget})
 )(injectIntl(Forget)))

@@ -5,7 +5,7 @@ import { reduxForm, Field } from 'redux-form'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { injectIntl, FormattedMessage } from 'react-intl'
-import { actions as async } from '../../reduxers/async'
+import { api } from '../../redux/actions'
 import { toastr } from 'react-redux-toastr'
 import { Form, Card, CardBlock, CardFooter, Row, Col } from 'reactstrap'
 import { ConfirmLink } from './link'
@@ -55,7 +55,7 @@ export class Page extends React.Component {
   fetch () {
     const { dispatch } = this.props
     const config = this.getConfig()
-    return dispatch(async.get(config.name)(config.savePath))
+    return dispatch(api.get(config.name)(config.savePath))
   }
   getConfig () {
     const { config } = this.props
@@ -87,7 +87,7 @@ export class Page extends React.Component {
   handleSubmit (values) {
     const { dispatch, intl } = this.props
     const config = this.getConfig()
-    return dispatch(async[config.saveMethod](config.name)(config.savePath, values)).then(v => {
+    return dispatch(api[config.saveMethod](config.name)(config.savePath, values)).then(v => {
       toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
     }).catch(e => {
       toastr.error(intl.formatMessage({id: 'error_title'}), e)
@@ -125,9 +125,9 @@ export class Page extends React.Component {
 
 export function page (config) {
   const mapStateToProps = config.mapStateToProps || ([state => ({
-    async: state.async,
+    api: state.api,
     oauth: state.oauth,
-    initialValues: _.get(state.async, `${config.name}.response`)
+    initialValues: _.get(state.api, `${config.name}.response`)
   })])
   return (Component = Page) => {
     return connect(...mapStateToProps)(

@@ -7,7 +7,7 @@ exports.default = {
   },
   async handler (argv) {
     const shelljs = require('shelljs')
-    const { addonArgs, path } = require('../lib/helper')
+    const { addonArgs } = require('../lib/helper')
     switch (argv.stuff) {
       case 'schemas':
         let docsPath = `${__dirname}/../../docs`
@@ -50,12 +50,11 @@ exports.default = {
         let stuffs = [ argv.stuff ]
         if (argv.stuff === 'clients') stuffs = require('../clients')
         for (let client of stuffs) {
-          if (argv.delete) shelljs.exec(`rm -rf storage/public/${client}/* && echo "build: ${client} removed"`)
-          shelljs.exec(`echo "building ${client}" && \
-                        webpack --progress --colors \
-                        --config ./app/clients/${client}/webpack \
-                        --env.client ${client} ${addonArgs()} && \
-                        echo "${client} build completed"`)
+          require(`../clients/${client}/build`)({
+            shelljs,
+            argv,
+            addon: addonArgs()
+          })
         }
     }
   }

@@ -1,6 +1,5 @@
 import { bindActionCreators } from 'redux'
 import { connect as reduxConnect } from 'react-redux'
-import _ from 'lodash'
 import config from '../config'
 import axios from 'axios'
 import reactCookie from 'react-cookie'
@@ -19,13 +18,6 @@ api.interceptors.request.use(config => {
   return config
   // Do something before request is sent
 }, error => Promise.reject(error))
-
-export function reduxers (rxs) {
-  const actions = _.mapValues(rxs, reduxer => reduxer.actions)
-  const reducer = _.transform(rxs, (result = {}, reduxer) => Object.assign(result, reduxer.reducer))
-
-  return {actions, reducer}
-}
 
 export function connect (mapState, actions) {
   const mapActions = dispatch => {

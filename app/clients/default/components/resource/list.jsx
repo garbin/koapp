@@ -14,8 +14,7 @@ import Table, { column } from '../table'
 import responsive, { components } from '../table/presets/responsive'
 import Pagination from '../pagination'
 import { toastr } from 'react-redux-toastr'
-import { actions as async } from '../../reduxers/async'
-import { actions as check } from '../../reduxers/checklist'
+import { api, checklist } from '../../redux/actions'
 import SearchForm from '../table/search'
 import pluralize from 'pluralize'
 import { injectIntl, FormattedMessage } from 'react-intl'
@@ -61,8 +60,8 @@ export class List extends React.Component {
     const config = this.getConfig()
     const params = querystring.parse(search === undefined ? location.search : search)
     params.sort = '-created_at'
-    return dispatch(async.list(config.resources, {perPage: config.perPage})(config.resourcePath, {params})).then(res => {
-      dispatch(check.init(res.action.payload.data))
+    return dispatch(api.list(config.resources, {perPage: config.perPage})(config.resourcePath, {params})).then(res => {
+      dispatch(checklist.init(res.action.payload.data))
       return res
     })
   }
@@ -82,7 +81,7 @@ export class List extends React.Component {
     }
   }
   componentWillUnmount () {
-    this.props.dispatch(check.clear())
+    this.props.dispatch(checklist.clear())
   }
   handleDestroy (checklist) {
     const { dispatch, intl } = this.props
@@ -92,7 +91,7 @@ export class List extends React.Component {
       return result
     }, [])
     Promise.all(items.map(item => {
-      return dispatch(async.destroy(config.resource)(`${config.resourcePath}/${item}`))
+      return dispatch(api.destroy(config.resource)(`${config.resourcePath}/${item}`))
     })).then(v => {
       toastr.success(intl.formatMessage({id: 'toastr.success_title'}), intl.formatMessage({id: 'toastr.success_message'}))
       this.fetch()
@@ -118,10 +117,10 @@ export class List extends React.Component {
         return column('id', 'ID', responsive.checkbox({
           checklist,
           onCheckAll (e) {
-            dispatch(check.all(e.target.checked))
+            dispatch(checklist.all(e.target.checked))
           },
           onCheckItem (id, e) {
-            dispatch(check.one(id, e.target.checked))
+            dispatch(checklist.one(id, e.target.checked))
           }
         }))
       } else if (col.preset === 'actions') {
@@ -176,11 +175,11 @@ export class List extends React.Component {
     })
   }
   render () {
-    const { async, location } = this.props
+    const { api, location } = this.props
     const config = this.getConfig()
     const query = querystring.parse(location.search)
     const page = parseInt(query.page || 1) - 1
-    const pageCount = (async[config.resources] && async[config.resources].range) ? Math.ceil(async[config.resources].range.length / config.perPage) : 1
+    const pageCount = (api[config.resources] && api[config.resources].range) ? Math.ceil(api[config.resources].range.length / config.perPage) : 1
 
     const ReduxSearchForm = reduxForm({form: `${config.resource}_search`, initialValues: {q: query.q}})(SearchForm)
     const columns = this.getColumns()
@@ -210,7 +209,7 @@ export class List extends React.Component {
           </div>
         </div>
         <div className='card items'>
-          <Table data={async[config.resources]} columns={columns} components={components} />
+          <Table data={api[config.resources]} columns={columns} components={components} />
         </div>
         <nav className='text-xs-right'>
           <Pagination initialPage={page} pageCount={pageCount} onPageChange={this.handlePageChange.bind(this)} />
@@ -223,7 +222,7 @@ export class List extends React.Component {
 
 export default function (config) {
   const mapStateToProps = config.mapStateToProps || ([state => ({
-    async: state.async,
+    api: state.api,
     checklist: state.checklist,
     oauth: state.oauth
   })])

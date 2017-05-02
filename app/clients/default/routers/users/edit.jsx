@@ -6,8 +6,7 @@ import { Button, Input } from 'reactstrap'
 import { Select } from '../../components/form'
 import dropzone from '../../components/dropzone'
 import modal from '../../components/resource/modal'
-import { actions as async } from '../../reduxers/async'
-import { actions as common } from '../../reduxers/common'
+import { api, result } from '../../redux/actions'
 import { FormattedMessage } from 'react-intl'
 import { CreateForm } from './create'
 import _ from 'lodash'
@@ -26,7 +25,7 @@ export class EditForm extends CreateForm {
     const Avatar = dropzone({
       keyName: 'avatar',
       onSuccess: files => {
-        dispatch(common.result('avatar')(files[0].value.data))
+        dispatch(result.set('avatar')(files[0].value.data))
         dispatch(change('user', 'avatar', files[0].value.data.file_path))
       },
       onError: console.error
@@ -52,7 +51,7 @@ export class EditForm extends CreateForm {
     const { roles } = values
     const data = _.omit(values, ['id', 'roles'])
     return new Promise((resolve, reject) => {
-      dispatch(async.patch('user')(`/users/${match.params.id}`, {...data, roles: (roles || []).map(role => role.value)})).then(v => {
+      dispatch(api.patch('user')(`/users/${match.params.id}`, {...data, roles: (roles || []).map(role => role.value)})).then(v => {
         this.handleClose()
         toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
         return v
@@ -66,7 +65,7 @@ export class EditForm extends CreateForm {
 
 export default modal({
   mapStateToProps: [state => {
-    let res = _.get(state.async, `user.response`)
+    let res = _.get(state.api, `user.response`)
     let user
     if (res) {
       let roles
@@ -80,7 +79,7 @@ export default modal({
     return {
       result: state.result,
       initialValues: user,
-      async: state.async,
+      api: state.api,
       user_form: state.form.user
     }
   }],
@@ -91,8 +90,8 @@ export default modal({
     {name: 'username', label: <FormattedMessage id='username' />, type: 'text'},
     {name: 'email', label: <FormattedMessage id='email' />, type: 'text'},
     function (props) {
-      const { async } = this.props
-      const options = _.get(async, 'roles.response', []).map(role => ({value: role.id, label: role.name}))
+      const { api } = this.props
+      const options = _.get(api, 'roles.response', []).map(role => ({value: role.id, label: role.name}))
       return <Field key='roles' component={Select} label={<FormattedMessage id='user.role' />} multi name='roles' options={options} />
     }
   ],

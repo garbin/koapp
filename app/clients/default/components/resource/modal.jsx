@@ -1,7 +1,7 @@
 import React from 'react'
 import { push } from 'react-router-redux'
 import { Button, modal, Modal } from '../form'
-import { actions as async } from '../../reduxers/async'
+import { api } from '../../redux/actions'
 import { toastr } from 'react-redux-toastr'
 import pluralize from 'pluralize'
 import { FormattedMessage } from 'react-intl'
@@ -25,7 +25,7 @@ export class ModalForm extends Modal {
     const config = this.getConfig()
     const { resourceRoot, resourceItem } = config
     const path = config.method === 'patch' ? resourceItem : resourceRoot
-    return dispatch(async[config.method](config.resource)(path, values)).then(v => {
+    return dispatch(api[config.method](config.resource)(path, values)).then(v => {
       this.handleClose()
       toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
     }).catch(e => {
@@ -33,7 +33,7 @@ export class ModalForm extends Modal {
     })
   }
   renderButtons () {
-    const { async } = this.props
+    const { api } = this.props
     const config = super.getConfig()
     return (
       <div>
@@ -43,7 +43,7 @@ export class ModalForm extends Modal {
         &nbsp;&nbsp;
         <Button
           color='primary'
-          loading={_.get(async, `${config.resource}.status`) === 'pending'}
+          loading={_.get(api, `${config.resource}.status`) === 'pending'}
           type='submit'>
           <FormattedMessage id='submit' />
         </Button>
@@ -54,12 +54,12 @@ export class ModalForm extends Modal {
     const { dispatch } = this.props
     const config = this.getConfig()
     const { resourceItem } = config
-    config.method === 'patch' && dispatch(async.get(config.resource)(resourceItem))
+    config.method === 'patch' && dispatch(api.get(config.resource)(resourceItem))
   }
   componentWillUnmount () {
     const { dispatch } = this.props
     const config = this.getConfig()
-    dispatch(async.clear(config.resource)())
+    dispatch(api.clear(config.resource)())
   }
   handleClose () {
     const { dispatch } = this.props
@@ -69,9 +69,9 @@ export class ModalForm extends Modal {
 }
 export default (config) => {
   const mapStateToProps = config.mapStateToProps || ([state => ({
-    async: state.async,
+    api: state.api,
     oauth: state.oauth,
-    initialValues: _.get(state.async, `${config.resource}.response`)
+    initialValues: _.get(state.api, `${config.resource}.response`)
   })])
   return (Component = ModalForm) => {
     const name = config.name || config.resource

@@ -1,7 +1,7 @@
 import React from 'react'
 import Joi from 'joi'
 import modal, { ModalForm } from '../../components/resource/modal'
-import { actions as async } from '../../reduxers/async'
+import { api } from '../../redux/actions'
 import { FormattedMessage } from 'react-intl'
 import PermissionEditor from './permission_editor'
 
@@ -9,7 +9,7 @@ export class RoleEdit extends ModalForm {
   componentWillMount () {
     super.componentWillMount()
     const { dispatch, match } = this.props
-    dispatch(async.get('role')(`/roles/${match.params.id}`))
+    dispatch(api.get('role')(`/roles/${match.params.id}`))
   }
 }
 

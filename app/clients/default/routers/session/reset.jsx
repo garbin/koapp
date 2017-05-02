@@ -7,7 +7,7 @@ import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { validate, Input, Button } from '../../components/form'
-import { actions as async } from '../../reduxers/async'
+import { api } from '../../redux/actions'
 import qs from 'query-string'
 import { Base64 } from 'js-base64'
 
@@ -26,11 +26,11 @@ const schema = {
 export class Reset extends React.Component {
   componentWillUnmount () {
     const { dispatch } = this.props
-    dispatch(async.clear('reset'))
+    dispatch(api.clear('reset'))
   }
   submit (values) {
     const { dispatch, intl } = this.props
-    return dispatch(async.patch('reset')('/auth/user/security', values)).then(res => {
+    return dispatch(api.patch('reset')('/auth/user/security', values)).then(res => {
       toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
       dispatch(push('/session/signin'))
     }).catch(e => {
@@ -40,7 +40,7 @@ export class Reset extends React.Component {
   }
 
   render () {
-    const { dispatch, async } = this.props
+    const { dispatch, api } = this.props
     return (
       <div>
         <div className='auth'>
@@ -85,7 +85,7 @@ export class Reset extends React.Component {
                   <div className='form-group'>
                     <div className='row'>
                       <Button block
-                        loading={async.reset && async.reset.status === 'pending'}
+                        loading={api.reset && api.reset.status === 'pending'}
                         color='primary'
                         type='submit'>
                         <FormattedMessage id='reset_password' />
@@ -120,7 +120,7 @@ export class Reset extends React.Component {
 export default connect(state => {
   const { location: { search } } = state.router
   const { email, token } = qs.parse(Base64.decode(search.substr(1)) || '')
-  return { initialValues: {email, token}, async: state.async }
+  return { initialValues: {email, token}, api: state.api }
 })(
   reduxForm({ form: 'reset', validate: validate(schema) })(
     injectIntl(withRouter(Reset))))

@@ -11,8 +11,7 @@ import { DropdownToggle,
 import { toastr } from 'react-redux-toastr'
 import { Checkbox } from '../form'
 import Pagination from '../pagination'
-import { actions as async } from '../../reduxers/async'
-import { actions as check } from '../../reduxers/checklist'
+import { api, checklist } from '../../redux/actions'
 import pluralize from 'pluralize'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import style from '../../styles'
@@ -54,8 +53,8 @@ export class Grid extends React.Component {
     const config = this.getConfig()
     const params = querystring.parse(search || location.search)
     params.sort = '-created_at'
-    return dispatch(async.list(config.resources, {perPage: config.perPage})(config.resourcePath, {params})).then(res => {
-      dispatch(check.init(res.action.payload.data))
+    return dispatch(api.list(config.resources, {perPage: config.perPage})(config.resourcePath, {params})).then(res => {
+      dispatch(checklist.init(res.action.payload.data))
       return res
     })
   }
@@ -68,7 +67,7 @@ export class Grid extends React.Component {
     }
   }
   componentWillUnmount () {
-    this.props.dispatch(check.clear())
+    this.props.dispatch(checklist.clear())
   }
   handlePageChange ({ selected }) {
     const { location, dispatch } = this.props
@@ -85,7 +84,7 @@ export class Grid extends React.Component {
       return result
     }, [])
     Promise.all(items.map(item => {
-      return dispatch(async.destroy(config.resource)(`${config.resourcePath}/${item}`))
+      return dispatch(api.destroy(config.resource)(`${config.resourcePath}/${item}`))
     })).then(v => {
       toastr.success(intl.formatMessage({id: 'toastr.success_title'}), intl.formatMessage({id: 'toastr.success_message'}))
       this.fetch()
@@ -95,11 +94,11 @@ export class Grid extends React.Component {
   }
   handleCheckAll (e) {
     const { dispatch } = this.props
-    dispatch(check.all(e.target.checked))
+    dispatch(checklist.all(e.target.checked))
   }
   handleItemCheck (item, e) {
     const { dispatch } = this.props
-    dispatch(check.one(item.id, e.target.checked))
+    dispatch(checklist.one(item.id, e.target.checked))
   }
   renderItem (item) {
     return (<div>{JSON.stringify(item)}</div>)
@@ -122,9 +121,9 @@ export class Grid extends React.Component {
     )
   }
   renderBody () {
-    const { async } = this.props
+    const { api } = this.props
     const config = this.getConfig()
-    const response = _.get(async, `${config.resources}.response`, [])
+    const response = _.get(api, `${config.resources}.response`, [])
     return _.chunk(response, config.perRow).map((row, rid) => (
       <div className='row' key={`row-${rid}`}>
         {row.map((item, cid) => (
@@ -137,12 +136,12 @@ export class Grid extends React.Component {
   }
 
   render () {
-    const { async, location } = this.props
+    const { api, location } = this.props
     const config = this.getConfig()
     const query = querystring.parse(location.search)
     const page = parseInt(query.page || 1) - 1
-    const pageCount = (async[config.resources] && async[config.resources].range) ? Math.ceil(async[config.resources].range.length / config.perPage) : 1
-    const status = _.get(async, `${config.resources}.status`, 'pending')
+    const pageCount = (api[config.resources] && api[config.resources].range) ? Math.ceil(api[config.resources].range.length / config.perPage) : 1
+    const status = _.get(api, `${config.resources}.status`, 'pending')
 
     return (
       <article className='content cards-page'>
@@ -179,7 +178,7 @@ export class Grid extends React.Component {
           {status === 'rejected' && (
             <div className='row'>
               <div className='col-sm-12 text-sm-center'>
-                {async[config.resources].response}
+                {api[config.resources].response}
               </div>
             </div>
           )}
@@ -205,7 +204,7 @@ export default function (config) {
   const { connectedState, ...others } = config
   return (Component = Grid) => {
     return connect(state => ({
-      async: state.async,
+      api: state.api,
       checklist: state.checklist,
       oauth: state.oauth,
       ...connectedState }))(injectIntl(withRouter(props => <Component {...props} config={others} />)))
