@@ -4,7 +4,7 @@ const { default: user } = require('../middlewares/user')
 const _ = require('lodash')
 
 exports.default = router.define('resource', {
-  collection: User.collection(),
+  model: User,
   setup (router) {
     router.use(user.grant('admin.users'))
     router.create(async (ctx, next) => {

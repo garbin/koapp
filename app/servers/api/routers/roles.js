@@ -3,7 +3,7 @@ const { User } = require('../../../models')
 const { default: user } = require('../middlewares/user')
 
 exports.default = router.define('resource', {
-  collection: User.Role.collection(),
+  model: User.Role,
   setup (router) {
     router.use(user.grant('admin.roles'))
     router.crud()
