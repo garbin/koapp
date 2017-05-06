@@ -8,5 +8,5 @@ const File = require('./file')
 const Setting = require('./setting')
 
 module.exports = {
-  connection, bookshelf, User, OAuth, Post, Comment, File: File.File, Setting
+  connection, bookshelf, User, OAuth, Post, Comment, File, Setting
 }
