@@ -30,4 +30,4 @@ server.exchange(oauth2orize.exchange.refreshToken(async (client, refreshToken, s
   }
 }))
 
-exports.default = server
+module.exports = server

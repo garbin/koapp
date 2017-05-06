@@ -1,5 +1,10 @@
 const { router } = require('koapi')
 const { Post } = require('../../../models')
-const {default: comments} = require('./comments')
+const Comments = require('./comments')
 
-exports.default = router.define('resource', Post).children(comments)
+module.exports = class extends router.Resource {
+  get model () { return Post }
+  setup () {
+    this.crud().children(Comments)
+  }
+}

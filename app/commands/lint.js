@@ -1,5 +1,5 @@
 
-exports.default = {
+module.exports = {
   command: 'lint',
   describe: 'code linting',
   async handler (argv) {

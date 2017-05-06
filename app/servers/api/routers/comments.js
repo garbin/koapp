@@ -1,10 +1,7 @@
 const { router } = require('koapi')
 const { Comment } = require('../../../models')
 
-exports.default = router.define('resource', {
-  collection: ctx => ctx.state.nested.post.comments(),
-  model: Comment,
-  setup (router) {
-    router.crud()
-  }
-})
+module.exports = class extends router.Resource {
+  get model () { return Comment }
+  collection (ctx) { return ctx.state.nested.post.comments() }
+}

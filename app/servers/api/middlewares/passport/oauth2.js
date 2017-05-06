@@ -2,7 +2,7 @@ const passport = require('koa-passport')
 const request = require('axios')
 const OAuth2Strategy = require('passport-oauth2')
 
-exports.default = function (config) {
+module.exports = function (config) {
   passport.use(new OAuth2Strategy(config, accountSignin('oauth2', async ({ accessToken }) => {
     let res = await request.get(config.profileURL, {
       headers: {

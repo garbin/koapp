@@ -1,6 +1,6 @@
 const shelljs = require('shelljs')
 
-exports.default = {
+module.exports = {
   command: 'deploy [task]',
   describe: 'Example',
   builder: {

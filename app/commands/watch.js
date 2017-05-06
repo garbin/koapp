@@ -1,4 +1,4 @@
-exports.default = {
+module.exports = {
   command: 'watch [servers..]',
   describe: 'watch mode',
   builder: yargs => yargs.options({

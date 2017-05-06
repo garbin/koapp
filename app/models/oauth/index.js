@@ -1,5 +1,5 @@
-exports.default = {
-  Client: require('./client').default,
-  Token: require('./token').default,
-  Code: require('./code').default
+module.exports = {
+  Client: require('./client'),
+  Token: require('./token'),
+  Code: require('./code')
 }

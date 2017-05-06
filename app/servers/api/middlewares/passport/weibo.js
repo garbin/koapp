@@ -1,7 +1,7 @@
 const passport = require('koa-passport')
 const WeiboStrategy = require('passport-weibo')
 
-exports.default = function (config) {
+module.exports = function (config) {
   passport.use(new WeiboStrategy(config, accountSignin('weibo', async ({ profile }) => ({
     account_id: profile.id,
     username: profile.username,

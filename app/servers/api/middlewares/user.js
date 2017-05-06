@@ -2,7 +2,16 @@ const compose = require('koa-compose')
 const { authenticate } = require('./passport')
 const _ = require('lodash')
 
-exports.default = {
+module.exports = {
+  optional () {
+    return async (ctx, next) => {
+      if (ctx.request.headers.authorization) {
+        await module.exports.required()(ctx, next)
+      } else {
+        await next()
+      }
+    }
+  },
   required () {
     return authenticate('bearer')
   },
@@ -19,7 +28,7 @@ exports.default = {
       if (!result) {
         return ctx.throw(`Access Denied - You don't have permission to: ${permission}`, 403)
       }
-      return await next()
+      await next()
     }])
   }
 }

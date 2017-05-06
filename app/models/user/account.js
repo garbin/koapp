@@ -3,7 +3,7 @@ const Joi = require('joi')
 const moment = require('moment')
 const random = require('randomatic')
 
-exports.default = class Account extends model.Base {
+module.exports = class Account extends model.Base {
   get tableName () {
     return 'user_accounts'
   }
@@ -72,4 +72,4 @@ exports.default = class Account extends model.Base {
     return user
   }
 }
-const { default: User } = require('./index')
+const User = require('./index')

@@ -1,6 +1,6 @@
 const { logger: log } = require('koapi')
 
-exports.default = {
+module.exports = {
   name: 'Example',
   description: 'Example',
   schedule: '00 00 */1 * * *',

@@ -1,4 +1,4 @@
-exports.default = {
+module.exports = {
   command: '*',
   describe: 'Default Command',
   handler (argv) {

@@ -1,4 +1,4 @@
-exports.default = {
+module.exports = {
   command: 'example [test]',
   describe: 'Example',
   builder: yargs => yargs.option('haha', {

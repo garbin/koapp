@@ -1,7 +1,7 @@
 const { model } = require('koapi')
 const Joi = require('joi')
 
-exports.default = class Code extends model.Base {
+module.exports = class Code extends model.Base {
   get tableName () {
     return 'oauth_authorization_codes'
   }

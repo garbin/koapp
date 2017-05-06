@@ -1,14 +1,16 @@
 const { router } = require('koapi')
-const { default: connect } = require('./connect')
-const { default: clients } = require('./clients')
-const { default: user } = require('./user')
-const { default: token } = require('./token')
+const Connect = require('./connect')
+const Clients = require('./clients')
+const User = require('./user')
+const Token = require('./token')
 
-exports.default = router.define(router => {
-  router.prefix('/auth')
-  router.use('/connect', connect.routes())
-  router.use('/user', user.routes())
-  router.use('/token', token.routes())
-  router.use('/oauth', clients.routes())
-  router.use(async ctx => {})
-})
+module.exports = class extends router.Base {
+  setup () {
+    this.prefix('/auth')
+    this.use('/connect', new Connect().routes())
+    this.use('/user', new User().routes())
+    this.use('/token', new Token().routes())
+    this.use('/oauth', new Clients().routes())
+    this.use(async ctx => {})
+  }
+}

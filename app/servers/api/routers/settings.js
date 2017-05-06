@@ -1,12 +1,10 @@
 const { router } = require('koapi')
 const { Setting } = require('../../../models')
-const { default: user } = require('../middlewares/user')
+const user = require('../middlewares/user')
 
-exports.default = router.define('resource', {
-  model: Setting,
-  setup (router) {
-    router.use(user.grant('admin.settings'))
-    router.read()
-    router.update()
+module.exports = class extends router.Resource {
+  get model () { return Setting }
+  setup () {
+    this.use(user.grant('admin.settings')).read().update()
   }
-})
+}

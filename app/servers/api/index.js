@@ -8,7 +8,7 @@ const app = new Koapi()
 app.use(middlewares.preset('restful', config.get('servers.api.middlewares')))
 app.use(middlewares.serve(path.storage('/public')))
 app.use(require('./middlewares').before)
-app.use(require('./routers').default)
+app.use(require('./routers'))
 app.use(require('./middlewares').after)
 
 async function teardown () {

@@ -1,4 +1,4 @@
-exports.default = {
+module.exports = {
   command: 'servers [names..]',
   describe: 'run web server',
   builder: {

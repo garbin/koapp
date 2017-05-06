@@ -1,15 +1,15 @@
 const { router } = require('koapi')
 const { User } = require('../../../models')
-const { default: user } = require('../middlewares/user')
-const _ = require('lodash')
+const user = require('../middlewares/user')
+const { omit } = require('lodash')
 
-exports.default = router.define('resource', {
-  model: User,
-  setup (router) {
-    router.use(user.grant('admin.users'))
-    router.create(async (ctx, next) => {
+module.exports = class extends router.Resource {
+  get model () { return User }
+  setup () {
+    this.use(user.grant('admin.users'))
+    this.create(async (ctx, next) => {
       const roles = ctx.request.body.roles
-      ctx.state.attributes = _.omit(ctx.request.body, ['roles'])
+      ctx.state.attributes = omit(ctx.request.body, ['roles'])
       await next()
       if (roles) ctx.state.resource.roles().attach(roles)
     }).read({
@@ -24,7 +24,7 @@ exports.default = router.define('resource', {
       }
     }).update(async (ctx, next) => {
       const roles = ctx.request.body.roles
-      ctx.state.attributes = _.omit(ctx.request.body, ['roles'])
+      ctx.state.attributes = omit(ctx.request.body, ['roles'])
       await next()
       if (roles) {
         await ctx.state.resource.roles().detach()
@@ -37,4 +37,4 @@ exports.default = router.define('resource', {
       await next()
     })
   }
-})
+}

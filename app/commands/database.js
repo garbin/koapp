@@ -1,4 +1,4 @@
-exports.default = {
+module.exports = {
   command: 'database [stuff]',
   describe: 'database operation',
   builder: {

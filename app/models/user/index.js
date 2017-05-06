@@ -5,17 +5,18 @@ const moment = require('moment')
 const bcrypt = require('bcryptjs')
 const security = config.get('security')
 
-exports.default = class User extends model.Base {
+module.exports = class User extends model.Base {
   get tableName () { return 'users' }
   get hasTimestamps () { return true }
   get hidden () {
     return ['password', 'reset_token', 'reset_expires']
   }
   async resetToken () {
-    return await this.save({
+    const result = await this.save({
       reset_token: random('Aa0', 16),
       reset_expires: moment().add(2, 'hours').toDate()
     })
+    return result
   }
 
   /* Relations */
@@ -59,6 +60,6 @@ exports.default = class User extends model.Base {
   }
 }
 
-const { default: Account } = require('./account')
-const { default: Role } = require('./role')
-const { default: Post } = require('../post')
+const Account = require('./account')
+const Role = require('./role')
+const Post = require('../post')

@@ -1,4 +1,4 @@
-exports.default = {
+module.exports = {
   command: 'build [stuff]',
   describe: 'build stuff',
   builder: {

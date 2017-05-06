@@ -1,11 +1,11 @@
-const {default: servers} = require('./servers')
-const {default: lint} = require('./lint')
-const {default: build} = require('./build')
-const {default: watch} = require('./watch')
-const {default: database} = require('./database')
-const {default: deploy} = require('./deploy')
-const {default: example} = require('./example')
-const {default: defaultCommand} = require('./default')
+const servers = require('./servers')
+const lint = require('./lint')
+const build = require('./build')
+const watch = require('./watch')
+const database = require('./database')
+const deploy = require('./deploy')
+const example = require('./example')
+const defaultCommand = require('./default')
 
 module.exports = [
   servers,

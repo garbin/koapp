@@ -1,7 +1,7 @@
 const { bull: queue } = require('../../queues/mailer')
 const { Setting } = require('../../../models')
 
-exports.default = function (id) {
+module.exports = function (id) {
   return async (ctx, next) => {
     await next()
     const setting = await Setting.findById(id)

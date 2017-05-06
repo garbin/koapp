@@ -1,7 +1,7 @@
 const passport = require('koa-passport')
 const GithubStrategy = require('passport-github')
 
-exports.default = function (config) {
+module.exports = function (config) {
   passport.use(new GithubStrategy(config, accountSignin('github', async ({ profile }) => ({
     account_id: profile.id,
     username: profile.username,

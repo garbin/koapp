@@ -1,7 +1,7 @@
 const { model } = require('koapi')
 const Joi = require('joi')
 
-exports.default = class Role extends model.Base {
+module.exports = class Role extends model.Base {
   get tableName () {
     return 'roles'
   }
@@ -24,4 +24,4 @@ exports.default = class Role extends model.Base {
   };
 }
 
-const { default: User } = require('./index')
+const User = require('./index')

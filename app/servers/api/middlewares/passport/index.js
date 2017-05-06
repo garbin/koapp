@@ -27,9 +27,9 @@ exports.accountSignin = function (provider, getProfile) {
 }
 
 const strategies = {
-  github: require('./github').default,
-  weibo: require('./weibo').default,
-  oauth2: require('./oauth2').default
+  github: require('./github'),
+  weibo: require('./weibo'),
+  oauth2: require('./oauth2')
 }
 
 Object.entries(config.get('servers.api.passport')).forEach(([provider, settings]) => {
@@ -69,9 +69,11 @@ passport.use(new BearerStrategy(
     }
   }
 ))
-
-exports.default = passport
-exports.authenticate = (name, options, callback) => {
-  options = Object.assign({ session: false }, options)
-  return passport.authenticate(name, options, callback)
+module.exports = {
+  default: passport,
+  passport,
+  authenticate (name, options, callback) {
+    options = Object.assign({ session: false }, options)
+    return passport.authenticate(name, options, callback)
+  }
 }
