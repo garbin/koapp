@@ -2,7 +2,6 @@ import { bindActionCreators } from 'redux'
 import { connect as reduxConnect } from 'react-redux'
 import config from '../config'
 import axios from 'axios'
-import reactCookie from 'react-cookie'
 
 export const api = axios.create({
   baseURL: config.api,
@@ -12,8 +11,8 @@ export const api = axios.create({
 
 api.interceptors.request.use(config => {
   try {
-    const { access_token: accessToken } = reactCookie.load('redux_oauth2')
-    config.headers.Authorization = `Bearer ${accessToken}`
+    const token = JSON.parse(window.localStorage.getItem('token'))
+    config.headers.Authorization = `Bearer ${token.access_token}`
   } catch (e) { }
   return config
   // Do something before request is sent

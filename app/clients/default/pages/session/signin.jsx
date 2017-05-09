@@ -1,5 +1,5 @@
 import React from 'react'
-import { OAuthSignin, actions } from 'react-redux-oauth2'
+import { signin } from 'react-redux-oauth2'
 import { Link } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import { reduxForm, Field, SubmissionError } from 'redux-form'
@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { toastr } from 'react-redux-toastr'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Input, Button, Checkbox, validate } from '../../components/form'
+import { oauth } from '../../redux/actions'
 import Joi from 'joi'
 
 const schema = {
@@ -18,16 +19,23 @@ export class Signin extends React.Component {
   submit (values) {
     const { dispatch, intl } = this.props
     return new Promise((resolve, reject) => {
-      dispatch(actions.getToken(values, e => {
+      dispatch(oauth.signin(values, (e, user) => {
         if (e) {
           const err = new SubmissionError({
             username: intl.formatMessage({id: 'checkyour_username'}),
             password: intl.formatMessage({id: 'checkyour_password'})
           })
           reject(err)
-          toastr.error(intl.formatMessage({id: 'signin_failed'}), intl.formatMessage({id: 'signin_failed_tip'}))
+          toastr.error(
+            intl.formatMessage({id: 'signin_failed'}),
+            intl.formatMessage({id: 'signin_failed_tip'})
+          )
         } else {
-          toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_signin'}))
+          toastr.success(
+            intl.formatMessage({id: 'success_title'}),
+            intl.formatMessage({id: 'success_signin'})
+          )
+          window.localStorage.setItem('token', JSON.stringify(user.token))
           dispatch(push('/'))
           resolve()
         }
@@ -37,7 +45,14 @@ export class Signin extends React.Component {
 
   render () {
     const { dispatch, intl } = this.props
-    const OAuthSigninButton = OAuthSignin(Button)
+    const OAuthSigninButton = signin({
+      success (user) {
+        toastr.success(
+          intl.formatMessage({id: 'success_title'}),
+          intl.formatMessage({id: 'success_signin'}))
+        dispatch(push('/'))
+      }
+    })(Button)
 
     return (
       <div>
@@ -93,8 +108,7 @@ export class Signin extends React.Component {
                       <OAuthSigninButton block
                         loading={this.props.oauth.authenticating}
                         loadingText={<FormattedMessage id='pending_signin' />}
-                        provider='github'
-                        onSuccess={() => { toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_signin'})); dispatch(push('/')) }}>
+                        provider='github'>
                         <i className='fa fa-github' />&nbsp;&nbsp;Github
                         </OAuthSigninButton>
                     </div>

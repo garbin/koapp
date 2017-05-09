@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import TreeModel from 'tree-model'
-import { OAuthSignout } from 'react-redux-oauth2'
+import { signout } from 'react-redux-oauth2'
 import classnames from 'classnames'
 import ClickOutside from 'react-click-outside'
 import { push } from 'react-router-redux'
@@ -45,7 +45,7 @@ const Index = connect(state => ({
       }
       componentWillMount () {
         const { oauth, dispatch } = this.props
-        if (!oauth.user) {
+        if (!oauth.user.profile) {
           dispatch(push('/signin'))
         } else {
           this.updateMenu(this.props)
@@ -78,8 +78,11 @@ const Index = connect(state => ({
       }
       render () {
         const { menu, oauth, intl, profile } = this.props
-        const SignoutButton = OAuthSignout(props => (
-          <a className='dropdown-item' href='#' {...props}> <i className='fa fa-power-off icon' />{intl.formatMessage({id: 'signout'})} </a>
+        const SignoutButton = signout()(props => (
+          <a className='dropdown-item' href='#' {...props}>
+            <i className='fa fa-power-off icon' />
+            {intl.formatMessage({id: 'signout'})}
+          </a>
         ))
         return (
           <div>
@@ -109,8 +112,8 @@ const Index = connect(state => ({
                     <ul className='nav-profile'>
                       <li className='profile dropdown'>
                         <a className='nav-link dropdown-toggle' href='javascript:;' onClick={this.toggleDropdown.bind(this)} role='button'>
-                          <div className='img' style={{backgroundImage: `url(${oauth.user.avatar})`}} /><span className='name'>
-                            {oauth.user.username}
+                          <div className='img' style={{backgroundImage: `url(${oauth.user.profile.avatar})`}} /><span className='name'>
+                            {oauth.user.profile.username}
                           </span> </a>
                         <ClickOutside onClickOutside={this.toggleDropdown.bind(this, false)}>
                           <div className='dropdown-menu profile-dropdown-menu' style={{display: this.state.dropdown_open ? 'block' : 'none'}}>
@@ -156,7 +159,7 @@ const Index = connect(state => ({
 
 const PrivateRoute = connect(state => ({oauth: state.oauth}))(props => {
   const { oauth, ...others } = props
-  if (!oauth.user) {
+  if (!oauth.user.profile) {
     return <Redirect to={{pathname: '/session/signin'}} />
   } else {
     return <Route {...others} />
