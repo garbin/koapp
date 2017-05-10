@@ -78,11 +78,7 @@ const Index = connect(state => ({
       }
       render () {
         const { menu, oauth, intl, profile } = this.props
-        const SignoutButton = signout({
-          success () {
-            window.localStorage.removeItem('token')
-          }
-        })(props => (
+        const SignoutButton = signout()(props => (
           <a className='dropdown-item' href='#' {...props}>
             <i className='fa fa-power-off icon' />
             {intl.formatMessage({id: 'signout'})}
@@ -125,7 +121,7 @@ const Index = connect(state => ({
                               <i className='fa fa-user icon' /> {intl.formatMessage({id: 'profile'})}
                             </a>
                             <div className='dropdown-divider' />
-                            <SignoutButton />
+                            <SignoutButton onClick={e => window.localStorage.removeItem('access_token') } />
                           </div>
                         </ClickOutside>
                       </li>

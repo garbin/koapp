@@ -35,7 +35,7 @@ export class Signin extends React.Component {
             intl.formatMessage({id: 'success_title'}),
             intl.formatMessage({id: 'success_signin'})
           )
-          window.localStorage.setItem('token', JSON.stringify(user.token))
+          window.localStorage.setItem('access_token', user.token)
           dispatch(push('/'))
           resolve()
         }
@@ -47,6 +47,7 @@ export class Signin extends React.Component {
     const { dispatch, intl } = this.props
     const OAuthSigninButton = signin({
       success (user) {
+        window.localStorage.setItem('access_token', user.token)
         toastr.success(
           intl.formatMessage({id: 'success_title'}),
           intl.formatMessage({id: 'success_signin'}))

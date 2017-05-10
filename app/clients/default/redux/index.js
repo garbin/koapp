@@ -29,11 +29,8 @@ export function makeStore (history, initial = {}) {
 
 export async function initializeState ({store}) {
   store.dispatch(oauth.config(config.oauth))
-  const persist = window.localStorage.getItem('token')
-  if (persist) {
-    const token = JSON.parse(persist)
-    await store.dispatch(oauth.sync(token))
-  }
+  const accessToken = window.localStorage.getItem('access_token')
+  if (accessToken) await store.dispatch(oauth.sync(accessToken))
 }
 
 export function render ({store, history, Component, mount}) {

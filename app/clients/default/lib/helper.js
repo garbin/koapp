@@ -11,8 +11,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(config => {
   try {
-    const token = JSON.parse(window.localStorage.getItem('token'))
-    config.headers.Authorization = `Bearer ${token.access_token}`
+    config.headers.Authorization = `Bearer ${window.localStorage.getItem('access_token')}`
   } catch (e) { }
   return config
   // Do something before request is sent
