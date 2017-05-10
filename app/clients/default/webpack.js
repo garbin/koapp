@@ -93,6 +93,7 @@ const compiler = {
     })
   ],
   devServer: {
+    stats: 'errors-only',
     hot: false,
     compress: true,
     port: 5002
