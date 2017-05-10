@@ -15,7 +15,7 @@ module.exports = {
       const args = addonArgs()
       servers.forEach(name => {
         shelljs.exec(`webpack-dev-server --config ./app/clients/${name}/webpack \
-          -d --history-api-fallback --inline --progress \
+          -d --history-api-fallback --inline \
           --host 0.0.0.0 ${args}`, {
             maxBuffer: 1024 * 1000
           })
