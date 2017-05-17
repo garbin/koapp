@@ -121,7 +121,7 @@ const Index = connect(state => ({
                               <i className='fa fa-user icon' /> {intl.formatMessage({id: 'profile'})}
                             </a>
                             <div className='dropdown-divider' />
-                            <SignoutButton onClick={e => window.localStorage.removeItem('access_token') } />
+                            <SignoutButton onClick={e => window.localStorage.removeItem('access_token')} />
                           </div>
                         </ClickOutside>
                       </li>

@@ -27,12 +27,13 @@ module.exports = class File extends model.Base {
   }
   initialize () {
     this.on('saving', async (model, attrs, options) => {
-      if (attrs.file_path && this.hasChanged('file_path')) {
-        let filePath = moment().format('YM/D/') + ulid() + path.parse(attrs.file_name).ext
+      const attributes = Object.assign({}, model.attributes, attrs)
+      if (attributes.file_path && this.hasChanged('file_path')) {
+        let filePath = moment().format('YM/D/') + ulid() + path.parse(attributes.file_name).ext
         try { await Storage.makeBucketAsync('uploads', 'us-east-1') } catch (e) {}
-        let fileType = attrs.file_type || mime.lookup(attrs.file_name) || 'application/octet-stream'
-        let fileSize = attrs.file_size || fs.statSync(attrs.file_path).size
-        await Storage.fPutObjectAsync('uploads', filePath, attrs.file_path, fileType)
+        let fileType = attributes.file_type || mime.lookup(attributes.file_name) || 'application/octet-stream'
+        let fileSize = attributes.file_size || fs.statSync(attributes.file_path).size
+        await Storage.fPutObjectAsync('uploads', filePath, attributes.file_path, fileType)
         this.set({ file_path: filePath, file_type: fileType, file_size: fileSize })
       }
     })
