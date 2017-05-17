@@ -106,7 +106,7 @@ export class List extends React.Component {
     dispatch(push(`${config.resourcePath}/${value}/edit`))
   }
   getColumns () {
-    const { dispatch, checklist, intl } = this.props
+    const { dispatch, checklist: checklistState, intl } = this.props
     const config = this.getConfig()
     return (_.isFunction(config.columns) ? config.columns.call(this) : config.columns).map(col => {
       let { className, headerClassName, cellClassName } = col
@@ -115,7 +115,7 @@ export class List extends React.Component {
       cellClassName = cellClassName || className
       if (col.preset === 'checkbox') {
         return column('id', 'ID', responsive.checkbox({
-          checklist,
+          checklist: checklistState,
           onCheckAll (e) {
             dispatch(checklist.all(e.target.checked))
           },
