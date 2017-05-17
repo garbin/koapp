@@ -83,13 +83,6 @@ const compiler = {
       title: `${pkg.title} - ${pkg.name}`,
       template: './index.ejs',
       filename: './index.html'
-    }),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        postcss () {
-          return [ require('postcss-cssnext')() ]
-        }
-      }
     })
   ],
   devServer: {
