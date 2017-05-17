@@ -60,7 +60,7 @@ export class ProfileForm extends Modal {
     })
   }
   renderBody () {
-    const { api, initialValues } = this.props
+    const { api, initialValues = {} } = this.props
     return (
       <div className='row'>
         <div className='col-sm-3'>
@@ -90,7 +90,7 @@ export default modalForm({
     return {
       oauth: state.oauth,
       api: state.api,
-      initialValues: state.oauth.user
+      initialValues: state.oauth.user.profile
     }
   }],
   name: 'profile',
