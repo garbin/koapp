@@ -7,10 +7,12 @@ const random = require('randomatic')
 describe('Users', () => {
   const users = restful(server, '/users')
   users.use(middlewares.admin)
-  users.setup(null, e => ({
-    username: random('Aa0', 10),
-    password: md5('test'),
-    email: random('Aa0', 10) + '@gmail.com'
-  }))
+  users.setup(async ({create}) => {
+    return await create([{
+      username: random('Aa0', 10),
+      password: md5('test'),
+      email: random('Aa0', 10) + '@gmail.com'
+    }], { use: middlewares.admin })
+  })
   users.crud({ patch: {avatar: 'avatar'} })
 })

@@ -5,9 +5,11 @@ const { describe, test, expect } = global
 describe('Clients', () => {
   const clients = restful(server, '/auth/oauth/clients')
   // const token = req => { req.set('Authorization', 'Bearer 691ae08f7b038e5b09983d2435d3a878'); console.log(req); return req }
-  clients.setup(null, {
-    redirect_uri: 'abc',
-    user_id: '111'
+  clients.setup(async ({create}) => {
+    return await create({
+      redirect_uri: 'abc',
+      user_id: '111'
+    })
   }).use(middlewares.admin).crud({patch: {redirect_uri: 'def'}})
   test('GET /auth/connect/github', () =>
   // redirect to /auth/github/callback

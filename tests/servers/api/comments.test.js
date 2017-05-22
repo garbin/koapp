@@ -3,9 +3,10 @@ const { restful } = require('koapi/lib/test')
 const { describe } = global
 
 describe('Comments', () => {
-  const comments = restful(server, '/posts/1/comments')
-  comments.setup(null, { title: 'Post Title', contents: 'Post Contents' })
-  comments.crud({
-    patch: {title: 'new Title'}
-  })
+  const comments = restful(server, ['/posts', '/comments'])
+  comments.setup([
+    { title: 'Post Title', contents: 'Post Contents', user_id: 1 },
+    { title: 'Post Title', contents: 'Post Contents' }
+  ])
+  comments.crud({ patch: {title: 'new Title'} })
 })
