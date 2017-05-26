@@ -11,7 +11,7 @@ module.exports = class Code extends model.Base {
   get hasTimestamps () {
     return true
   }
-  static get fields () {
+  static get validator () {
     return {
       code: Joi.string(),
       client_id: Joi.string(),

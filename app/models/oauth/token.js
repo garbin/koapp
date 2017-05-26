@@ -16,7 +16,7 @@ module.exports = class Token extends model.Base {
     return this.belongsTo(User)
   }
 
-  static get fields () {
+  static get validator () {
     return {
       access_token: Joi.string().required(),
       refresh_token: Joi.string().required(),

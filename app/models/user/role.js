@@ -12,7 +12,7 @@ module.exports = class Role extends model.Base {
     return this.belongsToMany(User, 'user2role')
   }
 
-  static get fields () {
+  static get validator () {
     return {
       name: Joi.string().required(),
       desc: Joi.string(),

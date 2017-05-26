@@ -14,7 +14,7 @@ module.exports = class Account extends model.Base {
     return this.belongsTo(User)
   }
 
-  static get fields () {
+  static get validator () {
     return {
       user_id: Joi.number().integer().required(),
       provider: Joi.string().required(),

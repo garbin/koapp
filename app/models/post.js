@@ -12,13 +12,13 @@ module.exports = class Post extends model.Base {
     return this.hasMany(Comment)
   }
 
-  static get fields () {
+  static get validator () {
     return {
       title: Joi.string().min(3).max(30).required(),
       contents: Joi.string(),
       user_id: Joi.number().integer()
     }
-  };
+  }
 }
 
 const Comment = require('./comment')

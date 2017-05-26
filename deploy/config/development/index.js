@@ -42,7 +42,7 @@ module.exports = {
   },
   database: {
     client: 'pg',
-    // debug: true,
+    debug: true,
     connection: {
       host: 'localhost',
       user: 'postgres',

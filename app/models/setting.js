@@ -12,7 +12,7 @@ module.exports = class Setting extends model.Base {
       defaults: this.get('settings').defaults
     }
   }
-  static get fields () {
+  static get validator () {
     return {
       name: Joi.string().required(),
       desc: Joi.string().required(),

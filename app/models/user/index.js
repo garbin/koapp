@@ -39,7 +39,7 @@ module.exports = class User extends model.Base {
   static get dependents () {
     return ['accounts']
   }
-  static get fields () {
+  static get validator () {
     return {
       username: Joi.string().required(),
       password: Joi.string().required(),

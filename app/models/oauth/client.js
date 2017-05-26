@@ -3,7 +3,7 @@ const Joi = require('joi')
 const md5 = require('blueimp-md5')
 
 module.exports = class Client extends model.Base {
-  static get fields () {
+  static get validator () {
     return {
       client_secret: Joi.string().default(ctx => md5(Date.now()), 'Secret'),
       redirect_uri: Joi.string().required().description('Redirect URI'),

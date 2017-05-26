@@ -47,7 +47,7 @@ module.exports = class File extends model.Base {
     super.initialize()
   }
 
-  static get fields () {
+  static get validator () {
     return {
       title: Joi.string().empty(''),
       desc: Joi.string().empty(''),
