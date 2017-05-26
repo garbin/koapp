@@ -1,9 +1,4 @@
-const { graphql: { types } } = require('koapi')
-const { Post } = require('../types')
-const models = require('../../../../models')
+const search = require('./search')
+const posts = require('./posts')
 
-module.exports = {
-  posts: types.list(Post)({
-    resolve: root => models.Post.findAll()
-  })
-}
+module.exports = { posts, search }
