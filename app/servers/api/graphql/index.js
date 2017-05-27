@@ -13,6 +13,9 @@ module.exports = ctx => ({
       fields: mutation
     })
   }),
-  context: { loader: new Loader() },
+  context: {
+    loader: new Loader(),
+    user: ctx.state.user
+  },
   formatError: logger.error
 })

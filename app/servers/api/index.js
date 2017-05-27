@@ -2,13 +2,11 @@ const { Koapi, logger, middlewares, config } = require('koapi')
 const { connection } = require('../../models')
 const { Storage } = require('../../models/file')
 const { mailer, path } = require('../../lib/helper')
-const graphql = require('./graphql')
 
 const app = new Koapi()
 
 app.use(middlewares.preset('restful', config.get('servers.api.middlewares')))
 app.use(middlewares.serve(path.storage('/public')))
-app.use(middlewares.graphql('/graphql', graphql))
 app.use(require('./middlewares').before)
 app.use(require('./routers'))
 app.use(require('./middlewares').after)
