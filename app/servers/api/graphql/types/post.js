@@ -1,10 +1,16 @@
 const { graphql: { types, model } } = require('koapi')
 const models = require('../../../../models')
 
-function batchGetPostComments (ids) {
-  return models.Comment.forge().query(q => q.whereIn('post_id', ids))
-    .fetchAll().then(comments => ids.map(id =>
-      comments.filter(item => item.get('post_id') === id)
+function batchGetPostComments (posts) {
+  return models.Comment.forge().query(q => q.whereIn('post_id', posts.map(post => post.id)))
+    .fetchAll().then(comments => posts.map(post =>
+      comments.filter(item => {
+        if (item.get('post_id') === post.id) {
+          item.post = post
+          return true
+        }
+        return false
+      })
     ))
 }
 
@@ -17,7 +23,7 @@ module.exports = new types.Object(model({
     comments: {
       type: new types.List(Comment),
       async resolve (post, args, { loader }) {
-        const comments = await loader.acquire('Post', batchGetPostComments).load(post.id)
+        const comments = await loader.acquire('Post', batchGetPostComments).load(post)
         return comments
       }
     }
