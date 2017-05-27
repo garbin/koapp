@@ -1,4 +1,4 @@
-const { graphql: { types } } = require('koapi')
+const { graphql: { types, relay } } = require('koapi')
 const models = require('../../../../models')
 const { Post } = require('../types')
 
@@ -22,20 +22,22 @@ const SearchableItem = new types.Union({
 })
 
 module.exports = {
-  type: types.connection.define(SearchableItem),
-  args: types.connection.args({
-    type: types.nonNull(SearchType)()
-  }),
-  resolve: types.connection.resolve(async (root, {type, first, after}, ctx) => {
-    const result = await type({first, after})
-    return {
-      totalCount: result.pagination.rowCount,
-      edges: result.models.map((node, index) => ({node, cursor: after + index})),
-      pageInfo: {
-        startCursor: after,
-        endCursor: after + first,
-        hasNextPage: after < result.pagination.rowCount - first
+  search: {
+    type: relay.connection.create(SearchableItem),
+    args: relay.connection.args({
+      type: types.nonNull(SearchType)()
+    }),
+    resolve: relay.connection.resolve(async (root, {type, first, after}, ctx) => {
+      const result = await type({first, after})
+      return {
+        totalCount: result.pagination.rowCount,
+        edges: result.models.map((node, index) => ({node, cursor: after + index})),
+        pageInfo: {
+          startCursor: after,
+          endCursor: after + first,
+          hasNextPage: after < result.pagination.rowCount - first
+        }
       }
-    }
-  })
+    })
+  }
 }
