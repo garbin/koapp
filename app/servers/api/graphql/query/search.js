@@ -1,4 +1,4 @@
-const { graphql: { types, relay } } = require('koapi')
+const { graphql: { helper, types, relay } } = require('koapi')
 const models = require('../../../../models')
 const { Post } = require('../types')
 
