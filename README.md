@@ -1,5 +1,5 @@
 # Koapp
-A univeral web app framework baed on Koa & React & Redux
+A univeral web app framework based on Koa & React & Redux & Next.js & GraphQL
 
 ## Contains
 
