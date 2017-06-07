@@ -41,3 +41,4 @@ schemas
 .DS_Store
 webpack-assets.json
 webpack-stats.json
+package-lock.json

@@ -1,24 +1,22 @@
 const { logger, router, middlewares } = require('koapi')
-const Posts = require('./posts')
-const Subdomain = require('./subdomain')
-const Users = require('./users')
-const Roles = require('./roles')
-const Files = require('./files')
-const Settings = require('./settings')
-const Aggregate = require('./aggregate')
-const Auth = require('./auth')
+const posts = require('./posts')
+const subdomain = require('./subdomain')
+const users = require('./users')
+const roles = require('./roles')
+const files = require('./files')
+const settings = require('./settings')
+const aggregate = require('./aggregate')
+const auth = require('./auth')
 
-class Index extends router.Base {
-  setup () {
-    this.get('/', async ctx => { ctx.body = 'Hello Koapp!' })
-    this.get('/error', async ctx => {
-      logger.info('kk')
-      logger.debug('debug')
-      throw new Error('Error test')
-    })
-  }
-}
+const index = router.define(route => {
+  route.get('/', async ctx => { ctx.body = 'Hello Koapp!' })
+  route.get('/error', async ctx => {
+    logger.info('kk')
+    logger.debug('debug')
+    throw new Error('Error test')
+  })
+})
 
 module.exports = middlewares.routers([
-  Subdomain, Index, Posts, Auth, Roles, Files, Settings, Users, Aggregate
+  subdomain, index, posts, auth, roles, files, settings, users, aggregate
 ])
