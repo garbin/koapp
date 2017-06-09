@@ -1,6 +1,6 @@
 import React from 'react'
 import Joi from 'joi'
-import _ from 'lodash'
+import { get, set } from 'lodash'
 import { reduxForm, Field } from 'redux-form'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
@@ -29,17 +29,17 @@ export function validate (schema, options = {abortEarly: false}) {
           switch (type) {
             case 'object.and':
               path = path === 'value' ? context.missing[0] : `${path}.${context.key}`
-              _.set(errors, path, message)
+              set(errors, path, message)
               break
             case 'object.missing':
-              for (let peer of context.peers) _.set(errors, peer, message)
+              for (let peer of context.peers) set(errors, path === 'value' ? peer : `${path}.${peer}`, message)
               break
             default:
-              _.set(errors, path, message)
+              set(errors, path, message)
               break
           }
         } else {
-          _.set(errors, path, message)
+          set(errors, path, message)
         }
         return errors
       }, {})
@@ -127,7 +127,7 @@ export function page (config) {
   const mapStateToProps = config.mapStateToProps || ([state => ({
     api: state.api,
     oauth: state.oauth,
-    initialValues: _.get(state.api, `${config.name}.response`)
+    initialValues: get(state.api, `${config.name}.response`)
   })])
   return (Component = Page) => {
     return connect(...mapStateToProps)(
