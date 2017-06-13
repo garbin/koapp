@@ -1,4 +1,4 @@
-const { graphql: { types, helper } } = require('koapi')
+const { graphql: { types } } = require('koapi')
 const models = require('../../../../models')
 
 function batchGetPostComments (posts) {
@@ -14,12 +14,12 @@ function batchGetPostComments (posts) {
     ))
 }
 
-module.exports = new types.Object(helper.model({
+module.exports = new types.Object({
   name: 'Post',
-  fields: model => ({
-    id: model.attr({ type: new types.NonNull(types.Int) }),
-    title: model.attr({ type: types.String }),
-    contents: model.attr({ type: types.String }),
+  fields: _ => types.model({
+    id: { type: new types.NonNull(types.Int) },
+    title: types.string(),
+    contents: types.string(),
     comments: {
       type: new types.List(Comment),
       async resolve (post, args, { loader }) {
@@ -28,6 +28,6 @@ module.exports = new types.Object(helper.model({
       }
     }
   })
-}))
+})
 
 const Comment = require('./comment')

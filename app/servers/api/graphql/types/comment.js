@@ -1,4 +1,4 @@
-const { graphql: { types, helper } } = require('koapi')
+const { graphql: { types } } = require('koapi')
 const models = require('../../../../models')
 
 function batchGetPost (postIds) {
@@ -6,12 +6,12 @@ function batchGetPost (postIds) {
     .fetchAll().then(posts => postIds.map(id => posts.find({id})))
 }
 
-module.exports = new types.Object(helper.model({
+module.exports = new types.Object({
   name: 'Comment',
-  fields: model => ({
-    id: model.attr(types.nonNull(types.Int)()),
-    title: model.attr(types.string()),
-    contents: model.attr(types.string()),
+  fields: _ => types.model({
+    id: types.nonNull(types.Int)(),
+    title: types.string(),
+    contents: types.string(),
     post: {
       type: Post,
       resolve: async (comment, args, { loader }) => {
@@ -20,6 +20,6 @@ module.exports = new types.Object(helper.model({
       }
     }
   })
-}))
+})
 
 const Post = require('./post')
