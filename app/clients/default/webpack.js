@@ -72,6 +72,7 @@ const compiler = {
     }
   },
   plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
     new webpack.optimize.CommonsChunkPlugin({ name: 'main', async: true }),
     new webpack.DefinePlugin({
