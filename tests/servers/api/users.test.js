@@ -11,6 +11,7 @@ describe('Users', () => {
     return await create([{
       username: random('Aa0', 10),
       password: md5('test'),
+      roles: [1],
       email: random('Aa0', 10) + '@gmail.com'
     }], { use: middlewares.admin })
   })
