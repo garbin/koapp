@@ -7,26 +7,26 @@ module.exports = {
   search: presets.search({
     POST: types.type(Post, {
       model: models.Post,
-      resolve: grant('admin.posts')(presets.connection.resolve({
-        collection: ctx => models.Post.collection(),
+      compose: grant('admin.posts'),
+      resolveOptions: {
         sortable: ['created_at', 'updated_at', 'price'],
         searchable: ['name', 'desc']
-      }))
+      }
     }),
     USER: types.type(User, {
       model: models.User,
-      resolve: grant('admin.users')(presets.connection.resolve({
-        collection: ctx => models.User.collection(),
+      compose: grant('admin.users'),
+      resolveOptions: {
         sortable: ['created_at'],
         searchable: ['username', 'email']
-      }))
+      }
     }),
     ROLE: types.type(Role, {
       model: models.User.Role,
-      resolve: grant('admin.roles')(presets.connection.resolve({
-        collection: ctx => models.User.Role.collection(),
+      compose: grant('admin.roles'),
+      resolveOptions: {
         searchable: ['name']
-      }))
+      }
     })
   }, { args: presets.connection.args() }),
   fetch: presets.fetch({
