@@ -8,7 +8,7 @@ module.exports = new types.Object({
     title: types.string(),
     contents: types.string(),
     comments: types.list(Comment, {
-      resolve: presets.batch.hasMany({ model: models.Comment })
+      resolve: presets.batch.hasMany(models.Comment)
     })
   })
 })

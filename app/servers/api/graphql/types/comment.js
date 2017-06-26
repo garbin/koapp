@@ -10,7 +10,7 @@ module.exports = new types.Object({
     post_id: types.id(),
     post: {
       type: Post,
-      resolve: presets.batch.belongsTo({ model: models.Post })
+      resolve: presets.batch.belongsTo(models.Post)
     }
   })
 })
