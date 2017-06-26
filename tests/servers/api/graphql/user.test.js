@@ -16,11 +16,14 @@ describe('User', () => {
   test('Query', async () => {
     await graphql.test(request, `
       query Query {
-        users: search(type: POST) {
+        users: search(type: USER) {
           edges {
             node {
               ... on User {
                 username
+                roles {
+                  name
+                }
               }
             }
           }
@@ -28,7 +31,8 @@ describe('User', () => {
       }
     `, graphql.assert.ok(({data}, res) => {
       expect(data.users.edges).toBeInstanceOf(Array)
-      expect(data.users.edges[0].node.username).not.toBe(null)
+      expect(data.users.edges[0].node.username).not.toBe(undefined)
+      expect(data.users.edges[0].node.roles[0].name).toBe('admin')
     }))
   })
   test('Mutation', async () => {

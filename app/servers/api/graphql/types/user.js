@@ -10,11 +10,8 @@ module.exports = new types.Object({
     avatar: types.string(),
     email: types.string(),
     roles: types.list(Role, {
-      resolve: presets.batch.hasMany({
-        foreignKey: 'user2role.user_id',
-        attrName: 'user_id',
-        model: models.User.Role,
-        query: q => q.join('user2role', 'roles.id', '=', 'user2role.role_id')
+      resolve: presets.batch.belongsToMany(models.User.Role, {
+        relation: 'roles'
       })
     })
   })
