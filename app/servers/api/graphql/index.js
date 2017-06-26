@@ -1,4 +1,4 @@
-const { graphql: { types, Loader } } = require('koapi')
+const { graphql: { types, Loader }, logger } = require('koapi')
 const query = require('./query')
 const mutation = require('./mutation')
 
@@ -15,10 +15,11 @@ module.exports = ctx => ({
   }),
   context: {
     loader: new Loader(),
-    user: ctx.state.user
+    user: ctx.state.user,
+    state: {}
+  },
+  formatError: e => {
+    logger.error(e)
+    return e
   }
-  // formatError: e => {
-  //   logger.error(e)
-  //   return e
-  // }
 })

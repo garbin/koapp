@@ -1,3 +1,13 @@
 const Post = require('./post')
 const Comment = require('./comment')
-module.exports = { Post, Comment }
+const Setting = require('./setting')
+const User = require('./user')
+const Role = require('./role')
+
+module.exports = {
+  Setting,
+  User,
+  Role,
+  Post,
+  Comment
+}

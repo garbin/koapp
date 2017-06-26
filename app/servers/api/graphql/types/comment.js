@@ -1,15 +1,16 @@
-const { graphql: { types, helper } } = require('koapi')
+const { graphql: { types, presets } } = require('koapi')
 const models = require('../../../../models')
 
 module.exports = new types.Object({
   name: 'Comment',
-  fields: _ => types.model({
-    id: types.nonNull(types.Int)(),
+  fields: _ => presets.model({
+    id: types.nonNull(types.Int),
     title: types.string(),
     contents: types.string(),
+    post_id: types.id(),
     post: {
       type: Post,
-      resolve: helper.batchLoad({ model: models.Post })
+      resolve: presets.batch.belongsTo({ model: models.Post })
     }
   })
 })
