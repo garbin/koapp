@@ -1,10 +1,10 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import querystring from 'query-string'
-import { push, replace } from 'react-router-redux'
-import { withRouter } from 'react-router'
+import { replace } from 'react-router-redux'
 import { reduxForm } from 'redux-form'
+import { Base64 } from 'js-base64'
 import { ButtonDropdown } from '../../components/form'
 import { DropdownToggle,
          Button,
@@ -14,13 +14,32 @@ import Table, { column } from '../table'
 import responsive, { components } from '../table/presets/responsive'
 import Pagination from '../pagination'
 import { toastr } from 'react-redux-toastr'
-import { api, checklist } from '../../redux/actions'
+import { checklist } from '../../redux/actions'
 import SearchForm from '../table/search'
-import pluralize from 'pluralize'
-import { injectIntl, FormattedMessage } from 'react-intl'
-import _ from 'lodash'
+import { FormattedMessage } from 'react-intl'
+import { get, merge } from 'lodash'
 
-export class List extends React.Component {
+export default class List extends React.Component {
+  static propTypes = {
+    limit: PropTypes.number.isRequired
+  }
+  static defaultProps = {
+    limit: 10
+  }
+  get name () { throw new Error('Name is undefined') }
+  get columns () { return [] }
+  get data () {
+    const { loading, error } = this.props.data
+    const {total = 0, edges = []} = get(this.props.data, this.name, {})
+    return {
+      loading,
+      error,
+      rows: edges.map(edge => edge.node),
+      total
+    }
+  }
+  get title () { return '' }
+  get description () { return '' }
   static childContextTypes = {
     list: React.PropTypes.object,
     location: React.PropTypes.object
@@ -31,39 +50,16 @@ export class List extends React.Component {
       location: this.currentLocation
     }
   }
-  getConfig () {
-    const { config, checklist, intl } = this.props
-    const resources = pluralize(config.resource)
-    const batchDeleteClick = e => toastr.confirm(intl.formatMessage({id: 'toastr.dangerous_confirm_message'}), {
-      onOk: e => this.handleDestroy(checklist),
-      onCancel: e => console.log('cancel')
-    })
-
-    return {
-      perPage: 10,
-      resources,
-      resourcePath: `/${resources}`,
-      createButton: (
-        <Link to={`/${resources}/create`} className='btn btn-primary btn-sm rounded-s'>
-          <FormattedMessage id='create' />
-        </Link>),
-      columns: [],
-      batchActions: (
-        <DropdownItem onClick={batchDeleteClick}>
-          <i className='fa fa-remove icon' /><FormattedMessage id='delete' />
-        </DropdownItem>),
-      ...config
+  async componentWillReceiveProps (nextProps, nextState) {
+    if (nextProps.location !== this.props.location) {
+      const { location, data: {refetch}, limit } = nextProps
+      const query = querystring.parse(location.search)
+      const { page = 1 } = query
+      await refetch({
+        keyword: query.q,
+        offset: Base64.encode((parseInt(page) - 1) * limit)
+      })
     }
-  }
-  fetch (search) {
-    const { dispatch, location } = this.props
-    const config = this.getConfig()
-    const params = querystring.parse(search === undefined ? location.search : search)
-    params.sort = '-created_at'
-    return dispatch(api.list(config.resources, {perPage: config.perPage})(config.resourcePath, {params})).then(res => {
-      dispatch(checklist.init(res.action.payload.data))
-      return res
-    })
   }
   handlePageChange ({ selected }) {
     const { location, dispatch } = this.props
@@ -72,55 +68,43 @@ export class List extends React.Component {
     let newSearch = querystring.stringify(search)
     dispatch(replace({...location, search: newSearch}))
   }
-  componentWillMount () {
-    this.fetch()
-  }
-  componentWillReceiveProps (nextProps) {
-    if (this.props.location !== nextProps.location) {
-      this.fetch(nextProps.location.search)
-    }
-  }
-  componentWillUnmount () {
-    this.props.dispatch(checklist.clear())
-  }
   handleDestroy (checklist) {
-    const { dispatch, intl } = this.props
-    const config = this.getConfig()
-    const items = Object.entries(checklist).reduce((result, [id, checked]) => {
-      checked && result.push(id)
-      return result
-    }, [])
-    Promise.all(items.map(item => {
-      return dispatch(api.destroy(config.resource)(`${config.resourcePath}/${item}`))
-    })).then(v => {
-      toastr.success(intl.formatMessage({id: 'toastr.success_title'}), intl.formatMessage({id: 'toastr.success_message'}))
-      this.fetch()
-    }).catch(e => {
-      toastr.error(intl.formatMessage({id: 'toastr.error_title'}), e.response.data.message)
-    })
+    // const { dispatch, intl } = this.props
+    // // const config = this.getConfig()
+    // const items = Object.entries(checklist).reduce((result, [id, checked]) => {
+    //   checked && result.push(id)
+    //   return result
+    // }, [])
+    // Promise.all(items.map(item => {
+    //   return dispatch(api.destroy(config.resource)(`${config.resourcePath}/${item}`))
+    // })).then(v => {
+    //   toastr.success(intl.formatMessage({id: 'toastr.success_title'}), intl.formatMessage({id: 'toastr.success_message'}))
+    //   this.fetch()
+    // }).catch(e => {
+    //   toastr.error(intl.formatMessage({id: 'toastr.error_title'}), e.response.data.message)
+    // })
   }
   gotoEdit (value) {
-    const { dispatch } = this.props
-    const config = this.getConfig()
-    this.currentLocation = this.props.location
-    dispatch(push(`${config.resourcePath}/${value}/edit`))
+    // const { dispatch } = this.props
+    // const config = this.getConfig()
+    // this.currentLocation = this.props.location
+    // dispatch(push(`${config.resourcePath}/${value}/edit`))
   }
-  getColumns () {
-    const { dispatch, checklist: checklistState, intl } = this.props
-    const config = this.getConfig()
-    return (_.isFunction(config.columns) ? config.columns.call(this) : config.columns).map(col => {
+  getColumns (columns) {
+    const { checkedItems, toggleAll, checkItem, intl } = this.props
+    return columns.map(col => {
       let { className, headerClassName, cellClassName } = col
       className = className || ''
       headerClassName = headerClassName || className
       cellClassName = cellClassName || className
       if (col.preset === 'checkbox') {
         return column('id', 'ID', responsive.checkbox({
-          checklist: checklistState,
+          checklist: checkedItems,
           onCheckAll (e) {
-            dispatch(checklist.all(e.target.checked))
+            toggleAll(e.target.checked)
           },
           onCheckItem (id, e) {
-            dispatch(checklist.one(id, e.target.checked))
+            checkItem(id, e.target.checked)
           }
         }))
       } else if (col.preset === 'actions') {
@@ -158,14 +142,14 @@ export class List extends React.Component {
           cell: {props: { className: cellClassName }, href: col.href}
         }))
       } else if (col.preset === 'text') {
-        return column(col.property, col.label, responsive.text(_.merge({
+        return column(col.property, col.label, responsive.text(merge({
           header: {props: { className: `item-col-header ${headerClassName}` }},
           cell: {props: { className: cellClassName }}
         }, col.props)))
       } else if (col.preset === 'time') {
         headerClassName = headerClassName || 'item-col-date'
         cellClassName = cellClassName || 'item-col-date'
-        return column(col.property, col.label, responsive.time(_.merge({
+        return column(col.property, col.label, responsive.time(merge({
           header: {props: { className: `item-col-header ${headerClassName}` }},
           cell: {props: { className: cellClassName }}
         }, col.props)))
@@ -174,61 +158,97 @@ export class List extends React.Component {
       }
     })
   }
-  render () {
-    const { api, location } = this.props
-    const config = this.getConfig()
-    const query = querystring.parse(location.search)
-    const page = parseInt(query.page || 1) - 1
-    const pageCount = (api[config.resources] && api[config.resources].range) ? Math.ceil(api[config.resources].range.length / config.perPage) : 1
-
-    const ReduxSearchForm = reduxForm({form: `${config.resource}_search`, initialValues: {q: query.q}})(SearchForm)
-    const columns = this.getColumns()
-
+  renderTable () {
     return (
-      <article className='content items-list-page'>
-        <div className='title-search-block'>
-          <div className='title-block'>
-            <div className='row'>
-              <div className='col-md-6'>
-                <h3 className='title'> {config.listTitle}&nbsp;
-                  {config.createButton}
-                  &nbsp;
-                  <ButtonDropdown style={{marginBottom: '5px'}} group>
-                    <DropdownToggle className='rounded-s' caret size='sm'><FormattedMessage id='batch_actions' /></DropdownToggle>
-                    <DropdownMenu>
-                      {config.batchActions}
-                    </DropdownMenu>
-                  </ButtonDropdown>
-                </h3>
-                <p className='title-description'> {config.listBrief} </p>
-              </div>
-            </div>
-          </div>
-          <div className='items-search'>
-            <ReduxSearchForm />
-          </div>
-        </div>
-        <div className='card items'>
-          <Table data={api[config.resources]} columns={columns} components={components} />
-        </div>
-        <nav className='text-xs-right'>
-          <Pagination initialPage={page} pageCount={pageCount} onPageChange={this.handlePageChange.bind(this)} />
-        </nav>
-        {this.props.children}
-      </article>
+      <Table
+        loading={this.data.loading}
+        error={this.data.error}
+        rows={this.data.rows}
+        columns={this.getColumns(this.columns)}
+        components={components} />
     )
   }
-}
-
-export default function (config) {
-  const mapStateToProps = config.mapStateToProps || ([state => ({
-    api: state.api,
-    checklist: state.checklist,
-    oauth: state.oauth
-  })])
-  return (Component = List) => {
-    return connect(...mapStateToProps)(
-      withRouter(injectIntl(props => <Component {...props} config={config} />))
+  renderButtons () {
+    return (
+      <span>
+        <Link to={`/`} className='btn btn-primary btn-sm rounded-s'>
+          <FormattedMessage id='create' />
+        </Link>
+      </span>
+    )
+  }
+  renderPagination () {
+    const { location, limit } = this.props
+    const query = querystring.parse(location.search)
+    const page = parseInt(query.page - 1) || 0
+    const pageCount = Math.ceil(this.data.total / limit)
+    return (
+      <nav className='text-xs-right'>
+        <Pagination initialPage={page} pageCount={pageCount} onPageChange={this.handlePageChange.bind(this)} />
+      </nav>
+    )
+  }
+  renderSearchForm () {
+    const { location } = this.props
+    // const config = this.getConfig()
+    const query = querystring.parse(location.search)
+    const ReduxSearchForm = reduxForm({form: `searchForm`, initialValues: {q: query.q}})(SearchForm)
+    return (<ReduxSearchForm />)
+  }
+  renderBatchMenuItems () {
+    const { intl } = this.props
+    const batchDeleteClick = e => toastr.confirm(intl.formatMessage({id: 'toastr.dangerous_confirm_message'}), {
+      onOk: e => this.handleDestroy(checklist),
+      onCancel: e => console.log('cancel')
+    })
+    return (
+      <DropdownItem onClick={batchDeleteClick}>
+        <i className='fa fa-remove icon' /><FormattedMessage id='delete' />
+      </DropdownItem>
+    )
+  }
+  renderBatchMenu () {
+    return (
+      <ButtonDropdown style={{marginBottom: '5px'}} group>
+        <DropdownToggle className='rounded-s' caret size='sm'><FormattedMessage id='batch_actions' /></DropdownToggle>
+        <DropdownMenu>
+          {this.renderBatchMenuItems()}
+        </DropdownMenu>
+      </ButtonDropdown>
+    )
+  }
+  renderHead () {
+    return (
+      <div className='title-search-block'>
+        <div className='title-block'>
+          <div className='row'>
+            <div className='col-md-6'>
+              <h3 className='title'>
+                {this.title}&nbsp;
+                {this.renderButtons()}
+                &nbsp;
+                {this.renderBatchMenu()}
+              </h3>
+              <p className='title-description'> {this.description} </p>
+            </div>
+          </div>
+        </div>
+        <div className='items-search'>
+          {this.renderSearchForm()}
+        </div>
+      </div>
+    )
+  }
+  render () {
+    return (
+      <article className='content items-list-page'>
+        {this.renderHead()}
+        <div className='card items'>
+          {this.renderTable()}
+        </div>
+        {this.renderPagination()}
+        {this.props.children}
+      </article>
     )
   }
 }

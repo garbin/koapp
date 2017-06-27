@@ -2,6 +2,7 @@ const api = 'http://localhost:5000/api'
 
 module.exports = {
   api,
+  graphql: `${api}/graphql`,
   oauth: {
     token: '/auth/token',
     client_id: '0f434d4b-06bf-4cb2-b8f4-f20bf9349beb',
