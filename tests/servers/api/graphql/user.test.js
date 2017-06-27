@@ -38,21 +38,19 @@ describe('User', () => {
   test('Mutation', async () => {
     await graphql.presets.cur(request, {
       type: 'User',
-      steps: {
-        create: {
-          variables: {
-            input: {
-              username: random('Aa0', 10),
-              password: md5('test'),
-              email: random('Aa0', 10) + '@gmail.com'
-            }
+      create: {
+        variables: {
+          input: {
+            username: random('Aa0', 10),
+            password: md5('test'),
+            email: random('Aa0', 10) + '@gmail.com'
           }
-        },
-        update: {
-          variables: {
-            input: {
-              avatar: 'avatar'
-            }
+        }
+      },
+      update: {
+        variables: {
+          input: {
+            avatar: 'avatar'
           }
         }
       }

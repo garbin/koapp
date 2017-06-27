@@ -33,20 +33,18 @@ describe('Role', () => {
   test('Mutation', async () => {
     await graphql.presets.cur(request, {
       type: 'Role',
-      steps: {
-        create: {
-          variables: {
-            input: {
-              name: random('Aa0', 10),
-              permissions: true
-            }
+      create: {
+        variables: {
+          input: {
+            name: random('Aa0', 10),
+            permissions: true
           }
-        },
-        update: {
-          variables: {
-            input: {
-              desc: 'desc'
-            }
+        }
+      },
+      update: {
+        variables: {
+          input: {
+            desc: 'desc'
           }
         }
       }

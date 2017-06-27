@@ -32,20 +32,18 @@ describe('Post', () => {
   test('Mutation', async () => {
     await graphql.presets.cur(request, {
       type: 'Post',
-      steps: {
-        create: {
-          variables: {
-            input: {
-              title: 'title',
-              contents: 'content'
-            }
+      create: {
+        variables: {
+          input: {
+            title: 'title',
+            contents: 'content'
           }
-        },
-        update: {
-          variables: {
-            input: {
-              contents: 'edited'
-            }
+        }
+      },
+      update: {
+        variables: {
+          input: {
+            contents: 'edited'
           }
         }
       }
