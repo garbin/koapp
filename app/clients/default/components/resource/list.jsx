@@ -20,11 +20,15 @@ import { FormattedMessage } from 'react-intl'
 import { get, merge } from 'lodash'
 
 export default class List extends React.Component {
-  static propTypes = {
-    limit: PropTypes.number.isRequired
+  static get propTypes () {
+    return {
+      limit: PropTypes.number.isRequired
+    }
   }
-  static defaultProps = {
-    limit: 10
+  static get defaultProps () {
+    return {
+      limit: 1
+    }
   }
   get name () { throw new Error('Name is undefined') }
   get columns () { return [] }

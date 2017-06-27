@@ -18,7 +18,6 @@ export default class extends React.Component {
       components = defaultComponents,
       rowKey,
       ...others } = this.props
-    console.log(rows, '------')
     return (
       <Provider columns={columns} components={components} {...others}>
         <Header />

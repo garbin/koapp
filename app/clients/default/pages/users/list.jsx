@@ -41,7 +41,7 @@ export class UserList extends List {
 
 export default compose(
   connect(),
-  withProps({ limit: 1 }),
+  withProps({ limit: 10 }),
   withRouter,
   injectIntl,
   graphql(gql`
