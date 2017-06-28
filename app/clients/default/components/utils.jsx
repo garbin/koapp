@@ -36,7 +36,7 @@ export function withLoading (right, options) {
   )
 }
 
-export function withChecklist (initialState) {
+export function withChecklist (initialState = {}) {
   return compose(
     withState('checkedItems', 'setCheckedItems', initialState),
     withHandlers({

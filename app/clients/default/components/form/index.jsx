@@ -1,6 +1,7 @@
 import React from 'react'
+import { compose, withProps } from 'recompose'
 import Joi from 'joi'
-import { get, set } from 'lodash'
+import { set } from 'lodash'
 import { reduxForm, Field } from 'redux-form'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
@@ -49,27 +50,8 @@ export function validate (schema, options = {abortEarly: false}) {
 }
 
 export class Page extends React.Component {
-  componentWillMount () {
-    this.fetch()
-  }
-  fetch () {
-    const { dispatch } = this.props
-    const config = this.getConfig()
-    return dispatch(api.get(config.name)(config.savePath))
-  }
-  getConfig () {
-    const { config } = this.props
-    return {
-      fields: [{name: 'test', label: 'Test'}],
-      savePath: `/${config.name}`,
-      saveMethod: 'patch',
-      headActions: '',
-      ...config
-    }
-  }
   renderFields () {
-    const config = this.getConfig()
-    return config.fields.map((field, idx) => {
+    return this.props.fields.map((field, idx) => {
       const { component, ...others } = field
       return (
         <Field key={idx} component={component || Input} row {...others} />
@@ -85,13 +67,13 @@ export class Page extends React.Component {
     )
   }
   handleSubmit (values) {
-    const { dispatch, intl } = this.props
-    const config = this.getConfig()
-    return dispatch(api[config.saveMethod](config.name)(config.savePath, values)).then(v => {
-      toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
-    }).catch(e => {
-      toastr.error(intl.formatMessage({id: 'error_title'}), e)
-    })
+    // const { dispatch, intl } = this.props
+    // const config = this.getConfig()
+    // return dispatch(api[config.saveMethod](config.name)(config.savePath, values)).then(v => {
+    //   toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
+    // }).catch(e => {
+    //   toastr.error(intl.formatMessage({id: 'error_title'}), e)
+    // })
   }
   renderBody () {
     return (
@@ -106,14 +88,14 @@ export class Page extends React.Component {
       </Card>
     )
   }
+  renderHeadActions () { }
   render () {
-    const { handleSubmit } = this.props
-    const config = this.getConfig()
+    const { handleSubmit, title } = this.props
     return (
       <article className='content'>
         <div className='title-block'>
-          <div className='float-sm-right'> {config.headActions} </div>
-          <h3 className='title'>{config.formTitle}<span className='sparkline bar' data-type='bar' /> </h3>
+          <div className='float-sm-right'> {this.renderHeadActions()} </div>
+          <h3 className='title'>{title}<span className='sparkline bar' data-type='bar' /> </h3>
         </div>
         <Form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
           {this.renderBody()}
@@ -123,18 +105,13 @@ export class Page extends React.Component {
   }
 }
 
-export function page (config) {
-  const mapStateToProps = config.mapStateToProps || ([state => ({
-    api: state.api,
-    oauth: state.oauth,
-    initialValues: get(state.api, `${config.name}.response`)
-  })])
-  return (Component = Page) => {
-    return connect(...mapStateToProps)(
-      reduxForm({
-        form: `${config.name || 'page'}`,
-        validate: validate(config.validate || {})
-      })(withRouter(injectIntl(props => <Component {...props} config={config} />)))
-    )
-  }
+export function page (options = {}) {
+  const { props, name, schema } = options
+  return compose(
+    connect(state => ({result: state.result})),
+    withRouter,
+    injectIntl,
+    withProps(props),
+    reduxForm({form: name, validate: validate(schema)})
+  )
 }

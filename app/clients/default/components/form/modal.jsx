@@ -1,8 +1,10 @@
 import React from 'react'
 import { reduxForm, Field } from 'redux-form'
+import { withProps, compose } from 'recompose'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { push, goBack } from 'react-router-redux'
+import { isFunction } from 'lodash'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import Button from './button'
 import Input from './input'
@@ -10,27 +12,14 @@ import { Form, Modal as ModalBootstrap, ModalHeader, ModalBody, ModalFooter } fr
 import { validate } from './index'
 
 export class Modal extends React.Component {
-  static contextTypes = {
-    location: React.PropTypes.object
-  }
-  getConfig () {
-    const { config } = this.props
-    return {
-      formTitle: 'test',
-      fields: [],
-      ...config
-    }
-  }
   handleClose () {
-    const { dispatch } = this.props
-    dispatch(this.context.location ? push(this.context.location) : goBack())
+    const { dispatch, result } = this.props
+    dispatch(result.previous_url ? push(result.previous_url) : goBack())
   }
   renderFields () {
-    const config = this.getConfig()
-    return (config.fields instanceof Function ? config.fields.call(this) : config.fields).map(field => {
-      return field instanceof Function
-        ? field.call(this, {Field, Input})
-        : <Field key={field.name} component={Input} {...field} />
+    const { fields } = this.props
+    return fields.map(field => {
+      return isFunction(field) ? field.call(this, Field, Input) : <Field key={field.name} component={Input} {...field} />
     })
   }
   renderButtons () {
@@ -53,14 +42,13 @@ export class Modal extends React.Component {
     console.log(values)
   }
   render () {
-    const { handleSubmit } = this.props
-    const config = this.getConfig()
+    const { handleSubmit, title } = this.props
 
     return (
       <ModalBootstrap isOpen modalClassName='in'
         backdropClassName='in'>
         <Form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
-          <ModalHeader>{config.formTitle}</ModalHeader>
+          <ModalHeader>{title}</ModalHeader>
           <ModalBody style={{padding: '30px'}}>
             {this.renderBody()}
           </ModalBody>
@@ -71,15 +59,13 @@ export class Modal extends React.Component {
   }
 }
 
-export default function modal (config) {
-  const mapStateToProps = config.mapStateToProps || ([state => ({
-    api: state.api,
-    oauth: state.oauth
-  })])
-  return (Component = Modal) => {
-    return connect(...mapStateToProps)(reduxForm({
-      form: `${config.name || 'modal'}`,
-      validate: validate(config.validate || {})
-    })(withRouter(injectIntl(props => <Component {...props} config={config} />))))
-  }
+export default function modal (options = {}) {
+  const { props, name, schema } = options
+  return compose(
+    connect(state => ({result: state.result})),
+    withRouter,
+    injectIntl,
+    reduxForm({form: name, validate: validate(schema)}),
+    withProps(props)
+  )
 }

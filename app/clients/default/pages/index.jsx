@@ -15,7 +15,7 @@ import style from '../styles'
 import Dashboard from './dashboard'
 import Session from './session'
 import Users from './users'
-// import Roles from './roles'
+import Roles from './roles'
 import Files from './files'
 import Home from './home'
 import Settings from './settings'
@@ -176,6 +176,7 @@ export default props => (
         <Index>
           <Switch>
             <Route path='/users' component={Users} />
+            <Route path='/roles' component={Roles} />
             <Route path='/files' component={Files} />
             <Route path='/settings' component={Settings} />
             <Route component={Dashboard} />

@@ -1,11 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+import { compose, withProps } from 'recompose'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import querystring from 'query-string'
-import { replace } from 'react-router-redux'
+import { push, replace } from 'react-router-redux'
 import { reduxForm } from 'redux-form'
 import { Base64 } from 'js-base64'
-import { ButtonDropdown } from '../../components/form'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { get, merge } from 'lodash'
+import { toastr } from 'react-redux-toastr'
 import { DropdownToggle,
          Button,
          DropdownMenu,
@@ -13,11 +18,10 @@ import { DropdownToggle,
 import Table, { column } from '../table'
 import responsive, { components } from '../table/presets/responsive'
 import Pagination from '../pagination'
-import { toastr } from 'react-redux-toastr'
-import { checklist } from '../../redux/actions'
 import SearchForm from '../table/search'
-import { FormattedMessage } from 'react-intl'
-import { get, merge } from 'lodash'
+import { result } from '../../redux/actions'
+import { ButtonDropdown } from '../../components/form'
+import { withChecklist } from '../../components/utils'
 
 export default class List extends React.Component {
   static get propTypes () {
@@ -30,11 +34,9 @@ export default class List extends React.Component {
       limit: 1
     }
   }
-  get name () { throw new Error('Name is undefined') }
-  get columns () { return [] }
   get data () {
     const { loading, error } = this.props.data
-    const {total = 0, edges = []} = get(this.props.data, this.name, {})
+    const {total = 0, edges = []} = get(this.props.data, this.props.name, {})
     return {
       loading,
       error,
@@ -42,21 +44,10 @@ export default class List extends React.Component {
       total
     }
   }
-  get title () { return '' }
-  get description () { return '' }
-  static childContextTypes = {
-    list: React.PropTypes.object,
-    location: React.PropTypes.object
-  }
-  getChildContext () {
-    return {
-      list: this,
-      location: this.currentLocation
-    }
-  }
   async componentWillReceiveProps (nextProps, nextState) {
     if (nextProps.location !== this.props.location) {
-      const { location, data: {refetch}, limit } = nextProps
+      const { dispatch, location, data: {refetch}, limit } = nextProps
+      dispatch(result.set('previous_url')(this.props.location))
       const query = querystring.parse(location.search)
       const { page = 1 } = query
       await refetch({
@@ -73,26 +64,24 @@ export default class List extends React.Component {
     dispatch(replace({...location, search: newSearch}))
   }
   handleDestroy (checklist) {
-    // const { dispatch, intl } = this.props
-    // // const config = this.getConfig()
-    // const items = Object.entries(checklist).reduce((result, [id, checked]) => {
-    //   checked && result.push(id)
-    //   return result
-    // }, [])
-    // Promise.all(items.map(item => {
-    //   return dispatch(api.destroy(config.resource)(`${config.resourcePath}/${item}`))
-    // })).then(v => {
-    //   toastr.success(intl.formatMessage({id: 'toastr.success_title'}), intl.formatMessage({id: 'toastr.success_message'}))
-    //   this.fetch()
-    // }).catch(e => {
-    //   toastr.error(intl.formatMessage({id: 'toastr.error_title'}), e.response.data.message)
-    // })
+    const { remove, data: { refetch }, intl } = this.props
+    const items = Object.entries(checklist).reduce((result, [id, checked]) => {
+      checked && result.push(id)
+      return result
+    }, [])
+    Promise.all(items.map(id => {
+      return remove({ variables: { id } })
+    })).then(v => {
+      toastr.success(intl.formatMessage({id: 'toastr.success_title'}), intl.formatMessage({id: 'toastr.success_message'}))
+      refetch()
+    }).catch(e => {
+      toastr.error(intl.formatMessage({id: 'toastr.error_title'}), e.response.data.message)
+    })
   }
   gotoEdit (value) {
-    // const { dispatch } = this.props
-    // const config = this.getConfig()
-    // this.currentLocation = this.props.location
-    // dispatch(push(`${config.resourcePath}/${value}/edit`))
+    const { dispatch } = this.props
+    this.currentLocation = this.props.location
+    dispatch(push(`${this.props.resourceUrl}/${value}/edit`))
   }
   getColumns (columns) {
     const { checkedItems, toggleAll, checkItem, intl } = this.props
@@ -168,14 +157,14 @@ export default class List extends React.Component {
         loading={this.data.loading}
         error={this.data.error}
         rows={this.data.rows}
-        columns={this.getColumns(this.columns)}
+        columns={this.getColumns(this.props.columns)}
         components={components} />
     )
   }
   renderButtons () {
     return (
       <span>
-        <Link to={`/`} className='btn btn-primary btn-sm rounded-s'>
+        <Link to={`${this.props.resourceUrl}/create`} className='btn btn-primary btn-sm rounded-s'>
           <FormattedMessage id='create' />
         </Link>
       </span>
@@ -200,9 +189,9 @@ export default class List extends React.Component {
     return (<ReduxSearchForm />)
   }
   renderBatchMenuItems () {
-    const { intl } = this.props
+    const { intl, checkedItems } = this.props
     const batchDeleteClick = e => toastr.confirm(intl.formatMessage({id: 'toastr.dangerous_confirm_message'}), {
-      onOk: e => this.handleDestroy(checklist),
+      onOk: e => this.handleDestroy(checkedItems),
       onCancel: e => console.log('cancel')
     })
     return (
@@ -228,12 +217,12 @@ export default class List extends React.Component {
           <div className='row'>
             <div className='col-md-6'>
               <h3 className='title'>
-                {this.title}&nbsp;
+                {this.props.title}&nbsp;
                 {this.renderButtons()}
                 &nbsp;
                 {this.renderBatchMenu()}
               </h3>
-              <p className='title-description'> {this.description} </p>
+              <p className='title-description'> {this.props.description} </p>
             </div>
           </div>
         </div>
@@ -255,4 +244,14 @@ export default class List extends React.Component {
       </article>
     )
   }
+}
+export function list (options = {}) {
+  const { props, checklist } = options
+  return compose(
+    connect(state => ({result: state.result})),
+    withRouter,
+    injectIntl,
+    withProps(props),
+    withChecklist(checklist)
+  )
 }

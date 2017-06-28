@@ -2,13 +2,16 @@ import React from 'react'
 import Joi from 'joi'
 import { toastr } from 'react-redux-toastr'
 import { change, Field } from 'redux-form'
-import { Button, Input } from 'reactstrap'
-import { Select } from '../../components/form'
-import dropzone from '../../components/dropzone'
-import modal, { ModalForm } from '../../components/resource/modal'
-import { api, result } from '../../redux/actions'
+import { compose, graphql, gql } from 'react-apollo'
+import { mutations } from 'react-apollo-compose'
 import { FormattedMessage } from 'react-intl'
-import _ from 'lodash'
+import { omit } from 'lodash'
+import { Button, Input } from 'reactstrap'
+import { api, result } from '../../redux/actions'
+import dropzone from '../../components/dropzone'
+import ModalForm, { modal } from '../../components/resource/modal'
+import { RoleInfo } from '../../graphql/fragments'
+import { createUser } from '../../graphql/mutations'
 const FormData = window.FormData
 
 const schema = {
@@ -27,19 +30,9 @@ const schema = {
 }
 
 export class CreateForm extends ModalForm {
-  componentWillMount () {
-    super.componentWillMount()
-    const { dispatch } = this.props
-    dispatch(api.get('roles')('/roles'))
-    // dispatch(api.clear('avatar')())
-  }
-  componentWillUnmount () {
-    super.componentWillUnmount()
-    const { dispatch } = this.props
-    dispatch(api.clear('avatar')())
-  }
+  get mutation () { return this.props.mutations.createUser }
   renderBody () {
-    const { dispatch, result: { avatar = {} } } = this.props
+    const { dispatch, result: {avatar = {}} } = this.props
     const Avatar = dropzone({
       keyName: 'avatar',
       onSuccess: files => {
@@ -77,35 +70,51 @@ export class CreateForm extends ModalForm {
       dispatch(change('user', 'avatar', v.value.data.file_path))
     })
   }
-  handleSubmit (values) {
-    const { dispatch, intl } = this.props
+  async handleSubmit (values) {
+    const { createUser, intl } = this.props
     const { roles } = values
-    const data = _.omit(values, ['id', 'password_confirm', 'roles'])
-    return dispatch(api.post('user')('/users', {...data, roles: (roles || []).map(role => role.value)})).then(v => {
-      this.handleClose()
-      toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
+    const data = omit(values, ['id', 'password_confirm', 'roles'])
+    await createUser({
+      variables: {
+        input: {
+          ...data,
+          roles: (roles || []).map(role => role.value)
+        }
+      }
     })
+    this.handleClose()
+    toastr.success(intl.formatMessage({id: 'success_title'}), intl.formatMessage({id: 'success_message'}))
   }
 }
 
-export default modal({
-  mapStateToProps: [state => ({
-    api: state.api,
-    result: state.result
-  })],
-  resource: 'user',
-  formTitle: <FormattedMessage id='user.create' />,
-  method: 'post',
-  fields: [
-    {name: 'username', label: <FormattedMessage id='username' />, type: 'text'},
-    {name: 'email', label: <FormattedMessage id='email' />, type: 'text'},
-    {name: 'password', label: <FormattedMessage id='password' />, type: 'password'},
-    {name: 'password_confirm', label: <FormattedMessage id='password_confirm' />, type: 'password'},
-    function (props) {
-      const { api } = this.props
-      const options = _.get(api, 'roles.response', []).map(role => ({value: role.id, label: role.name}))
-      return <Field key='roles' component={Select} label={<FormattedMessage id='user.role' />} multi name='roles' options={options} />
+export default compose(
+  graphql(gql`
+    query Roles {
+      roles: search(first: 1000, type: ROLE) {
+        edges {
+          node {
+            ... on Role {
+              ...RoleInfo
+            }
+          }
+        }
+      }
     }
-  ],
-  validate: schema
-})(CreateForm)
+    ${RoleInfo}
+  `),
+  mutations({ createUser }),
+  modal({
+    name: 'createForm',
+    schema,
+    props: props => ({
+      title: <FormattedMessage id='user.create' />,
+      fields: [
+        {name: 'username', label: <FormattedMessage id='username' />, type: 'text'},
+        {name: 'email', label: <FormattedMessage id='email' />, type: 'text'},
+        {name: 'password', label: <FormattedMessage id='password' />, type: 'password'},
+        {name: 'password_confirm', label: <FormattedMessage id='password_confirm' />, type: 'password'},
+        {name: 'roles', type: 'select', label: <FormattedMessage id='user.role' />, multi: true, options: props.data.loading ? [] : props.data.roles.edges.map(edge => ({value: edge.node.id, label: edge.node.name}))}
+      ]
+    })
+  })
+)(CreateForm)

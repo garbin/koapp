@@ -109,6 +109,7 @@
     "react-addons-shallow-compare": "^15.6.0",
     "react-addons-transition-group": "^15.6.0",
     "react-apollo": "^1.4.2",
+    "react-apollo-compose": "^0.1.4",
     "react-click-outside": "github:tj/react-click-outside",
     "react-collapse": "^4.0.2",
     "react-dom": "^15.6.1",
