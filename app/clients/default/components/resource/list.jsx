@@ -48,12 +48,14 @@ export default class List extends React.Component {
     if (nextProps.location !== this.props.location) {
       const { dispatch, location, data: {refetch}, limit } = nextProps
       dispatch(result.set('previous_url')(this.props.location))
-      const query = querystring.parse(location.search)
-      const { page = 1 } = query
-      await refetch({
-        keyword: query.q,
-        offset: Base64.encode((parseInt(page) - 1) * limit)
-      })
+      if (nextProps.location.pathname === this.props.location.pathname) {
+        const query = querystring.parse(location.search)
+        const { page = 1 } = query
+        await refetch({
+          keyword: query.q,
+          offset: Base64.encode((parseInt(page) - 1) * limit)
+        })
+      }
     }
   }
   handlePageChange ({ selected }) {
