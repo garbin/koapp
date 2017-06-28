@@ -6,5 +6,7 @@ export default gql`
     username
     avatar
     email
+    created_at
+    updated_at
   }
 `
