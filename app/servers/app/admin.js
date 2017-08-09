@@ -5,7 +5,7 @@ const compose = require('koa-compose')
 const historyApiFallback = require('koa-history-api-fallback')
 const proxy = require('koa-proxy')
 const serve = require('koa-static')
-const webpackConfig = require('../../clients/default/webpack')
+const webpackConfig = require('../../clients/admin/webpack')
 const api = require('../api')
 const reverseProxy = convert(proxy({
   host: `http://localhost:${webpackConfig.devServer.port}`
@@ -22,9 +22,9 @@ app.use(mount('/', compose([
 ])))
 
 module.exports = {
-  clients: ['default'],
+  clients: ['admin'],
   async start () {
-    app.listen(config.get('servers.app.port'), e => {
+    app.listen(config.get('servers.app.admin.port'), e => {
       log.info(`App is listening on port ${app.server.address().port}`)
     }).on('close', api.teardown)
   },

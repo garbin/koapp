@@ -1,0 +1,176 @@
+import React from 'react'
+import { compose as composeComponent } from 'recompose'
+import { connect } from 'react-redux'
+import { get } from 'lodash'
+import { I18nextProvider, translate } from 'react-i18next'
+import ReduxToastr from 'react-redux-toastr'
+import cookies from 'js-cookie'
+import axios from 'axios'
+import i18next from 'i18next'
+import moment from 'moment'
+import numeral from 'numeral'
+import { ApolloProvider, getDataFromTree } from 'react-apollo'
+import { result, oauth } from './actions'
+import { createClient } from './actions/api'
+import config from '../config'
+import getApollo from './apollo/client'
+import getStore from './apollo/store'
+
+export { connect } from 'react-redux'
+
+export function i18n (options) {
+  return Component => {
+    const ComposedComponent = composeComponent(
+      connect(state => ({
+        api: state.api,
+        result: state.result,
+        oauth: state.oauth,
+        user: get(state, 'oauth.user')
+      })),
+      translate(['common'])
+    )(Component)
+    return connect(state => ({translactions: state.result.translactions}))(class extends React.Component {
+      constructor (props) {
+        super(props)
+        const { translactions } = this.props
+        this.i18n = i18next.init({
+          fallbackLng: 'zh-CN',
+          resources: translactions,
+          ns: ['common'],
+          defaultNS: 'common',
+          debug: false,
+          interpolation: {
+            format (value, format, lng) {
+              switch (typeof value) {
+                case 'date':
+                  return moment(value).format(format)
+                case 'number':
+                  return numeral(value).format('$0,0.00')
+                default:
+                  return value
+              }
+            }
+          }
+        })
+      }
+      render () {
+        return (
+          <I18nextProvider i18n={this.i18n}>
+            <div>
+              <ComposedComponent {...this.props} />
+              <ReduxToastr
+                timeOut={4000}
+                preventDuplicates
+                position='bottom-right' />
+            </div>
+          </I18nextProvider>
+        )
+      }
+    })
+  }
+}
+
+export default function (getInitialProps = async () => ({})) {
+  return RawComponent => {
+    const Component = i18n()(RawComponent)
+    return class Provider extends React.Component {
+      static async getInitialProps (ctx) {
+        let serverState = {}
+        const { req } = ctx
+        const options = {}
+        const apollo = getApollo(!process.browser ? req.cookies.get('access_token') : null)
+        const store = getStore(apollo)
+        store.dispatch(result.set('guest_id')(process.browser
+          ? cookies.get('guest_id')
+          : req.guest_id
+        ))
+        if (!process.browser) {
+          const url = {query: ctx.query, pathname: ctx.pathname}
+          const lang = 'zh-CN'
+          const file = 'common'
+          const translactions = await axios.get(`http://localhost:8000/static/locales/${lang}/${file}.json`)
+          .then(res => {
+            return {
+              [lang]: {
+                [file]: res.data
+              }
+            }
+          })
+          // i18n
+          const test = await axios.get(`http://localhost:8000/static/locales/${lang}/test.json`)
+          .then(res => res.data)
+          translactions[lang].test = test
+          store.dispatch(result.set('translactions')(translactions))
+          await store.dispatch(oauth.config(config.oauth))
+          options.client = createClient(arg => req.cookies.get('access_token'))
+          if (req.cookies.get('access_token')) {
+            await store.dispatch(oauth.sync(
+              req.cookies.get('access_token')
+            ))
+          }
+          const i18n = i18next.init({
+            fallbackLng: 'zh-CN',
+            resources: translactions,
+            ns: ['common'],
+            defaultNS: 'common',
+            debug: false,
+            interpolation: {
+              format (value, format, lng) {
+                switch (typeof value) {
+                  case 'date':
+                    return moment(value).format(format)
+                  case 'number':
+                    return numeral(value).format('$0,0.00')
+                  default:
+                    return value
+                }
+              }
+            }
+          })
+          const app = (
+            // No need to use the Redux Provider
+            // because Apollo sets up the store for us
+            <ApolloProvider client={apollo} store={store}>
+              <I18nextProvider i18n={i18n}>
+                <div>
+                  <Component url={url} {...this.props} />
+                  <ReduxToastr
+                    timeOut={4000}
+                    preventDuplicates
+                    position='bottom-right' />
+                </div>
+              </I18nextProvider>
+            </ApolloProvider>
+          )
+          await getDataFromTree(app)
+          const state = store.getState()
+          const {apollo: apolloState, ...otherState} = state
+          serverState = {
+            apollo: { // Make sure to only include Apollo's data state
+              data: apolloState.data
+            },
+            ...otherState
+          }
+        }
+        const composedInitialProps = await getInitialProps({...ctx, store, apollo})
+        return {
+          serverState,
+          options,
+          ...composedInitialProps
+        }
+      }
+      constructor (...props) {
+        super(...props)
+        this.apollo = getApollo()
+        this.store = getStore(this.apollo, this.props.serverState)
+      }
+      render () {
+        return (
+          <ApolloProvider client={this.apollo} store={this.store}>
+            <Component {...this.props} />
+          </ApolloProvider>
+        )
+      }
+    }
+  }
+}

@@ -2,7 +2,10 @@ const path = require('path')
 module.exports = {
   security: { saltRounds: 10 },
   servers: {
-    app: { port: 5000 },
+    app: {
+      admin: {port: 5000},
+      next: {port: 8000}
+    },
     bullui: { port: 5050 },
     api: {
       port: 5000,
