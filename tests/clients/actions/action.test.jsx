@@ -1,4 +1,4 @@
-import result from '../../../app/clients/default/redux/actions/result'
+import result from '../../../app/clients/admin/redux/actions/result'
 const { describe, expect, test } = global
 
 describe('Test', () => {
