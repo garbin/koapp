@@ -1,7 +1,7 @@
 const { graphql: { types, presets } } = require('koapi')
-const { Setting, Post, Role, User } = require('./types')
-const models = require('../../../models')
-const { grant } = require('./utils/resolvers')
+const { Setting, Post, Role, User } = require('../types')
+const models = require('../../../../models')
+const { grant } = require('../utils/resolvers')
 
 module.exports = {
   search: presets.search({

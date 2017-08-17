@@ -1,8 +1,8 @@
 const { graphql: { presets } } = require('koapi')
-const { Post, Setting, User, Comment, Role } = require('./types')
+const { Post, Setting, User, Comment, Role } = require('../types')
 const { omit } = require('lodash')
-const models = require('../../../models')
-const { grant, compose } = require('./utils/resolvers')
+const models = require('../../../../models')
+const { grant, compose } = require('../utils/resolvers')
 
 module.exports = Object.assign({
   createUser: presets.mutation.create(User, {
