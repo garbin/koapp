@@ -47,13 +47,13 @@ module.exports = Object.assign({
     compose: grant('admin.settings')
   })
 },
-  presets.mutation.cur(Post, {
+  presets.mutation(Post, {
     model: models.Post,
     compose: grant('admin.posts')
-  }), presets.mutation.cur(Comment, {
+  }), presets.mutation(Comment, {
     model: models.Comment,
     compose: grant('admin.comments')
-  }), presets.mutation.cur(Role, {
+  }), presets.mutation(Role, {
     model: models.User.Role,
     compose: grant('admin.roles')
   })
