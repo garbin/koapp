@@ -36,7 +36,7 @@ describe('User', () => {
     }))
   })
   test('Mutation', async () => {
-    await graphql.presets.cur(request, {
+    await graphql.presets.mutation(request, {
       type: 'User',
       create: {
         variables: {
