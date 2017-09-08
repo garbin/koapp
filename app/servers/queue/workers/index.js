@@ -1,19 +1,22 @@
 const { logger: log, config } = require('koapi')
 const queues = config.get('servers.queues', [])
 
-module.exports = {
+const internal = module.exports = {
+  queues () {
+    return queues.map(name => {
+      const worker = require(`./${name}`)
+      return worker
+    })
+  },
   async start () {
-    queues.forEach(name => {
-      const queue = require(`./${name}`)
-      queue.bull.on('ready', () => {
-        log.info('Queue %s ready for jobs, PID: %s', queue.name, process.pid)
-      })
-      queue.bull.process(job => {
-        return queue.worker(job).catch(log.error)
+    internal.queues().forEach(worker => {
+      log.info('Queue %s ready for jobs, PID: %s', worker.name, process.pid)
+      worker.queue.process(job => {
+        return worker.worker(job).catch(log.error)
       })
     })
   },
   async stop () {
-    await Promise.all(queues.map(name => require(`./${name}`).bull.close()))
+    await Promise.all(queues.map(name => require(`./${name}`).queue.close()))
   }
 }

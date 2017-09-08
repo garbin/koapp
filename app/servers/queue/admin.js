@@ -1,19 +1,17 @@
-const { config, logger: log } = require('koapi')
-const ui = require('bull-ui/app')({
-  redis: {
-    host: config.get('redis.host'),
-    port: config.get('redis.port'),
-    password: config.get('redis.password')
-  }
-})
-let server
+const { config } = require('koapi')
+const Arena = require('bull-arena')
+const workers = require('./workers')
 module.exports = {
   async start () {
-    server = ui.listen(config.get('servers.bullui.port'), function () {
-      log.info('Bull-UI started listening on port', this.address().port)
+    Arena({
+      queues: workers.queues().map(worker => ({
+        name: worker.name,
+        port: config.get('redis.port'),
+        host: config.get('redis.host'),
+        hostId: 'Koapp'
+      }))
+    }, {
+      port: config.get('servers.bullui.port')
     })
-  },
-  async stop () {
-    server.close()
   }
 }

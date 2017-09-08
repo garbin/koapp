@@ -10,12 +10,12 @@ const schema = Joi.object().keys({
   html: Joi.string()
 }).or('text', 'html')
 
-const bull = new Queue('Mailer', config.get('redis.port'), config.get('redis.host'))
-bull.on('error', log.error)
+const queue = new Queue('Mailer', { redis: config.get('redis') })
+queue.on('error', log.error)
 
 module.exports = {
   name: 'Mailer',
-  bull,
+  queue,
   async worker (job) {
     log.info('Job received', job.id)
     const valid = Joi.validate(job.data, schema)
