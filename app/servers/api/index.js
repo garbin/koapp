@@ -12,8 +12,12 @@ app.use(require('./routers'))
 app.use(require('./middlewares').after)
 
 async function teardown () {
-  require('../bull/queues').stop()
-  require('../schedulers').stop()
+  try {
+    await require('../bull/queues').stop()
+    await require('../schedulers').stop()
+  } catch (e) {
+    logger.error('Teardown Error:', e.message)
+  }
   connection.destroy()
   // close nodemailer agent
   mailer().close()

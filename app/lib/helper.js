@@ -1,5 +1,6 @@
-const { config } = require('koapi')
+const { config, logger: log } = require('koapi')
 const path = require('path')
+const Queue = require('bull')
 const nodemailer = require('nodemailer')
 let mailer
 
@@ -20,6 +21,11 @@ module.exports = {
     mailer = mailer || nodemailer.createTransport(config.get('mailer.smtp'),
     config.get('mailer.defaults'))
     return mailer
+  },
+  queue ({ name, worker }) {
+    const queue = new Queue(name, {redis: config.get('redis')})
+    queue.on('error', log.error)
+    return Object.assign({name, worker, queue})
   },
   connect (middleware, preposing = false) {
     const createReqMock = require('koa-passport/lib/framework/request').create

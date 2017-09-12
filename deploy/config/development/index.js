@@ -7,7 +7,7 @@ module.exports = {
       next: {port: 8000}
     },
     bull: {
-      queues: ['mailer'],
+      queues: ['Mailer'],
       ui: { port: 5050, hostId: pkg.name }
     },
     api: {
