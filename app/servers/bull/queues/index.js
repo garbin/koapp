@@ -1,5 +1,5 @@
 const { logger: log, config } = require('koapi')
-const queues = config.get('servers.queues', [])
+const queues = config.get('servers.bull.queues', [])
 
 const internal = module.exports = {
   queues () {

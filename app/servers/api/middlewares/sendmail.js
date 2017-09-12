@@ -1,4 +1,4 @@
-const { queue } = require('../../queue/workers/mailer')
+const { queue } = require('../../bull/queues/mailer')
 const { Setting } = require('../../../models')
 
 module.exports = function (id) {

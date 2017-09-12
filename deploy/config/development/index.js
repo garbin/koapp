@@ -1,11 +1,15 @@
 const path = require('path')
+const pkg = require('../../../package')
 module.exports = {
   servers: {
     app: {
       admin: {port: 5000},
       next: {port: 8000}
     },
-    bullui: { port: 5050 },
+    bull: {
+      queues: ['mailer'],
+      ui: { port: 5050, hostId: pkg.name }
+    },
     api: {
       port: 5000,
       clientUrl: 'http://localhost:5000',
@@ -40,7 +44,6 @@ module.exports = {
         }
       }
     },
-    queues: ['mailer'],
     schedulers: ['example']
   },
   database: {

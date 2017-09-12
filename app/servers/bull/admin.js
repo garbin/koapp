@@ -1,17 +1,17 @@
 const { config } = require('koapi')
 const Arena = require('bull-arena')
-const workers = require('./workers')
+const queues = require('./queues')
 module.exports = {
   async start () {
     Arena({
-      queues: workers.queues().map(worker => ({
-        name: worker.name,
+      queues: queues.queues().map(queue => ({
+        name: queue.name,
         port: config.get('redis.port'),
         host: config.get('redis.host'),
-        hostId: 'Koapp'
+        hostId: config.get('servers.bull.ui.hostId')
       }))
     }, {
-      port: config.get('servers.bullui.port')
+      port: config.get('servers.bull.ui.port')
     })
   }
 }
