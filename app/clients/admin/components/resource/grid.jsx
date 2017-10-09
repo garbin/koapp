@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import querystring from 'query-string'
@@ -20,8 +21,8 @@ import _ from 'lodash'
 
 export class Grid extends React.Component {
   static childContextTypes = {
-    list: React.PropTypes.object,
-    location: React.PropTypes.object
+    list: PropTypes.object,
+    location: PropTypes.object
   }
   getChildContext () {
     return {
