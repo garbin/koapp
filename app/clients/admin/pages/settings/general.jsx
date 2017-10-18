@@ -51,7 +51,6 @@ export default compose(
     })
   }),
   mutations({ updateSetting }),
-  withLoading(),
   page({
     name: 'settings/general',
     schema,
@@ -72,5 +71,6 @@ export default compose(
           type: 'toggle'}
       ]
     }
-  })
+  }),
+  withLoading()
 )(GeneralForm)
