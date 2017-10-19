@@ -20,7 +20,7 @@ const compiler = {
   output: {
     filename: assetDir + 'js/[name].js',
     chunkFilename: assetDir + 'js/[chunkhash].[name].js',
-    path: path.storage('/public/default'),
+    path: path.storage('/public/admin'),
     publicPath: client.basename || '/'
   },
   module: {

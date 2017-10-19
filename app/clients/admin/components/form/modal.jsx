@@ -45,7 +45,7 @@ export class Modal extends React.Component {
     const { handleSubmit, title } = this.props
 
     return (
-      <ModalBootstrap isOpen modalClassName='in'
+      <ModalBootstrap isOpen modalClassName='in' autoFocus={false}
         backdropClassName='in'>
         <Form onSubmit={handleSubmit(this.handleSubmit.bind(this))}>
           <ModalHeader>{title}</ModalHeader>

@@ -14,11 +14,12 @@ module.exports = {
     if (argv.client) {
       const args = addonArgs()
       servers.forEach(name => {
-        shelljs.exec(`webpack-dev-server --config ./app/clients/${name}/webpack \
-          -d --history-api-fallback --inline \
-          --host 0.0.0.0 ${args}`, {
-            maxBuffer: 1024 * 1000
-          })
+        const command = `webpack-dev-server --config ./app/clients/${name}/webpack \
+        --history-api-fallback --inline \
+        --host 0.0.0.0 ${args}`
+        shelljs.exec(command, {
+          maxBuffer: 1024 * 1000
+        })
       })
     } else {
       const commands = [`nodemon --harmony --watch app --ignore app/clients -L -e js,es,jsx ./app/index.js -- ${servers.join(' ')}`]

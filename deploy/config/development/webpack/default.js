@@ -1,3 +1,4 @@
 module.exports = {
-  devtool: 'eval'
+  devtool: 'cheap-module-source-map'
+  // devtool: 'eval'
 }

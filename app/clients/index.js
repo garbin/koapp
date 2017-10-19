@@ -1,1 +1,1 @@
-module.exports = ['default']
+module.exports = ['admin']

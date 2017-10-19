@@ -122,7 +122,6 @@ export default compose(
     }
   }),
   mutations({ updateUser }),
-  withLoading(),
   modal({
     name: 'updateUser',
     schema,
@@ -136,5 +135,6 @@ export default compose(
         ]
       }
     }
-  })
+  }),
+  withLoading()
 )(EditForm)

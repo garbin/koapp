@@ -78,31 +78,39 @@ export const formatters = {
 export const components = {
   table: props => <ul {...props} className={classnames('item-list striped', props.className)} />,
   header: {
-    wrapper: props => <li {...props} className={classnames('item item-list-header hidden-sm-down', props.className)} />,
+    wrapper: class extends React.Component {
+      render () {
+        return (
+          <li {...this.props} className={classnames('item item-list-header hidden-sm-down', this.props.className)} />
+        )
+      }
+    },
     row: props => <div {...props} className={classnames('item-row', props.className)} />,
     cell: props => <div {...props} className={classnames('item-col', props.className)} />
   },
   body: {
-    wrapper: props => {
-      const {children, className, loading, empty, error, ...others} = props
-      return (
-        <li className='tbody'>
-          <ul {...others} className={classnames('item-list striped tbody-wrapper', className)}>
-            <li className='item' style={{display: 'none'}} />
-            {(loading || error || empty) ? (
-              <li className='item'>
-                <div className='item-row'>
-                  <div className='item-col' style={{justifyContent: 'center'}}>
-                    {loading && <Loading delay={0} type='cylon' color={style.primaryColor} />}
-                    {error && error.toString()}
-                    {empty && <FormattedMessage id='list_empty' />}
+    wrapper: class extends React.Component {
+      render () {
+        const {children, className, loading, empty, error, ...others} = this.props
+        return (
+          <li className='tbody'>
+            <ul {...others} className={classnames('item-list striped tbody-wrapper', className)}>
+              <li className='item' style={{display: 'none'}} />
+              {(loading || error || empty) ? (
+                <li className='item'>
+                  <div className='item-row'>
+                    <div className='item-col' style={{justifyContent: 'center'}}>
+                      {loading && <Loading delay={0} type='cylon' color={style.primaryColor} />}
+                      {error && error.toString()}
+                      {empty && <FormattedMessage id='list_empty' />}
+                    </div>
                   </div>
-                </div>
-              </li>
-            ) : children}
-          </ul>
-        </li>
-      )
+                </li>
+              ) : children}
+            </ul>
+          </li>
+        )
+      }
     },
     row: props => <li className='item'><div {...props} className={classnames('item-row', props.className)} /></li>,
     cell: props => <div {...props} className={classnames('item-col', props.className)} />
