@@ -8,7 +8,7 @@ const path = require('path')
 const nextApp = next({ dev, dir: path.resolve(__dirname, '../../clients/next') })
 const routes = require('../../clients/next/routes')
 const handle = routes.getRequestHandler(nextApp)
-const ulid = require('ulid')
+const { ulid } = require('ulid')
 nextApp.prepare().then(() => {
   app.use(async (ctx, next) => {
     await next()

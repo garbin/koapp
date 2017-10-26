@@ -1,4 +1,4 @@
-import { gql } from 'react-apollo'
+import gql from 'graphql-tag'
 import { SettingInfo } from '../fragments'
 
 export const createSetting = gql`

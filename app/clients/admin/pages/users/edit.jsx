@@ -1,7 +1,7 @@
 import React from 'react'
 import Joi from 'joi'
 import { compose } from 'recompose'
-import { graphql, gql } from 'react-apollo'
+import { graphql } from 'react-apollo'
 import { toastr } from 'react-redux-toastr'
 import { mutations } from 'react-apollo-compose'
 import { Field, change } from 'redux-form'
@@ -14,6 +14,7 @@ import { modal } from '../../components/resource/modal'
 import { result } from '../../redux/actions'
 import { RoleInfo } from '../../graphql/fragments'
 import { updateUser } from '../../graphql/mutations'
+import gql from 'graphql-tag'
 import { CreateForm } from './create'
 
 const schema = {

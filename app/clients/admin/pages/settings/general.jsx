@@ -1,6 +1,6 @@
 import React from 'react'
 import { toastr } from 'react-redux-toastr'
-import { graphql, gql } from 'react-apollo'
+import { graphql } from 'react-apollo'
 import { FormattedMessage } from 'react-intl'
 import { mutations } from 'react-apollo-compose'
 import { compose } from 'recompose'
@@ -9,6 +9,7 @@ import { omit } from 'lodash'
 import { Page, page } from '../../components/form'
 import { withLoading } from '../../components/utils'
 import { updateSetting } from '../../graphql/mutations'
+import gql from 'graphql-tag'
 
 export const schema = {
   settings: Joi.object({

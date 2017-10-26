@@ -6,7 +6,7 @@ const mime = require('mime-types')
 const moment = require('moment')
 const fs = require('fs')
 const Promise = require('bluebird')
-const ulid = require('ulid')
+const { ulid } = require('ulid')
 const Storage = Promise.promisifyAll(new Client(config.get('storage.minio')))
 
 /**

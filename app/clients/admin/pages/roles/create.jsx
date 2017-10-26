@@ -1,6 +1,6 @@
 import React from 'react'
 import Joi from 'joi'
-import { compose, graphql, gql } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { mutations } from 'react-apollo-compose'
 import { FormattedMessage } from 'react-intl'
 import Modal, { modal } from '../../components/resource/modal'
@@ -8,6 +8,7 @@ import PermissionEditor from './permission_editor'
 import { toastr } from 'react-redux-toastr'
 import { RoleInfo } from '../../graphql/fragments'
 import { createRole } from '../../graphql/mutations'
+import gql from 'graphql-tag'
 
 const schema = {
   name: Joi.string().required(),

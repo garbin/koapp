@@ -5,6 +5,7 @@ const { mailer, path } = require('../../lib/helper')
 
 const app = new Koapi()
 
+app.koa.on('error', console.error)
 app.use(middlewares.preset('restful', config.get('servers.api.middlewares')))
 app.use(middlewares.serve(path.storage('/public')))
 app.use(require('./middlewares').before)

@@ -6,13 +6,14 @@ import { Button,
          DropdownMenu,
          DropdownItem } from 'reactstrap'
 import { withProps } from 'recompose'
-import { compose, graphql, gql } from 'react-apollo'
+import { compose, graphql } from 'react-apollo'
 import { mutations } from 'react-apollo-compose'
 import { get } from 'lodash'
 import List, { list } from '../../components/resource/list'
 import { withLoading } from '../../components/utils'
 import { RoleInfo } from '../../graphql/fragments'
 import { removeRole } from '../../graphql/mutations'
+import gql from 'graphql-tag'
 
 export class RoleList extends List {}
 
