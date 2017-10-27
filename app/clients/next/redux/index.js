@@ -1,6 +1,6 @@
 import React from 'react'
 import { compose as composeComponent } from 'recompose'
-import { connect } from 'react-redux'
+import { connect, Provider } from 'react-redux'
 import { get } from 'lodash'
 import { I18nextProvider, translate } from 'react-i18next'
 import ReduxToastr from 'react-redux-toastr'
@@ -13,8 +13,8 @@ import { ApolloProvider, getDataFromTree } from 'react-apollo'
 import { result, oauth } from './actions'
 import { createClient } from './actions/api'
 import config from '../config'
-import getApollo from './apollo/client'
-import getStore from './apollo/store'
+import getApollo from './apollo'
+import getStore from './store'
 
 export { connect } from 'react-redux'
 
@@ -73,13 +73,13 @@ export function i18n (options) {
 export default function (getInitialProps = async () => ({})) {
   return RawComponent => {
     const Component = i18n()(RawComponent)
-    return class Provider extends React.Component {
+    return class extends React.Component {
       static async getInitialProps (ctx) {
-        let serverState = {}
+        let apolloState = {}
         const { req } = ctx
         const options = {}
         const apollo = getApollo(!process.browser ? req.cookies.get('access_token') : null)
-        const store = getStore(apollo)
+        const store = getStore()
         store.dispatch(result.set('guest_id')(process.browser
           ? cookies.get('guest_id')
           : req.guest_id
@@ -130,31 +130,26 @@ export default function (getInitialProps = async () => ({})) {
           const app = (
             // No need to use the Redux Provider
             // because Apollo sets up the store for us
-            <ApolloProvider client={apollo} store={store}>
+            <Provider store={store}>
               <I18nextProvider i18n={i18n}>
-                <div>
-                  <Component url={url} {...this.props} />
-                  <ReduxToastr
-                    timeOut={4000}
-                    preventDuplicates
-                    position='bottom-right' />
-                </div>
+                <ApolloProvider client={apollo}>
+                  <div>
+                    <Component url={url} {...this.props} />
+                    <ReduxToastr
+                      timeOut={4000}
+                      preventDuplicates
+                      position='bottom-right' />
+                  </div>
+                </ApolloProvider>
               </I18nextProvider>
-            </ApolloProvider>
+            </Provider>
           )
           await getDataFromTree(app)
-          const state = store.getState()
-          const {apollo: apolloState, ...otherState} = state
-          serverState = {
-            apollo: { // Make sure to only include Apollo's data state
-              data: apolloState.data
-            },
-            ...otherState
-          }
+          apolloState = apollo.cache.extract()
         }
         const composedInitialProps = await getInitialProps({...ctx, store, apollo})
         return {
-          serverState,
+          apolloState,
           options,
           ...composedInitialProps
         }
@@ -162,13 +157,15 @@ export default function (getInitialProps = async () => ({})) {
       constructor (...props) {
         super(...props)
         this.apollo = getApollo()
-        this.store = getStore(this.apollo, this.props.serverState)
+        this.store = getStore()
       }
       render () {
         return (
-          <ApolloProvider client={this.apollo} store={this.store}>
-            <Component {...this.props} />
-          </ApolloProvider>
+          <Provider store={this.store}>
+            <ApolloProvider client={this.apollo}>
+              <Component {...this.props} />
+            </ApolloProvider>
+          </Provider>
         )
       }
     }

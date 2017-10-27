@@ -1,6 +1,10 @@
 import React from 'react'
+import { Provider } from 'react-redux'
 import fetch from 'isomorphic-fetch'
-import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo'
+import { ApolloProvider } from 'react-apollo'
+import { ApolloClient, InMemoryCache } from 'apollo-client-preset'
+import { createHttpLink } from 'apollo-link-http'
+import { setContext } from 'apollo-link-context'
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
 import { routerMiddleware, ConnectedRouter } from 'react-router-redux'
 import ReactDOM from 'react-dom'
@@ -15,46 +19,38 @@ import config from '../config'
 
 global.fetch = fetch
 export function createApollo (token) {
-  const networkInterface = createNetworkInterface({
-    uri: config.graphql, // Server URL (must be absolute)
-    opts: { // Additional fetch() options like `credentials` or `headers`
-      credentials: 'same-origin'
+  const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
+    token = token || window.localStorage.getItem('access_token')
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : null
+      }
     }
   })
-  networkInterface.use([{
-    applyMiddleware (req, next) {
-      if (!req.options.headers) {
-        req.options.headers = {}  // Create the header object if needed.
-      }
-      token = token || window.localStorage.getItem('access_token')
-      if (token) {
-        req.options.headers['authorization'] = `Bearer ${token}`
-      }
-      next()
-    }
-  }])
+  const link = createHttpLink({ uri: config.graphql, opts: { credentials: 'same-origin' } })
   return new ApolloClient({
-    ssrMode: false, // Disables forceFetch on the server (so queries are only run once)
-    networkInterface
+    link: authLink.concat(link),
+    ssrMode: false,
+    cache: new InMemoryCache()
   })
 }
 
-export function configure (reducers, initial, history, apollo) {
+export function configure (reducers, initial, history) {
   const reactRouter = routerMiddleware(history)
   const { devToolsExtension } = global.window || {}
   return createStore(
     reducers,
     initial,
     compose(
-      applyMiddleware(apollo.middleware(), ...middlewares, reactRouter),
+      applyMiddleware(...middlewares, reactRouter),
       devToolsExtension ? devToolsExtension() : f => f
   ))
 }
-export function makeStore (history, initial = {}, apollo) {
-  return configure(combineReducers({
-    ...reducers,
-    apollo: apollo.reducer()
-  }), initial, history, apollo)
+export function makeStore (history, initial = {}) {
+  return configure(combineReducers(reducers), initial, history)
 }
 
 export async function initializeState ({store}) {
@@ -65,20 +61,22 @@ export async function initializeState ({store}) {
 
 export function render ({store, history, Component, mount, apollo}) {
   ReactDOM.render((
-    <ApolloProvider store={store} client={apollo}>
+    <Provider store={store}>
       <IntlProvider>
         <ConnectedRouter history={history}>
-          <Component />
+          <ApolloProvider client={apollo}>
+            <Component />
+          </ApolloProvider>
         </ConnectedRouter>
       </IntlProvider>
-    </ApolloProvider>
+    </Provider>
   ), mount)
 }
 
 export default function ({ history, mount }) {
   addLocaleData([...zhLocaleData])
   const apollo = createApollo()
-  const store = makeStore(history, { intl: { locale: 'zh-CN', messages } }, apollo)
+  const store = makeStore(history, { intl: { locale: 'zh-CN', messages } })
   return async Component => {
     try {
       await initializeState({store})
