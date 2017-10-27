@@ -156,7 +156,7 @@ export default function (getInitialProps = async () => ({})) {
       }
       constructor (...props) {
         super(...props)
-        this.apollo = getApollo()
+        this.apollo = getApollo(null, this.props.apolloState)
         this.store = getStore()
       }
       render () {

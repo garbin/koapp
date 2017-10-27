@@ -7,7 +7,7 @@ import config from '../config'
 
 if (!process.browser) global.fetch = fetch
 
-export function create (token) {
+export function create (token, initialState = {}) {
   const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
     token = token || cookies.get('access_token')
@@ -23,15 +23,15 @@ export function create (token) {
   return new ApolloClient({
     link: authLink.concat(link),
     ssrMode: false,
-    cache: new InMemoryCache().restore(process.browser ? window.__APOLLO_STATE__ : {})
+    cache: new InMemoryCache().restore(process.browser ? window.__NEXT_DATA__.props.apolloState : initialState)
   })
 }
 
-export default function (token) {
+export default function (token, initialState = {}) {
   if (process.browser) {
-    if (!window.apollo) window.apollo = create(token)
+    if (!window.apollo) window.apollo = create(token, initialState)
     return window.apollo
   } else {
-    return create(token)
+    return create(token, initialState)
   }
 }

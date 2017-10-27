@@ -47,6 +47,16 @@ module.exports = {
       compose: grant('admin.settings')
     })
   }),
+  hello: types.type(new types.Object({
+    name: 'Hello',
+    fields: {
+      name: types.string()
+    }
+  }), {
+    resolve () {
+      return { name: 'World' }
+    }
+  }),
   viewer: types.type(User, {
     resolve: async (root, args, ctx, info) => ctx.user
   })
