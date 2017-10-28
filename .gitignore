@@ -3,7 +3,6 @@
 *.lock
 npm-debug.log*
 build
-static
 .nyc_output/
 storage/public
 storage/tmp

@@ -10,9 +10,11 @@ import page from '../components/page'
 export class Index extends React.Component {
   render () {
     const name = get(this.props, 'data.hello.name')
+    const { t } = this.props
     return (
       <div>
-        <div> Next App, Hello: {name} </div>
+        <div> Next App </div>
+        <div>{t('username')}: {name}</div>
         <p>
           <Link href='/about'><a>About</a></Link>
         </p>
