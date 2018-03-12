@@ -4,8 +4,8 @@ module.exports = {
   security: { saltRounds: 10 },
   servers: {
     app: {
-      admin: {port: 5000},
-      next: {port: 8000}
+      admin: { port: 5000 },
+      next: { port: 8000 }
     },
     bull: {
       queues: ['Mailer'],
@@ -76,8 +76,8 @@ module.exports = {
       endPoint: 'localhost',
       port: 9000,
       secure: false,
-      accessKey: 'WAWXUCAHEZYXKEZGL13J',
-      secretKey: 'lH7SmVoYyAfwzSonSgykYazLXqBrIOMnrBP+AOVo'
+      accessKey: '9EKQDKXQYZIAQED4ZL0W',
+      secretKey: 'ZVDqARqtOZ9ZDz6yX/+HMeP9Rc/9DQYCPmDw6pqh'
     }
   },
   mailer: {
