@@ -13,8 +13,14 @@ const compiler = {
   entry: {
     main: './index.js',
     vendor: [
-      'react', 'redux', 'react-redux', 'react-router-redux', 'react-router',
-      'redux-actions', 'react-dom', 'react-addons-css-transition-group'
+      'react',
+      'redux',
+      'react-redux',
+      'react-router-redux',
+      'react-router',
+      'redux-actions',
+      'react-dom',
+      'react-addons-css-transition-group'
     ]
   },
   output: {
@@ -25,31 +31,39 @@ const compiler = {
   },
   module: {
     rules: [
-      { test: /\.(js|jsx)$/,
+      {
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader' },
-      { test: /\.(exec|min)\.(js|jsx)$/,
-        loader: 'script-loader' },
-      { test: /\.(png|jpg|gif)$/,
+        loader: 'babel-loader'
+      },
+      {
+        test: /\.(exec|min)\.(js|jsx)$/,
+        loader: 'script-loader'
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
         loader: 'file-loader',
         options: {
           name: assetDir + 'img/[name].[ext]'
         }
       },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'url-loader',
         options: {
           limit: 100000,
           mimetype: 'application/font-woff'
         }
       },
-      { test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      {
+        test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader',
         options: {
           name: assetDir + 'fonts/[name].[ext]'
         }
       },
-      { test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      {
+        test: /\.svg(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader',
         options: {
           name: assetDir + 'svg/[name].[ext]'
@@ -61,7 +75,7 @@ const compiler = {
       },
       {
         test: /\.css$/,
-        use: [ 'style-loader', 'css-loader?importLoaders=1', 'postcss-loader' ]
+        use: ['style-loader', 'css-loader?importLoaders=1', 'postcss-loader']
       }
     ]
   },
@@ -71,10 +85,21 @@ const compiler = {
       joi: 'joi-browser'
     }
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          name: 'vendor',
+          chunks: 'all'
+        }
+      }
+    }
+  },
   plugins: [
     // new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
-    new webpack.optimize.CommonsChunkPlugin({ name: 'main', async: true }),
+
+    // new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', minChunks: Infinity }),
+    // new webpack.optimize.CommonsChunkPlugin({ name: 'main', async: true }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
