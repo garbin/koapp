@@ -72,6 +72,7 @@
   "bugs": {},
   "homepage": "https://github.com/koapi/koapp#readme",
   "dependencies": {
+    "@rematch/core": "^0.5.2",
     "apollo-client-preset": "^1.0.1",
     "apollo-link-context": "^1.0.0",
     "apollo-link-http": "^1.0.0",

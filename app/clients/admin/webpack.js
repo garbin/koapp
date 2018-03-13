@@ -8,8 +8,8 @@ const client = require('./config')
 const { config } = require('koapi')
 
 const compiler = {
-  devtool: 'source-map',
   context: __dirname,
+  mode: 'development',
   entry: {
     main: './index.js',
     vendor: [
@@ -36,10 +36,10 @@ const compiler = {
         exclude: /node_modules/,
         loader: 'babel-loader'
       },
-      {
-        test: /\.(exec|min)\.(js|jsx)$/,
-        loader: 'script-loader'
-      },
+      // {
+      //   test: /\.(exec|min)\.(js|jsx)$/,
+      //   loader: 'script-loader'
+      // },
       {
         test: /\.(png|jpg|gif)$/,
         loader: 'file-loader',
