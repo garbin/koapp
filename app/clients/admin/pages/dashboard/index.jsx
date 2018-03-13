@@ -1,9 +1,13 @@
 import React from 'react'
+import { dispatch } from '@rematch/core'
 import { connect } from '../../lib/helper'
 import { withRouter } from 'react-router'
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie } from 'recharts'
 
 export class Dashboard extends React.Component {
+  componentWillMount () {
+    console.log(dispatch.api.get('/'))
+  }
   render () {
     const data = [
       {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},

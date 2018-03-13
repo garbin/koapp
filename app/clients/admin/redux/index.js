@@ -16,6 +16,7 @@ import middlewares from './middlewares'
 import * as reducers from './reducers'
 import { oauth } from './actions'
 import config from '../config'
+import * as models from '../models'
 
 global.fetch = fetch
 export function createApollo (token) {
@@ -43,8 +44,9 @@ export function createApollo (token) {
 
 export function configure (combineReducers, initial, history) {
   const reactRouter = routerMiddleware(history)
-  // const { devToolsExtension } = global.window || {}
+  console.log(models)
   return init({
+    models,
     redux: {
       initialState: initial,
       reducers,
