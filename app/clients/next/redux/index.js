@@ -59,26 +59,29 @@ export function i18n (options) {
       })),
       translate(['common'])
     )(Component)
-    return connect(state => ({translactions: state.result.translactions}))(class extends React.Component {
-      constructor (props) {
-        super(props)
-        const { translactions } = this.props
-        this.i18n = getI18n(translactions, 'zh-CN')
+    return connect(state => ({ translactions: state.result.translactions }))(
+      class extends React.Component {
+        constructor (props) {
+          super(props)
+          const { translactions } = this.props
+          this.i18n = getI18n(translactions, 'zh-CN')
+        }
+        render () {
+          return (
+            <I18nextProvider i18n={this.i18n}>
+              <div>
+                <ComposedComponent {...this.props} />
+                <ReduxToastr
+                  timeOut={4000}
+                  preventDuplicates
+                  position='bottom-right'
+                />
+              </div>
+            </I18nextProvider>
+          )
+        }
       }
-      render () {
-        return (
-          <I18nextProvider i18n={this.i18n}>
-            <div>
-              <ComposedComponent {...this.props} />
-              <ReduxToastr
-                timeOut={4000}
-                preventDuplicates
-                position='bottom-right' />
-            </div>
-          </I18nextProvider>
-        )
-      }
-    })
+    )
   }
 }
 
@@ -90,32 +93,39 @@ export default function (getInitialProps = async () => ({})) {
         let apolloState = {}
         const { req } = ctx
         const options = {}
-        const apollo = getApollo(!process.browser ? req.cookies.get('access_token') : null)
+        const apollo = getApollo(
+          !process.browser ? req.cookies.get('access_token') : null
+        )
         const store = getStore()
-        store.dispatch(result.set('guest_id')(process.browser
-          ? cookies.get('guest_id')
-          : req.guest_id
-        ))
+        store.dispatch(
+          result.set('guest_id')(
+            process.browser ? cookies.get('guest_id') : req.guest_id
+          )
+        )
         if (!process.browser) {
-          const url = {query: ctx.query, pathname: ctx.pathname}
+          const url = { query: ctx.query, pathname: ctx.pathname }
           const lang = 'zh-CN'
           const file = 'common'
           const translactions = {}
           translactions[lang] = {}
-          translactions[lang][file] = require(`../static/locales/${lang}/${file}`)
+          translactions[lang][
+            file
+          ] = require(`../static/locales/${lang}/${file}`)
           store.dispatch(result.set('translactions')(translactions))
           await store.dispatch(oauth.config(config.oauth))
           options.client = createClient(arg => req.cookies.get('access_token'))
           if (req.cookies.get('access_token')) {
-            await store.dispatch(oauth.sync(
-              req.cookies.get('access_token')
-            ))
+            await store.dispatch(oauth.sync(req.cookies.get('access_token')))
           }
           const app = renderApp(Component, store, apollo, { url })
           await getDataFromTree(app)
           apolloState = apollo.cache.extract()
         }
-        const composedInitialProps = await getInitialProps({...ctx, store, apollo})
+        const composedInitialProps = await getInitialProps({
+          ...ctx,
+          store,
+          apollo
+        })
         return {
           apolloState,
           serverState: store.getState(),

@@ -1,17 +1,17 @@
-import { compose, createStore, applyMiddleware, combineReducers } from 'redux'
+import { init } from '@rematch/core'
 import middlewares from './middlewares'
 import * as reducers from './reducers'
+import * as models from './models'
 
 export function create (initialState) {
-  const { devToolsExtension } = global.window || {}
-  return createStore(
-    combineReducers({ ...reducers }),
-    initialState,
-    compose(
-      applyMiddleware(...middlewares),
-      devToolsExtension ? devToolsExtension() : f => f
-    )
-  )
+  return init({
+    models,
+    redux: {
+      reducers,
+      initialState,
+      middlewares
+    }
+  })
 }
 
 export default function (initialState) {
