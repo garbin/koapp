@@ -12,9 +12,9 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { get, merge } from 'lodash'
 import { toastr } from 'react-redux-toastr'
 import { DropdownToggle,
-         Button,
-         DropdownMenu,
-         DropdownItem } from 'reactstrap'
+  Button,
+  DropdownMenu,
+  DropdownItem } from 'reactstrap'
 import Table, { column } from '../table'
 import responsive, { components } from '../table/presets/responsive'
 import Pagination from '../pagination'
@@ -111,7 +111,7 @@ export default class List extends React.Component {
               onCancel: e => console.log('cancel')
             })}><FormattedMessage id='delete' /></DropdownItem>
           </DropdownMenu>
-          ))
+        ))
         headerClassName = headerClassName || 'item-col-header item-col-actions-dropdown item-col-1'
         cellClassName = cellClassName || 'item-col-actions-dropdown item-col-1'
         return column('id', col.label, responsive.actions({

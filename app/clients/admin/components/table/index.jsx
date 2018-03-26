@@ -23,7 +23,7 @@ export default class extends React.Component {
         <Header />
         {(loading || error)
           ? <Body error={error} loading={loading} rows={[]} />
-        : <Body rows={rows} empty={rows.length === 0} rowKey={rowKey || 'id'} />}
+          : <Body rows={rows} empty={rows.length === 0} rowKey={rowKey || 'id'} />}
       </Provider>
     )
   }

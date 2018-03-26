@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { toastr } from 'react-redux-toastr'
 import { Button,
-         DropdownMenu,
-         DropdownItem } from 'reactstrap'
+  DropdownMenu,
+  DropdownItem } from 'reactstrap'
 import { withProps } from 'recompose'
 import { compose, graphql } from 'react-apollo'
 import { mutations } from 'react-apollo-compose'

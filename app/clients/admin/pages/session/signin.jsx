@@ -80,7 +80,7 @@ export class Signin extends React.Component {
                     name='username'
                     label={<FormattedMessage id='username' />}
                     placeholder='Your email address'
-                    />
+                  />
                   <Field
                     component={Input}
                     type='password'
@@ -88,7 +88,7 @@ export class Signin extends React.Component {
                     name='password'
                     label={<FormattedMessage id='password' />}
                     placeholder='Your password'
-                    />
+                  />
                   <div className='form-group'>
                     <Checkbox inline label={<FormattedMessage id='remeber_me' />} />
                     <Link to='/session/forget' className='forget-btn pull-right'>
@@ -111,7 +111,7 @@ export class Signin extends React.Component {
                         loadingText={<FormattedMessage id='pending_signin' />}
                         provider='github'>
                         <i className='fa fa-github' />&nbsp;&nbsp;Github
-                        </OAuthSigninButton>
+                      </OAuthSigninButton>
                     </div>
                   </div>
                 </form>

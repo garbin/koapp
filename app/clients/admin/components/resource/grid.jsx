@@ -7,8 +7,8 @@ import { push } from 'react-router-redux'
 import { withRouter } from 'react-router'
 import { ButtonDropdown } from '../../components/form'
 import { DropdownToggle,
-         DropdownMenu,
-         DropdownItem } from 'reactstrap'
+  DropdownMenu,
+  DropdownItem } from 'reactstrap'
 import { toastr } from 'react-redux-toastr'
 import { Checkbox } from '../form'
 import Pagination from '../pagination'

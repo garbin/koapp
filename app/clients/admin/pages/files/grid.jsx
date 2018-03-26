@@ -51,7 +51,7 @@ export class FileGrid extends Grid {
               <div className='dropfileszone'>
                 {props.status.isDragActive
                   ? <FormattedMessage id='drop_here_to_upload' />
-                : <FormattedMessage id='drag_here_to_upload' />}
+                  : <FormattedMessage id='drag_here_to_upload' />}
               </div>
             </div>
           </div>

@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormGroup,
-         Label,
-         Input,
-         FormFeedback } from 'reactstrap'
+  Label,
+  Input,
+  FormFeedback } from 'reactstrap'
 
 export default class extends React.Component {
   render () {

@@ -7,5 +7,5 @@ export default props => {
   const { status, response } = resource
   return status === 'pending'
     ? <Loading delay={0} type='cylon' color={style.primaryColor} {...loadingProps} />
-  : (children ? children(response) : '')
+    : (children ? children(response) : '')
 }
