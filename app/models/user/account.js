@@ -27,8 +27,8 @@ module.exports = class Account extends model.Base {
   };
   static async signin (provider, response) {
     const bookshelf = model.getInternal('bookshelf')
-    let { account_id, username, email, avatar, profile, access_token, refresh_token } = response
-    let account = await this.forge().where({ account_id }).fetch({ withRelated: ['user'] })
+    let { account_id: accountId, username, email, avatar, profile, access_token: accessToken, refresh_token: refreshToken } = response
+    let account = await this.forge().where({ accountId }).fetch({ withRelated: ['user'] })
     let user
     if (!account) {
       user = await User.where('email', '=', email).fetch()
@@ -42,18 +42,18 @@ module.exports = class Account extends model.Base {
         }, {
           transacting: t
         }).tap(model => model.accounts().create({
-          account_id,
-          access_token,
-          refresh_token,
+          accountId,
+          accessToken,
+          refreshToken,
           provider,
           expires_at: moment().add(2, 'hours').toDate(),
           profile
         }, { transacting: t })).then(t.commit).catch(t.rollback))
       } else {
         await user.accounts().create({
-          account_id,
-          access_token,
-          refresh_token,
+          accountId,
+          accessToken,
+          refreshToken,
           provider,
           expires_at: moment().add(2, 'hours').toDate(),
           profile
@@ -61,8 +61,8 @@ module.exports = class Account extends model.Base {
       }
     } else {
       await account.save({
-        access_token,
-        refresh_token,
+        access_token: accessToken,
+        refresh_token: refreshToken,
         expires_at: moment().add(2, 'hours').toDate(),
         profile
       }, { patch: true })

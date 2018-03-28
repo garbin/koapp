@@ -6,8 +6,12 @@ const bcrypt = require('bcryptjs')
 const security = config.get('security')
 
 module.exports = class User extends model.Base {
-  get tableName () { return 'users' }
-  get hasTimestamps () { return true }
+  get tableName () {
+    return 'users'
+  }
+  get hasTimestamps () {
+    return true
+  }
   get hidden () {
     return ['password', 'reset_token', 'reset_expires']
   }
@@ -29,13 +33,19 @@ module.exports = class User extends model.Base {
   posts () {
     return this.hasMany(Post)
   }
-  static formatters ({onlyChanged}) {
+  static formatters ({ onlyChanged }) {
     return {
-      password: onlyChanged(password => bcrypt.hashSync(password, security.saltRounds))
+      password: onlyChanged(password =>
+        bcrypt.hashSync(password, security.saltRounds)
+      )
     }
   }
-  static get Account () { return Account }
-  static get Role () { return Role }
+  static get Account () {
+    return Account
+  }
+  static get Role () {
+    return Role
+  }
   static get dependents () {
     return ['accounts']
   }
@@ -52,10 +62,9 @@ module.exports = class User extends model.Base {
 
   static async auth (ident, password) {
     let user = await this.query(q =>
-      q.where({ username: ident })
-      .orWhere({ email: ident }))
-      .fetch({ require: true })
-    if (user && await bcrypt.compare(password, user.get('password'))) return user
+      q.where({ username: ident }).orWhere({ email: ident })
+    ).fetch({ require: true })
+    if (user && (await bcrypt.compare(password, user.get('password')))) { return user }
     throw new Error('auth failed')
   }
 }
