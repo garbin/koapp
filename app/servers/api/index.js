@@ -1,6 +1,5 @@
 const { Koapi, logger, middlewares, config } = require('koapi')
 const { connection } = require('../../models')
-const { Storage } = require('../../models/file')
 const { mailer, path } = require('../../lib/helper')
 
 const app = new Koapi()
@@ -14,28 +13,35 @@ app.use(require('./middlewares').after)
 
 async function teardown () {
   try {
-    await require('../bull/queues').stop()
     await require('../schedulers').stop()
+    await require('../bull/queues').stop()
   } catch (e) {
-    logger.error('Teardown Error:', e.message)
+    logger.error('Teardown Error:', e.message, e.stack)
   }
   connection.destroy()
   // close nodemailer agent
   mailer().close()
   // close minio agent
-  Storage.agent.destroy()
+  // Storage.transport.Agent.destroy()
 }
 
 module.exports = {
   app,
   teardown,
   start (port = config.get('servers.api.port'), cb = null) {
-    const server = app.listen(port, cb === null ? function () {
-      logger.info(`Server is running on port ${this.address().port}`)
-    } : cb)
+    const server = app.listen(
+      port,
+      cb === null
+        ? function () {
+          logger.info(`Server is running on port ${this.address().port}`)
+        }
+        : cb
+    )
     server.on('close', teardown)
     return server
   },
-  stop () { app.server.close() }
+  stop () {
+    app.server.close()
+  }
 }
 require.main === module && module.exports.start()

@@ -16,7 +16,7 @@ export class Index extends React.Component {
         <div> Next App </div>
         <div>{t('username')}: {name}</div>
         <p>
-          <Link href='/about'><a>About</a></Link>
+          <Link prefetch href='/about'><a>About</a></Link>
         </p>
       </div>
     )
@@ -25,13 +25,15 @@ export class Index extends React.Component {
 
 export default compose(
   provider(),
-  graphql(gql`
+  graphql(
+    gql`
     query {
       hello {
         name
       }
     }
-  `),
+  `
+  ),
   page(props => ({
     title: 'Welcome to our Store'
   }))

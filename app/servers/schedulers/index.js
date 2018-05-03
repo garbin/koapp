@@ -35,11 +35,19 @@ module.exports = {
     schedulers.forEach(name => {
       const scheduler = init(require(`./${name}`))
       if (scheduler.task) {
-        const job = schedule.scheduleJob(scheduler.name, scheduler.schedule, function () {
-          scheduler.task().then(done.bind(job, scheduler)).catch(error.bind(job, scheduler))
-        }, function () {
-          scheduler.done().catch(log.error)
-        })
+        const job = schedule.scheduleJob(
+          scheduler.name,
+          scheduler.schedule,
+          function () {
+            scheduler
+              .task()
+              .then(done.bind(job, scheduler))
+              .catch(error.bind(job, scheduler))
+          },
+          function () {
+            scheduler.done().catch(log.error)
+          }
+        )
         log.info('%s started, schedule: %s', scheduler.name, scheduler.schedule)
         // job.start();
         context.jobs.push(job)

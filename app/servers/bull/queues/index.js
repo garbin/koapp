@@ -1,5 +1,7 @@
 const { logger: log, config } = require('koapi')
-const queues = config.get('servers.bull.queues', []).map(name => require(`./${name.toLowerCase()}`))
+const queues = config
+  .get('servers.bull.queues', [])
+  .map(name => require(`./${name.toLowerCase()}`))
 module.exports = {
   async start () {
     queues.forEach(item => {

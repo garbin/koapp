@@ -1,10 +1,7 @@
-import { api } from '../../lib/helper'
 export default {
   state: {},
   effects: {
     async get (payload, rootState) {
-      const response = await api.get(payload.path, payload.config)
-      console.log(payload, '-----', rootState, response)
       return {}
     }
   }

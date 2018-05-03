@@ -4,11 +4,11 @@ import page from '../components/page'
 import Link from 'next/link'
 import provider from '../redux'
 
-export default compose(provider(), page({title: 'About'}))(props => (
+export default compose(provider(), page({ title: 'About' }))(props => (
   <div>
     <div> Next App </div>
     <p>
-      <Link href='/'><a>Index</a></Link>
+      <Link prefetch href='/'><a>Index</a></Link>
     </p>
   </div>
 ))
