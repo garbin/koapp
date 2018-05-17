@@ -5,7 +5,10 @@ const app = new Koapi()
 const next = require('next')
 const dev = process.env.NODE_ENV !== 'production'
 const path = require('path')
-const nextApp = next({ dev, dir: path.resolve(__dirname, '../../clients/next') })
+const nextApp = next({
+  dev,
+  dir: path.resolve(__dirname, '../../clients/next')
+})
 const routes = require('../../clients/next/routes')
 const handle = routes.getRequestHandler(nextApp)
 const { ulid } = require('ulid')
@@ -31,9 +34,11 @@ app.use(mount('/api', api.app.koa))
 
 module.exports = {
   async start () {
-    app.listen(config.get('servers.app.next.port'), e => {
-      log.info(`App is listening on port ${app.server.address().port}`)
-    }).on('close', api.teardown)
+    app
+      .listen(config.get('servers.app.next.port'), e => {
+        log.info(`App is listening on port ${app.server.address().port}`)
+      })
+      .on('close', api.teardown)
   },
   async stop () {
     app.server.close()
