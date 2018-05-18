@@ -147,7 +147,7 @@
     "react-toggle": "^4.0.2",
     "react-virtualized-select": "^3.1.0",
     "reactabular": "^8.3.0",
-    "reactabular-table": "^8.13.0",
+    "reactabular-table": "^8.14.0",
     "reactstrap": "^6.0.1",
     "recharts": "^0.22.4",
     "recompose": "^0.27.0",
