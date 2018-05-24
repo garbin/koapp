@@ -170,6 +170,7 @@
     "winston": "^2.4.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.47",
     "@babel/plugin-proposal-export-default-from": "^7.0.0-beta.47",
     "apidoc": "^0.17.6",
     "apidoc-plugin-example": "^0.2.0",
