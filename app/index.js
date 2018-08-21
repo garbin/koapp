@@ -9,12 +9,17 @@ logger.on('error', console.error)
 
 fs.ensureDirSync(path.storage('/logs'))
 
-logger.add(winston.transports.File, Object.assign({
-  name: 'koapp',
-  json: false,
-  filename: path.storage('/logs/koapp.log'),
-  level: 'info'
-}, config.get('logging')))
+logger.add(
+  new winston.transports.File(
+    {
+      name: 'koapp',
+      json: false,
+      filename: path.storage('/logs/koapp.log'),
+      level: 'info'
+    },
+    config.get('logging')
+  )
+)
 
 process.on('unhandledRejection', (reason, p) => {
   logger.error('unhandled rejection', reason, p)

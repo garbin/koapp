@@ -1,6 +1,9 @@
 const { Koapi, logger, middlewares, config } = require('koapi')
 const { connection } = require('../../models')
 const { mailer, path } = require('../../lib/helper')
+const user = require('./middlewares/user')
+const mount = require('koa-mount')
+const graphql = require('./graphql')
 
 const app = new Koapi()
 
@@ -10,6 +13,8 @@ app.use(middlewares.serve(path.storage('/public')))
 app.use(require('./middlewares').before)
 app.use(require('./routers'))
 app.use(require('./middlewares').after)
+app.use(mount('/graphql', user.optional()))
+middlewares.graphql(app.koa, graphql, '/graphql')
 
 async function teardown () {
   try {
