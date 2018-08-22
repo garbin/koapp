@@ -1,5 +1,5 @@
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
-import 'react-select/dist/react-select.css'
+// import 'react-select/dist/react-select.css'
 import 'react-tagsinput/react-tagsinput.css'
 import 'react-toggle/style.css'
 import './css/vendor.css'
