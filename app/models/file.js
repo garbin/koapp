@@ -5,9 +5,8 @@ const { Client } = require('minio')
 const mime = require('mime-types')
 const moment = require('moment')
 const fs = require('fs')
-const Promise = require('bluebird')
 const { ulid } = require('ulid')
-const Storage = Promise.promisifyAll(new Client(config.get('storage.minio')))
+const Storage = new Client(config.get('storage.minio'))
 
 /**
  * write:
@@ -19,7 +18,9 @@ const Storage = Promise.promisifyAll(new Client(config.get('storage.minio')))
  * });
  */
 module.exports = class File extends model.Base {
-  get tableName () { return 'files' }
+  get tableName () {
+    return 'files'
+  }
   serialize (options = {}) {
     let file = super.serialize(options)
     file.file_path = config.get('storage.root') + file.file_path
@@ -29,17 +30,32 @@ module.exports = class File extends model.Base {
     this.on('saving', async (model, attrs, options) => {
       const attributes = Object.assign({}, model.attributes, attrs)
       if (attributes.file_path && this.hasChanged('file_path')) {
-        let filePath = moment().format('YM/D/') + ulid() + path.parse(attributes.file_name).ext
-        try { await Storage.makeBucketAsync('uploads', 'us-east-1') } catch (e) {}
-        let fileType = attributes.file_type || mime.lookup(attributes.file_name) || 'application/octet-stream'
-        let fileSize = attributes.file_size || fs.statSync(attributes.file_path).size
-        await Storage.fPutObjectAsync('uploads', filePath, attributes.file_path, fileType)
-        this.set({ file_path: filePath, file_type: fileType, file_size: fileSize })
+        let filePath =
+          moment().format('YM/D/') +
+          ulid() +
+          path.parse(attributes.file_name).ext
+        try {
+          await Storage.makeBucket('uploads', 'us-east-1')
+        } catch (e) {}
+        let fileType =
+          attributes.file_type ||
+          mime.lookup(attributes.file_name) ||
+          'application/octet-stream'
+        let fileSize =
+          attributes.file_size || fs.statSync(attributes.file_path).size
+        await Storage.fPutObject('uploads', filePath, attributes.file_path, {
+          'Content-Type': fileType
+        })
+        this.set({
+          file_path: filePath,
+          file_type: fileType,
+          file_size: fileSize
+        })
       }
     })
     this.on('destroying', async (model, options) => {
       try {
-        await Storage.removeObjectAsync('uploads', model.get('file_path'))
+        await Storage.removeObject('uploads', model.get('file_path'))
       } catch (e) {
         log.error(e)
       }
@@ -57,5 +73,7 @@ module.exports = class File extends model.Base {
       file_path: Joi.string().required()
     }
   }
-  static get Storage () { return Storage }
+  static get Storage () {
+    return Storage
+  }
 }

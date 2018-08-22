@@ -75,9 +75,9 @@ module.exports = {
     minio: {
       endPoint: 'localhost',
       port: 9000,
-      secure: false,
-      accessKey: '9EKQDKXQYZIAQED4ZL0W',
-      secretKey: 'ZVDqARqtOZ9ZDz6yX/+HMeP9Rc/9DQYCPmDw6pqh'
+      useSSL: false,
+      accessKey: 'EREYB70IY4FKKF9ML1TL',
+      secretKey: 'pk0/dVJRKCRAdDX0XVTAVUYV2a12OEJsuOckI+Xd'
     }
   },
   mailer: {
