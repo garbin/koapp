@@ -3,7 +3,7 @@ import middlewares from './middlewares'
 import * as reducers from './reducers'
 import * as models from './models'
 
-export function create (initialState) {
+export function create(initialState) {
   return init({
     models,
     redux: {

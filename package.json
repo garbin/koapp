@@ -168,6 +168,7 @@
     "apidoc": "^0.17.6",
     "apidoc-plugin-example": "^0.2.0",
     "apidoc-plugin-schema": "^0.1.8",
+    "babel-eslint": "^10.0.1",
     "css-loader": "^1.0.0",
     "enzyme": "^3.6.0",
     "expose-loader": "^0.7.1",

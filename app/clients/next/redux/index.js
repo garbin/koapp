@@ -4,13 +4,12 @@ import { connect, Provider } from 'react-redux'
 import { get } from 'lodash'
 import { I18nextProvider, translate } from 'react-i18next'
 import ReduxToastr from 'react-redux-toastr'
-import cookies from 'js-cookie'
 import i18next from 'i18next'
 import moment from 'moment'
 import numeral from 'numeral'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
+import { createClient } from '../lib/helper'
 import { oauth } from './actions'
-import { createClient } from './actions/api'
 import config from '../config'
 import getApollo from './apollo'
 import getStore from './store'
@@ -103,9 +102,9 @@ export default function (getInitialProps = async () => ({})) {
           const file = 'common'
           const translactions = {}
           translactions[lang] = {}
-          translactions[lang][
+          translactions[lang][file] = require(`../static/locales/${lang}/${
             file
-          ] = require(`../static/locales/${lang}/${file}`)
+          }`)
           store.dispatch.translactions.set(translactions)
           await store.dispatch(oauth.config(config.oauth))
           options.client = createClient(arg => req.cookies.get('access_token'))

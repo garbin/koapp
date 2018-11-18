@@ -19,13 +19,13 @@ module.exports = {
   },
   mailer () {
     mailer = mailer || nodemailer.createTransport(config.get('mailer.smtp'),
-    config.get('mailer.defaults'))
+      config.get('mailer.defaults'))
     return mailer
   },
   queue ({ name, worker }) {
-    const queue = new Queue(name, {redis: config.get('redis')})
+    const queue = new Queue(name, { redis: config.get('redis') })
     queue.on('error', log.error)
-    return Object.assign({name, worker, queue})
+    return Object.assign({ name, worker, queue })
   },
   connect (middleware, preposing = false) {
     const createReqMock = require('koa-passport/lib/framework/request').create

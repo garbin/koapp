@@ -1,4 +1,6 @@
 import React from 'react'
+import axios from 'axios'
+import config from '../config'
 import qs from 'query-string'
 import TreeModel from 'tree-model'
 import numeral from 'numeral'
@@ -6,7 +8,7 @@ import moment from 'moment'
 import { Router } from '../routes'
 
 export const user = {
-  required ({store, req, res}) {
+  required ({ store, req, res }) {
     const { oauth } = store.getState()
     if (!oauth.user.profile) {
       if (!process.browser) {
@@ -23,6 +25,14 @@ export const user = {
       }
     }
   }
+}
+export function createClient (token = f => f) {
+  const client = axios.create({ baseURL: config.api, timeout: 10000 })
+  client.interceptors.request.use(config => {
+    if (token()) config.headers.Authorization = `Bearer ${token()}`
+    return config
+  }, Promise.reject)
+  return client
 }
 export const formatters = {
   price (price, format = '$0.00') {
@@ -49,7 +59,7 @@ export function treeOptions (data) {
       label: (
         <span>
           {Array.from(Array(level - 1).keys()).map((item, idx) => (
-            <span key={idx} style={{marginRight: `2em`}}>│</span>
+            <span key={idx} style={{ marginRight: `2em` }}>│</span>
           ))}
           {isLast ? '└─ ' : '├─ '}{name}
         </span>
