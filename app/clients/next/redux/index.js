@@ -9,7 +9,7 @@ import i18next from 'i18next'
 import moment from 'moment'
 import numeral from 'numeral'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
-import { result, oauth } from './actions'
+import { oauth } from './actions'
 import { createClient } from './actions/api'
 import config from '../config'
 import getApollo from './apollo'
@@ -59,7 +59,7 @@ export function i18n (options) {
       })),
       translate(['common'])
     )(Component)
-    return connect(state => ({ translactions: state.result.translactions }))(
+    return connect(state => ({ translactions: state.translactions }))(
       class extends React.Component {
         constructor (props) {
           super(props)
@@ -97,11 +97,6 @@ export default function (getInitialProps = async () => ({})) {
           !process.browser ? req.cookies.get('access_token') : null
         )
         const store = getStore()
-        store.dispatch(
-          result.set('guest_id')(
-            process.browser ? cookies.get('guest_id') : req.guest_id
-          )
-        )
         if (!process.browser) {
           const url = { query: ctx.query, pathname: ctx.pathname }
           const lang = 'zh-CN'
@@ -111,7 +106,7 @@ export default function (getInitialProps = async () => ({})) {
           translactions[lang][
             file
           ] = require(`../static/locales/${lang}/${file}`)
-          store.dispatch(result.set('translactions')(translactions))
+          store.dispatch.translactions.set(translactions)
           await store.dispatch(oauth.config(config.oauth))
           options.client = createClient(arg => req.cookies.get('access_token'))
           if (req.cookies.get('access_token')) {

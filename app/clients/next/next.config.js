@@ -1,4 +1,5 @@
-module.exports = {
+const withSass = require('@zeit/next-sass')
+module.exports = withSass({
   distDir: '../../../storage/public/store',
   webpack: (config, { dev }) => {
     config.module.rules.push(
@@ -20,4 +21,4 @@ module.exports = {
     }
     return config
   }
-}
+})

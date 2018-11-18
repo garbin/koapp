@@ -1,1 +1,1 @@
-module.exports = ['admin']
+module.exports = ['next']
