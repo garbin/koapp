@@ -4,6 +4,8 @@ import LoadingBar from 'react-redux-loading-bar'
 import { withProps, compose } from 'recompose'
 import { isFunction } from 'lodash'
 import { translate } from 'react-i18next'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootswatch/dist/united/bootstrap.min.css'
 import '../styles/theme.scss'
 
 export class Page extends React.Component {
@@ -15,15 +17,7 @@ export class Page extends React.Component {
     return (
       <div>
         <Head>
-          <title>{title ? `${title} - ` : ''}Dianpu Powrered</title>
-          <link rel='stylesheet' href='/static/css/font-awesome.css' />
-          <link rel='stylesheet' href='/static/css/bootstrap.css' />
-          <link rel='stylesheet' href='/static/css/theme.css' />
-          <link
-            href='//diegoddox.github.io/react-redux-toastr/5.0/react-redux-toastr.min.css'
-            rel='stylesheet'
-            type='text/css'
-          />
+          <title>{title ? `${title} - ` : ''}Powrered</title>
         </Head>
         <LoadingBar style={{ zIndex: 9999, backgroundColor: '#4bcf99' }} />
         {this.renderChildren()}

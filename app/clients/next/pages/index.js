@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import provider from '../redux'
 import Link from 'next/link'
 import page from '../components/page'
+import Header from '../components/header'
 
 const query = gql`
   query {
@@ -16,20 +17,10 @@ const query = gql`
 
 export class Index extends React.Component {
   render () {
-    const { t } = this.props
     return (
-      <Query query={query}>
-        {({ loading, data }) =>
-          (loading
-            ? <span>loading...</span>
-            : <div>
-              <div> Next App </div>
-              <div>{t('username')}: {data.hello.name}</div>
-              <p>
-                <Link prefetch href='/about'><a>About</a></Link>
-              </p>
-            </div>)}
-      </Query>
+      <div>
+        <Header />
+      </div>
     )
   }
 }
