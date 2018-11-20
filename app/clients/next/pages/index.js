@@ -65,7 +65,7 @@ export class Index extends React.Component {
               </Card>
             </Col>
             <Col sm={9}>
-              <Card>
+              <Card className='mb-2'>
                 <CardBody>
                   ePress is out!!!, Thank you all!!!
                   <div>
